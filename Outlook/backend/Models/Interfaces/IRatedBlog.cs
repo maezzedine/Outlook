@@ -8,7 +8,6 @@ namespace backend.Models.Interfaces
         public int Rate { get; set; }
         public int NumberOfVotes { get; set; }
         public int NumberOfFavorites { get; set; }
-        public ICollection<IComment> Comments { get; set; }
         public DateTime DateTime { get; set; }
 
         public void RateUp();

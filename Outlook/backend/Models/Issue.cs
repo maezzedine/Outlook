@@ -11,8 +11,7 @@ namespace backend.Models
         public string en_pdf { get; set; }
         public string ar_cover { get; set; }
         public string en_cover { get; set; }
-        public IVolume Volume { get; set; }
-        public ICollection<ICategory> ArabicCategories { get; set; }
-        public ICollection<ICategory> EnglishCategories { get; set; }
+        public Volume Volume { get; set; }
+        public ICollection<Article> Articles { get; set; }
     }
 }

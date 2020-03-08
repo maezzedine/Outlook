@@ -8,17 +8,12 @@ namespace backend.Models.Interfaces
         public int NumberOfArticles { get; set; }
         public int NumberOfComments { get; set; }
         public int NumberOfReactions { get; set; }
-        public double TotalContributions
-        {
-            get
-            {
-                return NumberOfReactions + 3 * NumberOfComments + 5 * FavoratedArticles.Count + 10 * NumberOfArticles;
-            }
-        }
-        public INotificationList NotificationList { get; set; }
-        public ICollection<IArticle> FavoratedArticles { get; set; }
         public Position Position { get; set; }
 
+        public Queue<Notification> Notifications { get; set; }
+        public int NewNotifications { get; set; }
+        public void AddNotification(Notification notification);
+        public void MarkAllNotificationSeen();
         public string GetPosition();
     }
     public enum Position

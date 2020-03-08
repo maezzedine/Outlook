@@ -9,7 +9,5 @@ namespace backend.Models
         public int VolumeNumber { get; set; }
         public int FallYear { get; set; }
         public int SpringYear { get; set; }
-        public ICollection<IMember> ArabicBoard { get; set; }
-        public ICollection<IMember> EnglishBoard { get; set; }
     }
 }
