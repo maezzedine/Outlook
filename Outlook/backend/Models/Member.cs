@@ -1,11 +1,11 @@
 ﻿using backend.Models.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
 namespace backend.Models
 {
-    public class Member : IMember
+    public class Member : IdentityUser, IMember
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int NumberOfArticles { get; set; }
         public int NumberOfComments { get; set; }

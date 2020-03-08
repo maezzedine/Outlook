@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
+using backend.Models;
 
 namespace backend
 {
@@ -29,6 +30,9 @@ namespace backend
 
             services.AddDbContext<OutlookContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OutlookContext")));
+
+            services.AddDefaultIdentity<Member>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<OutlookContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,10 +53,13 @@ namespace backend
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

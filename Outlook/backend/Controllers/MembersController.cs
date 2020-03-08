@@ -26,7 +26,7 @@ namespace backend.Controllers
         }
 
         // GET: Members/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -86,7 +86,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,NumberOfArticles,NumberOfComments,NumberOfReactions,Position")] Member member)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,NumberOfArticles,NumberOfComments,NumberOfReactions,Position")] Member member)
         {
             if (id != member.Id)
             {
@@ -117,7 +117,7 @@ namespace backend.Controllers
         }
 
         // GET: Members/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -145,7 +145,7 @@ namespace backend.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MemberExists(int id)
+        private bool MemberExists(string id)
         {
             return _context.Member.Any(e => e.Id == id);
         }

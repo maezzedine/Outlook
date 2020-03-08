@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using backend.Models;
 using backend.Models.Relations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace backend.Data
 {
-    public class OutlookContext : DbContext
+    public class OutlookContext : IdentityDbContext<Member>
     {
         public OutlookContext (DbContextOptions<OutlookContext> options)
             : base(options)
