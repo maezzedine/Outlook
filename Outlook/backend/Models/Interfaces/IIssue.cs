@@ -16,6 +16,7 @@ namespace backend.Models.Interfaces
         public string ar_cover { get; set; }
         public string en_cover { get; set; }
         public IVolume Volume { get; set; }
-        public ICollection<ICategory> Category { get; set; }
+        public ICollection<ICategory> ArabicCategories { get; set; }
+        public ICollection<ICategory> EnglishCategories { get; set; }
     }
 }
