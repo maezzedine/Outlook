@@ -14,8 +14,6 @@ namespace backend.Controllers
     {
         private readonly OutlookContext _context;
 
-        private int? IssueID;
-
         public ArticlesController(OutlookContext context)
         {
             _context = context;
@@ -29,10 +27,8 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            IssueID = id;
-
             var articles = from article in _context.Article
-                           where article.Issue.Id == id
+                           where article.IssueID == id
                            select article;
 
             return View(await articles.ToListAsync());
@@ -61,15 +57,20 @@ namespace backend.Controllers
         {
             return View();
         }
-
+         
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Language,Title,Subtitle,Picture,Text,DateTime,Rate,NumberOfVotes,NumberOfFavorites")] Article article)
+        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Title,Subtitle,Picture,Text,Rate,NumberOfVotes,NumberOfFavorites")] Article article)
         {
             if (ModelState.IsValid)
             {
-                article.Issue = _context.Issue.FirstOrDefault(i => i.Id == IssueID);
+                if (id == null)
+                {
+                    return ValidationProblem(detail: "Issue Id cannot be null");
+                }
+                article.IssueID = (int) id;
+                article.DateTime = DateTime.Now;
                 _context.Add(article);
                 await _context.SaveChangesAsync();
                 //return RedirectToAction(nameof(Index));

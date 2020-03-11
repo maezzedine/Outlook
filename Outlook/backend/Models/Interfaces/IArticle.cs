@@ -5,14 +5,13 @@ namespace backend.Models.Interfaces
     public interface IArticle
     {
         public Language Language { get; set; }
-        public Category Category { get; set; }
-        public Issue Issue { get; set; }
+        public int CategoryID { get; set; }
+        public int IssueID { get; set; }
         public string Title { get; set; }
         public string Subtitle { get; set; }
         public string Picture { get; set; }
         public string Text { get; set; }
-        public Member Writer { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public string MemberID { get; set; }
     }
     public enum Language
     {

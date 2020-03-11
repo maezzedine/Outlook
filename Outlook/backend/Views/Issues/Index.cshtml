@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<backend.Models.Issue>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Issues";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var VolumeID = Url.ActionContext.RouteData.Values["id"];
 }
 
-<h1>Index</h1>
+<h1>Issues</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-route-id="@VolumeID" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>

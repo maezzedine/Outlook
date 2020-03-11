@@ -6,9 +6,9 @@ namespace backend.Models
     public class Reply : IComment
     {
         public int Id { get; set; }
-        public Member Owner { get; set; }
+        public string MemberID { get; set; }
         public string Text { get; set; }
         public DateTime DateTime { get; set; }
-        public Comment Comment { get; set; }
+        public int CommentID { get; set; }
     }
 }

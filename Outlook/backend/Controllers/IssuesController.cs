@@ -22,9 +22,18 @@ namespace backend.Controllers
         }
 
         // GET: Issues
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.Issue.ToListAsync());
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var issues = from issue in _context.Issue
+                           where issue.VolumeID == id
+                           select issue;
+
+            return View(await issues.ToListAsync());
         }
 
         // GET: Issues/Details/5
@@ -42,6 +51,8 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            issue.VolumeNumber = _context.Volume.First(v => v.Id == issue.VolumeID).VolumeNumber;
+
             return View(issue);
         }
 
@@ -56,10 +67,15 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IssueNumber,ar_pdf,en_pdf,ar_cover,en_cover")] Issue issue)
+        public async Task<IActionResult> Create(int? id, [Bind("IssueNumber,ar_pdf,en_pdf,ar_cover,en_cover")] Issue issue)
         {
             if (ModelState.IsValid)
             {
+                if (id == null)
+                {
+                    return ValidationProblem(detail: "Volume Id cannot be null");
+                }
+                issue.VolumeID = (int) id;
                 _context.Add(issue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

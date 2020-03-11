@@ -1,6 +1,7 @@
 ﻿using backend.Models.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
@@ -13,7 +14,8 @@ namespace backend.Models
         public string en_pdf { get; set; }
         public string ar_cover { get; set; }
         public string en_cover { get; set; }
-        public Volume Volume { get; set; }
-        public ICollection<Article> Articles { get; set; }
+        public int VolumeID { get; set; }
+        [NotMapped]
+        public int VolumeNumber { get; set; }
     }
 }

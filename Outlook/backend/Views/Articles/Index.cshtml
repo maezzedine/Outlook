@@ -3,12 +3,14 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var IssueID = Url.ActionContext.RouteData.Values["id"];
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-route-id="@IssueID">Create New</a>
 </p>
 <table class="table">
     <thead>

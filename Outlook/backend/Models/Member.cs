@@ -13,8 +13,6 @@ namespace backend.Models
         public int NumberOfFavoritedArticles { get; set; }
         public Queue<Notification> Notifications { get; set; }
         public int NewNotifications { get; set; }
-        public ICollection<Reply> Replies { get; set; }
-        public ICollection<Comment> Comments { get; set; }
         public Position Position { get; set; }
         public double TotalContribution
         {
@@ -23,6 +21,7 @@ namespace backend.Models
                 return 1.5 * NumberOfReactions + 3 * NumberOfComments + 5 * NumberOfFavoritedArticles + 10 * NumberOfArticles;
             }
         }
+
 
         public void AddNotification(Notification notification)
         {

@@ -15,7 +15,6 @@ namespace backend.Models.Interfaces
         public string en_pdf { get; set; }
         public string ar_cover { get; set; }
         public string en_cover { get; set; }
-        public Volume Volume { get; set; }
-        public ICollection<Article> Articles { get; set; }
+        public int VolumeID { get; set; }
     }
 }

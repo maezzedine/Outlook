@@ -19,12 +19,6 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // GET: Volumes
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Volume.ToListAsync());
-        }
-
         // GET: Volumes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
