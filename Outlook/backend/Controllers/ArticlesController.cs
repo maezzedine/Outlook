@@ -14,6 +14,9 @@ namespace backend.Controllers
     {
         private readonly OutlookContext _context;
 
+        public static int VolumeNumber;
+        public static int IssueNumber;
+
         public ArticlesController(OutlookContext context)
         {
             _context = context;
@@ -25,6 +28,20 @@ namespace backend.Controllers
             if (id == null)
             {
                 return NotFound();
+            }
+
+            var issue = from _issue in _context.Issue
+                        where _issue.Id == id
+                        select _issue;
+
+            var volume = from _volume in _context.Volume
+                         where _volume.Id == issue.FirstOrDefault().VolumeID
+                         select _volume;
+
+            if (issue.FirstOrDefault() != null && volume.FirstOrDefault() != null)
+            {
+                IssueNumber = issue.FirstOrDefault().IssueNumber;
+                VolumeNumber = volume.FirstOrDefault().VolumeNumber;
             }
 
             var articles = from article in _context.Article
@@ -61,7 +78,7 @@ namespace backend.Controllers
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Title,Subtitle,Picture,Text,Rate,NumberOfVotes,NumberOfFavorites")] Article article)
+        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Title,Subtitle,Picture,Text")] Article article)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +90,7 @@ namespace backend.Controllers
                 article.DateTime = DateTime.Now;
                 _context.Add(article);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = id});
             }
             return View(article);
         }

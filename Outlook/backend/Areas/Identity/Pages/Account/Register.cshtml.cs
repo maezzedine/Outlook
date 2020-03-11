@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -21,13 +22,13 @@ namespace backend.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<Member> _signInManager;
-        private readonly UserManager<Member> _userManager;
+        private readonly SignInManager<OutlookUser> _signInManager;
+        private readonly UserManager<OutlookUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
 
         public RegisterModel(
-            UserManager<Member> userManager,
-            SignInManager<Member> signInManager,
+            UserManager<OutlookUser> userManager,
+            SignInManager<OutlookUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -73,7 +74,7 @@ namespace backend.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new Member { UserName = Input.Username };
+                var user = new OutlookUser { UserName = Input.Username };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

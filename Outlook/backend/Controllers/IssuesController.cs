@@ -16,6 +16,8 @@ namespace backend.Controllers
     {
         private readonly OutlookContext _context;
 
+        public static int VolumeNumber;
+
         public IssuesController(OutlookContext context)
         {
             _context = context;
@@ -27,6 +29,15 @@ namespace backend.Controllers
             if (id == null)
             {
                 return NotFound();
+            }
+
+            var volume = from _volume in _context.Volume
+                         where _volume.Id == id
+                         select _volume.VolumeNumber;
+
+            if (volume.FirstOrDefault() != null)
+            {
+                VolumeNumber = volume.FirstOrDefault();
             }
 
             var issues = from issue in _context.Issue
@@ -78,7 +89,7 @@ namespace backend.Controllers
                 issue.VolumeID = (int) id;
                 _context.Add(issue);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = id });
             }
             return View(issue);
         }

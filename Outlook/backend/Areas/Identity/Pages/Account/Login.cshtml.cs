@@ -13,19 +13,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using backend.Models;
+using backend.Data;
 
 namespace backend.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<Member> _userManager;
-        private readonly SignInManager<Member> _signInManager;
+        private readonly UserManager<OutlookUser> _userManager;
+        private readonly SignInManager<OutlookUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<Member> signInManager, 
+        public LoginModel(SignInManager<OutlookUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<Member> userManager)
+            UserManager<OutlookUser> userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

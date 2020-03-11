@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using backend.Areas.Identity;
 
-@inject SignInManager<Member> SignInManager
-@inject UserManager<Member> UserManager
+@inject SignInManager<OutlookUser> SignInManager
+@inject UserManager<OutlookUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

@@ -54,7 +54,7 @@ namespace backend.Controllers
             {
                 _context.Add(volume);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), controllerName: "Home");
             }
             return View(volume);
         }

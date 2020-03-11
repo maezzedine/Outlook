@@ -1,24 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.Models.Interfaces
 {
-    public interface IMember
+    interface IMember
     {
-        public string Name { get; set; }
         public int NumberOfArticles { get; set; }
-        public int NumberOfComments { get; set; }
-        public int NumberOfReactions { get; set; }
+        public string Name { get; set; }
         public Position Position { get; set; }
-
-        public Queue<Notification> Notifications { get; set; }
-        public int NewNotifications { get; set; }
-        public void AddNotification(Notification notification);
-        public void MarkAllNotificationSeen();
         public string GetPosition();
     }
     public enum Position
     {
-        Admin,
         Editor_In_Chief,
         Senior_Editor,
         Associate_Editor,

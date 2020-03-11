@@ -10,8 +10,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(OutlookContext))]
-    [Migration("20200311192925_ModelsUpdated")]
-    partial class ModelsUpdated
+    [Migration("20200311223654_ModelsAdded")]
+    partial class ModelsAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,6 +156,86 @@ namespace backend.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("backend.Areas.Identity.OutlookUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NewNotifications")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<int>("NumberOfComments")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfFavoritedArticles")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfReactions")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
             modelBuilder.Entity("backend.Models.Article", b =>
                 {
                     b.Property<int>("Id")
@@ -287,88 +367,23 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Member", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NewNotifications")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
                     b.Property<int>("NumberOfArticles")
                         .HasColumnType("int");
-
-                    b.Property<int>("NumberOfComments")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfFavoritedArticles")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfReactions")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("ID");
 
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("Member");
                 });
 
             modelBuilder.Entity("backend.Models.Notification", b =>
@@ -382,6 +397,9 @@ namespace backend.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("MemberID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OutlookUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Text")
@@ -389,7 +407,7 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberID");
+                    b.HasIndex("OutlookUserId");
 
                     b.ToTable("Notification");
                 });
@@ -401,8 +419,8 @@ namespace backend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("MemberId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("MemberID")
+                        .HasColumnType("int");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
@@ -412,7 +430,7 @@ namespace backend.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("MemberID");
 
                     b.ToTable("ArabicBoard");
                 });
@@ -427,12 +445,12 @@ namespace backend.Migrations
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
-                    b.Property<string>("MemberId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("MemberID")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("MemberID");
 
                     b.ToTable("CategoryEditor");
                 });
@@ -444,8 +462,8 @@ namespace backend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("MemberId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("MemberID")
+                        .HasColumnType("int");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
@@ -455,12 +473,12 @@ namespace backend.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("MemberID");
 
                     b.ToTable("EnglishBoard");
                 });
 
-            modelBuilder.Entity("backend.Models.Relations.MemberFavoritedArticleRelation", b =>
+            modelBuilder.Entity("backend.Models.Relations.UserFavoritedArticleRelation", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -470,14 +488,14 @@ namespace backend.Migrations
                     b.Property<int>("ArticleID")
                         .HasColumnType("int");
 
-                    b.Property<string>("MemberId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("MemberFavoritedArticle");
+                    b.ToTable("UserFavoritedArticleRelation");
                 });
 
             modelBuilder.Entity("backend.Models.Reply", b =>
@@ -536,7 +554,7 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("backend.Models.Member", null)
+                    b.HasOne("backend.Areas.Identity.OutlookUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -545,7 +563,7 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("backend.Models.Member", null)
+                    b.HasOne("backend.Areas.Identity.OutlookUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -560,7 +578,7 @@ namespace backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.Member", null)
+                    b.HasOne("backend.Areas.Identity.OutlookUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -569,7 +587,7 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("backend.Models.Member", null)
+                    b.HasOne("backend.Areas.Identity.OutlookUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -578,37 +596,37 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Notification", b =>
                 {
-                    b.HasOne("backend.Models.Member", null)
+                    b.HasOne("backend.Areas.Identity.OutlookUser", null)
                         .WithMany("Notifications")
-                        .HasForeignKey("MemberID");
+                        .HasForeignKey("OutlookUserId");
                 });
 
             modelBuilder.Entity("backend.Models.Relations.ArabicBoardRelation", b =>
                 {
                     b.HasOne("backend.Models.Member", "Member")
                         .WithMany()
-                        .HasForeignKey("MemberId");
+                        .HasForeignKey("MemberID");
                 });
 
             modelBuilder.Entity("backend.Models.Relations.CategoryEditorRelation", b =>
                 {
                     b.HasOne("backend.Models.Member", "Member")
                         .WithMany()
-                        .HasForeignKey("MemberId");
+                        .HasForeignKey("MemberID");
                 });
 
             modelBuilder.Entity("backend.Models.Relations.EnglishBoardRelation", b =>
                 {
                     b.HasOne("backend.Models.Member", "Member")
                         .WithMany()
-                        .HasForeignKey("MemberId");
+                        .HasForeignKey("MemberID");
                 });
 
-            modelBuilder.Entity("backend.Models.Relations.MemberFavoritedArticleRelation", b =>
+            modelBuilder.Entity("backend.Models.Relations.UserFavoritedArticleRelation", b =>
                 {
-                    b.HasOne("backend.Models.Member", "Member")
+                    b.HasOne("backend.Areas.Identity.OutlookUser", "User")
                         .WithMany()
-                        .HasForeignKey("MemberId");
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

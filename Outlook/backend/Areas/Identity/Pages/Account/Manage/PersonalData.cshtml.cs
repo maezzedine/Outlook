@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +10,11 @@ namespace backend.Areas.Identity.Pages.Account.Manage
 {
     public class PersonalDataModel : PageModel
     {
-        private readonly UserManager<Member> _userManager;
+        private readonly UserManager<OutlookUser> _userManager;
         private readonly ILogger<PersonalDataModel> _logger;
 
         public PersonalDataModel(
-            UserManager<Member> userManager,
+            UserManager<OutlookUser> userManager,
             ILogger<PersonalDataModel> logger)
         {
             _userManager = userManager;

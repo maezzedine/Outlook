@@ -1,8 +1,29 @@
 ﻿@model backend.Models.Member
+@using backend.Models.Interfaces;
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var positions = new SelectList(new List<Position>
+    {
+        Position.Editor_In_Chief,
+        Position.Senior_Editor,
+        Position.Associate_Editor,
+        Position.Junior_Editor,
+        Position.Proofreader,
+        Position.Web_Editor,
+        Position.Copy_Editor,
+        Position.Staff_Writer,
+        Position.رئيس_تحرير,
+        Position.المحرر,
+        Position.نائب_المحرر,
+        Position.رئيس_قسم,
+        Position.مدقق_النسخة,
+        Position.مدقق_لغوي,
+        Position.مدقق_الموقع,
+        Position.كاتب_صحفي
+    });
 }
 
 <h1>Edit</h1>
@@ -13,30 +34,15 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ID" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="NumberOfArticles" class="control-label"></label>
-                <input asp-for="NumberOfArticles" class="form-control" />
-                <span asp-validation-for="NumberOfArticles" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumberOfComments" class="control-label"></label>
-                <input asp-for="NumberOfComments" class="form-control" />
-                <span asp-validation-for="NumberOfComments" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumberOfReactions" class="control-label"></label>
-                <input asp-for="NumberOfReactions" class="form-control" />
-                <span asp-validation-for="NumberOfReactions" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
                 <label asp-for="Position" class="control-label"></label>
-                <select asp-for="Position" class="form-control"></select>
+                <select asp-for="Position" class="form-control" asp-items="positions"></select>
                 <span asp-validation-for="Position" class="text-danger"></span>
             </div>
             <div class="form-group">

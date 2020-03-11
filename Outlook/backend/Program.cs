@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Areas.Identity;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -24,8 +25,8 @@ namespace backend
                 var services = scope.ServiceProvider;
 
                 var context = services.GetService<OutlookContext>();
-                var userManager = services.GetService<UserManager<Member>>();
-                var signInManager = services.GetService<SignInManager<Member>>();
+                var userManager = services.GetService<UserManager<OutlookUser>>();
+                var signInManager = services.GetService<SignInManager<OutlookUser>>();
                 var roleManager = services.GetService<RoleManager<IdentityRole>>();
                 var configuration = services.GetService<IConfiguration>();
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -12,12 +13,12 @@ namespace backend.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<Member> _userManager;
-        private readonly SignInManager<Member> _signInManager;
+        private readonly UserManager<OutlookUser> _userManager;
+        private readonly SignInManager<OutlookUser> _signInManager;
 
         public ExternalLoginsModel(
-            UserManager<Member> userManager,
-            SignInManager<Member> signInManager)
+            UserManager<OutlookUser> userManager,
+            SignInManager<OutlookUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

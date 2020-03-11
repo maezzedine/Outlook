@@ -1,4 +1,5 @@
-﻿using backend.Models;
+﻿using backend.Areas.Identity;
+using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -11,16 +12,16 @@ namespace backend.Data
     public class DataFactory
     {
         private readonly OutlookContext context;
-        private readonly UserManager<Member> userManager;
-        private readonly SignInManager<Member> signInManager;
+        private readonly UserManager<OutlookUser> userManager;
+        private readonly SignInManager<OutlookUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
         public static IConfiguration Configuration;
 
         public DataFactory(
             OutlookContext context, 
-            UserManager<Member> userManager, 
-            SignInManager<Member> signInManager, 
+            UserManager<OutlookUser> userManager, 
+            SignInManager<OutlookUser> signInManager, 
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
         {
@@ -39,15 +40,14 @@ namespace backend.Data
             
             await AssignUserRole(admin, "Admin");
         }
-        public async Task<Member> CreateUser(string username)
+        public async Task<OutlookUser> CreateUser(string username)
         {
-            Member admin = new Member
+            OutlookUser admin = new OutlookUser
             {
                 Name = username,
                 EmailConfirmed = true,
                 UserName = username,
                 NormalizedUserName = username.ToUpper(),
-                Position = Models.Interfaces.Position.Admin,
             };
 
             var oldAdmin = from member in userManager.Users
@@ -84,7 +84,7 @@ namespace backend.Data
             }
         }
 
-        public async Task AssignUserRole(Member user, string roleName)
+        public async Task AssignUserRole(OutlookUser user, string roleName)
         {
             var Role = from _role in context.Roles
                        where _role.Name == roleName

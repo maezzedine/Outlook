@@ -13,6 +13,7 @@ using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using backend.Areas.Identity;
 
 namespace backend
 {
@@ -33,7 +34,7 @@ namespace backend
             services.AddDbContext<OutlookContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OutlookContext")));
 
-            services.AddDefaultIdentity<Member>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<OutlookUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<OutlookContext>();
 

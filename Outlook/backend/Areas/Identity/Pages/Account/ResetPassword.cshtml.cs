@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 
@@ -17,9 +18,9 @@ namespace backend.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<Member> _userManager;
+        private readonly UserManager<OutlookUser> _userManager;
 
-        public ResetPasswordModel(UserManager<Member> userManager)
+        public ResetPasswordModel(UserManager<OutlookUser> userManager)
         {
             _userManager = userManager;
         }

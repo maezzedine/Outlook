@@ -2,45 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
-using Microsoft.AspNetCore.Authorization;
 using backend.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
-    [Authorize(Roles = "Admin, Editor-In-Chief")]
-    public class MembersController : Controller
+    [Authorize(Roles = "Admin, Editor-In-Chief, Web-Editor")]
+    public class WritersController : Controller
     {
-        private readonly OutlookContext _context;
+        private readonly OutlookContext context;
 
-        public MembersController(OutlookContext context)
+        public WritersController(OutlookContext context)
         {
-            _context = context;
+            this.context = context;
         }
-
-        // GET: Members
-        public async Task<IActionResult> Index()
+        // GET: Writers
+        public async Task<ActionResult> Index()
         {
-            var members = from member in _context.Member
-                          where (member.Position != Position.كاتب_صحفي) && (member.Position != Position.Staff_Writer)
+            var writers = from member in context.Member
+                          where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
                           select member;
 
-            return View(await members.ToListAsync());
+            return View(await writers.ToListAsync());
         }
 
-        // GET: Members/Details/5
-        public async Task<IActionResult> Details(int id)
+        // GET: Writers/Details/5
+        public async Task<ActionResult> Details(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var member = await _context.Member
+            var member = await context.Member
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
             {
@@ -50,37 +49,35 @@ namespace backend.Controllers
             return View(member);
         }
 
-        // GET: Members/Create
-        public IActionResult Create()
+        // GET: Writers/Create
+        public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Members/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Writers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,NumberOfArticles,NumberOfComments,NumberOfReactions,Position")] Member member)
+        public async Task<ActionResult> Create([Bind("Name,Position")] Member member)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(member);
-                await _context.SaveChangesAsync();
+                context.Add(member);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(member);
         }
 
-        // GET: Members/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+            // GET: Writers/Edit/5
+        public async Task<ActionResult> Edit(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var member = await _context.Member.FindAsync(id);
+            var member = await context.Member.FindAsync(id);
             if (member == null)
             {
                 return NotFound();
@@ -88,12 +85,10 @@ namespace backend.Controllers
             return View(member);
         }
 
-        // POST: Members/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Writers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Position")] Member member)
+        public async Task<ActionResult> Edit(int id, [Bind("Name,Position")] Member member)
         {
             if (id != member.ID)
             {
@@ -104,12 +99,12 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(member);
-                    await _context.SaveChangesAsync();
+                    context.Update(member);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberExists(member.ID))
+                    if (!WriterExists(member.ID))
                     {
                         return NotFound();
                     }
@@ -131,7 +126,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member
+            var member = await context.Member
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
             {
@@ -146,15 +141,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var member = await _context.Member.FindAsync(id);
-            _context.Member.Remove(member);
-            await _context.SaveChangesAsync();
+            var member = await context.Member.FindAsync(id);
+            context.Member.Remove(member);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MemberExists(int id)
+        private bool WriterExists(int id)
         {
-            return _context.Member.Any(e => e.ID == id);
+            return context.Member.Any(e => e.ID == id);
         }
     }
 }

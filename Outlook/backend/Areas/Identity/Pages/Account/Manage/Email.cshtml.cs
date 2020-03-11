@@ -12,18 +12,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using backend.Models;
+using backend.Data;
 
 namespace backend.Areas.Identity.Pages.Account.Manage
 {
     public partial class EmailModel : PageModel
     {
-        private readonly UserManager<Member> _userManager;
-        private readonly SignInManager<Member> _signInManager;
+        private readonly UserManager<OutlookUser> _userManager;
+        private readonly SignInManager<OutlookUser> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public EmailModel(
-            UserManager<Member> userManager,
-            SignInManager<Member> signInManager,
+            UserManager<OutlookUser> userManager,
+            SignInManager<OutlookUser> signInManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -51,7 +52,7 @@ namespace backend.Areas.Identity.Pages.Account.Manage
             public string NewEmail { get; set; }
         }
 
-        private async Task LoadAsync(Member user)
+        private async Task LoadAsync(OutlookUser user)
         {
             var email = await _userManager.GetEmailAsync(user);
             Email = email;

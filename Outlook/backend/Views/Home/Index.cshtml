@@ -3,52 +3,53 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<h1>Volumes</h1>
+<p>
+    <a asp-controller="Volumes" asp-action="Create">Create New</a>
+</p>
 
-    <div class="text-center">
+<div class="text-center">
 
-        <p>
-            <a asp-controller="Volumes" asp-action="Create">Create New</a>
-        </p>
-        <table class="table">
-            <thead>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.VolumeNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FallYear)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SpringYear)
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.VolumeNumber)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FallYear)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SpringYear)
-                    </th>
-                    <th></th>
-                    <th></th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VolumeNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FallYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SpringYear)
+                    </td>
+                    <td>
+                        <a asp-controller="Volumes" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="Volumes" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-controller="Volumes" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Issues" asp-action="Index" asp-route-id="@item.Id">Issues</a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.VolumeNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FallYear)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SpringYear)
-                        </td>
-                        <td>
-                            <a asp-controller="Volumes" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-controller="Volumes" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-controller="Volumes" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                        <td>
-                            <a asp-controller="Issues" asp-action="Index" asp-route-id="@item.Id">Issues</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
 
-    </div>
+</div>
