@@ -18,6 +18,7 @@ namespace backend.Models.Interfaces
     }
     public enum Position
     {
+        Admin,
         Editor_In_Chief,
         Senior_Editor,
         Associate_Editor,

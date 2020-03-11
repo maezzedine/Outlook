@@ -31,15 +31,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.DateTime)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfVotes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfFavorites)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -63,15 +54,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfVotes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfFavorites)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
