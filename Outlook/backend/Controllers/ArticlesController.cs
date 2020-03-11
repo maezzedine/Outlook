@@ -14,15 +14,28 @@ namespace backend.Controllers
     {
         private readonly OutlookContext _context;
 
+        private int? IssueID;
+
         public ArticlesController(OutlookContext context)
         {
             _context = context;
         }
 
         // GET: Articles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.Article.ToListAsync());
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            IssueID = id;
+
+            var articles = from article in _context.Article
+                           where article.Issue.Id == id
+                           select article;
+
+            return View(await articles.ToListAsync());
         }
 
         // GET: Articles/Details/5
@@ -50,17 +63,16 @@ namespace backend.Controllers
         }
 
         // POST: Articles/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Language,Title,Subtitle,Picture,Text,DateTime,Rate,NumberOfVotes,NumberOfFavorites")] Article article)
         {
             if (ModelState.IsValid)
             {
+                article.Issue = _context.Issue.FirstOrDefault(i => i.Id == IssueID);
                 _context.Add(article);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
             return View(article);
         }
