@@ -9,6 +9,7 @@ using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using backend.Models.Interfaces;
+using backend.Models.Relations;
 
 namespace backend.Controllers
 {
@@ -17,6 +18,8 @@ namespace backend.Controllers
     {
         private readonly OutlookContext context;
 
+        public static List<string> Categories;
+        
         public MembersController(OutlookContext context)
         {
             this.context = context;
@@ -25,6 +28,12 @@ namespace backend.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
+            // Save the List of categories names to be accessed
+            var categories = from category in context.Category
+                             select category.CategoryName;
+
+            Categories = await categories.ToListAsync();
+            
             var members = from member in context.Member
                           where (member.Position != Position.كاتب_صحفي) && (member.Position != Position.Staff_Writer)
                           select member;
@@ -61,11 +70,27 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,NumberOfArticles,NumberOfComments,NumberOfReactions,Position")] Member member)
+        public async Task<IActionResult> Create([Bind("Name,NumberOfArticles,NumberOfComments,NumberOfReactions,Position,CategoryField")] Member member)
         {
             if (ModelState.IsValid)
             {
+                var memberExists = await context.Member.FirstOrDefaultAsync(m => m.Name == member.Name);
+
+                if (memberExists != null)
+                {
+                    return ValidationProblem(detail: "Member name already exists.");
+                }
+
                 context.Add(member);
+                await context.SaveChangesAsync();
+
+                if (member.Position == Position.Junior_Editor || member.Position == Position.رئيس_قسم)
+                {
+                    // Creating new CategoryEditor relation instance
+                    var categoryID = context.Category.First(c => c.CategoryName == member.CategoryField).Id;
+                    context.CategoryEditor.Add(new CategoryEditorRelation { CategoryID = categoryID, MemberID = member.ID });
+                }
+
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
