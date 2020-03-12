@@ -148,6 +148,12 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
+
+            var writer = context.Member.First(m => m.ID == article.MemberID).Name;
+            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
+            article.Writer = writer;
+            article.Category = category;
+
             return View(article);
         }
 
@@ -156,7 +162,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Title,Subtitle,Picture,Text,DateTime,Rate,NumberOfVotes,NumberOfFavorites")] Article article)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Category,Title,Subtitle,Writer,Picture,Text")] Article article)
         {
             if (id != article.Id)
             {
@@ -165,9 +171,24 @@ namespace backend.Controllers
 
             if (ModelState.IsValid)
             {
+                var oldVersionArticle = context.Article.First(a => a.Id == id);
+                
                 try
                 {
-                    context.Update(article);
+                    // Update the value to the MemberID that reefers to the writer of the article
+                    var writerID = context.Member.First(m => m.Name == article.Writer).ID;
+                    article.MemberID = writerID;
+
+                    // Update the value to the MemberID that reefers to the writer of the article
+                    var categoryID = context.Category.First(c => c.CategoryName == article.Category).Id;
+                    article.CategoryID = categoryID;
+
+                    // Reserving the IssueID
+                    //article.IssueID = context.Article.First(a => a.Id == article.Id).IssueID;
+
+                    oldVersionArticle.UpdateArticleInfo(article.Language, categoryID, article.Title, article.Subtitle, writerID, article.Picture, article.Text);
+
+                    //context.Update(article);
                     await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -181,7 +202,7 @@ namespace backend.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = oldVersionArticle.IssueID });
             }
             return View(article);
         }
@@ -212,7 +233,7 @@ namespace backend.Controllers
             var article = await context.Article.FindAsync(id);
             context.Article.Remove(article);
             await context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = article.IssueID});
         }
 
         private bool ArticleExists(int id)
