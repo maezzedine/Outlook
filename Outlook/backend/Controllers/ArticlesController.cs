@@ -68,6 +68,14 @@ namespace backend.Controllers
                            where article.IssueID == id
                            select article;
 
+            foreach (var article in articles)
+            {
+                var writer = context.Member.First(m => m.ID == article.MemberID).Name;
+                var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
+                article.Writer = writer;
+                article.Category = category;
+            }
+
             return View(await articles.ToListAsync());
         }
 
