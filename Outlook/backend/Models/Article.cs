@@ -10,6 +10,8 @@ namespace backend.Models
         public int Id { get; set; }
         public Language Language { get; set; }
         public int CategoryID { get; set; }
+        [NotMapped]
+        public string Category { get; set; }
         public int IssueID { get; set; }
         public string Title { get; set; }
         public string Subtitle { get; set; }

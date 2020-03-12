@@ -19,6 +19,7 @@ namespace backend.Controllers
         public static int IssueNumber;
 
         public static List<string> Writers;
+        public static List<string> Categories;
 
         public ArticlesController(OutlookContext context)
         {
@@ -50,12 +51,18 @@ namespace backend.Controllers
                 VolumeNumber = volume.FirstOrDefault().VolumeNumber;
             }
 
-            // Save the List of wrtiers to be accessed
+            // Save the List of wrtiers names to be accessed
             var writers = from member in context.Member
                           where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
                           select member.Name;
 
             Writers = await writers.ToListAsync();
+
+            // Save the List of categories names to be accessed
+            var categories = from category in context.Category
+                             select category.CategoryName;
+
+            Categories = await categories.ToListAsync();
 
             var articles = from article in context.Article
                            where article.IssueID == id
@@ -91,7 +98,7 @@ namespace backend.Controllers
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Title,Subtitle,Writer,Picture,Text")] Article article)
+        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Category,Title,Subtitle,Writer,Picture,Text")] Article article)
         {
             if (ModelState.IsValid)
             {
@@ -106,12 +113,13 @@ namespace backend.Controllers
                 article.DateTime = DateTime.Now;
 
                 // Assign value to the MemberID that reefers to the writer of the article
-                var writerID = from member in context.Member
-                               where member.Name == article.Writer
-                               select member.ID;
+                var writerID = context.Member.First(m => m.Name == article.Writer).ID;
+                article.MemberID = writerID;
 
-                article.MemberID = writerID.FirstOrDefault();
-
+                // Assign value to the MemberID that reefers to the writer of the article
+                var categoryID = context.Category.First(c => c.CategoryName == article.Category).Id;
+                article.CategoryID = categoryID;
+                
                 context.Add(article);
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), new { id = id});
