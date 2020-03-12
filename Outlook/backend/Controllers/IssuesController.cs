@@ -14,13 +14,13 @@ namespace backend.Controllers
     [Authorize(Roles = "Admin")]
     public class IssuesController : Controller
     {
-        private readonly OutlookContext _context;
+        private readonly OutlookContext context;
 
         public static int VolumeNumber;
 
         public IssuesController(OutlookContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Issues
@@ -31,7 +31,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var volume = from _volume in _context.Volume
+            var volume = from _volume in context.Volume
                          where _volume.Id == id
                          select _volume.VolumeNumber;
 
@@ -40,7 +40,7 @@ namespace backend.Controllers
                 VolumeNumber = volume.FirstOrDefault();
             }
 
-            var issues = from issue in _context.Issue
+            var issues = from issue in context.Issue
                            where issue.VolumeID == id
                            select issue;
 
@@ -55,14 +55,14 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var issue = await _context.Issue
+            var issue = await context.Issue
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (issue == null)
             {
                 return NotFound();
             }
 
-            issue.VolumeNumber = _context.Volume.First(v => v.Id == issue.VolumeID).VolumeNumber;
+            issue.VolumeNumber = context.Volume.First(v => v.Id == issue.VolumeID).VolumeNumber;
 
             return View(issue);
         }
@@ -87,8 +87,8 @@ namespace backend.Controllers
                     return ValidationProblem(detail: "Volume Id cannot be null");
                 }
                 issue.VolumeID = (int) id;
-                _context.Add(issue);
-                await _context.SaveChangesAsync();
+                context.Add(issue);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), new { id = id });
             }
             return View(issue);
@@ -102,7 +102,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var issue = await _context.Issue.FindAsync(id);
+            var issue = await context.Issue.FindAsync(id);
             if (issue == null)
             {
                 return NotFound();
@@ -126,8 +126,8 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(issue);
-                    await _context.SaveChangesAsync();
+                    context.Update(issue);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -153,7 +153,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var issue = await _context.Issue
+            var issue = await context.Issue
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (issue == null)
             {
@@ -168,15 +168,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var issue = await _context.Issue.FindAsync(id);
-            _context.Issue.Remove(issue);
-            await _context.SaveChangesAsync();
+            var issue = await context.Issue.FindAsync(id);
+            context.Issue.Remove(issue);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool IssueExists(int id)
         {
-            return _context.Issue.Any(e => e.Id == id);
+            return context.Issue.Any(e => e.Id == id);
         }
     }
 }

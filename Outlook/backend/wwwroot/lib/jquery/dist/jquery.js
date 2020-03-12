@@ -795,7 +795,7 @@ function Sizzle( selector, context, results, seed ) {
 				(!rbuggyQSA || !rbuggyQSA.test( selector )) ) {
 
 				if ( nodeType !== 1 ) {
-					newContext = context;
+					newthis.context = context;
 					newSelector = selector;
 
 				// qSA looks outside Element context, which is not what we want

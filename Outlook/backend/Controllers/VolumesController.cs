@@ -12,11 +12,11 @@ namespace backend.Controllers
 {
     public class VolumesController : Controller
     {
-        private readonly OutlookContext _context;
+        private readonly OutlookContext context;
 
         public VolumesController(OutlookContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Volumes/Details/5
@@ -27,7 +27,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var volume = await _context.Volume
+            var volume = await context.Volume
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (volume == null)
             {
@@ -52,8 +52,8 @@ namespace backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(volume);
-                await _context.SaveChangesAsync();
+                context.Add(volume);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), controllerName: "Home");
             }
             return View(volume);
@@ -67,7 +67,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var volume = await _context.Volume.FindAsync(id);
+            var volume = await context.Volume.FindAsync(id);
             if (volume == null)
             {
                 return NotFound();
@@ -91,8 +91,8 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(volume);
-                    await _context.SaveChangesAsync();
+                    context.Update(volume);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -118,7 +118,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var volume = await _context.Volume
+            var volume = await context.Volume
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (volume == null)
             {
@@ -133,15 +133,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var volume = await _context.Volume.FindAsync(id);
-            _context.Volume.Remove(volume);
-            await _context.SaveChangesAsync();
+            var volume = await context.Volume.FindAsync(id);
+            context.Volume.Remove(volume);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool VolumeExists(int id)
         {
-            return _context.Volume.Any(e => e.Id == id);
+            return context.Volume.Any(e => e.Id == id);
         }
     }
 }

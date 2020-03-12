@@ -12,17 +12,17 @@ namespace backend.Controllers
 {
     public class RepliesController : Controller
     {
-        private readonly OutlookContext _context;
+        private readonly OutlookContext context;
 
         public RepliesController(OutlookContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Replies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reply.ToListAsync());
+            return View(await context.Reply.ToListAsync());
         }
 
         // GET: Replies/Details/5
@@ -33,7 +33,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var reply = await _context.Reply
+            var reply = await context.Reply
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reply == null)
             {
@@ -58,8 +58,8 @@ namespace backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reply);
-                await _context.SaveChangesAsync();
+                context.Add(reply);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(reply);
@@ -73,7 +73,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var reply = await _context.Reply.FindAsync(id);
+            var reply = await context.Reply.FindAsync(id);
             if (reply == null)
             {
                 return NotFound();
@@ -97,8 +97,8 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(reply);
-                    await _context.SaveChangesAsync();
+                    context.Update(reply);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +124,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var reply = await _context.Reply
+            var reply = await context.Reply
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reply == null)
             {
@@ -139,15 +139,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reply = await _context.Reply.FindAsync(id);
-            _context.Reply.Remove(reply);
-            await _context.SaveChangesAsync();
+            var reply = await context.Reply.FindAsync(id);
+            context.Reply.Remove(reply);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ReplyExists(int id)
         {
-            return _context.Reply.Any(e => e.Id == id);
+            return context.Reply.Any(e => e.Id == id);
         }
     }
 }

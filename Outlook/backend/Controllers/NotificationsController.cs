@@ -12,17 +12,17 @@ namespace backend.Controllers
 {
     public class NotificationsController : Controller
     {
-        private readonly OutlookContext _context;
+        private readonly OutlookContext context;
 
         public NotificationsController(OutlookContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Notifications
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Notification.ToListAsync());
+            return View(await context.Notification.ToListAsync());
         }
 
         // GET: Notifications/Details/5
@@ -33,7 +33,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var notification = await _context.Notification
+            var notification = await context.Notification
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (notification == null)
             {
@@ -58,8 +58,8 @@ namespace backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(notification);
-                await _context.SaveChangesAsync();
+                context.Add(notification);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(notification);
@@ -73,7 +73,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var notification = await _context.Notification.FindAsync(id);
+            var notification = await context.Notification.FindAsync(id);
             if (notification == null)
             {
                 return NotFound();
@@ -97,8 +97,8 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(notification);
-                    await _context.SaveChangesAsync();
+                    context.Update(notification);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +124,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var notification = await _context.Notification
+            var notification = await context.Notification
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (notification == null)
             {
@@ -139,15 +139,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var notification = await _context.Notification.FindAsync(id);
-            _context.Notification.Remove(notification);
-            await _context.SaveChangesAsync();
+            var notification = await context.Notification.FindAsync(id);
+            context.Notification.Remove(notification);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool NotificationExists(int id)
         {
-            return _context.Notification.Any(e => e.Id == id);
+            return context.Notification.Any(e => e.Id == id);
         }
     }
 }

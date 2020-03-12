@@ -11,7 +11,7 @@ namespace backend.Models.Interfaces
         public string Subtitle { get; set; }
         public string Picture { get; set; }
         public string Text { get; set; }
-        public string MemberID { get; set; }
+        public int MemberID { get; set; }
     }
     public enum Language
     {

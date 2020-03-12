@@ -15,17 +15,17 @@ namespace backend.Controllers
     [Authorize(Roles = "Admin, Editor-In-Chief")]
     public class MembersController : Controller
     {
-        private readonly OutlookContext _context;
+        private readonly OutlookContext context;
 
         public MembersController(OutlookContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            var members = from member in _context.Member
+            var members = from member in context.Member
                           where (member.Position != Position.كاتب_صحفي) && (member.Position != Position.Staff_Writer)
                           select member;
 
@@ -40,7 +40,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member
+            var member = await context.Member
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
             {
@@ -65,8 +65,8 @@ namespace backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(member);
-                await _context.SaveChangesAsync();
+                context.Add(member);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(member);
@@ -80,7 +80,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member.FindAsync(id);
+            var member = await context.Member.FindAsync(id);
             if (member == null)
             {
                 return NotFound();
@@ -104,8 +104,8 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(member);
-                    await _context.SaveChangesAsync();
+                    context.Update(member);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,7 +131,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member
+            var member = await context.Member
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
             {
@@ -146,15 +146,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var member = await _context.Member.FindAsync(id);
-            _context.Member.Remove(member);
-            await _context.SaveChangesAsync();
+            var member = await context.Member.FindAsync(id);
+            context.Member.Remove(member);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MemberExists(int id)
         {
-            return _context.Member.Any(e => e.ID == id);
+            return context.Member.Any(e => e.ID == id);
         }
     }
 }

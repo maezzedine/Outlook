@@ -12,17 +12,17 @@ namespace backend.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly OutlookContext _context;
+        private readonly OutlookContext context;
 
         public CategoriesController(OutlookContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Category.ToListAsync());
+            return View(await context.Category.ToListAsync());
         }
 
         // GET: Categories/Details/5
@@ -33,7 +33,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
+            var category = await context.Category
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
@@ -58,8 +58,8 @@ namespace backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
+                context.Add(category);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -73,7 +73,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category.FindAsync(id);
+            var category = await context.Category.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -97,8 +97,8 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
+                    context.Update(category);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +124,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
+            var category = await context.Category
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
@@ -139,15 +139,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Category.FindAsync(id);
-            _context.Category.Remove(category);
-            await _context.SaveChangesAsync();
+            var category = await context.Category.FindAsync(id);
+            context.Category.Remove(category);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(int id)
         {
-            return _context.Category.Any(e => e.Id == id);
+            return context.Category.Any(e => e.Id == id);
         }
     }
 }

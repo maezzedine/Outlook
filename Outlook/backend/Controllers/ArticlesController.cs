@@ -7,19 +7,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using backend.Models.Interfaces;
 
 namespace backend.Controllers
 {
     public class ArticlesController : Controller
     {
-        private readonly OutlookContext _context;
+        private readonly OutlookContext context;
 
         public static int VolumeNumber;
         public static int IssueNumber;
 
+        public static List<string> Writers;
+
         public ArticlesController(OutlookContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Articles
@@ -30,13 +33,16 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var issue = from _issue in _context.Issue
+            // Save the Issue Number to be accessed
+            var issue = from _issue in context.Issue
                         where _issue.Id == id
                         select _issue;
 
-            var volume = from _volume in _context.Volume
+            // Save the Volume Number to be accessed
+            var volume = from _volume in context.Volume
                          where _volume.Id == issue.FirstOrDefault().VolumeID
                          select _volume;
+
 
             if (issue.FirstOrDefault() != null && volume.FirstOrDefault() != null)
             {
@@ -44,7 +50,14 @@ namespace backend.Controllers
                 VolumeNumber = volume.FirstOrDefault().VolumeNumber;
             }
 
-            var articles = from article in _context.Article
+            // Save the List of wrtiers to be accessed
+            var writers = from member in context.Member
+                          where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
+                          select member.Name;
+
+            Writers = await writers.ToListAsync();
+
+            var articles = from article in context.Article
                            where article.IssueID == id
                            select article;
 
@@ -59,7 +72,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var article = await _context.Article
+            var article = await context.Article
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (article == null)
             {
@@ -78,7 +91,7 @@ namespace backend.Controllers
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Title,Subtitle,Picture,Text")] Article article)
+        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Title,Subtitle,Writer,Picture,Text")] Article article)
         {
             if (ModelState.IsValid)
             {
@@ -86,10 +99,21 @@ namespace backend.Controllers
                 {
                     return ValidationProblem(detail: "Issue Id cannot be null");
                 }
+                // Assign value to the IssueID that refers to the Issue of the article
                 article.IssueID = (int) id;
+
+                // Save the date where the article was uploaded
                 article.DateTime = DateTime.Now;
-                _context.Add(article);
-                await _context.SaveChangesAsync();
+
+                // Assign value to the MemberID that reefers to the writer of the article
+                var writerID = from member in context.Member
+                               where member.Name == article.Writer
+                               select member.ID;
+
+                article.MemberID = writerID.FirstOrDefault();
+
+                context.Add(article);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), new { id = id});
             }
             return View(article);
@@ -103,7 +127,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var article = await _context.Article.FindAsync(id);
+            var article = await context.Article.FindAsync(id);
             if (article == null)
             {
                 return NotFound();
@@ -127,8 +151,8 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(article);
-                    await _context.SaveChangesAsync();
+                    context.Update(article);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -154,7 +178,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var article = await _context.Article
+            var article = await context.Article
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (article == null)
             {
@@ -169,15 +193,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var article = await _context.Article.FindAsync(id);
-            _context.Article.Remove(article);
-            await _context.SaveChangesAsync();
+            var article = await context.Article.FindAsync(id);
+            context.Article.Remove(article);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ArticleExists(int id)
         {
-            return _context.Article.Any(e => e.Id == id);
+            return context.Article.Any(e => e.Id == id);
         }
     }
 }

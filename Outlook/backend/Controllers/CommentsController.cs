@@ -12,17 +12,17 @@ namespace backend.Controllers
 {
     public class CommentsController : Controller
     {
-        private readonly OutlookContext _context;
+        private readonly OutlookContext context;
 
         public CommentsController(OutlookContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Comments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Comment.ToListAsync());
+            return View(await context.Comment.ToListAsync());
         }
 
         // GET: Comments/Details/5
@@ -33,7 +33,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var comment = await _context.Comment
+            var comment = await context.Comment
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (comment == null)
             {
@@ -58,8 +58,8 @@ namespace backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(comment);
-                await _context.SaveChangesAsync();
+                context.Add(comment);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(comment);
@@ -73,7 +73,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var comment = await _context.Comment.FindAsync(id);
+            var comment = await context.Comment.FindAsync(id);
             if (comment == null)
             {
                 return NotFound();
@@ -97,8 +97,8 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(comment);
-                    await _context.SaveChangesAsync();
+                    context.Update(comment);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +124,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var comment = await _context.Comment
+            var comment = await context.Comment
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (comment == null)
             {
@@ -139,15 +139,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var comment = await _context.Comment.FindAsync(id);
-            _context.Comment.Remove(comment);
-            await _context.SaveChangesAsync();
+            var comment = await context.Comment.FindAsync(id);
+            context.Comment.Remove(comment);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CommentExists(int id)
         {
-            return _context.Comment.Any(e => e.Id == id);
+            return context.Comment.Any(e => e.Id == id);
         }
     }
 }

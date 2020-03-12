@@ -16,17 +16,17 @@ namespace backend.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly OutlookContext _context;
+        private readonly OutlookContext context;
 
         public HomeController(ILogger<HomeController> logger, OutlookContext context)
         {
             _logger = logger;
-            _context = context;
+            this.context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Volume.ToListAsync());
+            return View(await context.Volume.ToListAsync());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
