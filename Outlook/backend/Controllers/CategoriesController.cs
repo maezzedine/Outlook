@@ -22,6 +22,24 @@ namespace backend.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
+            var categories = await context.Category.ToListAsync();
+
+            foreach (var category in categories)
+            {
+                category.JuniorEditors = new List<Member>();
+
+                var editorIDs = from categoryEditor in context.CategoryEditor
+                                where categoryEditor.CategoryID == category.Id
+                                select categoryEditor.MemberID;
+
+                // Usually there are 1 or 2 editors
+                foreach (var editorID in editorIDs)
+                {
+                    var editor = await context.Member.FindAsync(editorID);
+                    category.JuniorEditors.Add(editor);
+                }
+            }
+
             return View(await context.Category.ToListAsync());
         }
 
@@ -38,6 +56,19 @@ namespace backend.Controllers
             if (category == null)
             {
                 return NotFound();
+            }
+
+            category.JuniorEditors = new List<Member>();
+
+            var editorIDs = from categoryEditor in context.CategoryEditor
+                            where categoryEditor.CategoryID == category.Id
+                            select categoryEditor.MemberID;
+
+            // Usually there are 1 or 2 editors
+            foreach (var editorID in editorIDs)
+            {
+                var editor = await context.Member.FindAsync(editorID);
+                category.JuniorEditors.Add(editor);
             }
 
             return View(category);
@@ -129,6 +160,19 @@ namespace backend.Controllers
             if (category == null)
             {
                 return NotFound();
+            }
+
+            category.JuniorEditors = new List<Member>();
+
+            var editorIDs = from categoryEditor in context.CategoryEditor
+                            where categoryEditor.CategoryID == category.Id
+                            select categoryEditor.MemberID;
+
+            // Usually there are 1 or 2 editors
+            foreach (var editorID in editorIDs)
+            {
+                var editor = await context.Member.FindAsync(editorID);
+                category.JuniorEditors.Add(editor);
             }
 
             return View(category);

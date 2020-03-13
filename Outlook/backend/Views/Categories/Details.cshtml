@@ -23,6 +23,15 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CategoryName)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.JuniorEditors)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var editor in Model.JuniorEditors)
+            {
+                @Html.DisplayFor(modelItem => editor.Name) <br />
+            }
+        </dd>
     </dl>
 </div>
 <div>

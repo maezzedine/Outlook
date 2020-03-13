@@ -10,6 +10,7 @@ namespace backend.Models
         public Language Language { get; set; }
         [DisplayName("Category Name")]
         public string CategoryName { get; set; }
+        [DisplayName("Editors")]
         public IList<Member> JuniorEditors { get; set; }
     }
 }
