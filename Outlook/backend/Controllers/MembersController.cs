@@ -70,7 +70,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,NumberOfArticles,NumberOfComments,NumberOfReactions,Position,CategoryField")] Member member)
+        public async Task<IActionResult> Create([Bind("Name,Position,CategoryField")] Member member)
         {
             if (ModelState.IsValid)
             {
@@ -106,6 +106,15 @@ namespace backend.Controllers
             }
 
             var member = await context.Member.FindAsync(id);
+
+            if ((member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم))
+            {
+                var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
+                var categoryID = categoryEditor.CategoryID;
+                var categoryName = (await context.Category.FindAsync(categoryID)).CategoryName;
+                member.CategoryField = categoryName;
+            }
+
             if (member == null)
             {
                 return NotFound();
@@ -118,7 +127,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Position")] Member member)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Position,CategoryField")] Member member)
         {
             if (id != member.ID)
             {
@@ -129,7 +138,54 @@ namespace backend.Controllers
             {
                 try
                 {
-                    context.Update(member);
+                    var oldMemberData = await context.Member.FindAsync(member.ID);
+
+                    if ((oldMemberData.Position == Position.Junior_Editor) || (oldMemberData.Position == Position.رئيس_قسم))
+                    {
+                        var oldCategoryEditorData = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == oldMemberData.ID);
+
+                        // Delete CategoryEditor relation if needed
+                        if ((member.Position != Position.Junior_Editor) && (member.Position != Position.رئيس_قسم))
+                        {
+                            context.CategoryEditor.Remove(oldCategoryEditorData);
+                            await context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            var newCategory = await context.Category.FirstOrDefaultAsync(c => c.CategoryName == member.CategoryField);
+
+                            if (newCategory != null)
+                            {
+                                var newCategoryID = newCategory.Id;
+                                // Update CategoryEditor relation if needed
+                                if (newCategoryID != oldCategoryEditorData.CategoryID)
+                                {
+                                    oldCategoryEditorData.CategoryID = newCategoryID;
+                                    await context.SaveChangesAsync();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ((member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم))
+                        {
+                            var newCategory = await context.Category.FirstOrDefaultAsync(c => c.CategoryName == member.CategoryField);
+                            
+                            // Create CategoryEditor relation if needed
+                            if (newCategory != null)
+                            {
+                                var newCategoryID = newCategory.Id;
+                                context.CategoryEditor.Add(new CategoryEditorRelation { CategoryID = newCategoryID, MemberID = member.ID });
+                                await context.SaveChangesAsync();
+                            }
+                        }
+
+                    }
+
+                    oldMemberData.Name = member.Name;
+                    oldMemberData.Position = member.Position;
+
                     await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
