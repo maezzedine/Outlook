@@ -38,6 +38,20 @@ namespace backend.Controllers
                           where (member.Position != Position.كاتب_صحفي) && (member.Position != Position.Staff_Writer)
                           select member;
 
+            foreach (var member in members)
+            {
+                if (isJuniorEditor(member))
+                {
+                    var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
+                    var category = await context.Category.FirstAsync(c => c.Id == categoryEditor.CategoryID);
+                    member.CategoryField = category.CategoryName;
+                }
+                else
+                {
+                    member.CategoryField = "";
+                }
+            }
+
             return View(await members.ToListAsync());
         }
 
@@ -84,7 +98,7 @@ namespace backend.Controllers
                 context.Add(member);
                 await context.SaveChangesAsync();
 
-                if (member.Position == Position.Junior_Editor || member.Position == Position.رئيس_قسم)
+                if (isJuniorEditor(member))
                 {
                     // Creating new CategoryEditor relation instance
                     var categoryID = context.Category.First(c => c.CategoryName == member.CategoryField).Id;
@@ -107,7 +121,7 @@ namespace backend.Controllers
 
             var member = await context.Member.FindAsync(id);
 
-            if ((member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم))
+            if (isJuniorEditor(member))
             {
                 var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
                 var categoryID = categoryEditor.CategoryID;
@@ -140,7 +154,7 @@ namespace backend.Controllers
                 {
                     var oldMemberData = await context.Member.FindAsync(member.ID);
 
-                    if ((oldMemberData.Position == Position.Junior_Editor) || (oldMemberData.Position == Position.رئيس_قسم))
+                    if (isJuniorEditor(oldMemberData))
                     {
                         var oldCategoryEditorData = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == oldMemberData.ID);
 
@@ -168,7 +182,7 @@ namespace backend.Controllers
                     }
                     else
                     {
-                        if ((member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم))
+                        if (isJuniorEditor(member))
                         {
                             var newCategory = await context.Category.FirstOrDefaultAsync(c => c.CategoryName == member.CategoryField);
                             
@@ -237,5 +251,7 @@ namespace backend.Controllers
         {
             return context.Member.Any(e => e.ID == id);
         }
+
+        private bool isJuniorEditor(Member member) => (member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم);
     }
 }
