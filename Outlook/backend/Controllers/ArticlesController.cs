@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using backend.Models.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace backend.Controllers
 {
@@ -118,7 +119,7 @@ namespace backend.Controllers
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Category,Title,Subtitle,Writer,Picture,Text")] Article article)
+        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Category,Title,Subtitle,Writer,NewWriter,Picture,Text")] Article article)
         {
             if (ModelState.IsValid)
             {
@@ -132,8 +133,27 @@ namespace backend.Controllers
                 // Save the date where the article was uploaded
                 article.DateTime = DateTime.Now;
 
-                // Assign value to the MemberID that reefers to the writer of the article
-                var writer = context.Member.First(m => m.Name == article.Writer);
+                Member writer;
+                if (article.Writer != "New Writer")
+                {
+                    // Assign value to the MemberID that refers to the writer of the article
+                    writer = context.Member.First(m => m.Name == article.Writer);
+                }
+                else
+                {
+                    writer = new Member { Name = article.NewWriter };
+
+                    if (Regex.IsMatch(article.NewWriter, "^[a-zA-Z0-9. ]*$"))
+                    {
+                        writer.Position = Position.Staff_Writer;
+                    }
+                    else
+                    {
+                        writer.Position = Position.كاتب_صحفي;
+                    }
+                    context.Member.Add(writer);
+                    await context.SaveChangesAsync();
+                }
                 var writerID = writer.ID;
                 article.MemberID = writerID;
                 writer.NumberOfArticles++;

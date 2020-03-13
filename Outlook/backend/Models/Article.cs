@@ -1,6 +1,7 @@
 ﻿using backend.Models.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
@@ -20,6 +21,9 @@ namespace backend.Models
         public int MemberID { get; set; }
         [NotMapped]
         public string Writer { get; set; }
+        [NotMapped]
+        [DisplayName("New Writer")]
+        public string NewWriter { get; set; }
         public DateTime DateTime { get; set; }
         public int Rate { get; set; }
         public int NumberOfVotes { get; set; }
