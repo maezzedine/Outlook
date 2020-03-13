@@ -53,7 +53,6 @@ namespace backend.Controllers
 
             // Save the List of wrtiers names to be accessed
             var writers = from member in context.Member
-                          where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
                           select member.Name;
 
             Writers = await writers.ToListAsync();
@@ -70,10 +69,18 @@ namespace backend.Controllers
 
             foreach (var article in articles)
             {
-                var writer = context.Member.First(m => m.ID == article.MemberID).Name;
-                var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
-                article.Writer = writer;
-                article.Category = category;
+                var writer = context.Member.FirstOrDefault(m => m.ID == article.MemberID);
+                var category = context.Category.FirstOrDefault(c => c.Id == article.CategoryID);
+                if (writer != null)
+                {
+                    var writerName = writer.Name;
+                    article.Writer = writerName;
+                }
+                if (category != null)
+                {
+                    var categoryName = category.CategoryName;
+                    article.Category = categoryName;
+                }
             }
 
             return View(await articles.ToListAsync());
@@ -93,6 +100,11 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
+
+            var writer = context.Member.First(m => m.ID == article.MemberID).Name;
+            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
+            article.Writer = writer;
+            article.Category = category;
 
             return View(article);
         }
@@ -121,8 +133,10 @@ namespace backend.Controllers
                 article.DateTime = DateTime.Now;
 
                 // Assign value to the MemberID that reefers to the writer of the article
-                var writerID = context.Member.First(m => m.Name == article.Writer).ID;
+                var writer = context.Member.First(m => m.Name == article.Writer);
+                var writerID = writer.ID;
                 article.MemberID = writerID;
+                writer.NumberOfArticles++;
 
                 // Assign value to the MemberID that reefers to the writer of the article
                 var categoryID = context.Category.First(c => c.CategoryName == article.Category).Id;
@@ -222,6 +236,11 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            var writer = context.Member.First(m => m.ID == article.MemberID).Name;
+            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
+            article.Writer = writer;
+            article.Category = category;
+
             return View(article);
         }
 
@@ -231,6 +250,11 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var article = await context.Article.FindAsync(id);
+
+            // Decrement the number of articles for the writer
+            var writer = context.Member.First(m => m.ID == article.MemberID);
+            writer.NumberOfArticles--;
+
             context.Article.Remove(article);
             await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), new { id = article.IssueID});
