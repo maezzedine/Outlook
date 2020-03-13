@@ -210,15 +210,33 @@ namespace backend.Controllers
                 try
                 {
                     // Update the value to the MemberID that reefers to the writer of the article
-                    var writerID = context.Member.First(m => m.Name == article.Writer).ID;
+                    Member writer;
+                    if (article.Writer != "New Writer")
+                    {
+                        writer = context.Member.First(m => m.Name == article.Writer);
+                    }
+                    else
+                    {
+                        // Create a new writer if needed
+                        writer = new Member { Name = article.NewWriter };
+
+                        if (Regex.IsMatch(article.NewWriter, "^[a-zA-Z0-9. ]*$"))
+                        {
+                            writer.Position = Position.Staff_Writer;
+                        }
+                        else
+                        {
+                            writer.Position = Position.كاتب_صحفي;
+                        }
+                        context.Member.Add(writer);
+                        await context.SaveChangesAsync();
+                    }
+                    var writerID = writer.ID;
                     article.MemberID = writerID;
 
                     // Update the value to the MemberID that reefers to the writer of the article
                     var categoryID = context.Category.First(c => c.CategoryName == article.Category).Id;
                     article.CategoryID = categoryID;
-
-                    // Reserving the IssueID
-                    //article.IssueID = context.Article.First(a => a.Id == article.Id).IssueID;
 
                     oldVersionArticle.UpdateArticleInfo(article.Language, categoryID, article.Title, article.Subtitle, writerID, article.Picture, article.Text);
 
