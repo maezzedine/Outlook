@@ -65,9 +65,17 @@ namespace backend.Controllers
 
             var member = await context.Member
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (member == null)
             {
                 return NotFound();
+            }
+
+            if (isJuniorEditor(member))
+            {
+                var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
+                var category = await context.Category.FirstAsync(c => c.Id == categoryEditor.CategoryID);
+                member.CategoryField = category.CategoryName;
             }
 
             return View(member);
@@ -233,6 +241,13 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            if (isJuniorEditor(member))
+            {
+                var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
+                var category = await context.Category.FirstAsync(c => c.Id == categoryEditor.CategoryID);
+                member.CategoryField = category.CategoryName;
+            }
+
             return View(member);
         }
 
@@ -252,6 +267,6 @@ namespace backend.Controllers
             return context.Member.Any(e => e.ID == id);
         }
 
-        private bool isJuniorEditor(Member member) => (member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم);
+        public static bool isJuniorEditor(Member member) => (member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم);
     }
 }

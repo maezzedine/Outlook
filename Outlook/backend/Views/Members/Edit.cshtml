@@ -50,7 +50,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryField" class="control-label"></label>
-                @if ((Model.Position == Position.Junior_Editor) || (Model.Position == Position.رئيس_قسم))
+                @if (MembersController.isJuniorEditor(Model))
                 {
                     <select id="category" asp-for="CategoryField" class="form-control" asp-items="new SelectList(categories)"></select>
                 }
