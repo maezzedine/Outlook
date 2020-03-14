@@ -119,6 +119,7 @@ namespace backend.Controllers
         }
 
         // GET: Members/Delete/5
+        [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
@@ -139,6 +140,7 @@ namespace backend.Controllers
         // POST: Members/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var member = await context.Member.FindAsync(id);

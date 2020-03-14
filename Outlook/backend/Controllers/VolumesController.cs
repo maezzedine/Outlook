@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
+    [Authorize(Roles = "Web-Editor, Editor-In-Chief, Admin")]
     public class VolumesController : Controller
     {
         private readonly OutlookContext context;
@@ -111,6 +113,7 @@ namespace backend.Controllers
         }
 
         // GET: Volumes/Delete/5
+        [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,6 +134,7 @@ namespace backend.Controllers
         // POST: Volumes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var volume = await context.Volume.FindAsync(id);

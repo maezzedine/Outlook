@@ -9,9 +9,11 @@ using backend.Data;
 using backend.Models;
 using backend.Models.Interfaces;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
+    [Authorize(Roles = "Web-Editor, Editor-In-Chief, Admin")]
     public class ArticlesController : Controller
     {
         private readonly OutlookContext context;
@@ -260,6 +262,7 @@ namespace backend.Controllers
         }
 
         // GET: Articles/Delete/5
+        [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -283,6 +286,7 @@ namespace backend.Controllers
         }
 
         // POST: Articles/Delete/5
+        [Authorize(Roles = "Editor-In-Chief, Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

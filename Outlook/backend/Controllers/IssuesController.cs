@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Web-Editor, Editor-In-Chief, Admin")]
     public class IssuesController : Controller
     {
         private readonly OutlookContext context;
@@ -146,6 +146,7 @@ namespace backend.Controllers
         }
 
         // GET: Issues/Delete/5
+        [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -166,6 +167,7 @@ namespace backend.Controllers
         // POST: Issues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var issue = await context.Issue.FindAsync(id);
