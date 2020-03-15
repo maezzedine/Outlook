@@ -10,8 +10,45 @@
     <script src='https://cdn.tiny.cloud/1/dvcsw4jkizv0fkur75aa6g6plqu9zqyew33h0uh7ov39plev/tinymce/5/tinymce.min.js' referrerpolicy="origin">
     </script>
     <script>
+        //tinymce.init({
+        //    selector: '#mytextarea'
+        //});
         tinymce.init({
-            selector: '#mytextarea'
+            selector: 'textarea#mytextarea',
+            plugins: 'preview paste searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link table charmap hr pagebreak nonbreaking anchor advlist lists wordcount imagetools textpattern noneditable charmap quickbars',
+            imagetools_cors_hosts: ['picsum.photos'],
+            menubar: 'file edit view insert format tools table',
+            toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | ltr rtl | outdent indent |  numlist bullist | forecolor backcolor removeformat | charmap | fullscreen  preview | link anchor',
+            toolbar_sticky: true,
+            autosave_ask_before_unload: true,
+            autosave_interval: "30s",
+            autosave_prefix: "{path}{query}-{id}-",
+            autosave_restore_when_empty: false,
+            autosave_retention: "2m",
+            image_advtab: true,
+            image_class_list: [
+            { title: 'Default', value: 'article-image' }
+            ],
+            importcss_append: true,
+            height: 400,
+            file_picker_callback: function (callback, value, meta) {
+            /* Provide file and text for the link dialog */
+            if (meta.filetype === 'file') {
+                callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
+            }
+
+            /* Provide image and alt text for the image dialog */
+            if (meta.filetype === 'image') {
+                callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
+            }
+
+            },
+            height: 600,
+            image_caption: true,
+            quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+            noneditable_noneditable_class: "mceNonEditable",
+            toolbar_mode: 'sliding',
+            contextmenu: "link image imagetools table",
         });
     </script>
 
