@@ -31,6 +31,10 @@
     <Folder Include="wwwroot\img\Articles\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FileLogger\FileLogger.csproj" />
+  </ItemGroup>
+
 
 
 </Project>

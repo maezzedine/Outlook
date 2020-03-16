@@ -1,0 +1,2 @@
+3/16/2020 7:32:07 PM MEZDN\student created article of title `Second title to show on a log message` and ID `42`
+3/16/2020 7:41:37 PM Admin created article of title `This is a Title` and ID `43`

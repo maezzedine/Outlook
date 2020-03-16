@@ -11,6 +11,10 @@ namespace backend.Validation_Attributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null)
+            {
+                return ValidationResult.Success;
+            }
             var context = (OutlookContext)validationContext.GetService(typeof(OutlookContext));
             var existingMemberWithSameName = context.Member.SingleOrDefault(m => m.Name == value.ToString());
 

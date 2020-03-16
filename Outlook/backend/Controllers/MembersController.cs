@@ -10,6 +10,7 @@ using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using backend.Models.Interfaces;
 using backend.Models.Relations;
+using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
@@ -17,12 +18,13 @@ namespace backend.Controllers
     public class MembersController : Controller
     {
         private readonly OutlookContext context;
-
+        private readonly IConfiguration config;
         public static List<string> Categories;
         
-        public MembersController(OutlookContext context)
+        public MembersController(OutlookContext context, IConfiguration config)
         {
             this.context = context;
+            this.config = config;
         }
 
         // GET: Members
@@ -114,6 +116,10 @@ namespace backend.Controllers
                 }
 
                 await context.SaveChangesAsync();
+
+                FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} created member `{member.Name}` with position {member.Position} " +
+                    $"(Category = {member.CategoryField}) ");
+
                 return RedirectToAction(nameof(Index));
             }
             return View(member);
@@ -162,9 +168,14 @@ namespace backend.Controllers
                 {
                     var oldMemberData = await context.Member.FindAsync(member.ID);
 
+
                     if (isJuniorEditor(oldMemberData))
                     {
                         var oldCategoryEditorData = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == oldMemberData.ID);
+                        var oldCategory = await context.Category.FindAsync(oldCategoryEditorData.CategoryID);
+
+                        FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} editted member `{oldMemberData.Name}` with position {oldMemberData.Position} " +
+                            $"(Category = {oldCategory.CategoryName}) ");
 
                         // Delete CategoryEditor relation if needed
                         if ((member.Position != Position.Junior_Editor) && (member.Position != Position.رئيس_قسم))
@@ -207,6 +218,10 @@ namespace backend.Controllers
 
                     oldMemberData.Name = member.Name;
                     oldMemberData.Position = member.Position;
+
+                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"to become: Name: {member.Name}\n" +
+                        $"Position: {member.Position}\n" +
+                        $"Category: {member.CategoryField}");
 
                     await context.SaveChangesAsync();
                 }
@@ -257,8 +272,14 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var member = await context.Member.FindAsync(id);
+
+            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} admits to delete member `{member.Name}`");
+
             context.Member.Remove(member);
             await context.SaveChangesAsync();
+
+            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"Delete Completed.");
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
@@ -19,12 +20,14 @@ namespace backend.Controllers
     {
         private readonly OutlookContext context;
         private readonly IWebHostEnvironment env;
+        private readonly IConfiguration config;
         public static int VolumeNumber;
 
-        public IssuesController(OutlookContext context, IWebHostEnvironment env)
+        public IssuesController(OutlookContext context, IWebHostEnvironment env, IConfiguration config)
         {
             this.context = context;
             this.env = env;
+            this.config = config;
         }
 
         // GET: Issues
@@ -104,6 +107,11 @@ namespace backend.Controllers
 
                 context.Add(issue);
                 await context.SaveChangesAsync();
+
+                var Volume = await context.Volume.FindAsync(id);
+
+                FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} created Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber} ");
+
                 return RedirectToAction(nameof(Index), new { id = id });
             }
             return View(issue);
@@ -166,6 +174,9 @@ namespace backend.Controllers
                         }
                         oldIssueVersion.en_pdf = await CopyPdfFileToLocal(issue.EnglishPDF);
                     }
+                    var Volume = await context.Volume.FindAsync(issue.VolumeID);
+
+                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} editted Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber} ");
 
                     await context.SaveChangesAsync();
                 }
@@ -212,6 +223,10 @@ namespace backend.Controllers
         {
             var issue = await context.Issue.FindAsync(id);
             var VolumeID = issue.VolumeID;
+
+            var Volume = await context.Volume.FindAsync(VolumeID);
+            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} attempts to delete Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber} ");
+
             context.Issue.Remove(issue);
             await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), new { id = VolumeID });

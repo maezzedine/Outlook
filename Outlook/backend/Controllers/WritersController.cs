@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
@@ -16,10 +17,12 @@ namespace backend.Controllers
     public class WritersController : Controller
     {
         private readonly OutlookContext context;
+        private readonly IConfiguration config;
 
-        public WritersController(OutlookContext context)
+        public WritersController(OutlookContext context, IConfiguration config)
         {
             this.context = context;
+            this.config = config;
         }
         // GET: Writers
         public async Task<ActionResult> Index()
@@ -64,6 +67,9 @@ namespace backend.Controllers
             {
                 context.Add(member);
                 await context.SaveChangesAsync();
+
+                FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} created writer `{member.Name}`");
+
                 return RedirectToAction(nameof(Index));
             }
             return View(member);
@@ -99,8 +105,10 @@ namespace backend.Controllers
             {
                 try
                 {
+                    var oldWriter = context.Member.Find(id).Name;
                     context.Update(member);
                     await context.SaveChangesAsync();
+                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} eddited writer `{oldWriter}` to `{member.Name}`");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -144,8 +152,10 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var member = await context.Member.FindAsync(id);
+            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} admits to delete writer `{member.Name}`");
             context.Member.Remove(member);
             await context.SaveChangesAsync();
+            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"Delet Completed.");
             return RedirectToAction(nameof(Index));
         }
 

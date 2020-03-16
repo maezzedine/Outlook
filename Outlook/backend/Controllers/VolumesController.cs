@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
@@ -15,10 +16,12 @@ namespace backend.Controllers
     public class VolumesController : Controller
     {
         private readonly OutlookContext context;
+        private readonly IConfiguration config;
 
-        public VolumesController(OutlookContext context)
+        public VolumesController(OutlookContext context, IConfiguration config)
         {
             this.context = context;
+            this.config = config;
         }
 
         // GET: Volumes/Details/5
@@ -55,6 +58,9 @@ namespace backend.Controllers
             if (ModelState.IsValid)
             {
                 context.Add(volume);
+
+                FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} created Volume {volume.VolumeNumber} ");
+
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), controllerName: "Home");
             }
@@ -93,6 +99,8 @@ namespace backend.Controllers
             {
                 try
                 {
+                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} editted Volume {volume.VolumeNumber}");
+                    
                     context.Update(volume);
                     await context.SaveChangesAsync();
                 }
@@ -138,7 +146,13 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var volume = await context.Volume.FindAsync(id);
+            
+            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} admits to delete Volume {volume.VolumeNumber}");
+            
             context.Volume.Remove(volume);
+            
+            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"Delete Completed");
+            
             await context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }

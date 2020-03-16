@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
@@ -12,8 +11,9 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
-using Microsoft.AspNetCore.Http;
-using static System.Net.Mime.MediaTypeNames;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
+using backend.Areas.Identity;
 
 namespace backend.Controllers
 {
@@ -22,16 +22,18 @@ namespace backend.Controllers
     {
         private readonly OutlookContext context;
         private readonly IWebHostEnvironment env;
+        private readonly IConfiguration config;
         public static int VolumeNumber;
         public static int IssueNumber;
 
         public static List<string> Writers;
         public static List<string> Categories;
 
-        public ArticlesController(OutlookContext context, IWebHostEnvironment env)
+        public ArticlesController(OutlookContext context, IWebHostEnvironment env, IConfiguration config)
         {
             this.context = context;
             this.env = env;
+            this.config = config;
         }
 
         // GET: Articles
@@ -193,8 +195,13 @@ namespace backend.Controllers
                 
                 context.Add(article);
                 await context.SaveChangesAsync();
+
+                FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} created article of title `{article.Title}` and ID `{article.Id}`");
+                
                 return RedirectToAction(nameof(Index), new { id = id});
             }
+
+
             return View(article);
         }
 
@@ -235,7 +242,6 @@ namespace backend.Controllers
             //        article.Picture = file;
             //    }
             //}
-
             return View(article);
         }
 
@@ -257,6 +263,13 @@ namespace backend.Controllers
                 
                 try
                 {
+                   
+
+                    string startLogMessage = await GetEditLogMessage(oldVersionArticle);
+
+                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"This article is edited from `{startLogMessage}`");
+
+
                     // Update the value to the MemberID that refers to the writer of the article
                     Member writer;
                     if (article.Writer != "New Writer")
@@ -334,6 +347,10 @@ namespace backend.Controllers
                         }
                     }
 
+                    string endLogMessage = await GetEditLogMessage(oldVersionArticle);
+
+                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"to: {endLogMessage} by {HttpContext.User.Identity.Name}");
+
                     //context.Update(article);
                     await context.SaveChangesAsync();
                 }
@@ -399,14 +416,32 @@ namespace backend.Controllers
                 System.IO.File.Delete(path);
             }
 
+            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} attempts to delete article of title `{article.Title}` and ID `{article.Id}`.");
+
             context.Article.Remove(article);
             await context.SaveChangesAsync();
+            
+            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"Delete Completed.");
+            
             return RedirectToAction(nameof(Index), new { id = article.IssueID});
         }
 
         private bool ArticleExists(int id)
         {
             return context.Article.Any(e => e.Id == id);
+        }
+
+        private async Task<string> GetEditLogMessage(Article article)
+        {
+            var Writer = await context.Member.FindAsync(article.MemberID);
+            var Category = await context.Category.FindAsync(article.CategoryID);
+
+            return $"Title: {article.Title}\n" +
+                $"Subtitle: {article.Subtitle}\n" +
+                $"Category: {Category.CategoryName}" +
+                $"Writer: {Writer.Name}\n" +
+                $"Picture Name: {Path.GetFileName(article.PicturePath)}" +
+                $"Body: {article.Text}\n";
         }
     }
 }
