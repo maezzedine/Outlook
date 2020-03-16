@@ -176,7 +176,12 @@ namespace backend.Controllers
                 {
                     // Add unique name to avoid possible name conflicts
                     var uniqueImageName = DateTime.Now.Ticks.ToString() + ".jpg";
-                    var articleImageFilePath = Path.Combine(new string[] { env.WebRootPath, "img", "Articles", uniqueImageName });
+                    var articleImageFolderPath = Path.Combine(new string[] { env.WebRootPath, "img", "Articles\\" });
+                    var articleImageFilePath = Path.Combine(articleImageFolderPath, uniqueImageName);
+                    if (!Directory.Exists(articleImageFolderPath))
+                    {
+                        Directory.CreateDirectory(articleImageFolderPath);
+                    }
                     using (var fileStream = new FileStream(articleImageFilePath, FileMode.Create, FileAccess.Write))
                     {
                         // Copy the photo to storage
