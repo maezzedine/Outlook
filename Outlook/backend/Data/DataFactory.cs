@@ -82,6 +82,26 @@ namespace backend.Data
                 RoleAdd = await roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
                 await context.SaveChangesAsync();
             }
+
+            var WebEditorRole = from role in context.Roles
+                            where role.Name == "Web-Editor"
+                            select role;
+
+            if (WebEditorRole.FirstOrDefault() == null)
+            {
+                RoleAdd = await roleManager.CreateAsync(new IdentityRole { Name = "Web-Editor" });
+                await context.SaveChangesAsync();
+            }
+
+            var EditorInChiefRole = from role in context.Roles
+                            where role.Name == "Editor-In-Chief"
+                            select role;
+
+            if (EditorInChiefRole.FirstOrDefault() == null)
+            {
+                RoleAdd = await roleManager.CreateAsync(new IdentityRole { Name = "Editor-In-Chief" });
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task AssignUserRole(OutlookUser user, string roleName)
