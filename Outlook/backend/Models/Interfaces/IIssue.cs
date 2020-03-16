@@ -14,8 +14,6 @@ namespace backend.Models.Interfaces
         public int IssueNumber { get; set; }
         public string ar_pdf { get; set; }
         public string en_pdf { get; set; }
-        public string ar_cover { get; set; }
-        public string en_cover { get; set; }
         public int VolumeID { get; set; }
     }
 }
