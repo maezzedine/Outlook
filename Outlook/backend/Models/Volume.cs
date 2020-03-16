@@ -1,4 +1,5 @@
 ﻿using backend.Models.Interfaces;
+using backend.Validation_Attributes;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -8,6 +9,7 @@ namespace backend.Models
     {
         public int Id { get; set; }
         [DisplayName("Volume Number")]
+        [VolumeNumberUniqueness]
         public int VolumeNumber { get; set; }
         [DisplayName("Fall Year")]
         public int FallYear { get; set; }

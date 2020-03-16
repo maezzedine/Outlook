@@ -1,13 +1,14 @@
 ﻿@model backend.Models.Article
 @using backend.Models.Interfaces;
 @using backend.Controllers;
+@using backend.Models;
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var writers = ArticlesController.Writers;
-    writers.Add("New Writer");
+    writers.Add(" + NEW WRITER");
     var categories = ArticlesController.Categories;
 
     var IssueID = Url.ActionContext.RouteData.Values["id"];
@@ -36,7 +37,7 @@
     </div>
     <div class="form-group col-md-4">
         <label asp-for="NewWriter" class="control-label"></label>
-        <input id="newWriter" asp-for="NewWriter" class="form-control" disabled/>
+        <input id="newWriter" asp-for="NewWriter" class="form-control" disabled />
         <span asp-validation-for="NewWriter" class="text-danger"></span>
     </div>
     <div class="form-group col-md-4">
@@ -72,7 +73,7 @@
     function toggleEnabledField() {
         var select = document.getElementById('writers');
         var writer = select.options[select.selectedIndex].value;
-        if (writer == "New Writer") {
+        if (writer == " + NEW WRITER") {
             document.getElementById('newWriter').disabled = false;
         } else {
             document.getElementById('newWriter').disabled = true;

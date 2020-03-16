@@ -1,4 +1,5 @@
 ﻿using backend.Models.Interfaces;
+using backend.Validation_Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ namespace backend.Models
     public class Member : IMember
     {
         public int ID { get; set; }
+        [MemberUniqueness]
         public string Name { get; set; }
         public Position Position { get; set; }
         public int NumberOfArticles { get; set; }

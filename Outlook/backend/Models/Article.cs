@@ -1,4 +1,5 @@
 ﻿using backend.Models.Interfaces;
+using backend.Validation_Attributes;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace backend.Models
         public string Writer { get; set; }
         [NotMapped]
         [DisplayName("New Writer")]
+        [MemberUniqueness]
         public string NewWriter { get; set; }
         public DateTime DateTime { get; set; }
         public int Rate { get; set; }

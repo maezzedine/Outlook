@@ -211,9 +211,10 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var issue = await context.Issue.FindAsync(id);
+            var VolumeID = issue.VolumeID;
             context.Issue.Remove(issue);
             await context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = VolumeID });
         }
 
         private bool IssueExists(int id)

@@ -140,7 +140,7 @@ namespace backend.Controllers
             var volume = await context.Volume.FindAsync(id);
             context.Volume.Remove(volume);
             await context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
 
         private bool VolumeExists(int id)
