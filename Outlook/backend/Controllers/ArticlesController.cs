@@ -10,6 +10,10 @@ using backend.Models;
 using backend.Models.Interfaces;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace backend.Controllers
 {
@@ -17,16 +21,17 @@ namespace backend.Controllers
     public class ArticlesController : Controller
     {
         private readonly OutlookContext context;
-
+        private readonly IWebHostEnvironment env;
         public static int VolumeNumber;
         public static int IssueNumber;
 
         public static List<string> Writers;
         public static List<string> Categories;
 
-        public ArticlesController(OutlookContext context)
+        public ArticlesController(OutlookContext context, IWebHostEnvironment env)
         {
             this.context = context;
+            this.env = env;
         }
 
         // GET: Articles
@@ -104,9 +109,12 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            // Get article's writer
             var writer = context.Member.First(m => m.ID == article.MemberID).Name;
-            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
             article.Writer = writer;
+            
+            // Get article's category
+            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
             article.Category = category;
 
             return View(article);
@@ -163,6 +171,20 @@ namespace backend.Controllers
                 // Assign value to the MemberID that reefers to the writer of the article
                 var categoryID = context.Category.First(c => c.CategoryName == article.Category).Id;
                 article.CategoryID = categoryID;
+
+                if (article.Picture != null)
+                {
+                    // Add unique name to avoid possible name conflicts
+                    var uniqueImageName = DateTime.Now.Ticks.ToString() + ".jpg";
+                    var articleImageFilePath = Path.Combine(new string[] { env.WebRootPath, "img", "Articles", uniqueImageName });
+                    using (var fileStream = new FileStream(articleImageFilePath, FileMode.Create, FileAccess.Write))
+                    {
+                        // Copy the photo to storage
+                        await article.Picture.CopyToAsync(fileStream);
+                    }
+                    // Save picture local path in the article object
+                    article.PicturePath = @"/img/Articles/"+ uniqueImageName;
+                }
                 
                 context.Add(article);
                 await context.SaveChangesAsync();
@@ -185,10 +207,29 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            // Get article's writer
             var writer = context.Member.First(m => m.ID == article.MemberID).Name;
-            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
             article.Writer = writer;
+
+            // Get article's category
+            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
             article.Category = category;
+
+            //// Retrieve the article image form the file server if there is any
+            //if (article.PicturePath != null)
+            //{
+            //    var path = env.WebRootPath + article.PicturePath;
+            //    using (var fileStream = System.IO.File.OpenRead(path))
+            //    {
+            //        var file = new FormFile(fileStream, 0, fileStream.Length, null, fileStream.Name)
+            //        {
+            //            Headers = new HeaderDictionary(),
+            //            ContentType = "image/jpg",
+            //            ContentDisposition = $"form-data; name=\"Picture\"; filename=\"{article.PictureName}\""
+            //        };
+            //        article.Picture = file;
+            //    }
+            //}
 
             return View(article);
         }
@@ -198,7 +239,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Category,Title,Subtitle,Writer,Picture,Text")] Article article)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Category,Title,Subtitle,Writer,Picture,DeletePicture,Text")] Article article)
         {
             if (id != article.Id)
             {
@@ -211,7 +252,7 @@ namespace backend.Controllers
                 
                 try
                 {
-                    // Update the value to the MemberID that reefers to the writer of the article
+                    // Update the value to the MemberID that refers to the writer of the article
                     Member writer;
                     if (article.Writer != "New Writer")
                     {
@@ -222,6 +263,7 @@ namespace backend.Controllers
                         // Create a new writer if needed
                         writer = new Member { Name = article.NewWriter };
 
+                        // Decide whether the writer writes for the English section or the Arabic section
                         if (Regex.IsMatch(article.NewWriter, "^[a-zA-Z0-9. ]*$"))
                         {
                             writer.Position = Position.Staff_Writer;
@@ -240,7 +282,52 @@ namespace backend.Controllers
                     var categoryID = context.Category.First(c => c.CategoryName == article.Category).Id;
                     article.CategoryID = categoryID;
 
-                    oldVersionArticle.UpdateArticleInfo(article.Language, categoryID, article.Title, article.Subtitle, writerID, article.Picture, article.Text);
+                    oldVersionArticle.UpdateArticleInfo(article.Language, categoryID, article.Title, article.Subtitle, writerID, article.Text);
+
+                    if (oldVersionArticle.PicturePath == null)
+                    {
+                        if (article.Picture != null)
+                        {
+                            // Add unique name to avoid possible name conflicts
+                            var uniqueImageName = DateTime.Now.Ticks.ToString() + ".jpg";
+                            var articleImageFilePath = Path.Combine(new string[] { env.WebRootPath, "img", "Articles", uniqueImageName });
+                            using (var fileStream = new FileStream(articleImageFilePath, FileMode.Create, FileAccess.Write))
+                            {
+                                // Copy the photo to storage
+                                await article.Picture.CopyToAsync(fileStream);
+                            }
+                            // Save picture local path in the article object
+                            article.PicturePath = @"/img/Articles/" + uniqueImageName;
+                        }
+                    }
+                    else
+                    {
+                        if (article.Picture != null)
+                        {
+                            // Delete the old picture from the server
+                            var path = env.WebRootPath + oldVersionArticle.PicturePath;
+                            System.IO.File.Delete(path);
+
+                            // Copy the new picture to the server
+                            var uniqueImageName = DateTime.Now.Ticks.ToString() + ".jpg";
+                            var articleImageFilePath = Path.Combine(new string[] { env.WebRootPath, "img", "Articles", uniqueImageName });
+                            using (var fileStream = new FileStream(articleImageFilePath, FileMode.Create, FileAccess.Write))
+                            {
+                                // Copy the photo to storage
+                                await article.Picture.CopyToAsync(fileStream);
+                            }
+                            // Save picture local path in the article object
+                            oldVersionArticle.PicturePath = @"/img/Articles/" + uniqueImageName;
+                        }
+                        else if (article.DeletePicture)
+                        {
+                            // Delete the old picture from the server
+                            var path = env.WebRootPath + oldVersionArticle.PicturePath;
+                            System.IO.File.Delete(path);
+
+                            oldVersionArticle.PicturePath = null;
+                        }
+                    }
 
                     //context.Update(article);
                     await context.SaveChangesAsync();
@@ -277,9 +364,12 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            // Get article's writer
             var writer = context.Member.First(m => m.ID == article.MemberID).Name;
-            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
             article.Writer = writer;
+
+            // Get article's category
+            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
             article.Category = category;
 
             return View(article);
@@ -296,6 +386,13 @@ namespace backend.Controllers
             // Decrement the number of articles for the writer
             var writer = context.Member.First(m => m.ID == article.MemberID);
             writer.NumberOfArticles--;
+
+            // Delete the article image form the file server if there is any
+            if (article.PicturePath != null)
+            {
+                var path = env.WebRootPath + article.PicturePath;
+                System.IO.File.Delete(path);
+            }
 
             context.Article.Remove(article);
             await context.SaveChangesAsync();

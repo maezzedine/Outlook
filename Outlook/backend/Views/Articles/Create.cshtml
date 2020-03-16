@@ -17,7 +17,7 @@
 
 <h4>Article</h4>
 <hr />
-<form asp-action="Create">
+<form asp-action="Create"  enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger col-md-4"></div>
     <div class="form-group col-md-4">
         <label asp-for="Language" class="control-label"></label>
@@ -51,7 +51,7 @@
     </div>
     <div class="form-group col-md-4">
         <label asp-for="Picture" class="control-label"></label>
-        <input asp-for="Picture" class="form-control" />
+        <input asp-for="Picture" ref="file" type="file" class="form-control" />
         <span asp-validation-for="Picture" class="text-danger"></span>
     </div>
     <div class="form-group col-md-12">

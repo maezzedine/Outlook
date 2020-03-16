@@ -32,7 +32,7 @@ namespace backend.Controllers
         }
 
         // GET: Writers/Details/5
-        public async Task<ActionResult> Details(int id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -120,7 +120,7 @@ namespace backend.Controllers
 
         // GET: Members/Delete/5
         [Authorize(Roles = "Editor-In-Chief, Admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -141,7 +141,7 @@ namespace backend.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Editor-In-Chief, Admin")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var member = await context.Member.FindAsync(id);
             context.Member.Remove(member);

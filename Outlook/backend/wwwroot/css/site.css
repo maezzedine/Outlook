@@ -73,3 +73,8 @@ body {
 .article-image {
     margin: 5%;
 }
+
+.article-image-preview {
+    max-height: 300px;
+    max-width: 300px;
+}

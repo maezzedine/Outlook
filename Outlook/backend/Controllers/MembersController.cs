@@ -56,7 +56,7 @@ namespace backend.Controllers
         }
 
         // GET: Members/Details/5
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -227,7 +227,7 @@ namespace backend.Controllers
         }
 
         // GET: Members/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -254,7 +254,7 @@ namespace backend.Controllers
         // POST: Members/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var member = await context.Member.FindAsync(id);
             context.Member.Remove(member);

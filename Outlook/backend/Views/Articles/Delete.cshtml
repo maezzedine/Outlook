@@ -46,7 +46,7 @@
             @Html.DisplayNameFor(model => model.Picture)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Picture)
+            <img class="article-image-preview" src="@Model.PicturePath">
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Text)
@@ -86,3 +86,10 @@
         <a asp-action="Index" asp-route-id="@Model.IssueID">Back to List</a>
     </form>
 </div>
+
+<style>
+    .article-image-preview {
+        max-height: 300px;
+        max-width: 300px;
+    }
+</style>

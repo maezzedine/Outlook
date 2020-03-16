@@ -1,7 +1,9 @@
 ﻿using backend.Models.Interfaces;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
@@ -16,7 +18,13 @@ namespace backend.Models
         public int IssueID { get; set; }
         public string Title { get; set; }
         public string Subtitle { get; set; }
-        public string Picture { get; set; }
+        [NotMapped]
+        public IFormFile Picture { get; set; }
+        [Display(Name="Picture")]
+        public string PicturePath { get; set; }
+        [NotMapped]
+        [DisplayName("Delete Picture")]
+        public bool DeletePicture { get; set; }
         public string Text { get; set; }
         public int MemberID { get; set; }
         [NotMapped]
@@ -53,14 +61,14 @@ namespace backend.Models
             NumberOfVotes--;
         }
 
-        public void UpdateArticleInfo(Language lang, int categoryID, string title, string subtitle, int memberID, string picture, string text )
+        public void UpdateArticleInfo(Language lang, int categoryID, string title, string subtitle, int memberID, /*string picture,*/ string text )
         {
             Language = lang;
             CategoryID = categoryID;
             Title = title;
             Subtitle = subtitle;
             MemberID = memberID;
-            Picture = picture;
+            //Picture = picture;
             Text = text;
         }
     }
