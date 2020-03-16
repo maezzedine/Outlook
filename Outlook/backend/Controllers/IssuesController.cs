@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace backend.Controllers
 {
@@ -15,12 +18,13 @@ namespace backend.Controllers
     public class IssuesController : Controller
     {
         private readonly OutlookContext context;
-
+        private readonly IWebHostEnvironment env;
         public static int VolumeNumber;
 
-        public IssuesController(OutlookContext context)
+        public IssuesController(OutlookContext context, IWebHostEnvironment env)
         {
             this.context = context;
+            this.env = env;
         }
 
         // GET: Issues
@@ -35,7 +39,7 @@ namespace backend.Controllers
                          where _volume.Id == id
                          select _volume.VolumeNumber;
 
-            if (volume.FirstOrDefault() != null)
+            if (volume != null)
             {
                 VolumeNumber = volume.FirstOrDefault();
             }
@@ -78,7 +82,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("IssueNumber,ar_pdf,en_pdf,ar_cover,en_cover")] Issue issue)
+        public async Task<IActionResult> Create(int? id, [Bind("IssueNumber,ArabicPDF,EnglishPDF")] Issue issue)
         {
             if (ModelState.IsValid)
             {
@@ -87,6 +91,17 @@ namespace backend.Controllers
                     return ValidationProblem(detail: "Volume Id cannot be null");
                 }
                 issue.VolumeID = (int) id;
+
+                if (issue.ArabicPDF != null)
+                {
+                    issue.ar_pdf = await CopyPdfFileToLocal(issue.ArabicPDF);
+                }
+
+                if (issue.EnglishPDF != null)
+                {
+                    issue.en_pdf = await CopyPdfFileToLocal(issue.EnglishPDF);
+                }
+
                 context.Add(issue);
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), new { id = id });
@@ -115,7 +130,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IssueNumber,ar_pdf,en_pdf,ar_cover,en_cover")] Issue issue)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,IssueNumber,ArabicPDF,EnglishPDF")] Issue issue)
         {
             if (id != issue.Id)
             {
@@ -126,7 +141,32 @@ namespace backend.Controllers
             {
                 try
                 {
-                    context.Update(issue);
+                    var oldIssueVersion = await context.Issue.FindAsync(id);
+
+                    // Update Arabic PDF file of the issue
+                    if (issue.ArabicPDF != null)
+                    {
+                        if (oldIssueVersion.ar_pdf != null)
+                        {
+                            // Delete the old pdf from the server
+                            var path = env.WebRootPath + oldIssueVersion.ar_pdf;
+                            System.IO.File.Delete(path);
+                        }
+                        oldIssueVersion.ar_pdf = await CopyPdfFileToLocal(issue.ArabicPDF);
+                    }
+
+                    // Update Arabic PDF file of the issue
+                    if (issue.EnglishPDF != null)
+                    {
+                        if (oldIssueVersion.en_pdf != null)
+                        {
+                            // Delete the old pdf from the server
+                            var path = env.WebRootPath + oldIssueVersion.en_pdf;
+                            System.IO.File.Delete(path);
+                        }
+                        oldIssueVersion.en_pdf = await CopyPdfFileToLocal(issue.EnglishPDF);
+                    }
+
                     await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -179,6 +219,28 @@ namespace backend.Controllers
         private bool IssueExists(int id)
         {
             return context.Issue.Any(e => e.Id == id);
+        }
+
+        private async Task<string> CopyPdfFileToLocal(IFormFile file)
+        {
+            // Add unique name to avoid possible name conflicts
+            var uniquePdfName = DateTime.Now.Ticks.ToString() + ".pdf";
+            var issuePdfFolderPath = Path.Combine(new string[] { env.WebRootPath, "pdf", "Issues\\" });
+            var issuePdfFilePath = Path.Combine(issuePdfFolderPath, uniquePdfName);
+            if (!Directory.Exists(issuePdfFolderPath))
+            {
+                Directory.CreateDirectory(issuePdfFolderPath);
+            }
+            using (var fileStream = new FileStream(issuePdfFilePath, FileMode.Create, FileAccess.Write))
+            {
+                // Copy the pdf file to storage
+                await file.CopyToAsync(fileStream);
+            }
+
+            // Save pdf local path in the issue object
+            var pdfFilePath = @"/pdf/Issues/" + uniquePdfName;
+
+            return pdfFilePath;
         }
     }
 }

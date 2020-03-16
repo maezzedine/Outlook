@@ -23,29 +23,17 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IssueNumber)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ar_pdf)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ar_pdf)
+        <dd class="col-sm-4 mr-2">
+            @if (Model.ar_pdf != null)
+            {
+                <embed src="@Model.ar_pdf" type="application/pdf" zoom="8" view="Fit" height="350px" width="280" class="mt-2" />
+            }
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.en_pdf)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.en_pdf)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ar_cover)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ar_cover)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.en_cover)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.en_cover)
+        <dd class="col-sm-4 ml-2">
+            @if (Model.en_pdf != null)
+            {
+                <embed src="@Model.en_pdf" type="application/pdf" zoom="8" view="Fit" height="350px" width="280" class="mt-2" />
+            }
         </dd>
     </dl>
 </div>

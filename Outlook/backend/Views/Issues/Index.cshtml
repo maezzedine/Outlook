@@ -28,12 +28,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model.en_pdf)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ar_cover)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.en_cover)
-                </th>
                 <th></th>
                 <th></th>
             </tr>
@@ -46,16 +40,24 @@
                         @Html.DisplayFor(modelItem => item.IssueNumber)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ar_pdf)
+                        @if (item.ar_pdf != null)
+                        {
+                            <i class="fas fa-check" style="color: forestgreen"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-times" style="color: red"></i>
+                        }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.en_pdf)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ar_cover)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.en_cover)
+                        @if (item.en_pdf != null)
+                        {
+                            <i class="fas fa-check" style="color: forestgreen"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-times" style="color: red"></i>
+                        }
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

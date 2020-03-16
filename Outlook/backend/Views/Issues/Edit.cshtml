@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -20,25 +20,23 @@
                 <span asp-validation-for="IssueNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ar_pdf" class="control-label"></label>
-                <input asp-for="ar_pdf" class="form-control" />
-                <span asp-validation-for="ar_pdf" class="text-danger"></span>
+                <label asp-for="ArabicPDF" class="control-label"></label>
+                <input asp-for="ArabicPDF" class="form-control" ref="file" type="file" />
+                <span asp-validation-for="ArabicPDF" class="text-danger"></span>
             </div>
+            @if (Model.ar_pdf != null)
+            {
+                <embed src="@Model.ar_pdf" type="application/pdf" width="100%" height="200px" class="mt-2"/>
+            }
             <div class="form-group">
-                <label asp-for="en_pdf" class="control-label"></label>
-                <input asp-for="en_pdf" class="form-control" />
-                <span asp-validation-for="en_pdf" class="text-danger"></span>
+                <label asp-for="EnglishPDF" class="control-label"></label>
+                <input asp-for="EnglishPDF" class="form-control" ref="file" type="file" />
+                <span asp-validation-for="EnglishPDF" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ar_cover" class="control-label"></label>
-                <input asp-for="ar_cover" class="form-control" />
-                <span asp-validation-for="ar_cover" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="en_cover" class="control-label"></label>
-                <input asp-for="en_cover" class="form-control" />
-                <span asp-validation-for="en_cover" class="text-danger"></span>
-            </div>
+            @if (Model.en_pdf != null)
+            {
+                <embed src="@Model.en_pdf" type="application/pdf" width="100%" height="200px" class="mt-2"/>
+            }
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

@@ -1,4 +1,5 @@
 ﻿using backend.Models.Interfaces;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,10 +11,14 @@ namespace backend.Models
         public int Id { get; set; }
         [DisplayName("Issue Number")]
         public int IssueNumber { get; set; }
-        [DisplayName("Arabic PDF")]
         public string ar_pdf { get; set; }
-        [DisplayName("English PDF")]
+        [NotMapped]
+        [DisplayName("Arabic PDF")]
+        public IFormFile ArabicPDF { get; set; }
         public string en_pdf { get; set; }
+        [NotMapped]
+        [DisplayName("English PDF")]
+        public IFormFile EnglishPDF { get; set; }
         [DisplayName("Arabic Cover")]
         public string ar_cover { get; set; }
         [DisplayName("English Cover")]
