@@ -25,7 +25,14 @@ namespace backend.APIs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Article>>> GetArticle()
         {
-            return await context.Article.ToListAsync();
+            var articles = await context.Article.ToListAsync();
+
+            foreach (var article in articles)
+            {
+                GetArticleProperties(article);
+            }
+
+            return articles;
         }
 
         // GET: api/Articles/5
@@ -39,7 +46,20 @@ namespace backend.APIs
                 return NotFound();
             }
 
+            GetArticleProperties(article);
+
             return article;
+        }
+
+        private async void GetArticleProperties(Article article)
+        {
+            // Add the category name
+            var category = await context.Category.FindAsync(article.CategoryID);
+            article.Category = category.CategoryName;
+
+            // Add the writer name
+            var writer = await context.Member.FindAsync(article.MemberID);
+            article.Writer = writer.Name;
         }
     }
 }
