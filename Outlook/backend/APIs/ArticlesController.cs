@@ -12,34 +12,34 @@ namespace backend.APIs
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IssuesController : ControllerBase
+    public class ArticlesController : ControllerBase
     {
         private readonly OutlookContext context;
 
-        public IssuesController(OutlookContext context)
+        public ArticlesController(OutlookContext context)
         {
             this.context = context;
         }
 
-        // GET: api/Issues
+        // GET: api/Articles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Issue>>> GetIssue()
+        public async Task<ActionResult<IEnumerable<Article>>> GetArticle()
         {
-            return await context.Issue.ToListAsync();
+            return await context.Article.ToListAsync();
         }
 
-        // GET: api/Issues/5
+        // GET: api/Articles/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Issue>> GetIssue(int id)
+        public async Task<ActionResult<Article>> GetArticle(int id)
         {
-            var issue = await context.Issue.FindAsync(id);
+            var article = await context.Article.FindAsync(id);
 
-            if (issue == null)
+            if (article == null)
             {
                 return NotFound();
             }
 
-            return issue;
+            return article;
         }
     }
 }
