@@ -22,21 +22,23 @@ namespace backend.APIs
         }
 
         // GET: api/Articles
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Article>>> GetArticle()
+        [HttpGet("{issueID}")]
+        public async Task<ActionResult<IEnumerable<Article>>> GetArticles(int issueID)
         {
-            var articles = await context.Article.ToListAsync();
+            var articles = from article in context.Article
+                           where article.IssueID == issueID
+                           select article;
 
             foreach (var article in articles)
             {
-                GetArticleProperties(article);
+                await GetArticleProperties(article);
             }
 
-            return articles;
+            return await articles.ToListAsync();
         }
 
-        // GET: api/Articles/5
-        [HttpGet("{id}")]
+        // GET: api/Articles/Article/5
+        [HttpGet("Article/{id}")]
         public async Task<ActionResult<Article>> GetArticle(int id)
         {
             var article = await context.Article.FindAsync(id);
@@ -46,12 +48,12 @@ namespace backend.APIs
                 return NotFound();
             }
 
-            GetArticleProperties(article);
+            await GetArticleProperties(article);
 
             return article;
         }
 
-        private async void GetArticleProperties(Article article)
+        private async Task GetArticleProperties(Article article)
         {
             // Add the category name
             var category = await context.Category.FindAsync(article.CategoryID);
@@ -60,6 +62,23 @@ namespace backend.APIs
             // Add the writer name
             var writer = await context.Member.FindAsync(article.MemberID);
             article.Writer = writer.Name;
+
+            // Add the comment list on the article
+            var comments = from comment in context.Comment
+                           where comment.ArticleID == article.Id
+                           select comment;
+
+            // Add replies list for each comment
+            foreach (var comment in comments)
+            {
+                var replies = from reply in context.Reply
+                              where reply.CommentID == comment.Id
+                              select reply;
+
+                comment.Replies = await replies.ToListAsync();
+            }
+
+            article.Comments = await comments.ToListAsync();
         }
     }
 }

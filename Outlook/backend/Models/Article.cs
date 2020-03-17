@@ -38,6 +38,8 @@ namespace backend.Models
         public int Rate { get; set; }
         public int NumberOfVotes { get; set; }
         public int NumberOfFavorites { get; set; }
+        [NotMapped]
+        public List<Comment> Comments { get; set; }
 
         public void RateDown()
         {

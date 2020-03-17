@@ -22,14 +22,18 @@ namespace backend.APIs
         }
 
         // GET: api/Issues
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Issue>>> GetIssue()
+        [HttpGet("{volumeId}")]
+        public async Task<ActionResult<IEnumerable<Issue>>> GetIssues(int volumeID)
         {
-            return await context.Issue.ToListAsync();
+            var issues = from issue in context.Issue
+                         where issue.VolumeID == volumeID
+                         select issue;
+
+            return await issues.ToListAsync();
         }
 
         // GET: api/Issues/5
-        [HttpGet("{id}")]
+        [HttpGet("Issue/{id}")]
         public async Task<ActionResult<Issue>> GetIssue(int id)
         {
             var issue = await context.Issue.FindAsync(id);
