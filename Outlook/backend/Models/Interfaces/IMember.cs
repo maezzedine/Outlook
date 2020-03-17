@@ -22,6 +22,7 @@ namespace backend.Models.Interfaces
         Web_Editor,
         Copy_Editor,
         Staff_Writer,
+        Former_Member,
         رئيس_تحرير,
         المحرر,
         نائب_المحرر,
@@ -29,6 +30,7 @@ namespace backend.Models.Interfaces
         مدقق_النسخة,
         مدقق_لغوي,
         مدقق_الموقع,
-        كاتب_صحفي
+        كاتب_صحفي,
+        عضو_سابق
     }
 }

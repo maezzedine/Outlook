@@ -10,6 +10,7 @@ namespace backend.Models.Relations
     {
         public int ID { get; set; }
         public Member Member { get; set; }
+        public int MemberID { get; set; }
         public int VolumeID { get; set; }
         public Position Position { get; set; }
     }
