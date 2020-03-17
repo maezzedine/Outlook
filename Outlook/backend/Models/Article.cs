@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static backend.Models.Relations.UserRateArticle;
 
 namespace backend.Models
 {
@@ -40,6 +41,8 @@ namespace backend.Models
         public int NumberOfFavorites { get; set; }
         [NotMapped]
         public List<Comment> Comments { get; set; }
+        [NotMapped]
+        public UserRate RatedByUser { get; set; }
 
         public void RateDown()
         {

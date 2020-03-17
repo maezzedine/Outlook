@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(OutlookContext))]
-    partial class OutlookContextModelSnapshot : ModelSnapshot
+    [Migration("20200317162754_Add-User-Like-And-Dislike-Article")]
+    partial class AddUserLikeAndDislikeArticle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -478,6 +480,24 @@ namespace backend.Migrations
                     b.ToTable("EnglishBoard");
                 });
 
+            modelBuilder.Entity("backend.Models.Relations.UserDislikeArticle", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArticleID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("UserDislikeArticle");
+                });
+
             modelBuilder.Entity("backend.Models.Relations.UserFavoritedArticleRelation", b =>
                 {
                     b.Property<int>("ID")
@@ -498,7 +518,7 @@ namespace backend.Migrations
                     b.ToTable("UserFavoritedArticleRelation");
                 });
 
-            modelBuilder.Entity("backend.Models.Relations.UserRateArticle", b =>
+            modelBuilder.Entity("backend.Models.Relations.UserLikeArticle", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -508,15 +528,12 @@ namespace backend.Migrations
                     b.Property<int>("ArticleID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Rate")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
-                    b.ToTable("UserRateArticle");
+                    b.ToTable("UserLikeArticle");
                 });
 
             modelBuilder.Entity("backend.Models.Reply", b =>
