@@ -19,7 +19,6 @@ namespace backend.Data
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Issue> Issue { get; set; }
         public DbSet<Member> Member { get; set; }
-        public DbSet<Notification> Notification { get; set; }
         public DbSet<Reply> Reply { get; set; }
         public DbSet<ArabicBoardRelation> ArabicBoard { get; set; }
         public DbSet<EnglishBoardRelation> EnglishBoard { get; set; }
