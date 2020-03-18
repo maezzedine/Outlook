@@ -82,7 +82,7 @@ namespace backend.APIs
             var comment = await context.Comment.FindAsync(reply.CommentID);
             var article = await context.Article.FindAsync(comment.ArticleID);
 
-            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.Name} editted his reply `{reply.Text}` on the comment `{comment.Text}` on the article of title `{article.Title}`");
+            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.UserName} editted his reply `{reply.Text}` on the comment `{comment.Text}` on the article of title `{article.Title}`");
 
             return NoContent();
         }
@@ -100,7 +100,7 @@ namespace backend.APIs
             var comment = await context.Comment.FindAsync(reply.CommentID);
             var article = await context.Article.FindAsync(comment.ArticleID);
 
-            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.Name} replied by `{reply.Text}` on the comment `{comment.Text}` on the article of title `{article.Title}`");
+            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.UserName} replied by `{reply.Text}` on the comment `{comment.Text}` on the article of title `{article.Title}`");
 
 
             return CreatedAtAction("GetReply", new { id = reply.Id }, reply);
@@ -120,7 +120,7 @@ namespace backend.APIs
             var comment = await context.Comment.FindAsync(reply.CommentID);
             var article = await context.Article.FindAsync(comment.ArticleID);
 
-            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.Name} admits to delete his reply `{reply.Text}` on the comment `{comment.Text}` on the article of title `{article.Title}`");
+            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.UserName} admits to delete his reply `{reply.Text}` on the comment `{comment.Text}` on the article of title `{article.Title}`");
 
             context.Reply.Remove(reply);
             await context.SaveChangesAsync();

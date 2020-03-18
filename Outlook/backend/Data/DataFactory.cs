@@ -44,7 +44,8 @@ namespace backend.Data
         {
             OutlookUser admin = new OutlookUser
             {
-                Name = username,
+                FirstName = username,
+                LastName = username,
                 EmailConfirmed = true,
                 UserName = username,
                 NormalizedUserName = username.ToUpper(),

@@ -7,7 +7,8 @@ namespace backend.Areas.Identity
 {
     public class OutlookUser : IdentityUser, IUser
     {
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public int NumberOfComments { get; set; }
         public int NumberOfReactions { get; set; }
         public int NumberOfFavoritedArticles { get; set; }

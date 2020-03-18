@@ -81,7 +81,7 @@ namespace backend.APIs
             var user = await context.Users.FindAsync(comment.UserID);
             var article = await context.Article.FindAsync(comment.ArticleID);
 
-            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.Name} editted his comment `{comment.Text}` on the article of title `{article.Title}`");
+            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.UserName} editted his comment `{comment.Text}` on the article of title `{article.Title}`");
 
             return NoContent();
         }
@@ -98,7 +98,7 @@ namespace backend.APIs
             var user = await context.Users.FindAsync(comment.UserID);
             var article = await context.Article.FindAsync(comment.ArticleID);
 
-            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.Name} posted a comment `{comment.Text}` on the article of title `{article.Title}`");
+            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.UserName} posted a comment `{comment.Text}` on the article of title `{article.Title}`");
 
             return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
         }

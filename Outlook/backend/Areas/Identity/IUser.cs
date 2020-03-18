@@ -5,7 +5,8 @@ namespace backend.Areas.Identity
 {
     public interface IUser
     {
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public int NumberOfComments { get; set; }
         public int NumberOfReactions { get; set; }
     }
