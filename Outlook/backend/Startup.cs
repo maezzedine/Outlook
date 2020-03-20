@@ -14,6 +14,8 @@ using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using backend.Areas.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography.X509Certificates;
 
 namespace backend
 {
@@ -57,6 +59,27 @@ namespace backend
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@";
 
             });
+
+            // Add IdentityServer4
+            var builder = services.AddIdentityServer()
+                .AddSigningCredential(new X509Certificate2(".\\outlook.pfx", Configuration.GetValue<string>("CertifcatePassword")))
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiResources(Config.GetApis())
+                .AddInMemoryClients(Config.GetClients())
+                .AddAspNetIdentity<OutlookUser>()
+                .AddProfileService<IdentityProfileService>();
+
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "http://localhost:52432";
+                    options.RequireHttpsMetadata = false;
+                    options.Audience = "accountApi";
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ClockSkew = TimeSpan.FromMinutes(0)
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +100,7 @@ namespace backend
 
             app.UseRouting();
 
+            app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
 

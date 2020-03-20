@@ -339,6 +339,12 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-# Unit Test
-OutlookUnitTesting
-OutlookEdgeDriverTest
+# Configure files
+appsettings.json
+appsettings.Production.json
+appsettings.Development.json
+
+# IdentityServer Certificate
+*.cer
+*.key
+*.pfx

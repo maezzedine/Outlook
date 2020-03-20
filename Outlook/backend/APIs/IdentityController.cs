@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
+using static backend.Areas.Identity.Pages.Account.AddUserModel;
 
 namespace backend.APIs
 {
@@ -31,32 +32,43 @@ namespace backend.APIs
             this.config = config;
         }
 
-        
 
-        //[HttpPost("Login")]
-        //public async Task<IActionResult> Login() 
-        //{
-        //    return;
-        //}
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel inputModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await signInManager.PasswordSignInAsync(inputModel.Username, inputModel.Password, false, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | Failure attempt to login the account of username {inputModel.Username}.");
+                    //return signInManager.ClaimsFactory.CreateAsync().;
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                }
+            }
+
+            return BadRequest(ModelState);
+        }
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody]RegisterModel registerModel) 
         {
-            var user = new OutlookUser { UserName = registerModel.Username, FirstName = registerModel.FirstName, LastName = registerModel.LastName };
-            var result = await userManager.CreateAsync(user, registerModel.Password);
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
-                FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | User created a new account with password.");
-                var token = await signInManager.UserManager.GetAuthenticationTokenAsync(user, "Admin", "login");
-                //var token = await signInManager.UserManager.GenerateUserTokenAsync(user, "Admin", "login");
+                var user = new OutlookUser { UserName = registerModel.Username, FirstName = registerModel.FirstName, LastName = registerModel.LastName };
+                var result = await userManager.CreateAsync(user, registerModel.Password);
 
-                //await signInManager.SignInAsync(user, isPersistent: false);
-                return Ok(token);
+                FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | User created a new account with password.");
+
+                return new JsonResult(result);
             }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
+
             return BadRequest(ModelState);
         }
 
