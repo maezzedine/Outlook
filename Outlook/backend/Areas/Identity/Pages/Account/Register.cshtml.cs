@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<OutlookUser> _signInManager;
