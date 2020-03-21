@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
-    [Authorize(Roles = "Web-Editor, Editor-In-Chief, Admin")]
+    [Authorize(Roles = "Web-Editor, Editor-In-Chief, Admin", AuthenticationSchemes = "Identity.Application")]
     public class CategoriesController : Controller
     {
         private readonly OutlookContext context;

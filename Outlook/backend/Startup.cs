@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
-using backend.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using backend.Areas.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography.X509Certificates;
@@ -60,6 +54,7 @@ namespace backend
 
             });
 
+
             // Add IdentityServer4
             var builder = services.AddIdentityServer()
                 .AddSigningCredential(new X509Certificate2(".\\outlook.pfx", Configuration.GetValue<string>("CertifcatePassword")))
@@ -67,14 +62,15 @@ namespace backend
                 .AddInMemoryApiResources(Config.GetApis())
                 .AddInMemoryClients(Config.GetClients())
                 .AddAspNetIdentity<OutlookUser>()
+                .AddJwtBearerClientAuthentication()
                 .AddProfileService<IdentityProfileService>();
 
-            services.AddAuthentication("Bearer")
+            services.AddAuthentication(/*JwtBearerDefaults.AuthenticationScheme*/)
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "http://localhost:52432";
+                    options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
-                    options.Audience = "accountApi";
+                    options.Audience = "outlookApi";
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         ClockSkew = TimeSpan.FromMinutes(0)

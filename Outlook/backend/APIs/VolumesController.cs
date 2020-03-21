@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.APIs
 {

@@ -14,7 +14,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
-    [Authorize(Roles = "Admin, Editor-In-Chief")]
+    [Authorize(Roles = "Admin, Editor-In-Chief", AuthenticationSchemes = "Identity.Application")]
     public class MembersController : Controller
     {
         private readonly OutlookContext context;

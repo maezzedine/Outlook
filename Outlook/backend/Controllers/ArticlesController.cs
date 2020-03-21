@@ -17,7 +17,7 @@ using backend.Areas.Identity;
 
 namespace backend.Controllers
 {
-    [Authorize(Roles = "Web-Editor, Editor-In-Chief, Admin")]
+    [Authorize(Roles = "Web-Editor, Editor-In-Chief, Admin", AuthenticationSchemes = "Identity.Application")]
     public class ArticlesController : Controller
     {
         private readonly OutlookContext context;

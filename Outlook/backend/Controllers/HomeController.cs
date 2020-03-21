@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Identity.Application")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

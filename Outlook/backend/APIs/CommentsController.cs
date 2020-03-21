@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.APIs
 {
@@ -52,6 +53,7 @@ namespace backend.APIs
         // PUT: api/Comments/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutComment(int id, Comment comment)
         {
@@ -89,6 +91,7 @@ namespace backend.APIs
         // POST: api/Comments
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(Comment comment)
         {
@@ -104,6 +107,7 @@ namespace backend.APIs
         }
 
         // DELETE: api/Comments/5
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Comment>> DeleteComment(int id)
         {

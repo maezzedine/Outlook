@@ -36,8 +36,7 @@ namespace backend
         {
             return new ApiResource[]
             {
-                new ApiResource("outlookApi", "outlookWebApi"),
-                new ApiResource("accountApi", "AccountApi")
+                new ApiResource("outlookApi", "outlookWebApi")
             };
         }
 

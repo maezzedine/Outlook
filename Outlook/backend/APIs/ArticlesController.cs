@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using backend.Areas.Identity;
 using backend.Models.Relations;
 using static backend.Models.Relations.UserRateArticle;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.APIs
 {
@@ -59,6 +60,7 @@ namespace backend.APIs
             return article;
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("RateUpArticle/{articleID}")]
         public async Task<ActionResult> RateUpArticle(int articleID)
         {
@@ -87,6 +89,7 @@ namespace backend.APIs
             return Ok();
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("RateDownArticle/{articleID}")]
         public async Task<ActionResult> RateDownArticle(int articleID)
         {
@@ -142,18 +145,21 @@ namespace backend.APIs
 
             article.Comments = await comments.ToListAsync();
 
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
-
-            // Add user rate to the article
-            var userRatedArticle = await context.UserRateArticle.FirstOrDefaultAsync(r => (r.UserID == user.Id) && (r.ArticleID == article.Id));
-
-            if (userRatedArticle == null)
+            if (User != null)
             {
-                article.RatedByUser = UserRate.None;
-            }
-            else
-            {
-                article.RatedByUser = userRatedArticle.Rate;
+                var user = await userManager.FindByNameAsync(User.Identity.Name);
+
+                // Add user rate to the article
+                var userRatedArticle = await context.UserRateArticle.FirstOrDefaultAsync(r => (r.UserID == user.Id) && (r.ArticleID == article.Id));
+
+                if (userRatedArticle == null)
+                {
+                    article.RatedByUser = UserRate.None;
+                }
+                else
+                {
+                    article.RatedByUser = userRatedArticle.Rate;
+                }
             }
         }
     }

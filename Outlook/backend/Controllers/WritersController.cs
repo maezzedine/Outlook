@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
-    [Authorize(Roles = "Admin, Editor-In-Chief, Web-Editor")]
+    [Authorize(Roles = "Admin, Editor-In-Chief, Web-Editor", AuthenticationSchemes = "Identity.Application")]
     public class WritersController : Controller
     {
         private readonly OutlookContext context;
