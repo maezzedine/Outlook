@@ -34,10 +34,12 @@
     <Content Include="public\index.html" />
     <Content Include="src\App.scss" />
     <Content Include="src\App.vue" />
-    <Content Include="src\components\Home.vue" />
+    <Content Include="src\components\navbar\navbar.vue" />
     <Content Include="src\styles\_mixins.scss" />
     <Content Include="src\styles\_queries.scss" />
     <Content Include="src\styles\_variables.scss" />
+    <Content Include="src\views\Home\Home.scss" />
+    <Content Include="src\views\Home\Home.vue" />
     <Content Include="tsconfig.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -48,8 +50,11 @@
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
+    <Folder Include="src\components\navbar\" />
+    <Folder Include="src\views\" />
     <Folder Include="src\styles\" />
     <Folder Include="src\services\" />
+    <Folder Include="src\views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\main.ts" />
@@ -63,6 +68,7 @@
     <TypeScriptCompile Include="src\App.ts" />
     <TypeScriptCompile Include="src\router.ts" />
     <TypeScriptCompile Include="src\services\api.ts" />
+    <TypeScriptCompile Include="src\views\Home\Home.ts" />
     <TypeScriptCompile Include="vue.config.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
