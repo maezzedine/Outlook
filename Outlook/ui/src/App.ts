@@ -1,15 +1,24 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Home from './views/Home/Home.vue';
-import { initializeTheming } from 'css-theming';
+import { initializeTheming, getTheme, getThemes } from 'css-theming';
 
 @Component({
     components: {
         Home
+    },
+    data() {
+        return {
+            themes: getThemes()
+        }
     }
     
 })
 export default class extends Vue {
     created() {
-        initializeTheming();
+        initializeTheming(getTheme("default"));
+        //initializeTheming(getTheme("default-dark"));
+        //setTheme(getTheme("default-dark"));
+
+
     }
 }

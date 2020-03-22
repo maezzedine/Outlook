@@ -1,1 +1,59 @@
 @import '_mixins.scss';
+
+
+$ct-themes: ( 
+    'default': ( 
+        'brightness': 'light', 
+
+        'bg-0': "#F3F7FA", // main 
+        'bg-1' : "#E0E0E2", // side
+        'bg-2' : "white" // top
+    ), 
+    'default-dark': (
+        'brightness': 'dark', 
+        
+        'bg-0' : "#455a64", // main
+        'bg-1' : "#15202b", // side
+        'bg-2' : "#101921" // top
+    ), 
+);
+
+@import '../../node_modules/css-theming/src/scss/pure';
+
+
+:root {
+    --light-50: white;
+    --light-75: #FBFCFD;
+    --light-100: #F7F9FC;
+    --light-200: #F3F7FA;
+    --light-300: #E9F1F7;
+    --light-400: #F3F3F5;
+    --light-500: #E0E0E2;
+    /**/
+    --dark-50: #D4DCE1;
+    --dark-75: #4a4a4a;
+    --dark-100: #455a64;
+    --dark-200: #15202b;
+    --dark-500: black;
+}
+
+/*// Definition of our light theme:
+.theme-light body {
+    --bg-0: var(--bg-main);
+    --bg-1: #E0E0E2;
+    --bg-2: white;
+
+    --txt-0: #4a4a4a;
+    --txt-1: #747474;
+    --txt-2: #a5a5a5;
+}
+
+.theme-light body {
+    --bg-0: #15202b;
+    --bg-1: #455a64;
+    --bg-2: black;
+
+    --txt-0: white;
+    --txt-1: #b5b5b5;
+    --txt-2: #cfcfcf;
+}*/

@@ -1,1 +1,9 @@
 @import '../node_modules/css-theming/src/scss/css-theming';
+
+@include ct-themes-apply {
+    --main-background: #{map-get($theme, 'bg-0')};
+}
+
+body {
+    background: var(--main-background);
+}
