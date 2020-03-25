@@ -3,14 +3,14 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <Name>ui</Name>
-    <RootNamespace>ui</RootNamespace>
+    <Name>web</Name>
+    <RootNamespace>web</RootNamespace>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>2a6268ee-aafc-4ab3-8cfe-c5ca06e3cc90</ProjectGuid>
+    <ProjectGuid>b5397962-44ea-4536-b299-536203d4e7ad</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>node_modules\@vue\cli-service\bin\vue-cli-service.js</StartupFile>
     <SearchPath>
@@ -31,19 +31,18 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="public\favicon.ico" />
     <Content Include="public\index.html" />
     <Content Include="src\App.scss" />
     <Content Include="src\App.vue" />
-    <Content Include="src\components\navbar\navbar.vue" />
-    <Content Include="src\styles\_mixins.scss" />
-    <Content Include="src\styles\_queries.scss" />
-    <Content Include="src\styles\_variables.scss" />
+    <Content Include="src\components\navbar\Navbar.scss" />
+    <Content Include="src\components\navbar\Navbar.vue" />
     <Content Include="src\views\Home\Home.scss" />
     <Content Include="src\views\Home\Home.vue" />
-    <Content Include="vue.config.js" />
     <Content Include="tsconfig.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="vue.config.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
@@ -52,9 +51,9 @@
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
     <Folder Include="src\components\navbar\" />
-    <Folder Include="src\views\" />
-    <Folder Include="src\styles\" />
     <Folder Include="src\services\" />
+    <Folder Include="src\styles\" />
+    <Folder Include="src\views\" />
     <Folder Include="src\views\Home\" />
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +65,9 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="router.ts" />
     <TypeScriptCompile Include="src\App.ts" />
-    <TypeScriptCompile Include="src\router.ts" />
-    <TypeScriptCompile Include="src\services\api.ts" />
+    <TypeScriptCompile Include="src\components\navbar\Navbar.ts" />
     <TypeScriptCompile Include="src\views\Home\Home.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />

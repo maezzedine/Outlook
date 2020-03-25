@@ -1,9 +1,9 @@
 import { Vue, Component } from 'vue-property-decorator';
-import navbar from '@/components/navbar/navbar.vue';
+import outlookNavbar from '@/components/navbar/Navbar.vue';
 
 @Component({
-    components: { navbar }
+    name: "Home",
+    components: { outlookNavbar }
 })
 export default class Home extends Vue {
-    
 } 

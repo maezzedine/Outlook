@@ -1,6 +1,6 @@
 <template>
     <div>
-        <navbar />
+        <outlook-navbar />
     </div>
 </template>
 
