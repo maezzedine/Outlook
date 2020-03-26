@@ -13,6 +13,11 @@ export class Api {
         var response = await axios.get(API_URL + 'issues/' + volumeID);
         return response.data;
     }
+
+    async getLanguageFile(lang: string) {
+        var response = await fetch(lang + '.json').then(d => d.json());
+        return response;
+    }
 }
 
 export const api = new Api();

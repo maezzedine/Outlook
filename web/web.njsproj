@@ -33,13 +33,19 @@
   <ItemGroup>
     <Content Include=".env" />
     <Content Include=".env.production" />
-    <Content Include="public\favicon.ico" />
+    <Content Include="public\ar.json">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="public\index.html" />
+    <Content Include="public\logo.svg" />
     <Content Include="src\App.scss" />
     <Content Include="src\App.vue" />
     <Content Include="src\components\navbar\Navbar.scss" />
     <Content Include="src\components\navbar\Navbar.vue" />
     <Content Include="src\components\svgs\svg-outlook.vue" />
+    <Content Include="public\en.json">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\styles\_mixins.scss" />
     <Content Include="src\styles\_queries.scss" />
     <Content Include="src\styles\_variables.scss" />
@@ -74,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\models\issue.ts" />
+    <TypeScriptCompile Include="src\models\language.ts" />
     <TypeScriptCompile Include="src\models\volume.ts" />
     <TypeScriptCompile Include="src\router.ts" />
     <TypeScriptCompile Include="src\App.ts" />
