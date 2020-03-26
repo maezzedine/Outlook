@@ -1,0 +1,56 @@
+.navbar {
+    background: var(--bg-2);
+    padding-left: 5%;
+    padding-right: 5%;
+    /*justify-content: space-around;*/
+    .form-control {
+        @include row();
+        background: var(--bg-0);
+        border-color: var(--fg-2);
+        justify-content: space-between;
+
+        input, span {
+            @include borderless();
+            height: 100%;
+            outline: none;
+        }
+    }
+
+    .form-control::placeholder {
+        color: var(--text-2);
+    }
+
+    .archives {
+        @include row();
+
+        * {
+            color: var(--text-0);
+            outline: none;
+        }
+
+        .archive {
+            @include borderless();
+            /*color: var(--text-0);*/
+        }
+
+        .dropdown-menu {
+            background: var(--fg-2);
+
+            .dropdown-item:hover {
+                background: var(--fg-0);
+            }
+
+            .choice {
+                background: var(--fg-3);
+            }
+        }
+
+        .btn {
+            border-color: var(--bg-0);
+        }
+
+            .btn:hover {
+                background: var(--bg-0);
+            }
+    }
+}

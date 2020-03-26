@@ -348,3 +348,6 @@ appsettings.Development.json
 *.cer
 *.key
 *.pfx
+
+.env
+.env.production

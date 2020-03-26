@@ -1,9 +1,26 @@
 @import '../node_modules/css-theming/src/scss/css-theming';
 
 @include ct-themes-apply {
-    --main-background: #{map-get($theme, 'bg-0')};
+    --bg-0: #{map-get($theme, 'bg-0')};
+    --bg-1: #{map-get($theme, 'bg-1')};
+    --bg-2: #{map-get($theme, 'bg-2')};
+
+    --fg-0: #{map-get($theme, 'fg-0')};
+    --fg-1: #{map-get($theme, 'fg-1')};
+    --fg-2: #{map-get($theme, 'fg-2')};
+    --fg-3: #{map-get($theme, 'fg-3')};
+    --fg-4: #{map-get($theme, 'fg-4')};
+    
+    --text-0:  #{map-get($theme, 'text-0')};
+    --text-1:  #{map-get($theme, 'text-1')};
+    --text-2:  #{map-get($theme, 'text-2')};
+
+    --logo-color: #{map-get($theme, 'text-0')};
+    --logo-hover: #{map-get($theme, 'logo-hover')};
 }
 
 body {
-    background: var(--main-background);
+    background: var(--bg-0);
+    margin: 0;
+    font-family: 'Baloo Da 2', cursive;
 }

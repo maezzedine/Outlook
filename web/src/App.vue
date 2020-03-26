@@ -1,6 +1,7 @@
 <template>
     <div id="app">
-        <Home />
+        <outlook-navbar @theme-toggled="toggleTheme"/>
+        <!--<Home />-->
     </div>
 </template>
 
