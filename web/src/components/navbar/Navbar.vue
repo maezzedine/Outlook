@@ -1,56 +1,59 @@
 <template>
-    <div>
-        <nav class="navbar">
+    <nav class="navbar">
 
-            <!-- <logo> -->
-            <div @click="$emit('theme-toggled')">
-                <svg-outlook></svg-outlook>
-            </div>
-            <!-- </logo> -->
+        <!-- <logo> -->
+        <div @click="$emit('theme-toggled')">
+            <svg-outlook></svg-outlook>
+        </div>
+        <!-- </logo> -->
 
-            <!-- <search bar> -->
-            <div class="d-none d-sm-flex form-control col-3">
-                <input type="text" :placeholder="language.search" />
-                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
-            </div>
-            <!-- </search bar> -->
+        <!-- <search bar> -->
+        <div class="d-none d-sm-flex form-control col-3">
+            <input type="text" :placeholder="language.search" />
+            <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
+        </div>
+        <!-- </search bar> -->
+
             
-            <!-- <archives> -->
-            <div class="archives">
+        <!-- <archives> -->
+        <div class="archives">
                
-                <!-- <volumes dropdown> -->
-                <div class="btn-group mx-sm-0 mx-md-1">
-                    <button type="button" class="archive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :title="language.volumes">
-                        <i class="fas fa-archive"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <button v-for="volume in Volumes" class="dropdown-item" type="button" @click="setVolume(volume)" :class="{choice : volume.id == Volume.id}">{{language.volume}} {{volume.volumeNumber}} | {{volume.fallYear}} - {{volume.springYear}}</button>
-                    </div>
+            <!-- <volumes dropdown> -->
+            <div class="btn-group mx-sm-0 mx-md-1">
+                <button type="button" class="archive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :title="language.volumes">
+                    <i class="fas fa-archive"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <button v-for="volume in Volumes" class="dropdown-item" type="button" @click="setVolume(volume)" :class="{choice : volume.id == Volume.id}">
+                        {{language.volume}} {{volume.volumeNumber}} | {{volume.fallYear}} - {{volume.springYear}}</button>
                 </div>
-                <!-- </volumes dropdown> -->
-                
-                <!-- <issues dropdown> -->
-                <div class="btn-group mx-sm-0 mx-md-1">
-                    <button type="button" class="archive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :title="language.issue">
-                        <i class="far fa-newspaper"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <button v-for="issue in Issues" class="dropdown-item" type="button" @click="setIssue(issue)" :class="{choice : issue.id == Issue.id}">{{language.issue}} {{issue.issueNumber}}</button>
-                    </div>
-                </div>
-                <!-- </issues dropdown> -->
-
-                <!-- <Meet Outlook> -->
-                <div class="btn mx-sm-0 mx-md-2">{{language.about}}</div>
-                <!-- </Meet Outlook> -->
-                <button class="btn mx-sm-0 mx-md-2" @click="$emit('language-toggled')">{{language.language}}</button>
-
             </div>
-            <!-- </archives> -->
+            <!-- </volumes dropdown> -->
+                
+            <!-- <issues dropdown> -->
+            <div class="btn-group mx-sm-0 mx-md-1">
+                <button type="button" class="archive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :title="language.issue">
+                    <i class="far fa-newspaper"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <button v-for="issue in Issues" class="dropdown-item" type="button" @click="setIssue(issue)" :class="{choice : issue.id == Issue.id}">
+                        {{language.issue}} {{issue.issueNumber}}</button>
+                </div>
+            </div>
+            <!-- </issues dropdown> -->
 
-        </nav>
-    </div>
+            <!-- <Meet Outlook> -->
+            <div class="btn mx-sm-0 mx-md-2">{{language.about}}</div>
+            <!-- </Meet Outlook> -->
+
+            <!-- <Change Language> -->
+            <button class="btn mx-sm-0 mx-md-2" @click="$emit('language-toggled')">{{language.language}}</button>
+            <!-- </Change Language> -->
+
+        </div>
+        <!-- </archives> -->
+    </nav>
 </template>
 
 <script lang="ts" src="./Navbar.ts"></script>
-<style lang="scss" src="./Navbar.scss"></style>
+<style lang="scss" src="./Navbar.scss" scoped></style>

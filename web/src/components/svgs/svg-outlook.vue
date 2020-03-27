@@ -13,8 +13,8 @@
 <style lang="scss" scoped>
     .svg-outlook {
         width: 40px;
-        stroke: var(--logo-color);
-        fill: var(--logo-color);
+        stroke: var(--fg-4);
+        fill: var(--fg-4);
     }
 
         .svg-outlook:hover {

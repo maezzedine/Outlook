@@ -19,8 +19,20 @@
     --logo-hover: #{map-get($theme, 'logo-hover')};
 }
 
-body {
-    background: var(--bg-0);
-    margin: 0;
-    font-family: 'Baloo Da 2', cursive;
+:root {
+
+    body {
+        display: flex;
+        flex-direction: column;
+        background: var(--bg-0);
+        height: 100%;
+        font-family: 'Baloo Da 2', cursive;
+        color: var(--text-0);
+
+        #app {
+            @include col();
+            flex-grow: 1;
+        }
+    }
 }
+

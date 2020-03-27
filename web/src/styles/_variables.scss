@@ -1,40 +1,39 @@
 @import '_mixins.scss';
 
-
 $ct-themes: ( 
     'default': ( 
         'brightness': 'light', 
 
-        'bg-0': "#F3F3F5", // main 
-        'bg-1' : "#E0E0E2", // side
-        'bg-2' : "white", // top
+        'bg-0': #f7f8f9, // main 
+        'bg-1' : #f2f2f5, // side
+        'bg-2' : white, // top
 
-        'fg-0': mix(grey, white, 15%),
-        'fg-1': mix(grey, white, 25%),
-        'fg-2': mix(grey, white, 35%),
-        'fg-3': mix(grey, white, 45%),
-        'fg-4': mix(grey, white, 55%),
+        'fg-0': mix(#4c4caa, white, 15%),
+        'fg-1': mix(#4c4caa, white, 25%),
+        'fg-2': mix(#4c4caa, white, 35%),
+        'fg-3': mix(#4c4caa, white, 65%),
+        'fg-4': mix(#4c4caa, white, 85%),
 
-        'text-0': mix(white, black, 15%),
+        'text-0': mix(#4c4caa, black, 55%),
         'text-1': mix(white, black, 25%),
         'text-2': mix(white, black, 35%),
 
-        'logo-hover' : mix(blue, black, 35%),
+        'logo-hover' : mix(black, blue, 35%),
     ), 
     'default-dark': (
         'brightness': 'dark', 
         
-        'bg-0' :  #1e2934, // main
-        'bg-1' : "#455a64", // side
-        'bg-2' : "#101921", // top
+        'bg-0' : #1e2934, // main
+        'bg-1' : #101921, // side
+        'bg-2' : #0c1115, // top
 
-        'fg-0': mix(grey, black, 15%),
-        'fg-1': mix(grey, black, 25%),
-        'fg-2': mix(grey, black, 35%),
-        'fg-3': mix(grey, black, 45%),
-        'fg-4': mix(grey, black, 55%),
+        'fg-0': mix(black, #324055, 15%),
+        'fg-1': mix(black, #99e3ff, 25%),
+        'fg-2': mix(black, #99e3ff, 35%),
+        'fg-3': mix(black, #99e3ff, 45%),
+        'fg-4': mix(black, #99e3ff, 55%),
 
-        'text-0': mix(black, white, 35%),
+        'text-0': mix(white, #4c4caa,25%),
         'text-1': mix(black, white, 45%),
         'text-2': mix(black, white, 55%),
 
@@ -43,24 +42,3 @@ $ct-themes: (
 );
 
 @import '../../node_modules/css-theming/src/scss/pure';
-
-/*// Definition of our light theme:
-.theme-light body {
-    --bg-0: var(--bg-main);
-    --bg-1: #E0E0E2;
-    --bg-2: white;
-
-    --txt-0: #4a4a4a;
-    --txt-1: #747474;
-    --txt-2: #a5a5a5;
-}
-
-.theme-light body {
-    --bg-0: #15202b;
-    --bg-1: #455a64;
-    --bg-2: black;
-
-    --txt-0: white;
-    --txt-1: #b5b5b5;
-    --txt-2: #cfcfcf;
-}*/

@@ -1,0 +1,77 @@
+body {
+    .sidebar {
+        @include col();
+        padding: 1% 0 0 0;
+        flex-grow: 1;
+        color: var(--text-1);
+        background: var(--bg-1);
+        width: var(--sidebar-width);
+        transition: transform ease-in-out 0.1s;
+        overflow-y: auto;
+        /*transform: translateX(calc(-1 * var(--sidebar-width)));*/
+
+        .main:nth-child(2) {
+            color: var(--text-2);
+        }
+
+        .main {
+            @include col();
+            margin-bottom: 30%;
+
+            span {
+                text-align: initial;
+                margin-left: 5%;
+                margin-right: 5%;
+                font-size: smaller;
+            }
+
+            *:not(i) {
+            }
+        }
+
+        .side-tab {
+            width: inherit;
+            @include row();
+            flex-basis: 1%;
+            flex-flow: row;
+
+            .edge {
+                border-left: 4px solid var(--bg-1);
+                height: 100%;
+                width: 4px;
+            }
+
+            .tab {
+                @include col();
+                flex-grow: 1;
+                text-align: center;
+                padding: 10%;
+                cursor: pointer;
+                justify-content: center;
+                align-content: center;
+            }
+        }
+
+        .side-tab:hover {
+            background: var(--bg-0);
+
+            .edge {
+                border-left: 4px solid var(--fg-2);
+            }
+        }
+
+        .icon-btn {
+            color: var(--text-2);
+            margin-top: auto;
+            margin-left: 3%;
+            margin-right: 3%;
+            align-self: start;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .icon-btn:hover {
+            color: var(--text-0);
+        }
+    }
+}

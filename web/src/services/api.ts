@@ -9,12 +9,20 @@ export class Api {
         return response.data;
     }
 
-    async getIssues(volumeID: Number) {
-        var response = await axios.get(API_URL + 'issues/' + volumeID);
+    async getIssues(volumeId: Number) {
+        var response = await axios.get(API_URL + 'issues/' + volumeId);
         return response.data;
     }
 
-    async getLanguageFile(lang: string) {
+    async getCategories() {
+        var response = await axios.get(API_URL + 'categories');
+        return response.data;
+    }
+
+    async getLanguageFile(lang: string | null) {
+        if (lang == null) {
+            return;
+        }
         var response = await fetch(lang + '.json').then(d => d.json());
         return response;
     }

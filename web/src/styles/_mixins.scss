@@ -1,7 +1,16 @@
-@mixin row() {
+@mixin flex-wrap() {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
+}
+
+@mixin row() {
+    @include flex-wrap();
+    flex-direction: row;
+}
+
+@mixin col() {
+    @include flex-wrap();
+    flex-direction: column;
 }
 
 @mixin borderless() {

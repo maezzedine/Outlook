@@ -1,37 +1,32 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { initializeTheming, getTheme, getCurrentTheme, setTheme } from 'css-theming';
+import { initializeTheming, getTheme, getCurrentTheme, setTheme, Theme } from 'css-theming';
 import { api } from './services/api';
 import Home from './views/Home/Home.vue';
 import outlookNavbar from '@/components/navbar/Navbar.vue';
-import { Language } from '@/models/language';
+import outlookSidebar from '@/components/sidebar/Sidebar.vue';
+import { Issue } from './models/issue';
 
 @Component({
     name: 'App',
     components: {
-        Home, outlookNavbar
+        Home, outlookNavbar, outlookSidebar
     },
     data() {
         return {
-            Language: undefined
+            Language: {},
+            Issue: null,
+            Theme: 'default'
         }
-    }
+    },
 })
 export default class App extends Vue {
-    private lang: string = "en";
+    private lang: string | null = null;
 
     async created() {
+        this.initializeLanguageFromCache();
         await this.getLanguage();
         this.setPageSpecifications();
-
-        initializeTheming(getTheme("default"));
-
-        document.addEventListener('keypress', e => {
-            if (e.defaultPrevented) return;
-
-            if (e.key === 't') {
-                this.toggleTheme();
-            }
-        });
+        this.intializeThemeFromCache();
     }
 
     toggleTheme() {
@@ -46,18 +41,46 @@ export default class App extends Vue {
         }
        
         const previousTheme = getCurrentTheme();
-        const newTheme = previousTheme.name == 'default' ? 'default-dark' : 'default';
-        setTheme(getTheme(newTheme));
+        this.$data.Theme = previousTheme.name == 'default' ? 'default-dark' : 'default';
+        setTheme(getTheme(this.$data.Theme));
+        localStorage.setItem('theme', this.$data.Theme);
     }
 
     async toggleLang() {
         this.lang = (this.lang == 'en') ? 'ar' : 'en';
+        localStorage.setItem('language', this.lang);
         await this.getLanguage();
     }
 
     async getLanguage() {
         this.$data.Language = await api.getLanguageFile(this.lang);
     }
+
+    initializeLanguageFromCache() {
+        if (localStorage.getItem('language') != null) {
+            this.lang = localStorage.getItem('language');
+        }
+        else {
+            this.lang = "en";
+        }
+    }
+
+    intializeThemeFromCache() {
+        if (localStorage.getItem('theme') != null) {
+            this.$data.Theme = localStorage.getItem('theme');
+            initializeTheming(getTheme(this.$data.Theme));
+        }
+        else {
+            initializeTheming(getTheme("default"));
+            this.$data.Theme = getCurrentTheme().name;
+        }
+    }
+
+    setIssue(issue: Issue) {
+        this.$data.Issue = issue;
+    }
+
+
 
     @Watch('$data.Language')
     setPageSpecifications() {
@@ -67,19 +90,3 @@ export default class App extends Vue {
     }
 
 }
-
-/*
-
-  {
-  "dir": "rtl",
-  "font-family": "Amiri",
-  "serif;": null,
-  "search": "????",
-  "volumes": "??????",
-  "issues": "?????",
-  "about": "???? ??? ??????",
-  "language": "????????",
-  "volume": "????",
-  "issue": "???"
-}
-*/

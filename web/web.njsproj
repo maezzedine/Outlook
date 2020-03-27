@@ -42,6 +42,8 @@
     <Content Include="src\App.vue" />
     <Content Include="src\components\navbar\Navbar.scss" />
     <Content Include="src\components\navbar\Navbar.vue" />
+    <Content Include="src\components\sidebar\Sidebar.scss" />
+    <Content Include="src\components\sidebar\Sidebar.vue" />
     <Content Include="src\components\svgs\svg-outlook.vue" />
     <Content Include="public\en.json">
       <SubType>Code</SubType>
@@ -63,6 +65,7 @@
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
     <Folder Include="src\components\navbar\" />
+    <Folder Include="src\components\sidebar\" />
     <Folder Include="src\components\svgs\" />
     <Folder Include="src\models\" />
     <Folder Include="src\services\" />
@@ -79,6 +82,8 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\components\sidebar\Sidebar.ts" />
+    <TypeScriptCompile Include="src\models\category.ts" />
     <TypeScriptCompile Include="src\models\issue.ts" />
     <TypeScriptCompile Include="src\models\language.ts" />
     <TypeScriptCompile Include="src\models\volume.ts" />
