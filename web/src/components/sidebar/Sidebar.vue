@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar">
+    <div id="sidebar">
 
         <div class="main">
             <table>

@@ -4,9 +4,9 @@ $ct-themes: (
     'default': ( 
         'brightness': 'light', 
 
-        'bg-0': #f7f8f9, // main 
+        'bg-0': #f7f9fa, // main 
         'bg-1' : #f2f2f5, // side
-        'bg-2' : white, // top
+        'bg-2' : #fefefe, // top
 
         'fg-0': mix(#4c4caa, white, 15%),
         'fg-1': mix(#4c4caa, white, 25%),
@@ -17,6 +17,8 @@ $ct-themes: (
         'text-0': mix(#4c4caa, black, 55%),
         'text-1': mix(white, black, 25%),
         'text-2': mix(white, black, 35%),
+
+        'shadow' : rgba(184,184,184,1),
 
         'logo-hover' : mix(black, blue, 35%),
     ), 
@@ -36,6 +38,8 @@ $ct-themes: (
         'text-0': mix(white, #4c4caa, 25%),
         'text-1': mix(black, white, 45%),
         'text-2': mix(black, white, 55%),
+
+        'shadow' : rgba(87,85,87,1),
 
         'logo-hover' : mix(blue, white, 35%),
     ), 

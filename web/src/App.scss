@@ -17,6 +17,9 @@
 
     --logo-color: #{map-get($theme, 'text-0')};
     --logo-hover: #{map-get($theme, 'logo-hover')};
+
+    --shadow-right: inset -10px 0px 15px -14px #{map-get($theme, 'shadow')};
+    --shadow-left: inset 14px 0px 15px -14px #{map-get($theme, 'shadow')};
 }
 
 :root {
@@ -32,6 +35,18 @@
         #app {
             @include col();
             flex-grow: 1;
+
+            .window {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                flex-grow: 1;
+
+
+                .route {
+                    width: 100%;
+                }
+            }
         }
     }
 }

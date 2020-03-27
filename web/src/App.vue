@@ -3,9 +3,15 @@
         <outlook-navbar @theme-toggled="toggleTheme" @language-toggled="toggleLang" @set-issue="setIssue"
                         :language="Language"/>
 
-        <outlook-sidebar @theme-toggled="toggleTheme"
-                         :language="Language"></outlook-sidebar>
-        <!--<Home />-->
+        <div class="window">
+            <outlook-sidebar @theme-toggled="toggleTheme" :language="Language"></outlook-sidebar>
+
+            <router-view class="route"></router-view>
+
+        </div>
+
+
+
     </div>
 </template>
 

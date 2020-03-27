@@ -1,8 +1,7 @@
 body {
-    .sidebar {
+    #sidebar {
         @include col();
         padding: 1% 0 0 0;
-        flex-grow: 1;
         color: var(--text-1);
         background: var(--bg-1);
         width: var(--sidebar-width);
@@ -10,7 +9,6 @@ body {
         overflow-y: auto;
         color: var(--text-0);
         /*transform: translateX(calc(-1 * var(--sidebar-width)));*/
-
         .main:nth-child(2) {
             color: var(--text-2);
             font-weight: lighter;
@@ -76,5 +74,17 @@ body {
         .icon-btn:hover {
             color: var(--text-0);
         }
+    }
+
+    .box-shadow-right {
+        -webkit-box-shadow: var(--shadow-right);
+        -moz-box-shadow: var(--shadow-right);
+        box-shadow: var(--shadow-right);
+    }
+
+    .box-shadow-left {
+        -webkit-box-shadow: var(--shadow-left);
+        -moz-box-shadow: var(--shadow-left);
+        box-shadow: var(--shadow-left);
     }
 }

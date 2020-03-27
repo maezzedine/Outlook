@@ -18,6 +18,7 @@ export default class SideBar extends Vue {
         this.updateTheme();
         this.getIcons();
         this.getCategories();
+        this.addShadow();
     }
 
     @Watch('issue')
@@ -49,5 +50,21 @@ export default class SideBar extends Vue {
             return "";
         }
         return this.Icons[cat.tagName]
+    }
+
+    @Watch('$props.language')
+    addShadow() {
+        var sidebar = document.getElementById('sidebar');
+        console.log(sidebar);
+        if (sidebar != null) {
+            if (document.body.dir == 'rtl') {
+                sidebar.classList.remove('box-shadow-right');
+                sidebar.classList.add('box-shadow-left');
+            }
+            else {
+                sidebar.classList.remove('box-shadow-left');
+                sidebar.classList.add('box-shadow-right');
+            }
+        }
     }
 }
