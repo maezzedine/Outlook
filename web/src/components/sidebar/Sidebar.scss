@@ -15,57 +15,51 @@ body {
             color: var(--text-2);
             font-weight: lighter;
             font-size: smaller;
+
+            th {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
         }
 
         .main {
             @include col();
-            margin-bottom: 30%;
+            margin-bottom: 20%;
 
             span {
                 text-align: initial;
                 margin-left: 10%;
                 margin-right: 10%;
                 font-weight: 600;
+                font-size: smaller;
             }
 
-            .side-tab {
-                width: inherit;
-                @include row();
-                flex-basis: 1%;
-                flex-flow: row;
+            table {
 
-                .edge {
-                    border-left: 4px solid var(--bg-1);
-                    height: 100%;
-                    width: 4px;
-                }
+                tr {
+                    border-top: 12px solid transparent;
+                    border-bottom: 12px solid transparent;
+                    border-right: 2px solid transparent;
+                    border-left: 2px solid transparent;
 
-                .tab {
-                    @include col();
-                    flex-grow: 1;
-                    padding: 1% 10%;
-                    cursor: pointer;
-                    justify-content: center;
-                    height: 30px;
-                    align-content: flex-start;
+                    th {
+                        text-align: center;
 
-                    .fontawesome {
-                        font-size: larger;
+                        .fontawesome {
+                            font-size: larger;
+                        }
+                    }
+
+                    td {
+                        text-align: initial;
                     }
                 }
 
-                i:not(.edge) {
-                    margin-left: 6%;
-                    margin-right: 6%;
+                tr:hover {
+                    background: var(--bg-0);
+                    border-right: 2px solid var(--fg-2);
+                    border-left: 2px solid var(--fg-2);
                 }
-            }
-        }
-
-        .side-tab:hover {
-            background: var(--bg-0);
-
-            .edge {
-                border-left: 4px solid var(--fg-2);
             }
         }
 

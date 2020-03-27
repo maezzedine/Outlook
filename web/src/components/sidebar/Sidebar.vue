@@ -2,25 +2,27 @@
     <div class="sidebar">
 
         <div class="main">
-            <div class="side-tab">
-                <i class="edge"></i>
-                <a class="tab"><i class="fas fa-home"></i>{{language.mainmenu}}</a>
-            </div>
-            <div class="side-tab">
-                <i class="edge"></i>
-                <a class="tab"><i class="fas fa-file-pdf"></i> {{language.pdf}} </a>
-            </div>
+            <table>
+                <tr>
+                    <th><i class="fas fa-home"></i></th>
+                    <td>{{language.mainmenu}}</td>
+                </tr>
+                <tr>
+                    <th><i class="fas fa-file-pdf"></i></th>
+                    <td>{{language.pdf}}</td>
+                </tr>
+            </table>
         </div>
 
         <!--<Categories>  -->
         <div class="main">
             <span>{{language.categories}}</span>
-            <div class="side-tab" v-for="cat in Categories" v-if="showCategory(cat)" >
-                <i class="edge"></i>
-                <a class="tab">
-                    <i class="fontawesome" :class="getCategoryIcon(cat)"></i> {{cat.categoryName}}
-                </a>
-            </div>        
+            <table>
+                <tr v-for="cat in Categories" v-if="showCategory(cat)">
+                    <th><i class="fontawesome" :class="getCategoryIcon(cat)"></i></th>
+                    <td>{{cat.categoryName}}</td>
+                </tr>
+            </table>      
         </div>
         <!--</Categories>  -->
 
