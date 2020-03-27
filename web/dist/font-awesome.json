@@ -1,0 +1,11 @@
+{
+  "news": "far fa-newspaper",
+  "lifestyle": "fas fa-street-view",
+  "opinion": "fas fa-comments",
+  "art": "fas fa-coffe",
+  "culture": "fas fa-coffe",
+  "personality": "fas fa-id-card-alt",
+  "gender": "fas fa-venus-mars",
+  "society": "fas fa-users",
+  "cover": "fas fa-exclamation"
+}

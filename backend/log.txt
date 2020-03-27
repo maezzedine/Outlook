@@ -6,3 +6,17 @@
 3/16/2020 8:28:33 PM | Admin created Issue `1` in Volume 53 
 3/16/2020 8:28:50 PM | Admin created article of title `هذا عنوان` and ID `44`
 3/16/2020 9:51:55 PM | WebEditor1 created Issue `9` in Volume 52 
+3/27/2020 3:56:42 PM | Admin created Category `Lifestyle` and ID `8`.
+3/27/2020 3:57:04 PM | Admin created Category `Arts` and ID `9`.
+3/27/2020 3:57:37 PM | Admin created Category `Opinions` and ID `10`.
+3/27/2020 4:11:17 PM | Admin attempts to delete Category `Arts`
+3/27/2020 4:11:17 PM | Delete Completed.
+3/27/2020 4:11:25 PM | Admin created Category `Arts` and ID `11`.
+3/27/2020 7:37:54 PM | Admin editted Category `آراء`
+3/27/2020 7:38:15 PM | Admin editted Category `ثقافة وفن`
+3/27/2020 7:40:39 PM | Admin editted Category `آراء`
+3/27/2020 7:42:03 PM | Admin editted Category `ثقافة وفن`
+3/27/2020 7:42:07 PM | Admin editted Category `من المجتمع`
+3/27/2020 7:42:12 PM | Admin editted Category `Lifestyle`
+3/27/2020 7:42:17 PM | Admin editted Category `Opinions`
+3/27/2020 7:42:27 PM | Admin editted Category `Arts`

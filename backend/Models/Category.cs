@@ -2,6 +2,7 @@
 using backend.Validation_Attributes;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
@@ -9,10 +10,13 @@ namespace backend.Models
     {
         public int Id { get; set; }
         public Language Language { get; set; }
-        [CategoryUniqueness]
+        //[CategoryUniqueness]
         [DisplayName("Category Name")]
         public string CategoryName { get; set; }
         [DisplayName("Editors")]
         public IList<Member> JuniorEditors { get; set; }
+        public Tag Tag { get; set; }
+        [NotMapped]
+        public string TagName { get; set; }
     }
 }

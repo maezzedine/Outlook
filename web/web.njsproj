@@ -36,6 +36,9 @@
     <Content Include="public\ar.json">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="public\font-awesome.json">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="public\index.html" />
     <Content Include="public\logo.svg" />
     <Content Include="src\App.scss" />
@@ -84,6 +87,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\components\sidebar\Sidebar.ts" />
     <TypeScriptCompile Include="src\models\category.ts" />
+    <TypeScriptCompile Include="src\models\icons.ts" />
     <TypeScriptCompile Include="src\models\issue.ts" />
     <TypeScriptCompile Include="src\models\language.ts" />
     <TypeScriptCompile Include="src\models\volume.ts" />

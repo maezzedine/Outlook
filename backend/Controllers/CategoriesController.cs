@@ -90,7 +90,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Language,CategoryName")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Language,CategoryName,Tag")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -125,7 +125,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,CategoryName")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,CategoryName,Tag")] Category category)
         {
             if (id != category.Id)
             {

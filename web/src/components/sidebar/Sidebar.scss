@@ -8,10 +8,13 @@ body {
         width: var(--sidebar-width);
         transition: transform ease-in-out 0.1s;
         overflow-y: auto;
+        color: var(--text-0);
         /*transform: translateX(calc(-1 * var(--sidebar-width)));*/
 
         .main:nth-child(2) {
             color: var(--text-2);
+            font-weight: lighter;
+            font-size: smaller;
         }
 
         .main {
@@ -20,35 +23,41 @@ body {
 
             span {
                 text-align: initial;
-                margin-left: 5%;
-                margin-right: 5%;
-                font-size: smaller;
+                margin-left: 10%;
+                margin-right: 10%;
+                font-weight: 600;
             }
 
-            *:not(i) {
-            }
-        }
+            .side-tab {
+                width: inherit;
+                @include row();
+                flex-basis: 1%;
+                flex-flow: row;
 
-        .side-tab {
-            width: inherit;
-            @include row();
-            flex-basis: 1%;
-            flex-flow: row;
+                .edge {
+                    border-left: 4px solid var(--bg-1);
+                    height: 100%;
+                    width: 4px;
+                }
 
-            .edge {
-                border-left: 4px solid var(--bg-1);
-                height: 100%;
-                width: 4px;
-            }
+                .tab {
+                    @include col();
+                    flex-grow: 1;
+                    padding: 1% 10%;
+                    cursor: pointer;
+                    justify-content: center;
+                    height: 30px;
+                    align-content: flex-start;
 
-            .tab {
-                @include col();
-                flex-grow: 1;
-                text-align: center;
-                padding: 10%;
-                cursor: pointer;
-                justify-content: center;
-                align-content: center;
+                    .fontawesome {
+                        font-size: larger;
+                    }
+                }
+
+                i:not(.edge) {
+                    margin-left: 6%;
+                    margin-right: 6%;
+                }
             }
         }
 

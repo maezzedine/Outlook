@@ -26,6 +26,11 @@ export class Api {
         var response = await fetch(lang + '.json').then(d => d.json());
         return response;
     }
+
+    async getIcons() {
+        var response = await fetch('font-awesome.json').then(d => d.json());
+        return response;
+    }
 }
 
 export const api = new Api();

@@ -25,7 +25,14 @@ namespace backend.APIs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategory()
         {
-            return await context.Category.ToListAsync();
+            var categories = context.Category;
+
+            foreach (var category in categories)
+            {
+                category.TagName = category.Tag.ToString();
+            }
+
+            return await categories.ToListAsync();
         }
 
         // GET: api/Categories/5

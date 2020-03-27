@@ -8,7 +8,7 @@
         <!-- </logo> -->
 
         <!-- <search bar> -->
-        <div class="d-none d-sm-flex form-control col-3">
+        <div class="d-none d-sm-flex form-control col-4">
             <input type="text" :placeholder="language.search" />
             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
         </div>
@@ -20,7 +20,7 @@
                
             <!-- <volumes dropdown> -->
             <div class="btn-group mx-sm-0 mx-md-1">
-                <button type="button" class="archive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :title="language.volumes">
+                <button type="button" class="archive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :data-title="language.volumes">
                     <i class="fas fa-archive"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -32,8 +32,8 @@
                 
             <!-- <issues dropdown> -->
             <div class="btn-group mx-sm-0 mx-md-1">
-                <button type="button" class="archive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :title="language.issue">
-                    <i class="far fa-newspaper"></i>
+                <button type="button" class="archive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :data-title="language.issue">
+                    <i class="fas fa-newspaper"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <button v-for="issue in Issues" class="dropdown-item" type="button" @click="setIssue(issue)" :class="{choice : issue.id == Issue.id}">
@@ -42,13 +42,16 @@
             </div>
             <!-- </issues dropdown> -->
 
+            <!-- <Change Language> -->
+            <button class="archive" :data-title="language.language">
+                <i class="fas fa-globe" @click="$emit('language-toggled')"></i>
+            </button>
+            <!-- </Change Language> -->
+
             <!-- <Meet Outlook> -->
             <div class="btn mx-sm-0 mx-md-2">{{language.about}}</div>
             <!-- </Meet Outlook> -->
 
-            <!-- <Change Language> -->
-            <button class="btn mx-sm-0 mx-md-2" @click="$emit('language-toggled')">{{language.language}}</button>
-            <!-- </Change Language> -->
 
         </div>
         <!-- </archives> -->

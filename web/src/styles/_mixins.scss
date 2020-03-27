@@ -17,3 +17,30 @@
     border: none;
     background-color: inherit;
 }
+
+@mixin div-title() {
+    [data-title]:hover:after {
+        opacity: 1;
+        transition: all 0.1s ease 0.5s;
+        visibility: visible;
+    }
+
+    [data-title]:after {
+        content: attr(data-title);
+        background-color: var(--fg-0);
+        color: var(--text-1);
+        position: absolute;
+        padding: 1px 5px 2px 5px;
+        bottom: -1.6em;
+        left: 100%;
+        white-space: nowrap;
+        box-shadow: 1px 1px 3px #222222;
+        opacity: 0;
+        z-index: 99999;
+        visibility: hidden;
+    }
+
+    [data-title] {
+        position: relative;
+    }
+}

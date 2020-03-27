@@ -16,6 +16,10 @@ body {
                 height: 100%;
                 outline: none;
             }
+
+            input {
+                flex: 1;
+            }
         }
 
         .form-control::placeholder {
@@ -24,6 +28,7 @@ body {
 
         .archives {
             @include row();
+            @include div-title();
 
             * {
                 color: var(--text-0);
@@ -34,6 +39,7 @@ body {
                 @include borderless();
                 /*color: var(--text-0);*/
             }
+
 
             .dropdown-menu {
                 background: var(--fg-0);

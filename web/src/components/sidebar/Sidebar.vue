@@ -4,11 +4,11 @@
         <div class="main">
             <div class="side-tab">
                 <i class="edge"></i>
-                <a class="tab">{{language.mainmenu}}</a>
+                <a class="tab"><i class="fas fa-home"></i>{{language.mainmenu}}</a>
             </div>
             <div class="side-tab">
                 <i class="edge"></i>
-                <a class="tab"><i class="fas fa-file-pdf mx-1"></i> {{language.pdf}} </a>
+                <a class="tab"><i class="fas fa-file-pdf"></i> {{language.pdf}} </a>
             </div>
         </div>
 
@@ -17,7 +17,9 @@
             <span>{{language.categories}}</span>
             <div class="side-tab" v-for="cat in Categories" v-if="showCategory(cat)" >
                 <i class="edge"></i>
-                <a class="tab">{{cat.categoryName}}<br /></a>
+                <a class="tab">
+                    <i class="fontawesome" :class="getCategoryIcon(cat)"></i> {{cat.categoryName}}
+                </a>
             </div>        
         </div>
         <!--</Categories>  -->
