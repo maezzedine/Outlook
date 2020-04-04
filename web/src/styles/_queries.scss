@@ -1,14 +1,18 @@
 @media (min-width: 1950px) {
     :root {
-        --sidebar-width: 200px;
+        --sidebar-width: 180px;
         --route-width: 100%;
+        --main-width: calc(100vw - var(--sidebar-width));
+        --navbar-transform: translateX(var(--sidebar-width));
     }
 }
 
 @media (max-width: 1950px) {
     :root {
-        --sidebar-width: 200px;
+        --sidebar-width: 180px;
         --route-width: 100%;
+        --main-width: calc(100vw - var(--sidebar-width));
+        --navbar-transform: translateX(var(--sidebar-width));
     }
 }
 
@@ -20,5 +24,7 @@
 @media (max-width: 700px) {
     :root {
         --route-width: 100vw;
+        --main-width: 100vw;
+        --navbar-transform: none;
     }
 }

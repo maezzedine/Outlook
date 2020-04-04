@@ -89,6 +89,8 @@ export default class App extends Vue {
             logo.classList.add('svg-outlook-rotate-left');
         }
 
-        this.expanded = !this.expanded;
+        if (screen.width < 700) {
+            this.expanded = !this.expanded;
+        }
     }
 }

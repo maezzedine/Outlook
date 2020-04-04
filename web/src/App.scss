@@ -35,19 +35,20 @@
         #app {
             @include col();
             flex-grow: 1;
-            width: 100vw;
+
+            .navbar {
+                width: var(--main-width);
+            }
 
             .window {
-                width: 100%;
                 display: flex;
                 flex-direction: row;
                 flex-grow: 1;
-
+                width: var(--main-width);
 
                 .route {
                     overflow: auto;
                     width: 100%;
-                    overflow-y: auto;
                     transition: transform ease .3s;
                 }
             }
