@@ -19,6 +19,7 @@ export default class SideBar extends Vue {
         this.getIcons();
         this.getCategories();
         this.addShadow();
+        this.collapseWhenSmall();
     }
 
     @Watch('issue')
@@ -64,6 +65,15 @@ export default class SideBar extends Vue {
             else {
                 sidebar.classList.remove('box-shadow-left');
                 sidebar.classList.add('box-shadow-right');
+            }
+        }
+    }
+
+    collapseWhenSmall() {
+        if (window.matchMedia('(max-width: 900px)').matches) {
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar != null) {
+                sidebar.classList.add('collapsed');
             }
         }
     }

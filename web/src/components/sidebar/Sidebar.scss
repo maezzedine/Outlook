@@ -1,14 +1,21 @@
 body {
+
     #sidebar {
         @include col();
+        top: 0;
+        /*top: 55px;*/
+        bottom: 0;
+        position: absolute;
         padding: 1% 0 0 0;
         color: var(--text-1);
         background: var(--bg-1);
         width: var(--sidebar-width);
         transition: transform ease-in-out 0.1s;
-        overflow-y: auto;
+        transform: translateX(calc(-1 * var(--sidebar-width)));
+        animation-delay: 1s;
+        overflow: auto;
         color: var(--text-0);
-        /*transform: translateX(calc(-1 * var(--sidebar-width)));*/
+
         .main:nth-child(2) {
             color: var(--text-2);
             font-weight: lighter;

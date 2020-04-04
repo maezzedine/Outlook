@@ -35,6 +35,7 @@
         #app {
             @include col();
             flex-grow: 1;
+            width: 100vw;
 
             .window {
                 width: 100%;
@@ -44,8 +45,22 @@
 
 
                 .route {
+                    overflow: auto;
                     width: 100%;
+                    overflow-y: auto;
                 }
+            }
+        }
+
+        .sidebar-expanded {
+
+            #sidebar {
+                transform: none;
+            }
+
+            .route, .navbar {
+                transition: transform ease-in-out .1s;
+                transform: translateX(var(--sidebar-width));
             }
         }
     }

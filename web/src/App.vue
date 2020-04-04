@@ -1,17 +1,14 @@
 <template>
-    <div id="app">
-        <outlook-navbar @theme-toggled="toggleTheme" @language-toggled="toggleLang" @set-issue="setIssue"
+    <div id="app" :class="[{ 'sidebar-expanded': expanded }]">
+        <outlook-navbar @theme-toggled="toggleTheme" @language-toggled="toggleLang" @set-issue="setIssue"  @expansion-toggled="toggleExpansion"
                         :language="Language"/>
 
         <div class="window">
             <outlook-sidebar @theme-toggled="toggleTheme" :language="Language"></outlook-sidebar>
 
-            <router-view class="route"></router-view>
+            <router-view id="route" class="route expand-route"></router-view>
 
         </div>
-
-
-
     </div>
 </template>
 

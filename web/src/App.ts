@@ -17,10 +17,11 @@ import { Issue } from './models/issue';
             Issue: null,
             Theme: 'default'
         }
-    },
+    }
 })
 export default class App extends Vue {
     private lang: string | null = null;
+    private expanded = false || screen.width > 700; // || screen.width > 700
 
     async created() {
         this.initializeLanguageFromCache();
@@ -80,8 +81,6 @@ export default class App extends Vue {
         this.$data.Issue = issue;
     }
 
-
-
     @Watch('$data.Language')
     setPageSpecifications() {
         document.body.dir = this.$data.Language.dir;
@@ -89,4 +88,7 @@ export default class App extends Vue {
         document.body.lang = this.$data.Language.lang;
     }
 
+    toggleExpansion() {
+        this.expanded = !this.expanded;
+    }
 }
