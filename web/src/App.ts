@@ -26,7 +26,7 @@ export default class App extends Vue {
     async created() {
         this.initializeLanguageFromCache();
         await this.getLanguage();
-        this.setPageSpecifications();
+        //this.setPageSpecifications();
         this.intializeThemeFromCache();
     }
 
@@ -39,6 +39,7 @@ export default class App extends Vue {
 
     async toggleLang() {
         this.lang = (this.lang == 'en') ? 'ar' : 'en';
+        // transform: translateX(calc( -1 * var(--sidebar-width)));
         localStorage.setItem('language', this.lang);
         await this.getLanguage();
     }
@@ -73,9 +74,35 @@ export default class App extends Vue {
 
     @Watch('$data.Language')
     setPageSpecifications() {
-        document.body.dir = this.$data.Language.dir;
         document.body.style.fontFamily = this.$data.Language.font;
         document.body.lang = this.$data.Language.lang;
+
+        var direction = this.$data.Language.dir;
+        document.body.dir = direction;
+
+        var navbar = document.getElementById('navbar');
+        var route = document.getElementById('route');
+        var sidebar = document.getElementById('sidebar');
+
+        if (navbar != null && route != null && sidebar != null) {
+
+            if (direction == 'rtl') {
+                navbar.classList.add('ar-expand');
+                navbar.classList.remove('en-expand');
+                route.classList.add('ar-expand');
+                route.classList.remove('en-expand');
+                sidebar.classList.add('ar-hide');
+                sidebar.classList.remove('en-hide');
+            }
+            else {
+                navbar.classList.add('en-expand');
+                navbar.classList.remove('ar-expand');
+                route.classList.add('en-expand');
+                route.classList.remove('ar-expand');
+                sidebar.classList.add('en-hide');
+                sidebar.classList.remove('ar-hide');
+            }
+        }
     }
 
     toggleExpansion() {
@@ -93,4 +120,5 @@ export default class App extends Vue {
             this.expanded = !this.expanded;
         }
     }
+
 }

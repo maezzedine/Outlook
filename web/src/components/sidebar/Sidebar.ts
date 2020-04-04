@@ -56,7 +56,6 @@ export default class SideBar extends Vue {
     @Watch('$props.language')
     addShadow() {
         var sidebar = document.getElementById('sidebar');
-        console.log(sidebar);
         if (sidebar != null) {
             if (document.body.dir == 'rtl') {
                 sidebar.classList.remove('box-shadow-right');

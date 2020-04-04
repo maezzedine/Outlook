@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar">
+    <nav id="navbar" class="navbar">
 
         <!-- <logo> -->
         <div @click="$emit('expansion-toggled')">

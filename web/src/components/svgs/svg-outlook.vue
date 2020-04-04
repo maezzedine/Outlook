@@ -5,11 +5,6 @@
     </svg>
 </template>
 
-<script lang="ts">
-    function rotate() {
-        console.log('f');
-    }
-</script>
 <style lang="scss" scoped>
     .svg-outlook {
         width: 40px;

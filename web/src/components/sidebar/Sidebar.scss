@@ -10,7 +10,6 @@ body {
         background: var(--bg-1);
         width: var(--sidebar-width);
         transition: transform ease 0.3s;
-        transform: translateX(calc(-1 * var(--sidebar-width)));
         animation-delay: 1s;
         overflow: auto;
         color: var(--text-0);
@@ -80,6 +79,14 @@ body {
         .icon-btn:hover {
             color: var(--text-0);
         }
+    }
+
+    .en-hide {
+        transform: translateX(calc(-1 * var(--sidebar-width)));
+    }
+
+    .ar-hide {
+        transform: translateX(var(--sidebar-width));
     }
 
     .box-shadow-right {
