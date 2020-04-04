@@ -8,9 +8,9 @@
         <!-- </logo> -->
 
         <!-- <search bar> -->
-        <div class="d-none d-sm-flex form-control col-4">
-            <input type="text" :placeholder="language.search" />
-            <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
+        <div class="d-none d-sm-flex col-4 form-control">
+            <input class="form-control" type="text" :placeholder="language.search" />
+            <i class="fas fa-search"></i>
         </div>
         <!-- </search bar> -->
 

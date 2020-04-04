@@ -29,19 +29,19 @@ $ct-themes: (
         'bg-1' : #101921, // side
         'bg-2' : #0c1115, // top
 
-        'fg-0': mix(black, #324055, 15%),
-        'fg-1': mix(black, #99e3ff, 25%),
+        'fg-0': mix(black, #99e3ff, 55%),
+        'fg-1': mix(black, #99e3ff, 45%),
         'fg-2': mix(black, #99e3ff, 35%),
-        'fg-3': mix(black, #99e3ff, 45%),
-        'fg-4': mix(black, #99e3ff, 55%),
+        'fg-3': mix(black, #99e3ff, 25%),
+        'fg-4': mix(black,  #324055, 15%),
 
-        'text-0': mix(white, #4c4caa, 25%),
+        'text-0': mix(white, #4c4caa, 05%),
         'text-1': mix(black, white, 45%),
         'text-2': mix(black, white, 55%),
 
         'shadow' : rgba(87,85,87,1),
 
-        'logo-hover' : mix(blue, white, 35%),
+        'logo-hover' : mix(blue, gray, 35%),
     ), 
 );
 

@@ -9,7 +9,6 @@ body {
 
 
         .form-control {
-            @include row();
             background: var(--bg-0);
             border-color: var(--fg-0);
             justify-content: space-between;
