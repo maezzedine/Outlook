@@ -21,12 +21,11 @@ import { Issue } from './models/issue';
 })
 export default class App extends Vue {
     private lang: string | null = null;
-    private expanded = false || screen.width > 700; // || screen.width > 700
+    private expanded = false || screen.width > 700;
 
     async created() {
         this.initializeLanguageFromCache();
         await this.getLanguage();
-        //this.setPageSpecifications();
         this.intializeThemeFromCache();
     }
 
@@ -39,7 +38,6 @@ export default class App extends Vue {
 
     async toggleLang() {
         this.lang = (this.lang == 'en') ? 'ar' : 'en';
-        // transform: translateX(calc( -1 * var(--sidebar-width)));
         localStorage.setItem('language', this.lang);
         await this.getLanguage();
     }
@@ -49,23 +47,14 @@ export default class App extends Vue {
     }
 
     initializeLanguageFromCache() {
-        if (localStorage.getItem('language') != null) {
-            this.lang = localStorage.getItem('language');
-        }
-        else {
-            this.lang = "en";
-        }
+        var localLanguage = localStorage.getItem('language');
+        this.lang = (localLanguage != null) ? localLanguage : "en";
     }
 
     intializeThemeFromCache() {
-        if (localStorage.getItem('theme') != null) {
-            this.$data.Theme = localStorage.getItem('theme');
-            initializeTheming(getTheme(this.$data.Theme));
-        }
-        else {
-            initializeTheming(getTheme("default"));
-            this.$data.Theme = getCurrentTheme().name;
-        }
+        var localTheme = localStorage.getItem('theme');
+        this.$data.Theme = (localTheme != null) ? localTheme : 'default';
+        initializeTheming(getTheme(this.$data.Theme));
     }
 
     setIssue(issue: Issue) {
@@ -76,49 +65,43 @@ export default class App extends Vue {
     setPageSpecifications() {
         document.body.style.fontFamily = this.$data.Language.font;
         document.body.lang = this.$data.Language.lang;
+        document.body.dir = this.$data.Language.dir;
 
-        var direction = this.$data.Language.dir;
-        document.body.dir = direction;
-
-        var navbar = document.getElementById('navbar');
-        var route = document.getElementById('route');
-        var sidebar = document.getElementById('sidebar');
-
-        if (navbar != null && route != null && sidebar != null) {
-
-            if (direction == 'rtl') {
-                navbar.classList.add('ar-expand');
-                navbar.classList.remove('en-expand');
-                route.classList.add('ar-expand');
-                route.classList.remove('en-expand');
-                sidebar.classList.add('ar-hide');
-                sidebar.classList.remove('en-hide');
-            }
-            else {
-                navbar.classList.add('en-expand');
-                navbar.classList.remove('ar-expand');
-                route.classList.add('en-expand');
-                route.classList.remove('ar-expand');
-                sidebar.classList.add('en-hide');
-                sidebar.classList.remove('ar-hide');
-            }
-        }
+        this.toggleDivClasses('navbar', 'ar-expand', 'en-expand', true);
+        this.toggleDivClasses('route', 'ar-expand', 'en-expand', true);
+        this.toggleDivClasses('sidebar', 'ar-hide', 'en-hide', true);
     }
 
     toggleExpansion() {
-        var logo = document.getElementById('svg-outlook')!;
-
-        if (logo.classList.contains('svg-outlook-rotate-left')) {
-            logo.classList.remove('svg-outlook-rotate-left');
-            logo.classList.add('svg-outlook-rotate-right');
-        } else {
-            logo.classList.remove('svg-outlook-rotate-right');
-            logo.classList.add('svg-outlook-rotate-left');
-        }
+        this.toggleDivClasses('svg-outlook', 'svg-outlook-rotate-left', 'svg-outlook-rotate-right', false);
 
         if (screen.width < 700) {
             this.expanded = !this.expanded;
         }
     }
 
+    // if toggeling is based on the language then class_a is the one to set for dir = rtl
+    toggleDivClasses(id: string, class_a: string, class_b: string, languageDependent: boolean) {
+        var div = document.getElementById(id);
+        if (div != null) {
+            var classes = div.classList;
+            if (languageDependent) {
+                var dir = this.$data.Language.dir;
+                this.removeFirstAddSecond(classes, class_b, class_a, dir == 'rtl');
+            } else {
+                this.removeFirstAddSecond(classes, class_a, class_b, classes.contains(class_a));
+            }
+        }
+    }
+
+    removeFirstAddSecond(classes: DOMTokenList, class_a: string, class_b: string, condition: boolean) {
+        if (condition) {
+            classes.remove(class_a);
+            classes.add(class_b);
+        }
+        else {
+            classes.remove(class_b);
+            classes.add(class_a);
+        }
+    }
 }
