@@ -5,6 +5,8 @@ body {
         padding-right: 5%;
         flex: 0 1 auto;
         height: 55px;
+        transition: transform ease .3s;
+
 
         .form-control {
             @include row();

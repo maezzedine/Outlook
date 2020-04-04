@@ -24,11 +24,11 @@
 
     .svg-outlook-rotate-right {
         transform: rotate(360deg);
-        transition-duration: 1s;
+        transition-duration: .7s;
     }
 
     .svg-outlook-rotate-left {
         transform: rotate(-360deg);
-        transition-duration: 1s;
+        transition-duration: .7s;
     }
 </style>

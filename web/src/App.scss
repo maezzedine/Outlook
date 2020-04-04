@@ -48,6 +48,7 @@
                     overflow: auto;
                     width: 100%;
                     overflow-y: auto;
+                    transition: transform ease .3s;
                 }
             }
         }
@@ -59,7 +60,6 @@
             }
 
             .route, .navbar {
-                transition: transform ease-in-out .1s;
                 transform: translateX(var(--sidebar-width));
             }
         }

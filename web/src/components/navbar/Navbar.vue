@@ -2,8 +2,7 @@
     <nav class="navbar">
 
         <!-- <logo> -->
-        <i class="fas fa-bars" @click="$emit('expansion-toggled')"></i>
-        <div @click="$emit('theme-toggled')">
+        <div @click="$emit('expansion-toggled')">
             <svg-outlook></svg-outlook>
         </div>
         <!-- </logo> -->

@@ -31,16 +31,6 @@ export default class App extends Vue {
     }
 
     toggleTheme() {
-        var logo = document.getElementById('svg-outlook')!;
-
-        if (logo.classList.contains('svg-outlook-rotate-right')) {
-            logo.classList.remove('svg-outlook-rotate-right');
-            logo.classList.add('svg-outlook-rotate-left');
-        } else {
-            logo.classList.remove('svg-outlook-rotate-left');
-            logo.classList.add('svg-outlook-rotate-right');
-        }
-       
         const previousTheme = getCurrentTheme();
         this.$data.Theme = previousTheme.name == 'default' ? 'default-dark' : 'default';
         setTheme(getTheme(this.$data.Theme));
@@ -89,6 +79,16 @@ export default class App extends Vue {
     }
 
     toggleExpansion() {
+        var logo = document.getElementById('svg-outlook')!;
+
+        if (logo.classList.contains('svg-outlook-rotate-left')) {
+            logo.classList.remove('svg-outlook-rotate-left');
+            logo.classList.add('svg-outlook-rotate-right');
+        } else {
+            logo.classList.remove('svg-outlook-rotate-right');
+            logo.classList.add('svg-outlook-rotate-left');
+        }
+
         this.expanded = !this.expanded;
     }
 }
