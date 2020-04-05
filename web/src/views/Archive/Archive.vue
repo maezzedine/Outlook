@@ -1,9 +1,9 @@
 <template>
     <div class="Archives">
-        <p>Volume {{Volume.volumeNumber}} | Issue {{Issue.issueNumber}}</p>
+        <p>{{Language.volume}} {{Volume.volumeNumber}} | {{Language.issue}} {{Issue.issueNumber}}</p>
         <table>
             <tr>
-                <th>Select Volume:</th>
+                <th>{{Language.selectVolume}}</th>
                 <td>
                     <select v-model="Volume">
                         <option v-for="volume in Volumes" :value="volume">
@@ -13,7 +13,7 @@
                 </td>
             </tr>
             <tr>
-                <th>Select Issue:</th>
+                <th>{{Language.selectIssue}}</th>
                 <td>
                     <select v-model="Issue">
                         <option v-for="issue in Issues" :value="issue">

@@ -19,7 +19,7 @@
         <div class="options">
 
             <!-- <Archives> -->
-            <router-link to="/Archives" class="btn-group" :data-title="language.volumes">
+            <router-link to="/Archives" class="btn-group" :data-title="language.archives">
                 <button class="archive" :data-title="language.volumes">
                     <i class="fas fa-archive"></i>
                 </button>
