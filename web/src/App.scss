@@ -48,7 +48,7 @@
                 flex-grow: 1;
                 width: var(--main-width);
 
-                .route {
+                #route {
                     @include col();
                     justify-content: center;
                     overflow: auto;

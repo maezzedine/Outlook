@@ -5,18 +5,18 @@
             <table>
                 <tr :class="[{ 'tr-selected' : this.$route.path == '/' }]">
                     <th><i class="fas fa-home"></i></th>
-                    <td>{{language.mainmenu}}</td>
+                    <td>{{Language.mainmenu}}</td>
                 </tr>
                 <tr :class="[{ 'tr-selected' : this.$route.path == '/PDF' }]">
                     <th><i class="fas fa-file-pdf"></i></th>
-                    <td>{{language.pdf}}</td>
+                    <td>{{Language.pdf}}</td>
                 </tr>
             </table>
         </div>
 
         <!--<Categories>  -->
         <div class="main">
-            <span>{{language.categories}}</span>
+            <span>{{Language.categories}}</span>
             <table>
                 <tr v-for="cat in Categories" v-if="showCategory(cat)">
                     <th><i class="fontawesome" :class="getCategoryIcon(cat)"></i></th>

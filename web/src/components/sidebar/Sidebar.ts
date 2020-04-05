@@ -8,8 +8,7 @@ export default class SideBar extends Vue {
     private Categories = new Array<ApiObject>();
     private Icons: ApiObject | null = null;
     private theme: string | null = null;
-
-    @Prop() language!: ApiObject;
+    private Language = new ApiObject();
 
     created() {
         this.updateTheme();
@@ -17,6 +16,7 @@ export default class SideBar extends Vue {
         this.getCategories();
         this.addShadow();
         this.collapseWhenSmall();
+        this.UpdateLanguage();
     }
 
     @Watch('issue')
@@ -36,7 +36,7 @@ export default class SideBar extends Vue {
     }
 
     showCategory(cat: ApiObject) {
-        return this.getCategoryLanguage(parseInt(cat.language)) == this.language.lang
+        return this.getCategoryLanguage(parseInt(cat.language)) == this.Language.lang
     }
 
     async getIcons() {
@@ -72,5 +72,10 @@ export default class SideBar extends Vue {
                 sidebar.classList.add('collapsed');
             }
         }
+    }
+
+    @Watch("$parent.$data.Language")
+    UpdateLanguage() {
+        this.Language = this.$parent.$data.Language;
     }
 }

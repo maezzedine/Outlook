@@ -1,12 +1,11 @@
 <template>
     <div id="app" :class="[{ 'sidebar-expanded': expanded }]">
-        <outlook-navbar @theme-toggled="toggleTheme" @language-toggled="toggleLang" @expansion-toggled="toggleExpansion"
-                        :language="Language"/>
+        <outlook-navbar @theme-toggled="toggleTheme" @language-toggled="toggleLang" @expansion-toggled="toggleExpansion"/>
 
         <div class="window">
-            <outlook-sidebar @theme-toggled="toggleTheme" :language="Language"></outlook-sidebar>
+            <outlook-sidebar @theme-toggled="toggleTheme"></outlook-sidebar>
 
-            <div id="route"  class="route expand-route"><router-view @set-issue="setIssue" @set-volume="setVolume" /></div>
+            <div id="route"><router-view @set-issue="setIssue" @set-volume="setVolume" /></div>
         </div>
     </div>
 </template>
