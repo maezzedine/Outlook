@@ -1,0 +1,30 @@
+<template>
+    <div class="Archives">
+        <p>Volume {{Volume.volumeNumber}} | Issue {{Issue.issueNumber}}</p>
+        <table>
+            <tr>
+                <th>Select Volume:</th>
+                <td>
+                    <select v-model="Volume">
+                        <option v-for="volume in Volumes" :value="volume">
+                            {{volume.volumeNumber}} | {{volume.fallYear}} - {{volume.springYear}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Select Issue:</th>
+                <td>
+                    <select v-model="Issue">
+                        <option v-for="issue in Issues" :value="issue">
+                            {{issue.issueNumber}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+</template>
+
+<script lang="ts" src="./Archive.ts"></script>
+<style lang="scss" src="./Archive.scss" scoped></style>

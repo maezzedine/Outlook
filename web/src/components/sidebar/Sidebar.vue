@@ -3,11 +3,11 @@
 
         <div class="main">
             <table>
-                <tr onclick="window.location = '/Home'" :class="[{ 'tr-selected' : this.$route.path == '/Home' }]">
+                <tr :class="[{ 'tr-selected' : this.$route.path == '/' }]">
                     <th><i class="fas fa-home"></i></th>
                     <td>{{language.mainmenu}}</td>
                 </tr>
-                <tr onclick="window.location = '/PDF'" :class="[{ 'tr-selected' : this.$route.path == '/PDF' }]">
+                <tr :class="[{ 'tr-selected' : this.$route.path == '/PDF' }]">
                     <th><i class="fas fa-file-pdf"></i></th>
                     <td>{{language.pdf}}</td>
                 </tr>

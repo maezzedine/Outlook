@@ -28,6 +28,10 @@ export default class App extends Vue {
         this.initializeLanguageFromCache();
         await this.getLanguage();
         this.intializeThemeFromCache();
+        api.getVolumeNumbers().then(d => {
+            this.$data.Volume = d[d.length - 1];
+            this.getIssues();
+        });
     }
 
     toggleTheme() {
@@ -56,6 +60,12 @@ export default class App extends Vue {
         var localTheme = localStorage.getItem('theme');
         this.$data.Theme = (localTheme != null) ? localTheme : 'default';
         initializeTheming(getTheme(this.$data.Theme));
+    }
+
+    getIssues() {
+        api.getIssues(parseInt(this.$data.Volume['id'])).then(i => {
+            this.setIssue(i[i.length - 1]);
+        });
     }
 
     setIssue(issue: ApiObject) {

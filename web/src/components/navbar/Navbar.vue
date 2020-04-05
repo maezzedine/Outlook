@@ -15,32 +15,16 @@
         <!-- </search bar> -->
 
             
-        <!-- <archives> -->
-        <div class="archives">
-               
-            <!-- <volumes dropdown> -->
-            <div class="btn-group mx-sm-0 mx-md-1">
-                <button type="button" class="archive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :data-title="language.volumes">
+        <!-- <options> -->
+        <div class="options">
+
+            <!-- <Archives> -->
+            <router-link to="/Archives" class="btn-group" :data-title="language.volumes">
+                <button class="archive" :data-title="language.volumes">
                     <i class="fas fa-archive"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <button v-for="volume in Volumes" class="dropdown-item" type="button" @click="setVolume(volume)" :class="{choice : volume.id == Volume.id}">
-                        {{language.volume}} {{volume.volumeNumber}} | {{volume.fallYear}} - {{volume.springYear}}</button>
-                </div>
-            </div>
-            <!-- </volumes dropdown> -->
-                
-            <!-- <issues dropdown> -->
-            <div class="btn-group mx-sm-0 mx-md-1">
-                <button type="button" class="archive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :data-title="language.issue">
-                    <i class="fas fa-newspaper"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <button v-for="issue in Issues" class="dropdown-item" type="button" @click="setIssue(issue)" :class="{choice : issue.id == Issue.id}">
-                        {{language.issue}} {{issue.issueNumber}}</button>
-                </div>
-            </div>
-            <!-- </issues dropdown> -->
+            </router-link>
+            <!-- </Archives> -->
 
             <!-- <Change Language> -->
             <button class="archive" :data-title="language.language">
@@ -49,12 +33,13 @@
             <!-- </Change Language> -->
 
             <!-- <Meet Outlook> -->
-            <div class="btn mx-sm-0 mx-md-2">{{language.about}}</div>
+            <router-link to='/'>
+                <div class="btn mx-sm-0 mx-md-2">{{language.about}}</div>
+            </router-link>
             <!-- </Meet Outlook> -->
 
-
         </div>
-        <!-- </archives> -->
+        <!-- </options> -->
     </nav>
 </template>
 

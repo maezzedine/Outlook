@@ -4,24 +4,20 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 import Home from './views/Home/Home.vue';
+import Archives from './views/Archive/Archive.vue';
 
 export default new Router({
     mode: 'history',
     routes: [
         {
-            path: "*",
-            redirect: "/"
-        },
-        {
             path: "/",
+            name: 'Home',
             component: Home
         },
         {
-            path: "/Home",
-            component: Home
-        },
-        {
-            path: "/PDF"
+            path: "/Archives",
+            name: 'Archives',
+            component: Archives
         },
     ]
 });

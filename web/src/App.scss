@@ -20,6 +20,8 @@
 
     --shadow-right: inset -10px 0px 15px -14px #{map-get($theme, 'shadow')};
     --shadow-left: inset 14px 0px 15px -14px #{map-get($theme, 'shadow')};
+
+    --box-shadow: 2px 2px 5px -1px #{map-get($theme, 'shadow')};
 }
 
 :root {
@@ -47,6 +49,8 @@
                 width: var(--main-width);
 
                 .route {
+                    @include col();
+                    justify-content: center;
                     overflow: auto;
                     width: 100%;
                     transition: var(--screen-transform);
@@ -62,6 +66,7 @@
 
             .en-expand {
                 transform: translateX(var(--sidebar-width));
+
             }
 
             .ar-expand {

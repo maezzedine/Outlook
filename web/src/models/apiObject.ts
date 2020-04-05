@@ -1,3 +1,3 @@
-export interface ApiObject {
+export class ApiObject {
     [key: string]: string;
 }

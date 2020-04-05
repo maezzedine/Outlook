@@ -1,0 +1,39 @@
+.Archives {
+    @include col();
+    justify-content: center;
+    text-align: center;
+    padding: 5% 10%;
+    margin: auto;
+    background: var(--bg-2);
+    -webkit-box-shadow: var(--box-shadow);
+    -moz-box-shadow: var(--box-shadow);
+    box-shadow: var(--box-shadow);
+    border: 2px solid var(--bg-1);
+    border-radius: 2px;
+
+    p {
+        font-size: larger;
+        margin-bottom: 10%;
+    }
+
+    select {
+        margin: 5%;
+        padding: 5%;
+        width: 100%;
+        border: none;
+        outline: none;
+        background: var(--bg-0);
+        border-radius: 5px;
+        color: var(--text-1);
+        cursor: pointer;
+
+        option {
+            background: var(--fg-0);
+            cursor: pointer;
+        }
+
+        option:hover {
+            background: var(--fg-1);
+        }
+    }
+}
