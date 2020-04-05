@@ -9,7 +9,7 @@ body {
         color: var(--text-1);
         background: var(--bg-1);
         width: var(--sidebar-width);
-        transition: transform ease 0.3s;
+        transition: var(--screen-transform);
         animation-delay: 1s;
         overflow: auto;
         color: var(--text-0);
@@ -44,6 +44,7 @@ body {
                     border-bottom: 12px solid transparent;
                     border-right: 2px solid transparent;
                     border-left: 2px solid transparent;
+                    cursor: pointer;
 
                     th {
                         text-align: center;
@@ -62,6 +63,12 @@ body {
                     background: var(--bg-0);
                     border-right: 2px solid var(--fg-2);
                     border-left: 2px solid var(--fg-2);
+                }
+
+                .tr-selected {
+                    background: var(--bg-0);
+                    border-right: 2px solid var(--fg-4);
+                    border-left: 2px solid var(--fg-4);
                 }
             }
         }

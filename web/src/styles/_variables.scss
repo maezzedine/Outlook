@@ -29,11 +29,11 @@ $ct-themes: (
         'bg-1' : #101921, // side
         'bg-2' : #0c1115, // top
 
-        'fg-0': mix(black, #99e3ff, 55%),
-        'fg-1': mix(black, #99e3ff, 45%),
-        'fg-2': mix(black, #99e3ff, 35%),
-        'fg-3': mix(black, #99e3ff, 25%),
-        'fg-4': mix(black,  #324055, 15%),
+        'fg-0': mix(#99e3ff, black, 15%),
+        'fg-1': mix(#99e3ff, black, 25%),
+        'fg-2': mix(#99e3ff, black, 35%),
+        'fg-3': mix(#99e3ff, black, 45%),
+        'fg-4': mix(#99e3ff, black, 55%),
 
         'text-0': mix(white, #4c4caa, 05%),
         'text-1': mix(black, white, 45%),

@@ -3,6 +3,7 @@
         --sidebar-width: 180px;
         --main-width: calc(100vw - var(--sidebar-width));
         --navbar-transform: translateX(var(--sidebar-width));
+        --screen-transform: transform ease 0s;
     }
 }
 
@@ -11,6 +12,7 @@
         --sidebar-width: 180px;
         --main-width: calc(100vw - var(--sidebar-width));
         --navbar-transform: translateX(var(--sidebar-width));
+        --screen-transform: transform ease 0s;
     }
 }
 
@@ -24,5 +26,6 @@
         --route-width: 100vw;
         --main-width: 100vw;
         --navbar-transform: none;
+        --screen-transform: transform ease .4s;
     }
 }

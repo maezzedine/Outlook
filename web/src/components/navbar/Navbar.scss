@@ -5,7 +5,7 @@ body {
         padding-right: 5%;
         flex: 0 1 auto;
         height: 55px;
-        transition: transform ease .3s;
+        transition: var(--screen-transform);
 
 
         .form-control {
@@ -39,7 +39,7 @@ body {
 
             .archive {
                 @include borderless();
-                /*color: var(--text-0);*/
+                color: var(--text-0);
             }
 
 
@@ -48,10 +48,11 @@ body {
 
                 .dropdown-item:hover {
                     background: var(--fg-1);
+                    cursor: pointer;
                 }
 
                 .choice {
-                    background: var(--fg-1);
+                    background: var(--fg-1);    
                 }
             }
 

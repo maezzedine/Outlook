@@ -49,7 +49,7 @@
                 .route {
                     overflow: auto;
                     width: 100%;
-                    transition: transform ease .3s;
+                    transition: var(--screen-transform);
                 }
             }
         }
