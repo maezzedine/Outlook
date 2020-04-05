@@ -24,6 +24,8 @@ export default class App extends Vue {
     private lang: string | null = null;
     private expanded = false || screen.width > 700;
 
+    private Articles = new ApiObject();
+
     async created() {
         this.initializeLanguageFromCache();
         await this.getLanguage();
@@ -70,10 +72,17 @@ export default class App extends Vue {
 
     setIssue(issue: ApiObject) {
         this.$data.Issue = issue;
+        this.getArticles();
     }
 
     setVolume(volume: ApiObject) {
         this.$data.Volume = volume;
+    }
+
+    getArticles() {
+        api.getArticles(this.$data.Issue['id']).then(a => {
+            this.Articles = a;
+        })
     }
 
     @Watch('$data.Language')

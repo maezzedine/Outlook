@@ -19,11 +19,14 @@ export default class SideBar extends Vue {
         this.UpdateLanguage();
     }
 
-    @Watch('issue')
+    @Watch('$parent.$data.Issue')
     getCategories() {
-        api.getCategories().then(r => {
-            this.Categories = r;
-        });
+        if (this.$parent.$data.Issue != undefined) {
+            console.log('fired');
+            api.getCategories(this.$parent.$data.Issue.id).then(r => {
+                this.Categories = r;
+            });
+        }
     }
 
     @Watch('$parent.$data.Theme')

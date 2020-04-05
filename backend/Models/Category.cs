@@ -18,5 +18,7 @@ namespace backend.Models
         public Tag Tag { get; set; }
         [NotMapped]
         public string TagName { get; set; }
+        [NotMapped]
+        public int ArticlesCount { get; set; }
     }
 }

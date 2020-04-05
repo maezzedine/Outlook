@@ -22,21 +22,22 @@ namespace backend.APIs
         }
 
         // GET: api/Categories
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategory()
+        [HttpGet("{issueId}")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories(int issueId)
         {
             var categories = context.Category;
 
             foreach (var category in categories)
             {
                 category.TagName = category.Tag.ToString();
+                category.ArticlesCount = context.Article.Where(a => (a.CategoryID == category.Id) && (a.IssueID == issueId)).Count();
             }
 
             return await categories.ToListAsync();
         }
 
         // GET: api/Categories/5
-        [HttpGet("{id}")]
+        [HttpGet("category/{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
             var category = await context.Category.FindAsync(id);

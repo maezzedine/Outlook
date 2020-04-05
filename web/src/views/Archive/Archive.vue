@@ -1,23 +1,23 @@
 <template>
     <div class="Archives">
-        <p>{{Language.volume}} {{Volume.volumeNumber}} | {{Language.issue}} {{Issue.issueNumber}}</p>
+        <p>{{Language['volume']}} {{Volume['volumeNumber']}} | {{Language['issue']}} {{Issue['issueNumber']}}</p>
         <table>
             <tr>
-                <th>{{Language.selectVolume}}</th>
+                <th>{{Language['selectVolume']}}</th>
                 <td>
                     <select v-model="Volume">
                         <option v-for="volume in Volumes" :value="volume">
-                            {{volume.volumeNumber}} | {{volume.fallYear}} - {{volume.springYear}}
+                            {{volume['volumeNumber']}} | {{volume['fallYear']}} - {{volume['springYear']}}
                         </option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <th>{{Language.selectIssue}}</th>
+                <th>{{Language['selectIssue']}}</th>
                 <td>
                     <select v-model="Issue">
                         <option v-for="issue in Issues" :value="issue">
-                            {{issue.issueNumber}}
+                            {{issue['issueNumber']}}
                         </option>
                     </select>
                 </td>

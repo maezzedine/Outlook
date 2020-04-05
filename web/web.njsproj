@@ -43,6 +43,8 @@
     <Content Include="public\logo.svg" />
     <Content Include="src\App.scss" />
     <Content Include="src\App.vue" />
+    <Content Include="src\components\main-menu\MainMenu.scss" />
+    <Content Include="src\components\main-menu\MainMenu.vue" />
     <Content Include="src\components\navbar\Navbar.scss" />
     <Content Include="src\components\navbar\Navbar.vue" />
     <Content Include="src\components\sidebar\Sidebar.scss" />
@@ -70,6 +72,7 @@
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
     <Folder Include="src\components\navbar\" />
+    <Folder Include="src\components\main-menu\" />
     <Folder Include="src\components\sidebar\" />
     <Folder Include="src\components\svgs\" />
     <Folder Include="src\models\" />
@@ -88,6 +91,7 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\components\main-menu\MainMenu.ts" />
     <TypeScriptCompile Include="src\components\sidebar\Sidebar.ts" />
     <TypeScriptCompile Include="src\models\apiObject.ts" />
     <TypeScriptCompile Include="src\router.ts" />

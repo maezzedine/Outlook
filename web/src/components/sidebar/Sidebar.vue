@@ -20,7 +20,7 @@
             <table>
                 <tr v-for="cat in Categories" v-if="showCategory(cat)">
                     <th><i class="fontawesome" :class="getCategoryIcon(cat)"></i></th>
-                    <td>{{cat.categoryName}}</td>
+                    <td>{{cat.categoryName}}<span class="badge badge-secondary" v-if="cat.articlesCount != 0">{{cat.articlesCount}}</span></td>
                 </tr>
             </table>      
         </div>

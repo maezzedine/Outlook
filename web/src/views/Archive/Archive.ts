@@ -14,12 +14,27 @@ export default class Archive extends Vue {
     private Language = new ApiObject();
 
     created() {
-        this.Volume = this.$parent.$data.Volume;
-        this.Issue = this.$parent.$data.Issue;
         this.UpdateLanguage();
+        this.intializeData();
+    }
 
+    intializeData() {
         api.getVolumeNumbers().then(d => {
             this.Volumes = d;
+            if (this.$parent.$data.Volume != undefined) {
+                this.Volume = this.$parent.$data.Volume;
+            }
+            else {
+                this.Volume = d[d.length - 1];
+                if (this.$parent.$data.Issue != undefined) {
+                    this.Issue = this.$parent.$data.Issue;
+                }
+                else {
+                    api.getIssues(parseInt(this.Volume['id'])).then(i => {
+                        this.Issue = i[i.length - 1];
+                    });
+                }
+            }
         });
     }
 

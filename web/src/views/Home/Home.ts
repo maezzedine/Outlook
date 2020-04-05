@@ -1,7 +1,9 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
+import mainMenu from '@/components/main-menu/MainMenu.vue';
 
 @Component({
     name: 'Home',
+    components: { mainMenu },
     data() {
         return {
             Volume: undefined,

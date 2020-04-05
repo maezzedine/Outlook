@@ -14,8 +14,8 @@ export class Api {
         return response.data;
     }
 
-    async getCategories() {
-        var response = await axios.get(API_URL + 'categories');
+    async getCategories(articleID: Number) {
+        var response = await axios.get(API_URL + 'categories/' + articleID);
         return response.data;
     }
 
@@ -30,6 +30,11 @@ export class Api {
     async getIcons() {
         var response = await fetch('font-awesome.json').then(d => d.json());
         return response;
+    }
+
+    async getArticles(issueId: Number) {
+        var response = await axios.get(API_URL + 'articles/' + issueId);
+        return response.data;
     }
 }
 

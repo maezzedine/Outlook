@@ -145,7 +145,7 @@ namespace backend.APIs
 
             article.Comments = await comments.ToListAsync();
 
-            if (User != null)
+            if (User.Identity.Name != null)
             {
                 var user = await userManager.FindByNameAsync(User.Identity.Name);
 
