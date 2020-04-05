@@ -16,5 +16,12 @@ export default new Router({
             path: "/",
             component: Home
         },
+        {
+            path: "/Home",
+            component: Home
+        },
+        {
+            path: "/PDF"
+        },
     ]
 });

@@ -38,10 +38,10 @@ body {
             }
 
             table {
+                width: 100%;
 
                 tr {
-                    border-top: 12px solid transparent;
-                    border-bottom: 12px solid transparent;
+                    line-height: 40px;
                     border-right: 2px solid transparent;
                     border-left: 2px solid transparent;
                     cursor: pointer;

@@ -1,6 +1,6 @@
 <template>
     <div id="app" :class="[{ 'sidebar-expanded': expanded }]">
-        <outlook-navbar @theme-toggled="toggleTheme" @language-toggled="toggleLang" @set-issue="setIssue"  @expansion-toggled="toggleExpansion"
+        <outlook-navbar @theme-toggled="toggleTheme" @language-toggled="toggleLang" @set-issue="setIssue" @set-volume="setVolume" @expansion-toggled="toggleExpansion"
                         :language="Language"/>
 
         <div class="window">

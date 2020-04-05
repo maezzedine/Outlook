@@ -10,6 +10,7 @@
         width: 40px;
         stroke: var(--fg-4);
         fill: var(--fg-4);
+        cursor: pointer;
     }
 
         .svg-outlook:hover {
