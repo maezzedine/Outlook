@@ -4,7 +4,7 @@ import { api } from './services/api';
 import Home from './views/Home/Home.vue';
 import outlookNavbar from '@/components/navbar/Navbar.vue';
 import outlookSidebar from '@/components/sidebar/Sidebar.vue';
-import { Issue } from './models/issue';
+import { ApiObject } from './models/apiObject';
 
 @Component({
     name: 'App',
@@ -14,7 +14,8 @@ import { Issue } from './models/issue';
     data() {
         return {
             Language: {},
-            Issue: null,
+            Issue: undefined,
+            Volume: undefined,
             Theme: 'default'
         }
     }
@@ -57,8 +58,12 @@ export default class App extends Vue {
         initializeTheming(getTheme(this.$data.Theme));
     }
 
-    setIssue(issue: Issue) {
+    setIssue(issue: ApiObject) {
         this.$data.Issue = issue;
+    }
+
+    setVolume(volume: ApiObject) {
+        this.$data.Volume = volume;
     }
 
     @Watch('$data.Language')

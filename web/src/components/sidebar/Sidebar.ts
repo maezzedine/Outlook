@@ -1,18 +1,15 @@
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
-import { Issue } from '@/models/issue';
-import { Category } from '@/models/category';
+import { ApiObject } from '@/models/apiObject';
 import { api } from '@/services/api';
 import { getCurrentTheme, setTheme, Theme } from 'css-theming';
-import { Language } from '../../models/language';
-import { Icons } from '../../models/icons';
 
 @Component
 export default class SideBar extends Vue {
-    private Categories = new Array<Category>();
-    private Icons: Icons | null = null;
+    private Categories = new Array<ApiObject>();
+    private Icons: ApiObject | null = null;
     private theme: string | null = null;
 
-    @Prop() language!: Language;
+    @Prop() language!: ApiObject;
 
     created() {
         this.updateTheme();
@@ -38,15 +35,15 @@ export default class SideBar extends Vue {
         return (lang == 0) ? 'ar' : 'en';
     }
 
-    showCategory(cat: Category) {
-        return this.getCategoryLanguage(cat.language) == this.language.lang
+    showCategory(cat: ApiObject) {
+        return this.getCategoryLanguage(parseInt(cat.language)) == this.language.lang
     }
 
     async getIcons() {
         this.Icons = await api.getIcons();
     }
 
-    getCategoryIcon(cat: Category) {
+    getCategoryIcon(cat: ApiObject) {
         if (this.Icons == null) {
             return "";
         }
