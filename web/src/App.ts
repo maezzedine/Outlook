@@ -1,6 +1,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { initializeTheming, getTheme, getCurrentTheme, setTheme, Theme } from 'css-theming';
 import { api } from './services/api';
+import { cacher } from './services/cacher';
 import Home from './views/Home/Home.vue';
 import outlookNavbar from '@/components/navbar/Navbar.vue';
 import outlookSidebar from '@/components/sidebar/Sidebar.vue';
@@ -30,10 +31,7 @@ export default class App extends Vue {
         this.initializeLanguageFromCache();
         await this.getLanguage();
         this.intializeThemeFromCache();
-        api.getVolumeNumbers().then(d => {
-            this.$data.Volume = d[d.length - 1];
-            this.getIssues();
-        });
+        this.initializeVolumes();
     }
 
     toggleTheme() {
@@ -64,21 +62,39 @@ export default class App extends Vue {
         initializeTheming(getTheme(this.$data.Theme));
     }
 
-    getIssues() {
-        api.getIssues(parseInt(this.$data.Volume['id'])).then(i => {
-            this.setIssue(i[i.length - 1]);
+    initializeVolumes() {
+        api.getVolumeNumbers().then(d => {
+            this.initializeVolume(d);
         });
+    }
+
+    initializeIssues() {
+        api.getIssues(parseInt(this.$data.Volume['id'])).then(i => {
+            this.initializeIssue(i);
+        });
+    }
+
+    initializeIssue(issues: Array<ApiObject>) {
+        this.$data.Issue = cacher.initializeIssue(issues);
+        this.getArticles();
+    }
+
+    initializeVolume(volumes: Array<ApiObject>) {
+        this.$data.Volume = cacher.initializeVolume(volumes);
+        this.initializeIssues();
     }
 
     setIssue(issue: ApiObject) {
         this.$data.Issue = issue;
-        this.getArticles();
+        sessionStorage.setItem('Outlook-Issue', this.$data.Issue['id']);
     }
 
     setVolume(volume: ApiObject) {
         this.$data.Volume = volume;
+        sessionStorage.setItem('Outlook-Volume', this.$data.Volume['id']);
     }
 
+    @Watch('$data.Issue')
     getArticles() {
         api.getArticles(this.$data.Issue['id']).then(a => {
             this.Articles = a;

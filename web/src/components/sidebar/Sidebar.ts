@@ -22,7 +22,6 @@ export default class SideBar extends Vue {
     @Watch('$parent.$data.Issue')
     getCategories() {
         if (this.$parent.$data.Issue != undefined) {
-            console.log('fired');
             api.getCategories(this.$parent.$data.Issue.id).then(r => {
                 this.Categories = r;
             });
