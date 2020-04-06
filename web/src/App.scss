@@ -34,6 +34,16 @@
         font-family: 'Baloo Da 2', cursive;
         color: var(--text-0);
 
+        *::-webkit-scrollbar {
+            margin: 10px;
+            width: 6px;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: var(--fg-1);
+            border-radius: 5px;
+        }
+
         #app {
             @include col();
             flex-grow: 1;
@@ -51,8 +61,9 @@
                 #route {
                     @include col();
                     justify-content: center;
-                    overflow: auto;
                     width: 100%;
+                    height: calc(100vh - 55px);
+                    overflow-y: auto;
                     transition: var(--screen-transform);
                 }
             }
@@ -66,7 +77,6 @@
 
             .en-expand {
                 transform: translateX(var(--sidebar-width));
-
             }
 
             .ar-expand {

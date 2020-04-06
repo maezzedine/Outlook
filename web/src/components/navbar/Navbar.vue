@@ -28,7 +28,7 @@
 
             <!-- <Change Language> -->
             <button class="archive" :data-title="Language.language">
-                <i class="fas fa-globe" @click="$emit('language-toggled')"></i>
+                <i class="fas fa-language" @click="$emit('language-toggled')"></i>
             </button>
             <!-- </Change Language> -->
 
