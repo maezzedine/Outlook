@@ -1,5 +1,6 @@
 {
   "lang": "en",
+  "num": 1,
   "dir": "ltr",
   "font": "'Baloo Da 2', cursive",
   "search": "Search",
@@ -15,5 +16,7 @@
   "categories": "Categories",
   "votes": "Votes",
   "comments": "Comments",
-  "favorites": "Favorates"
+  "favorites": "Favorates",
+  "topRatedArticles": "Top Rated Articles",
+  "topFavoritedArticles": "Most Favorited Articles"
 }

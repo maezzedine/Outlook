@@ -54,6 +54,8 @@
     <Content Include="public\en.json">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\components\top-articles\TopArticles.scss" />
+    <Content Include="src\components\top-articles\TopArticles.vue" />
     <Content Include="src\styles\_mixins.scss" />
     <Content Include="src\styles\_queries.scss" />
     <Content Include="src\styles\_variables.scss" />
@@ -74,6 +76,7 @@
     <Folder Include="src\components\" />
     <Folder Include="src\components\navbar\" />
     <Folder Include="src\components\main-menu\" />
+    <Folder Include="src\components\top-articles\" />
     <Folder Include="src\components\sidebar\" />
     <Folder Include="src\components\svgs\" />
     <Folder Include="src\models\" />
@@ -94,6 +97,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\components\main-menu\MainMenu.ts" />
     <TypeScriptCompile Include="src\components\sidebar\Sidebar.ts" />
+    <TypeScriptCompile Include="src\components\top-articles\TopArticles.ts" />
     <TypeScriptCompile Include="src\models\apiObject.ts" />
     <TypeScriptCompile Include="src\router.ts" />
     <TypeScriptCompile Include="src\App.ts" />

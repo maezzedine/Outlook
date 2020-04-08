@@ -41,6 +41,11 @@ export class Api {
         var response = await axios.get(API_URL + 'articles/' + issueId);
         return response.data;
     }
+
+    async getTopArticles() {
+        var response = await axios.get(API_URL + 'articles/');
+        return response.data;
+    }
 }
 
 export const api = new Api();

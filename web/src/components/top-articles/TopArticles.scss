@@ -1,0 +1,18 @@
+body {
+    .top-voted-articles {
+        @include outlook-box();
+        width: 100%;
+        text-align: initial;
+        padding: 2%;
+
+        span {
+            font-size: large;
+            text-align: center;
+            margin-bottom: 2%;
+        }
+
+        ol {
+            list-style: upper-roman;
+        }
+    }
+}

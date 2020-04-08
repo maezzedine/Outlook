@@ -1,19 +1,17 @@
 .main-menu {
     /*@include row();*/
-    height: 100%;
-    width: 60%;
+    height: initial;
     /*column-span: none;*/
     /*column-fill: initial;*/
     /*display: inline-table;*/
     /*column-count: 2;*/
-    padding: 2%;
 
     @media (max-width: 700px) {
-        column-count: 1;
+        /*column-count: 1;*/
         width: 100%;
     }
 
-    .article:first-child, .article:last-child {
+    .article:first-child {
         margin: 0;
     }
 
@@ -26,8 +24,6 @@
 
         .category {
             text-align: initial;
-            /*background: var(--orange);*/
-            /*background: var(--fg-1);*/
             margin: 2% 0%;
             padding: 0% 2%;
         }

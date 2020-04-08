@@ -40,7 +40,6 @@ export default class Archive extends Vue {
 
     @Watch("Volume")
     getIssues() {
-        console.log();
         if (this.$parent.$data.Volume != this.Volume) {
             this.$emit('set-volume', this.Volume);
         }

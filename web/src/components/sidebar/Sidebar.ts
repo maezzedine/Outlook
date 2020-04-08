@@ -56,12 +56,10 @@ export default class SideBar extends Vue {
         var sidebar = document.getElementById('sidebar');
         if (sidebar != null) {
             if (document.body.dir == 'rtl') {
-                console.log(sidebar);
                 sidebar.classList.add('box-shadow-left');
                 sidebar.classList.remove('box-shadow-right');
             }
             else {
-                console.log(sidebar);
                 sidebar.classList.add('box-shadow-right');
                 sidebar.classList.remove('box-shadow-left');
             }

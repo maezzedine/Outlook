@@ -60,6 +60,33 @@ namespace backend.APIs
             return article;
         }
 
+        // GET: api/Articles/Article/5
+        [HttpGet]
+        public ActionResult GetTopArticles()
+        {
+            var topRatedArticles = from article in context.Article
+                                   orderby article.NumberOfVotes
+                                   descending
+                                   select article;
+
+            var topFavoritedArticles = from article in context.Article
+                                       orderby article.NumberOfFavorites
+                                       descending
+                                       select article;
+
+            var shortListedTopRatedArticles = topRatedArticles.Where(a => a.Language == Models.Interfaces.Language.English).AsEnumerable().Take(3)
+                .Concat(topRatedArticles.Where(a => a.Language == Models.Interfaces.Language.Arabic).AsEnumerable().Take(3));
+            
+            var shortListedTopFavoritedArticles = topFavoritedArticles.Where(a => a.Language == Models.Interfaces.Language.English).AsEnumerable().Take(3)
+                .Concat(topFavoritedArticles.Where(a => a.Language == Models.Interfaces.Language.Arabic).AsEnumerable().Take(3));
+
+            return Ok(new
+            {
+                topRatedArticles = shortListedTopRatedArticles,
+                topFavoritedArticles = shortListedTopFavoritedArticles
+            });
+        }
+
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("RateUpArticle/{articleID}")]
         public async Task<ActionResult> RateUpArticle(int articleID)

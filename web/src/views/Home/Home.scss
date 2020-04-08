@@ -1,6 +1,21 @@
 body {
     .Home {
+        @include row();
         height: 100%;
         width: 100%;
+
+        .main-menu {
+            width: 60%;
+            padding: 2%;
+        }
+
+        .top-articles {
+            width: 40%;
+            padding: 2%;
+
+            *:not(:first-child) {
+                margin-top: 5%;
+            }
+        }
     }
 }
