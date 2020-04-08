@@ -1,12 +1,12 @@
 {
-  "News": "var(--warning)",
-  "Lifestyle": "var(--primary)",
-  "Opinion": "var(--info)",
-  "Art": "var(--brown)",
-  "Culture": "var(--yellow)",
-  "Personality": "var(--personality)",
-  "Gender": "var(--sky-blue)",
-  "Society": "var(--orange)",
+  "News": "var(--warning-300)",
+  "Lifestyle": "var(--primary-300)",
+  "Opinion": "var(--info-300)",
+  "Art": "var(--brown-300)",
+  "Culture": "var(--yellow-300)",
+  "Personality": "var(--personality-300)",
+  "Gender": "var(--sky-blue-300)",
+  "Society": "var(--orange-300)",
   "Cover": "var(--fg-1)",
-  "Other": "var(--seconadry)"
+  "Other": "var(--seconadry-300)"
 }
