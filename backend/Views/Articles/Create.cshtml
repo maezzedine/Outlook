@@ -57,7 +57,8 @@
     </div>
     <div class="form-group col-md-12">
         <label asp-for="Text" class="control-label"></label>
-        <textarea id="mytextarea" asp-for="Text" rows="20"></textarea>
+        <input asp-for="Text" class="form-control" rows="20" />
+        @*<textarea id="mytextarea" asp-for="Text" rows="20"></textarea>*@
         <span asp-validation-for="Text" class="text-danger"></span>
     </div>
     <div class="form-group">

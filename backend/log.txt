@@ -20,3 +20,9 @@
 3/27/2020 7:42:12 PM | Admin editted Category `Lifestyle`
 3/27/2020 7:42:17 PM | Admin editted Category `Opinions`
 3/27/2020 7:42:27 PM | Admin editted Category `Arts`
+4/6/2020 10:17:32 PM | Admin created article of title `Online Sessions are the best` and ID `45`
+4/7/2020 10:10:07 PM | Admin created article of title `Why do we drink water?` and ID `46`
+4/7/2020 10:11:52 PM | Admin attempts to delete article of title `Second title to show on a log message` and ID `42`.
+4/7/2020 10:11:52 PM | Delete Completed.
+4/7/2020 10:11:56 PM | Admin attempts to delete article of title `This is a Title` and ID `43`.
+4/7/2020 10:11:56 PM | Delete Completed.

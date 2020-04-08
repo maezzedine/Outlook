@@ -52,17 +52,18 @@ export default class SideBar extends Vue {
         return this.Icons[cat.tagName]
     }
 
-    @Watch('$props.language')
     addShadow() {
         var sidebar = document.getElementById('sidebar');
         if (sidebar != null) {
             if (document.body.dir == 'rtl') {
-                sidebar.classList.remove('box-shadow-right');
+                console.log(sidebar);
                 sidebar.classList.add('box-shadow-left');
+                sidebar.classList.remove('box-shadow-right');
             }
             else {
-                sidebar.classList.remove('box-shadow-left');
+                console.log(sidebar);
                 sidebar.classList.add('box-shadow-right');
+                sidebar.classList.remove('box-shadow-left');
             }
         }
     }
@@ -79,5 +80,6 @@ export default class SideBar extends Vue {
     @Watch("$parent.$data.Language")
     UpdateLanguage() {
         this.Language = this.$parent.$data.Language;
+        this.addShadow();
     }
 }

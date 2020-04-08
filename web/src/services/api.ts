@@ -32,6 +32,11 @@ export class Api {
         return response;
     }
 
+    async getColors() {
+        var response = await fetch('category-color.json').then(d => d.json());
+        return response;
+    }
+
     async getArticles(issueId: Number) {
         var response = await axios.get(API_URL + 'articles/' + issueId);
         return response.data;

@@ -1,7 +1,7 @@
 <template>
-    <div>
-       {{volumeToString()}}
+    <div class="Home">
+        <main-menu />
     </div>
 </template>
 <script lang="ts" src="./Home.ts"></script>
-<style lang="scss" src="./Home.scss"></style>
+<style lang="scss" src="./Home.scss" scoped></style>

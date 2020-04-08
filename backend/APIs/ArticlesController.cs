@@ -123,10 +123,14 @@ namespace backend.APIs
             // Add the category name
             var category = await context.Category.FindAsync(article.CategoryID);
             article.Category = category.CategoryName;
+            article.CategoryTagName = category.Tag.ToString();
 
             // Add the writer name
             var writer = await context.Member.FindAsync(article.MemberID);
             article.Writer = writer.Name;
+
+            // Add the langauge
+            article.Lang = (article.Language == Models.Interfaces.Language.English) ? "en" : "ar";
 
             // Add the comment list on the article
             var comments = from comment in context.Comment

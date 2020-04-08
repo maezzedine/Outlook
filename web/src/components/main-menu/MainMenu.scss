@@ -1,5 +1,68 @@
 .main-menu {
-    width: 60%;
+    /*@include row();*/
     height: 100%;
-    border: 1px solid black;
+    width: 60%;
+    /*column-span: none;*/
+    /*column-fill: initial;*/
+    /*display: inline-table;*/
+    /*column-count: 2;*/
+    padding: 2%;
+
+    @media (max-width: 700px) {
+        column-count: 1;
+        width: 100%;
+    }
+
+    .article:first-child, .article:last-child {
+        margin: 0;
+    }
+
+    .article {
+        @include outlook-box();
+        @include col();
+        width: 100%;
+        margin: 5% 0%;
+        align-items: flex-start;
+
+        .category {
+            text-align: initial;
+            /*background: var(--orange);*/
+            /*background: var(--fg-1);*/
+            margin: 2% 0%;
+            padding: 0% 2%;
+        }
+
+        .title {
+            text-align: initial;
+            align-self: flex-start;
+            margin: 0% 3%;
+            width: 90%;
+            font-size: larger;
+            font-weight: bolder;
+        }
+
+        .subtitle {
+            margin: 0% 3%;
+
+            span {
+                background: var(--text-0);
+                color: var(--bg-1);
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                padding: 0 3px;
+            }
+        }
+
+        *:not(span) {
+            margin: 0% 3%;
+        }
+
+        img {
+            margin-bottom: 2%;
+            width: 95%;
+            align-self: center;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+    }
 }

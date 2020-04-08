@@ -49,12 +49,10 @@
     @include col();
     justify-content: center;
     text-align: center;
-    padding: 5% 10%;
     margin: auto;
     background: var(--bg-2);
     -webkit-box-shadow: var(--box-shadow);
     -moz-box-shadow: var(--box-shadow);
     box-shadow: var(--box-shadow);
-    border: 2px solid var(--bg-1);
     border-radius: 2px;
 }

@@ -351,3 +351,5 @@ appsettings.Development.json
 
 .env
 .env.production
+
+log.txt
