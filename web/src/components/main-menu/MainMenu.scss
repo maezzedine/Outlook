@@ -64,5 +64,22 @@
             border-bottom-left-radius: 3px;
             border-bottom-right-radius: 3px;
         }
+
+        .footer {
+            @include row();
+            font-size: small;
+
+            span {
+                margin: 0 5px;
+            }
+
+            .ratedUp {
+                color: var(--success);
+            }
+
+            .ratedDown {
+                color: var(--danger);
+            }
+        }
     }
 }

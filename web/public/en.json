@@ -12,5 +12,8 @@
   "issue": "Issue",
   "mainmenu": "Main",
   "pdf": "PDF",
-  "categories": "Categories"
+  "categories": "Categories",
+  "votes": "Votes",
+  "comments": "Comments",
+  "favorites": "Favorates"
 }

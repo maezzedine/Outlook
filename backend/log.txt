@@ -26,3 +26,13 @@
 4/7/2020 10:11:52 PM | Delete Completed.
 4/7/2020 10:11:56 PM | Admin attempts to delete article of title `This is a Title` and ID `43`.
 4/7/2020 10:11:56 PM | Delete Completed.
+4/8/2020 3:08:48 PM | This article is edited from `Title: First title to show on a log message
+Subtitle: 
+Category: NewsWriter: Hassan Slika
+Picture Name: Body: 
+`
+4/8/2020 3:08:48 PM | to: Title: هذا عنوان
+Subtitle: عنوان فرعي
+Category: أخبارWriter: محمد الصايغ
+Picture Name: Body: <p>هذا النص للتجريب</p>
+ by Admin
