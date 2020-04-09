@@ -2,25 +2,23 @@
     /*@include row();*/
     height: initial;
     /*column-span: none;*/
-    /*column-fill: initial;*/
+    /*column-fill: auto;*/
     /*display: inline-table;*/
     /*column-count: 2;*/
 
-    @media (max-width: 700px) {
-        /*column-count: 1;*/
-        width: 100%;
-    }
-
-    .article:first-child {
-        margin: 0;
+    .article:first-child, .article:nth-child(2) {
+        margin: 0 1%;
     }
 
     .article {
         @include outlook-box();
         @include col();
         width: 100%;
-        margin: 5% 0%;
+        margin: 5% 1%;
         align-items: flex-start;
+
+        float:left;
+        width:48%;
 
         .category {
             text-align: initial;
@@ -33,12 +31,14 @@
             align-self: flex-start;
             margin: 0% 3%;
             width: 90%;
-            font-size: larger;
+            /*font-size: larger;*/
             font-weight: bolder;
         }
 
         .subtitle {
             margin: 0% 3%;
+            text-align: initial;
+            font-size: x-small;
 
             span {
                 background: var(--text-0);
