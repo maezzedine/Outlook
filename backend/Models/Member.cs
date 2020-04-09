@@ -22,6 +22,8 @@ namespace backend.Models
         public string CategoryField { get; set; }
         [NotMapped]
         public Category Category { get; set; }
+        [NotMapped]
+        public Language Language { get; set; }
 
         public string GetPosition()
         {

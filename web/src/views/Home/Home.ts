@@ -19,6 +19,7 @@ import TopModel from '../../models/topModel';
 export default class Home extends Vue {
     private TopRatedArticles: TopModel | null = null;
     private TopFavoritedArticles: TopModel | null = null;
+    private TopWriters: TopModel | null = null;
 
 
     created() {
@@ -26,6 +27,7 @@ export default class Home extends Vue {
         this.UpdateVolume();
         this.UpdateLanguage();
         this.getTopArticles();
+        this.getTopWriters();
     }
 
     @Watch('$parent.$data.Issue')
@@ -53,12 +55,19 @@ export default class Home extends Vue {
         })
     }
 
+    getTopWriters() {
+        api.getTopWriters().then(d => {
+            this.TopWriters = new TopModel(this.$data.Language.topWriters, 'fas fa-chart-bar', 'fas fa-file-alt', d, 'name', 'numberOfArticles');
+        })
+    }
+
     @Watch("$parent.$data.Language")
     UpdateLanguage() {
         this.$data.Language = this.$parent.$data.Language;
-        if (this.TopRatedArticles != null && this.TopFavoritedArticles) {
+        if (this.TopRatedArticles != null && this.TopFavoritedArticles && this.TopWriters != null) {
             this.TopRatedArticles.setTitle(this.$data.Language.topRatedArticles);
             this.TopFavoritedArticles.setTitle(this.$data.Language.topFavoritedArticles);
+            this.TopWriters.setTitle(this.$data.Language.topWriters);
         }
     }
 } 

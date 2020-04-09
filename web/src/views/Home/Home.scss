@@ -7,6 +7,10 @@ body {
         .main-menu {
             width: 60%;
             padding: 2%;
+
+            @media(max-width: 700px) {
+                width: 100%;
+            }
         }
 
         .top-articles {

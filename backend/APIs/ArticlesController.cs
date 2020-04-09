@@ -60,7 +60,7 @@ namespace backend.APIs
             return article;
         }
 
-        // GET: api/Articles/Article/5
+        // GET: api/Articles
         [HttpGet]
         public ActionResult GetTopArticles()
         {

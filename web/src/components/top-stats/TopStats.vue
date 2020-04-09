@@ -6,7 +6,7 @@
             <li v-for="item in model.items" v-if="item.language == Language.num">
                 <div>
                     {{item[model.itemTitle]}}
-                    <span><i :class="model.itemIcon"></i> {{item[model.field]}}</span>
+                    <span>{{item[model.field]}} <i :class="model.itemIcon"></i></span>
                 </div>
             </li>
         </ol>
