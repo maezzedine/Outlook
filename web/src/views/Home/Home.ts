@@ -1,28 +1,31 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import mainMenu from '@/components/main-menu/MainMenu.vue';
-import topArticles from '@/components/top-articles/TopArticles.vue';
+import topStats from '@/components/top-stats/TopStats.vue';
 import { api } from '@/services/api';
 import { ApiObject } from '@/models/apiObject';
+import TopModel from '../../models/topModel';
 
 @Component({
     name: 'Home',
-    components: { mainMenu, topArticles },
+    components: { mainMenu, topStats },
     data() {
         return {
             Volume: undefined,
             Issue: undefined,
-            TopRatedArticles: undefined,
-            TopFavoritedArticles: undefined,
             Language: undefined
         }
     }
 })
 export default class Home extends Vue {
+    private TopRatedArticles: TopModel | null = null;
+    private TopFavoritedArticles: TopModel | null = null;
+
+
     created() {
         this.UpdateIssue();
         this.UpdateVolume();
-        this.getTopArticles();
         this.UpdateLanguage();
+        this.getTopArticles();
     }
 
     @Watch('$parent.$data.Issue')
@@ -45,13 +48,17 @@ export default class Home extends Vue {
 
     getTopArticles() {
         api.getTopArticles().then(d => {
-            this.$data.TopRatedArticles = d.topRatedArticles;
-            this.$data.TopFavoritedArticles = d.topFavoritedArticles;
+            this.TopRatedArticles = new TopModel(this.$data.Language.topRatedArticles, 'fas fa-trophy', 'fas fa-thumbs-up', d.topRatedArticles, 'title', 'rate');
+            this.TopFavoritedArticles = new TopModel(this.$data.Language.topFavoritedArticles, 'fas fa-medal', 'fas fa-star', d.topFavoritedArticles, 'title', 'numberOfFavorites');
         })
     }
 
     @Watch("$parent.$data.Language")
     UpdateLanguage() {
         this.$data.Language = this.$parent.$data.Language;
+        if (this.TopRatedArticles != null && this.TopFavoritedArticles) {
+            this.TopRatedArticles.setTitle(this.$data.Language.topRatedArticles);
+            this.TopFavoritedArticles.setTitle(this.$data.Language.topFavoritedArticles);
+        }
     }
 } 

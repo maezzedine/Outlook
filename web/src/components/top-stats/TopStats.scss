@@ -13,6 +13,18 @@ body {
 
         ol {
             list-style: upper-roman;
+
+            li {
+
+                div {
+                    justify-content: space-between;
+                    display: flex;
+
+                    span {
+                        font-size: small;
+                    }
+                }
+            }
         }
     }
 }

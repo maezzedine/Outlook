@@ -2,8 +2,8 @@
     <div class="Home">
         <main-menu />
         <div class="top-articles">
-            <top-articles :articles="TopRatedArticles" :title="Language.topRatedArticles"/>
-            <top-articles :articles="TopFavoritedArticles" :title="Language.topFavoritedArticles"/>
+            <top-stats :model="TopRatedArticles" />
+            <top-stats :model="TopFavoritedArticles" />
         </div>
     </div>
 </template>
