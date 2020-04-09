@@ -1,24 +1,34 @@
 .main-menu {
-    /*@include row();*/
     height: initial;
-    /*column-span: none;*/
-    /*column-fill: auto;*/
-    /*display: inline-table;*/
-    /*column-count: 2;*/
 
-    .article:first-child, .article:nth-child(2) {
-        margin: 0 1%;
+    .article:nth-child(2n) {
+        margin: 5% 1%;
+    }
+
+    .article:nth-child(2n+1) {
+        margin: -5% 1%;
+    }
+
+    .article:first-child {
+        margin: 0% 1%;
+    }
+
+    .article:nth-child(2) {
+        margin: 10% 1%;
     }
 
     .article {
         @include outlook-box();
         @include col();
         width: 100%;
-        margin: 5% 1%;
         align-items: flex-start;
+        float: right;
+        width: 48%;
 
-        float:left;
-        width:48%;
+        @media (max-width: 700px) {
+            width: 100%;
+            margin: 3% auto !important;
+        }
 
         .category {
             text-align: initial;

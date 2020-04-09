@@ -5,7 +5,7 @@ body {
         width: 100%;
 
         .main-menu {
-            width: 60%;
+            width: 65%;
             padding: 2%;
 
             @media(max-width: 700px) {
@@ -14,12 +14,10 @@ body {
         }
 
         .top-articles {
-            width: 40%;
+            width: 35%;
             padding: 2%;
-
-            *:not(:first-child) {
-                margin-top: 5%;
-            }
+            background: var(--bg-1);
+            font-size: smaller;
         }
     }
 }

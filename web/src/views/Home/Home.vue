@@ -1,11 +1,7 @@
 <template>
     <div class="Home">
         <main-menu />
-        <div class="top-articles d-none d-sm-block">
-            <top-stats :model="TopRatedArticles" />
-            <top-stats :model="TopFavoritedArticles" />
-            <top-stats :model="TopWriters" />
-        </div>
+        <stats id="stats" class="d-none d-sm-block" />
     </div>
 </template>
 <script lang="ts" src="./Home.ts"></script>

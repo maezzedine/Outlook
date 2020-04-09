@@ -14,7 +14,6 @@ export default class SideBar extends Vue {
         this.updateTheme();
         this.getIcons();
         this.getCategories();
-        this.addShadow();
         this.collapseWhenSmall();
         this.UpdateLanguage();
     }
@@ -52,20 +51,6 @@ export default class SideBar extends Vue {
         return this.Icons[cat.tagName]
     }
 
-    addShadow() {
-        var sidebar = document.getElementById('sidebar');
-        if (sidebar != null) {
-            if (document.body.dir == 'rtl') {
-                sidebar.classList.add('box-shadow-left');
-                sidebar.classList.remove('box-shadow-right');
-            }
-            else {
-                sidebar.classList.add('box-shadow-right');
-                sidebar.classList.remove('box-shadow-left');
-            }
-        }
-    }
-
     collapseWhenSmall() {
         if (window.matchMedia('(max-width: 900px)').matches) {
             var sidebar = document.getElementById('sidebar');
@@ -78,6 +63,5 @@ export default class SideBar extends Vue {
     @Watch("$parent.$data.Language")
     UpdateLanguage() {
         this.Language = this.$parent.$data.Language;
-        this.addShadow();
     }
 }

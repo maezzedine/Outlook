@@ -1,5 +1,4 @@
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import { api } from '@/services/api';
 import { ApiObject } from '@/models/apiObject';
 import TopModel from '../../models/topModel';
 
@@ -8,12 +7,7 @@ import TopModel from '../../models/topModel';
         model: {
             type: TopModel,
             private: true,
-            default() { return new TopModel('', '', new Array <ApiObject>(), '', '' ); }
-        },
-        title: {
-            type: String,
-            private: true,
-            default() { return ''; }
+            default() { return new TopModel('', '', '', new Array <ApiObject>(), '', '' ); }
         }
     }
 })

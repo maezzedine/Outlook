@@ -83,6 +83,18 @@
                 transform: translateX(calc(-1 * var(--sidebar-width)));
             }
         }
+
+        .box-shadow-right {
+            -webkit-box-shadow: var(--shadow-right);
+            -moz-box-shadow: var(--shadow-right);
+            box-shadow: var(--shadow-right);
+        }
+
+        .box-shadow-left {
+            -webkit-box-shadow: var(--shadow-left);
+            -moz-box-shadow: var(--shadow-left);
+            box-shadow: var(--shadow-left);
+        }
     }
 }
 
