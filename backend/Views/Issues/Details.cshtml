@@ -24,10 +24,16 @@
             @Html.DisplayFor(model => model.IssueNumber)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Theme)
+            @Html.DisplayNameFor(model => model.ArabicTheme)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Theme)
+            @Html.DisplayFor(model => model.ArabicTheme)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EnglishTheme)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EnglishTheme)
         </dd>
         <dd class="col-sm-4 mr-2">
             @if (Model.ar_pdf != null)

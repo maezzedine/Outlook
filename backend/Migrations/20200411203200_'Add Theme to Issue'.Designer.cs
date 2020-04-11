@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(OutlookContext))]
-    partial class OutlookContextModelSnapshot : ModelSnapshot
+    [Migration("20200411203200_'Add Theme to Issue'")]
+    partial class AddThemetoIssue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,14 +345,11 @@ namespace backend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ArabicTheme")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EnglishTheme")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("IssueNumber")
                         .HasColumnType("int");
+
+                    b.Property<string>("Theme")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VolumeID")
                         .HasColumnType("int");

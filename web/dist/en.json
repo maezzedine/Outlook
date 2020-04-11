@@ -1,15 +1,23 @@
 {
   "lang": "en",
+  "num": 1,
   "dir": "ltr",
   "font": "'Baloo Da 2', cursive",
   "search": "Search",
-  "volumes": "Volumes",
-  "issues": "Issues",
+  "archives": "Archives",
   "about": "Meet Outlook",
   "language": "Arabic",
-  "volume": "V.",
+  "volume": "Volume",
+  "selectVolume": "Select Volume",
+  "selectIssue": "Select Issue",
   "issue": "Issue",
   "mainmenu": "Main",
   "pdf": "PDF",
-  "categories": "Categories"
+  "categories": "Categories",
+  "votes": "Votes",
+  "comments": "Comments",
+  "favorites": "Favorates",
+  "topRatedArticles": "Top Rated Articles",
+  "topFavoritedArticles": "Most Favorited Articles",
+  "topWriters": "Top Writers"
 }

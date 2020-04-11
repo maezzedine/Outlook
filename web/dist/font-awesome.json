@@ -1,11 +1,12 @@
 {
-  "news": "far fa-newspaper",
-  "lifestyle": "fas fa-street-view",
-  "opinion": "fas fa-comments",
-  "art": "fas fa-coffe",
-  "culture": "fas fa-coffe",
-  "personality": "fas fa-id-card-alt",
-  "gender": "fas fa-venus-mars",
-  "society": "fas fa-users",
-  "cover": "fas fa-exclamation"
+  "News": "far fa-newspaper",
+  "Lifestyle": "fas fa-street-view",
+  "Opinion": "fas fa-comments",
+  "Art": "fas fa-coffee",
+  "Culture": "fas fa-coffee",
+  "Personality": "fas fa-id-card-alt",
+  "Gender": "fas fa-venus-mars",
+  "Society": "fas fa-users",
+  "Cover": "fas fa-exclamation",
+  "Other": "fas fa-genderless"
 }

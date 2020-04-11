@@ -16,9 +16,13 @@ namespace backend.Models
         
         [DisplayName("Issue Number")]
         public int IssueNumber { get; set; }
+
+        [DisplayName("Arabic Theme")]
+        public string ArabicTheme { get; set; }
         
-        public string Theme { get; set; }
-        
+        [DisplayName("English Theme")]
+        public string EnglishTheme { get; set; }
+
         [DisplayName("Arabic PDF")]
         public string ar_pdf { get; set; }
         
