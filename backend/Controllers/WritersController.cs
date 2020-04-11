@@ -94,7 +94,7 @@ namespace backend.Controllers
         // POST: Writers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, [Bind("Name,Position")] Member member)
+        public async Task<ActionResult> Edit(int id, [Bind("Position")] Member member)
         {
             if (id != member.ID)
             {
@@ -105,10 +105,13 @@ namespace backend.Controllers
             {
                 try
                 {
-                    var oldWriter = context.Member.Find(id).Name;
-                    context.Update(member);
-                    await context.SaveChangesAsync();
-                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} eddited writer `{oldWriter}` to `{member.Name}`");
+                    var oldWriter = context.Member.Find(id);
+                    if (oldWriter.Position != member.Position)
+                    {
+                        oldWriter.Position = member.Position;
+                        await context.SaveChangesAsync();
+                        FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} eddited writer `{oldWriter.Name}` to become `{member.Position}`");
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {

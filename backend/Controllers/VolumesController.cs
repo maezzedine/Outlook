@@ -88,7 +88,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,VolumeNumber,FallYear,SpringYear")] Volume volume)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FallYear,SpringYear")] Volume volume)
         {
             if (id != volume.Id)
             {
@@ -99,9 +99,11 @@ namespace backend.Controllers
             {
                 try
                 {
+                    var oldVolume = await context.Volume.FindAsync(volume.Id);
+                    oldVolume.FallYear = volume.FallYear;
+                    oldVolume.SpringYear = volume.SpringYear;
+
                     FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} editted Volume {volume.VolumeNumber}");
-                    
-                    context.Update(volume);
                     await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

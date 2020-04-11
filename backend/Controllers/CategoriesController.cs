@@ -125,7 +125,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,CategoryName,Tag")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Tag")] Category category)
         {
             if (id != category.Id)
             {
@@ -136,8 +136,10 @@ namespace backend.Controllers
             {
                 try
                 {
+                    var oldCategory = await context.Category.FindAsync(category.Id);
                     FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} editted Category `{category.CategoryName}`");
-                    context.Update(category);
+                    oldCategory.Language = category.Language;
+                    oldCategory.Tag = category.Tag;
                     await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

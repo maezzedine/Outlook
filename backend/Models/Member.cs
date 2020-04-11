@@ -13,7 +13,7 @@ namespace backend.Models
     public class Member : IMember
     {
         public int ID { get; set; }
-        //[MemberUniqueness]
+        [MemberUniqueness]
         public string Name { get; set; }
         public Position Position { get; set; }
         public int NumberOfArticles { get; set; }

@@ -19,14 +19,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>:
+                @Html.DisplayFor(model => model.CategoryName)
+            </div>
+            <div class="form-group">
                 <label asp-for="Language" class="control-label"></label>
                 <select asp-for="Language" class="form-control" asp-items="new SelectList(languages)"></select>
                 <span asp-validation-for="Language" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Tag" class="control-label"></label>

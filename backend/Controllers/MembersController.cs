@@ -155,7 +155,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Position,CategoryField")] Member member)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Position,CategoryField")] Member member)
         {
             if (id != member.ID)
             {
@@ -216,7 +216,6 @@ namespace backend.Controllers
 
                     }
 
-                    oldMemberData.Name = member.Name;
                     oldMemberData.Position = member.Position;
 
                     FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"to become: Name: {member.Name}\n" +

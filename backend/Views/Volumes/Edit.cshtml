@@ -15,9 +15,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="VolumeNumber" class="control-label"></label>
-                <input asp-for="VolumeNumber" class="form-control" />
-                <span asp-validation-for="VolumeNumber" class="text-danger"></span>
+                <label asp-for="VolumeNumber" class="control-label"></label>: 
+                @Html.DisplayFor(model => model.VolumeNumber)
             </div>
             <div class="form-group">
                 <label asp-for="FallYear" class="control-label"></label>

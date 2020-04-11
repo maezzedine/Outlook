@@ -10,7 +10,7 @@ namespace backend.Models
     {
         public int Id { get; set; }
         public Language Language { get; set; }
-        //[CategoryUniqueness]
+        [CategoryUniqueness]
         [DisplayName("Category Name")]
         public string CategoryName { get; set; }
         [DisplayName("Editors")]
