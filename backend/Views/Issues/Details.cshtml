@@ -23,6 +23,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IssueNumber)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Theme)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Theme)
+        </dd>
         <dd class="col-sm-4 mr-2">
             @if (Model.ar_pdf != null)
             {

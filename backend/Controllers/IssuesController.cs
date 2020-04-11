@@ -85,7 +85,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("IssueNumber,ArabicPDF,EnglishPDF")] Issue issue)
+        public async Task<IActionResult> Create(int? id, [Bind("IssueNumber,Theme,ArabicPDF,EnglishPDF")] Issue issue)
         {
             if (ModelState.IsValid)
             {
@@ -138,7 +138,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IssueNumber,ArabicPDF,EnglishPDF")] Issue issue)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,IssueNumber,Theme,ArabicPDF,EnglishPDF")] Issue issue)
         {
             if (id != issue.Id)
             {

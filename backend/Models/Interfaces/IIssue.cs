@@ -15,5 +15,6 @@ namespace backend.Models.Interfaces
         public string ar_pdf { get; set; }
         public string en_pdf { get; set; }
         public int VolumeID { get; set; }
+        public string Theme { get; set; }
     }
 }

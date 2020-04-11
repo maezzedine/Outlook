@@ -353,3 +353,4 @@ appsettings.Development.json
 .env.production
 
 log.txt
+*.jpg
