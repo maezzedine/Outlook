@@ -37,3 +37,43 @@ Category: أخبارWriter: محمد الصايغ
 Picture Name: Body: <p>هذا النص للتجريب</p>
  by Admin
 4/9/2020 5:45:40 PM | Admin created article of title `Lebanese Economy is dying` and ID `47`
+4/11/2020 11:39:15 PM | This article is edited from `Title: هذا عنوان
+Subtitle: عنوان فرعي
+Category: أخبارWriter: محمد الصايغ
+Picture Name: Body: <p>هذا النص للتجريب</p>
+`
+4/11/2020 11:39:15 PM | to: Title: هذا عنوان
+Subtitle: عنوان فرعي
+Category: أخبارWriter: محمد الصايغ
+Picture Name: Body: <p>هذا النص للتجريب</p>
+ by Admin
+4/11/2020 11:42:41 PM | This article is edited from `Title: هذا عنوان
+Subtitle: عنوان فرعي
+Category: أخبارWriter: محمد الصايغ
+Picture Name: Body: <p>هذا النص للتجريب</p>
+`
+4/11/2020 11:42:45 PM | to: Title: هذا عنوان
+Subtitle: عنوان فرعي
+Category: أخبارWriter: محمد الصايغ
+Picture Name: 637222453652136597.jpgBody: <p>هذا النص للتجريب</p>
+ by Admin
+4/11/2020 11:42:56 PM | This article is edited from `Title: هذا عنوان
+Subtitle: عنوان فرعي
+Category: أخبارWriter: محمد الصايغ
+Picture Name: 637222453652136597.jpgBody: <p>هذا النص للتجريب</p>
+`
+4/11/2020 11:43:02 PM | to: Title: هذا عنوان
+Subtitle: عنوان فرعي
+Category: أخبارWriter: محمد الصايغ
+Picture Name: Body: <p>هذا النص للتجريب</p>
+ by Admin
+4/11/2020 11:43:12 PM | This article is edited from `Title: هذا عنوان
+Subtitle: عنوان فرعي
+Category: أخبارWriter: محمد الصايغ
+Picture Name: Body: <p>هذا النص للتجريب</p>
+`
+4/11/2020 11:43:12 PM | to: Title: هذا عنوان
+Subtitle: عنوان فرعي
+Category: أخبارWriter: محمد الصايغ
+Picture Name: 637222453924959307.jpgBody: <p>هذا النص للتجريب</p>
+ by Admin

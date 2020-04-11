@@ -315,7 +315,7 @@ namespace backend.Controllers
                                 await article.Picture.CopyToAsync(fileStream);
                             }
                             // Save picture local path in the article object
-                            article.PicturePath = @"/img/Articles/" + uniqueImageName;
+                            oldVersionArticle.PicturePath = @"/img/Articles/" + uniqueImageName;
                         }
                     }
                     else
