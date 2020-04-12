@@ -18,6 +18,7 @@ export default class Stats extends Vue {
     private TopWriters: TopModel | null = null;
 
     created() {
+        this.UpdateLanguage();
     }
 
     getTopArticles() {
@@ -25,7 +26,7 @@ export default class Stats extends Vue {
             this.TopRatedArticles = new TopModel(this.$data.Language.topRatedArticles, 'fas fa-trophy', 'fas fa-thumbs-up', d.topRatedArticles, 'title', 'rate');
             this.TopFavoritedArticles = new TopModel(this.$data.Language.topFavoritedArticles, 'fas fa-medal', 'fas fa-star', d.topFavoritedArticles, 'title', 'numberOfFavorites');
             this.getTopWriters();
-        })
+        });
     }
 
     getTopWriters() {
@@ -38,10 +39,11 @@ export default class Stats extends Vue {
         })
     }
 
-    @Watch("$parent.$data.Language")
+    @Watch("$parent.$parent.$data.Language")
     UpdateLanguage() {
-        this.$data.Language = this.$parent.$data.Language;
-
-        this.getTopArticles();
+        this.$data.Language = this.$parent.$parent.$data.Language;
+        if (this.$data.Language != undefined) {
+            this.getTopArticles();
+        }
     }
 }

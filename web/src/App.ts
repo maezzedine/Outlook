@@ -33,7 +33,6 @@ export default class App extends Vue {
         this.getLanguage();
         this.intializeThemeFromCache();
         this.initializeVolumes();
-        this.addBoxShadow();
         this.getColors();
     }
 
@@ -48,7 +47,6 @@ export default class App extends Vue {
         this.lang = (this.lang == 'en') ? 'ar' : 'en';
         localStorage.setItem('language', this.lang);
         await this.getLanguage();
-        this.addBoxShadow();
     }
 
     getLanguage() {
@@ -104,28 +102,6 @@ export default class App extends Vue {
     setVolume(volume: ApiObject) {
         this.$data.Volume = volume;
         sessionStorage.setItem('Outlook-Volume', this.$data.Volume['id']);
-    }
-
-    addBoxShadow() {
-        var sidebar = document.getElementById('sidebar');
-        var stats = document.getElementById('stats');
-
-        if (sidebar != null && stats != null) {
-            if (document.body.dir == 'rtl') {
-                sidebar.classList.add('box-shadow-left');
-                sidebar.classList.remove('box-shadow-right');
-
-                stats.classList.add('box-shadow-right');
-                stats.classList.remove('box-shadow-left');
-            }
-            else {
-                sidebar.classList.add('box-shadow-right');
-                sidebar.classList.remove('box-shadow-left');
-
-                stats.classList.add('box-shadow-left');
-                stats.classList.remove('box-shadow-right');
-            }
-        }
     }
 
     @Watch('$data.Issue')

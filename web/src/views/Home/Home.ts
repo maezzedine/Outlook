@@ -18,6 +18,7 @@ export default class Home extends Vue {
     created() {
         this.UpdateIssue();
         this.UpdateVolume();
+        this.UpdateLanguage();
     }
 
     @Watch('$parent.$data.Issue')

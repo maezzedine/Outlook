@@ -19,5 +19,7 @@
   "favorites": "Favorates",
   "topRatedArticles": "Top Rated Articles",
   "topFavoritedArticles": "Most Favorited Articles",
-  "topWriters": "Top Writers"
+  "topWriters": "Top Writers",
+  "stats-box-shadow": "box-shadow-left",
+  "sidebar-box-shadow": "box-shadow-right"
 }

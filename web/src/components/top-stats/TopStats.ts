@@ -14,7 +14,7 @@ import TopModel from '../../models/topModel';
 export default class TopArticles extends Vue {
     private Language = new ApiObject();
 
-    cteated() {
+    created() {
         this.UpdateLanguage();
     }
 
