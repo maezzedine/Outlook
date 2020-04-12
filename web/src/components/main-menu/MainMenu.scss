@@ -1,24 +1,44 @@
 .main-menu {
-    height: initial;
+    min-height: initial;
+    column-count: var(--main-column-count);
 
-    .article:nth-child(2n) {
-        margin: 1.5vw 1% 0% 1%;
+    .title {
+        /*@include outlook-box();*/
+        padding: 2% 5%;
+        margin: auto;
+        text-align: center;
+        font-size: xx-large;
+        column-span: all;
+
+        .volume {
+            border-bottom: 1px solid var(--fg-0);
+        }
+
+        .issue {
+            font-size: x-large;
+            color: var(--text-1);
+        }
+
+        .theme {
+            font-size: large;
+            color: var(--text-2);
+        }
     }
 
-    .article:nth-child(2n+1) {
-        margin: -5px 1% 0 1%;
-        /*border: 1px solid red;*/
+    .article {
+        margin: 1%;
+        -webkit-column-break-inside: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
     }
 
-    .article:first-child {
-        margin: 0 1% 0% 1%;
-    }
-
-    .article:nth-child(2) {
-        margin: 3vw 1% 1.5vw 1%;
+    @-moz-document url-prefix() {
+        .article {
+            min-height: 300px;
+        }
     }
 
     .article:last-child {
-        margin-bottom: var(--last-article-mb)!important;
+        margin-bottom: var(--last-article-mb) !important;
     }
 }

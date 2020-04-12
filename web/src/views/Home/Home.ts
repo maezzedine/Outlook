@@ -30,14 +30,6 @@ export default class Home extends Vue {
         this.$data.Volume = this.$parent.$data.Volume;
     }
 
-    volumeToString() {
-        var volume = this.$data.Volume;
-        if (volume != undefined) {
-            return 'Volume ' + volume.volumeNumber + ' | ' + volume.fallYear + ' - ' + volume.springYear;
-        }
-        return 'No Volume Selected';
-    }
-
     @Watch("$parent.$data.Language")
     UpdateLanguage() {
         this.$data.Language = this.$parent.$data.Language;

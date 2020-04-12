@@ -8,6 +8,7 @@
         --stats-width: 525px;
         --stats-font-size: unset;
         --last-article-mb: 5%;
+        --main-column-count: 2;
     }
 }
 
@@ -21,6 +22,7 @@
         --stats-width: 35%;
         --stats-font-size: smaller;
         --last-article-mb: 5%;
+        --main-column-count: 2;
     }
 }
 
@@ -37,5 +39,6 @@
         --screen-transform: transform ease .4s;
         --home-width: 100%;
         --last-article-mb: 20%;
+        --main-column-count: 1;
     }
 }
