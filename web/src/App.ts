@@ -15,6 +15,7 @@ import { ApiObject } from './models/apiObject';
     data() {
         return {
             Language: {},
+            Colors: undefined,
             Issue: undefined,
             Volume: undefined,
             Theme: 'default'
@@ -27,12 +28,13 @@ export default class App extends Vue {
 
     private Articles = new ApiObject();
 
-    async created() {
+    created() {
         this.initializeLanguageFromCache();
-        await this.getLanguage();
+        this.getLanguage();
         this.intializeThemeFromCache();
         this.initializeVolumes();
         this.addBoxShadow();
+        this.getColors();
     }
 
     toggleTheme() {
@@ -49,8 +51,16 @@ export default class App extends Vue {
         this.addBoxShadow();
     }
 
-    async getLanguage() {
-        this.$data.Language = await api.getLanguageFile(this.lang);
+    getLanguage() {
+        api.getLanguageFile(this.lang).then(d => {
+            this.$data.Language = d;
+        });
+    }
+
+    getColors() {
+        api.getColors().then(d => {
+            this.$data.Colors = d;
+        });
     }
 
     initializeLanguageFromCache() {

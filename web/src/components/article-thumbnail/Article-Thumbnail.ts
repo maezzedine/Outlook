@@ -20,8 +20,16 @@ export default class ArticleThumbnail extends Vue {
         this.UpdateLanguage();
     }
 
-    async getColors() {
-        this.Colors = await api.getColors();
+    getColors() {
+        var colors = this.$root.$children[0].$data.Colors
+        if (colors != undefined) {
+            this.Colors = colors;
+        }
+        else {
+            api.getColors().then(d => {
+                this.Colors = d;
+            });
+        }
     }
 
     getCategoryColor(cat: string) {
