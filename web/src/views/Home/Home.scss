@@ -5,19 +5,16 @@ body {
         width: 100%;
 
         .main-menu {
-            width: 65%;
+            width: var(--home-width);
             padding: 2%;
-
-            @media(max-width: 700px) {
-                width: 100%;
-            }
+            margin: 0 auto;
         }
 
         .top-articles {
-            width: 35%;
+            width: var(--stats-width);
             padding: 2%;
             background: var(--bg-1);
-            font-size: smaller;
+            font-size: var(--stats-font-size);
         }
     }
 }

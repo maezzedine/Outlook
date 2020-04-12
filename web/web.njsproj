@@ -44,6 +44,8 @@
     <Content Include="public\logo.svg" />
     <Content Include="src\App.scss" />
     <Content Include="src\App.vue" />
+    <Content Include="src\components\article-thumbnail\Article-Thumbnail.scss" />
+    <Content Include="src\components\article-thumbnail\Article-Thumbnail.vue" />
     <Content Include="src\components\main-menu\MainMenu.scss" />
     <Content Include="src\components\main-menu\MainMenu.vue" />
     <Content Include="src\components\navbar\Navbar.scss" />
@@ -77,6 +79,7 @@
     <Folder Include="src\components\" />
     <Folder Include="src\components\navbar\" />
     <Folder Include="src\components\main-menu\" />
+    <Folder Include="src\components\article-thumbnail\" />
     <Folder Include="src\components\top-stats\" />
     <Folder Include="src\components\sidebar\" />
     <Folder Include="src\components\svgs\" />
@@ -97,6 +100,7 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\components\article-thumbnail\Article-Thumbnail.ts" />
     <TypeScriptCompile Include="src\components\main-menu\MainMenu.ts" />
     <TypeScriptCompile Include="src\components\sidebar\Sidebar.ts" />
     <TypeScriptCompile Include="src\components\top-stats\TopStats.ts" />

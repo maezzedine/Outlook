@@ -2,90 +2,23 @@
     height: initial;
 
     .article:nth-child(2n) {
-        margin: 5% 1%;
+        margin: 1.5vw 1% 0% 1%;
     }
 
     .article:nth-child(2n+1) {
-        margin: -5% 1%;
+        margin: -5px 1% 0 1%;
+        /*border: 1px solid red;*/
     }
 
     .article:first-child {
-        margin: 0% 1%;
+        margin: 0 1% 0% 1%;
     }
 
     .article:nth-child(2) {
-        margin: 10% 1%;
+        margin: 3vw 1% 1.5vw 1%;
     }
 
-    .article {
-        @include outlook-box();
-        @include col();
-        width: 100%;
-        align-items: flex-start;
-        float: right;
-        width: 48%;
-
-        @media (max-width: 700px) {
-            width: 100%;
-            margin: 3% auto !important;
-        }
-
-        .category {
-            text-align: initial;
-            margin: 2% 0%;
-            padding: 0% 2%;
-        }
-
-        .title {
-            text-align: initial;
-            align-self: flex-start;
-            margin: 0% 3%;
-            width: 90%;
-            /*font-size: larger;*/
-            font-weight: bolder;
-        }
-
-        .subtitle {
-            margin: 0% 3%;
-            text-align: initial;
-            font-size: x-small;
-
-            span {
-                background: var(--text-0);
-                color: var(--bg-1);
-                border-top-left-radius: 3px;
-                border-top-right-radius: 3px;
-                padding: 0 3px;
-            }
-        }
-
-        *:not(span) {
-            margin: 0% 3%;
-        }
-
-        img {
-            margin-bottom: 2%;
-            width: 95%;
-            align-self: center;
-            border-bottom-left-radius: 3px;
-            border-bottom-right-radius: 3px;
-        }
-
-        .footer {
-            @include row();
-            font-size: small;
-
-            span {
-                margin: 0 5px;
-            }
-
-            .ratedUp {
-                color: var(--success);
-            }
-
-            .ratedDown {
-                color: var(--danger);
-            }
-        }
+    .article:last-child {
+        margin-bottom: var(--last-article-mb)!important;
     }
 }

@@ -1,18 +1,26 @@
-@media (min-width: 1950px) {
+@media (min-width: 1500px) {
     :root {
         --sidebar-width: 180px;
         --main-width: calc(100vw - var(--sidebar-width));
         --navbar-transform: translateX(var(--sidebar-width));
         --screen-transform: transform ease 0s;
+        --home-width: 975px;
+        --stats-width: 525px;
+        --stats-font-size: unset;
+        --last-article-mb: 5%;
     }
 }
 
-@media (max-width: 1950px) {
+@media (max-width: 1500px) {
     :root {
         --sidebar-width: 180px;
         --main-width: calc(100vw - var(--sidebar-width));
         --navbar-transform: translateX(var(--sidebar-width));
         --screen-transform: transform ease 0s;
+        --home-width: 65%;
+        --stats-width: 35%;
+        --stats-font-size: smaller;
+        --last-article-mb: 5%;
     }
 }
 
@@ -27,5 +35,7 @@
         --main-width: 100vw;
         --navbar-transform: none;
         --screen-transform: transform ease .4s;
+        --home-width: 100%;
+        --last-article-mb: 20%;
     }
 }

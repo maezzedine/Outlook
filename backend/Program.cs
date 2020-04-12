@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Areas.Identity;
@@ -49,6 +50,8 @@ namespace backend
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls("https://*:5000");
+                    webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseSetting(WebHostDefaults.DetailedErrorsKey, "true");
                     webBuilder.CaptureStartupErrors(true);
                     //webBuilder.UseIISIntegration();

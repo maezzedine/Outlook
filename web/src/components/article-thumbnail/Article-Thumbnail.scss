@@ -1,0 +1,74 @@
+body {
+
+    .article {
+        @include outlook-box();
+        @include col();
+        width: 100%;
+        align-items: flex-start;
+        float: left;
+        width: 48%;
+
+        @media (max-width: 700px) {
+            width: 100%;
+            margin: 3% auto !important;
+        }
+
+        .category {
+            text-align: initial;
+            margin: 2% 0%;
+            padding: 0% 2%;
+        }
+
+        .title {
+            text-align: initial;
+            align-self: flex-start;
+            margin: 0% 3%;
+            width: 90%;
+            font-size: large;
+            font-weight: bolder;
+        }
+
+        .subtitle {
+            margin: 0% 3%;
+            text-align: initial;
+            font-size: medium;
+            color: var(--text-2);
+
+            span {
+                /*background: var(--text-0);*/
+                color: var(--text-0);
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                padding: 0 3px;
+            }
+        }
+
+        *:not(span) {
+            margin: 0% 3%;
+        }
+
+        img {
+            margin-bottom: 2%;
+            width: 95%;
+            align-self: center;
+            border-radius: 3px;
+        }
+
+        .footer {
+            @include row();
+            font-size: small;
+
+            span {
+                margin: 0 5px;
+            }
+
+            .ratedUp {
+                color: var(--success);
+            }
+
+            .ratedDown {
+                color: var(--danger);
+            }
+        }
+    }
+}
