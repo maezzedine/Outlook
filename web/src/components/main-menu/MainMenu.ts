@@ -28,9 +28,9 @@ export default class MainMenu extends Vue {
     }
 
     IssueToString() {
-        var volume = this.$data.Volume;
-        if (volume != undefined) {
-            return this.Language.issue + ' ' + this.Issue.issueNumber;
+        var issue = this.$data.Issue;
+        if (issue != undefined) {
+            return this.Language.issue + ' ' + issue.issueNumber;
         }
         return 'No Selected Issue';
     }

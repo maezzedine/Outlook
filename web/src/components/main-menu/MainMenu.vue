@@ -3,7 +3,7 @@
         <div class="title">
             <div class="volume">{{VolumeToString()}}</div>
             <div class="issue">{{IssueToString()}}</div>
-            <div class="theme">
+            <div class="theme" v-if="Issue != undefined">
                 <template v-if="Language.lang == 'en'">{{Issue.englishTheme}}</template>
                 <template v-if="Language.lang == 'ar'">{{Issue.arabicTheme}}</template>
             </div>

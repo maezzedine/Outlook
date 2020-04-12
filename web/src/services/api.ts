@@ -3,6 +3,8 @@ import axios from 'axios';
 const APP_URL = process.env.VUE_APP_OUTLOOK;
 const API_URL = APP_URL + '/api/';
 
+const BASE_URL = process.env.VUE_APP_BASE_URL;
+
 export class Api {
     async getVolumeNumbers() {
         var response = await axios.get(API_URL + 'volumes');
@@ -23,18 +25,18 @@ export class Api {
         if (lang == null) {
             return;
         }
-        var response = await fetch(lang + '.json').then(d => d.json());
-        return response;
+        var response = await axios.get('http://localhost:8080/' +  lang + '.json');
+        return response.data;
     }
 
     async getIcons() {
-        var response = await fetch('font-awesome.json').then(d => d.json());
-        return response;
+        var response = await axios.get(BASE_URL + 'font-awesome.json');
+        return response.data;
     }
 
     async getColors() {
-        var response = await fetch('category-color.json').then(d => d.json());
-        return response;
+        var response = await axios.get(BASE_URL + 'category-color.json');
+        return response.data;
     }
 
     async getArticles(issueId: Number) {

@@ -40,8 +40,10 @@ export default class SideBar extends Vue {
         return this.getCategoryLanguage(parseInt(cat.language)) == this.Language.lang
     }
 
-    async getIcons() {
-        this.Icons = await api.getIcons();
+    getIcons() {
+        api.getIcons().then(d => {
+            this.Icons = d; 
+        });
     }
 
     getCategoryIcon(cat: ApiObject) {
