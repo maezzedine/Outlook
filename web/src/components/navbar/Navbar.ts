@@ -7,6 +7,7 @@ import { ApiObject } from '../../models/apiObject';
 })
 export default class Navbar extends Vue {
     private Language = new ApiObject();
+    private expanded = false;
 
     created() {
         this.UpdateLanguage();
@@ -15,5 +16,10 @@ export default class Navbar extends Vue {
     @Watch("$parent.$data.Language")
     UpdateLanguage() {
         this.Language = this.$parent.$data.Language;
+    }
+
+    @Watch("$parent.$data.expanded")
+    UpdateExpansion() {
+        this.expanded = this.$parent.$data.expanded;
     }
 }

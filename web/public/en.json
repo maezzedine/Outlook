@@ -23,5 +23,7 @@
   "stats-box-shadow": "box-shadow-left",
   "sidebar-box-shadow": "box-shadow-right",
   "nbrOfArticles": "Number of articles",
-  "juniorEditors": "Junior Editor(s)"
+  "juniorEditors": "Junior Editor(s)",
+  "window-expand": "en-expand",
+  "sidebar-hide": "en-hide"
 }

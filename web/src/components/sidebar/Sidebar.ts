@@ -14,6 +14,7 @@ export default class SideBar extends Vue {
     private Icons: ApiObject | null = null;
     private theme: string | null = null;
     private Language = new ApiObject();
+    private expanded = false;
 
     created() {
         this.updateTheme();
@@ -68,5 +69,10 @@ export default class SideBar extends Vue {
     @Watch("$parent.$data.Language")
     UpdateLanguage() {
         this.Language = this.$parent.$data.Language;
+    }
+
+    @Watch("$parent.$data.expanded")
+    UpdateExpansion() {
+        this.expanded = this.$parent.$data.expanded;
     }
 }

@@ -4,16 +4,16 @@
             <div class="title" :style="[{ color: getCategoryColor() }]">
                 {{Category.categoryName}}
             </div>
-            <table>
-                <tr>
-                    <th>{{Language.nbrOfArticles}}:</th>
-                    <td>{{Category.articlesCount}}</td>
-                </tr>
-                <tr>
-                    <th>{{Language.juniorEditors}}:</th>
-                    <td v-for="editor in Category.juniorEditors">{{editor.name}}</td>
-                </tr>
-            </table>
+            <div class="row m-0 p-0">
+                <b>{{Language.nbrOfArticles}}: </b>
+                <p>{{Category.articlesCount}}</p>
+            </div>
+            <b>{{Language.juniorEditors}}:</b>
+            <p>
+                <ul>
+                    <li v-for="editor in Category.juniorEditors">{{editor.name}}</li>
+                </ul>
+            </p>
         </div>
         <div class="articles">
             <article-thumbnail v-for="article in Articles" :article="article" />

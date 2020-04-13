@@ -8,6 +8,7 @@
     .about {
         width: 35%;
         padding: 3%;
+        text-align: start;
 
         @media (max-width: 700px) {
             width: 100%;
@@ -19,6 +20,14 @@
             border-bottom: 1px solid;
             margin-bottom: 2%;
             text-align: end;
+        }
+
+        b {
+            margin: 0 5px;
+        }
+
+        ul {
+            list-style: none;
         }
     }
 

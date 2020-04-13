@@ -30,7 +30,7 @@ export class Api {
         if (lang == null) {
             return;
         }
-        var response = await axios.get('http://localhost:8080/' +  lang + '.json');
+        var response = await axios.get(BASE_URL +  lang + '.json');
         return response.data;
     }
 

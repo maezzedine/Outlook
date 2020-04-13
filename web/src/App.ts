@@ -119,10 +119,6 @@ export default class App extends Vue {
         document.body.style.fontFamily = this.$data.Language.font;
         document.body.lang = this.$data.Language.lang;
         document.body.dir = this.$data.Language.dir;
-
-        this.toggleDivClasses('navbar', 'ar-expand', 'en-expand', true);
-        this.toggleDivClasses('route', 'ar-expand', 'en-expand', true);
-        this.toggleDivClasses('sidebar', 'ar-hide', 'en-hide', true);
     }
 
     getCategories() {
@@ -134,7 +130,7 @@ export default class App extends Vue {
     }
 
     toggleExpansion() {
-        this.toggleDivClasses('svg-outlook', 'svg-outlook-rotate-left', 'svg-outlook-rotate-right', false);
+        this.toggleDivClasses('svg-outlook', 'svg-outlook-rotate-left', 'svg-outlook-rotate-right');
 
         if (screen.width < 700) {
             this.expanded = !this.expanded;
@@ -142,27 +138,18 @@ export default class App extends Vue {
     }
 
     // if toggeling is based on the language then class_a is the one to set for dir = rtl
-    toggleDivClasses(id: string, class_a: string, class_b: string, languageDependent: boolean) {
+    toggleDivClasses(id: string, class_a: string, class_b: string) {
         var div = document.getElementById(id);
         if (div != null) {
             var classes = div.classList;
-            if (languageDependent) {
-                var dir = this.$data.Language.dir;
-                this.removeFirstAddSecond(classes, class_b, class_a, dir == 'rtl');
-            } else {
-                this.removeFirstAddSecond(classes, class_a, class_b, classes.contains(class_a));
+            if (classes.contains(class_a)) {
+                classes.remove(class_a);
+                classes.add(class_b);
             }
-        }
-    }
-
-    removeFirstAddSecond(classes: DOMTokenList, class_a: string, class_b: string, condition: boolean) {
-        if (condition) {
-            classes.remove(class_a);
-            classes.add(class_b);
-        }
-        else {
-            classes.remove(class_b);
-            classes.add(class_a);
+            else {
+                classes.remove(class_b);
+                classes.add(class_a);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <nav id="navbar" class="navbar">
+    <nav id="navbar" class="navbar" :class="Language['window-expand']">
 
         <!-- <logo> -->
         <div @click="$emit('expansion-toggled')">

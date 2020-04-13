@@ -1,5 +1,5 @@
 <template>
-    <div id="sidebar" :class="Language['sidebar-box-shadow']">
+    <div id="sidebar" :class="[Language['sidebar-box-shadow'], Language['sidebar-hide']]" >
 
         <div class="main">
             <table>
