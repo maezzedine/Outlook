@@ -16,8 +16,13 @@ export class Api {
         return response.data;
     }
 
-    async getCategories(articleID: Number) {
-        var response = await axios.get(API_URL + 'categories/' + articleID);
+    async getCategories(issueID: Number) {
+        var response = await axios.get(API_URL + 'categories/' + issueID);
+        return response.data;
+    }
+
+    async getCategory(categoryID: Number, issueID: Number) {
+        var response = await axios.get(API_URL + 'categories/' + categoryID + '/' + issueID);
         return response.data;
     }
 

@@ -3,9 +3,14 @@ import { ApiObject } from '@/models/apiObject';
 import { api } from '@/services/api';
 import { getCurrentTheme, setTheme, Theme } from 'css-theming';
 
-@Component
+@Component({
+    data() {
+        return {
+            Categories: undefined
+        }
+    }
+})
 export default class SideBar extends Vue {
-    private Categories = new Array<ApiObject>();
     private Icons: ApiObject | null = null;
     private theme: string | null = null;
     private Language = new ApiObject();
@@ -18,12 +23,10 @@ export default class SideBar extends Vue {
         this.UpdateLanguage();
     }
 
-    @Watch('$parent.$data.Issue')
+    @Watch('$parent.$data.Categories')
     getCategories() {
-        if (this.$parent.$data.Issue != undefined) {
-            api.getCategories(this.$parent.$data.Issue.id).then(r => {
-                this.Categories = r;
-            });
+        if (this.$parent.$data.Categories != undefined) {
+            this.$data.Categories = this.$parent.$data.Categories;
         }
     }
 

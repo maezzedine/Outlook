@@ -3,21 +3,31 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 
-import Home from './views/Home/Home.vue';
-import Archives from './views/Archive/Archive.vue';
+const Home = () => import('./views/Home/Home.vue');
+const Archives = () => import('./views/Archive/Archive.vue');
+const Category = () => import('./views/Category/Category.vue');
 
 export default new Router({
     mode: 'history',
     routes: [
         {
-            path: "/",
-            name: 'Home',
+            path: '*',
+            redirect: '/'
+        },
+        {
+            name: 'home',
+            path: '/',
             component: Home
         },
         {
-            path: "/Archives",
-            name: 'Archives',
+            name: 'archives',
+            path: '/archives',
             component: Archives
+        },
+        {
+            name: 'category',
+            path: '/category/:id?',
+            component: Category
         },
     ]
 });

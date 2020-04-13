@@ -1,16 +1,16 @@
 <template>
-    <div id="sidebar">
+    <div id="sidebar" :class="Language['sidebar-box-shadow']">
 
         <div class="main">
             <table>
-                <tr :class="[{ 'tr-selected' : this.$route.path == '/' }]">
+                <router-link :to="{ name: 'home' }">
                     <th><i class="fas fa-home"></i></th>
                     <td>{{Language.mainmenu}}</td>
-                </tr>
-                <tr :class="[{ 'tr-selected' : this.$route.path == '/PDF' }]">
+                </router-link>
+                <router-link to="/PDF">
                     <th><i class="fas fa-file-pdf"></i></th>
                     <td>{{Language.pdf}}</td>
-                </tr>
+                </router-link>
             </table>
         </div>
 
@@ -18,10 +18,11 @@
         <div class="main">
             <span>{{Language.categories}}</span>
             <table>
-                <tr v-for="cat in Categories" v-if="showCategory(cat)">
+                <router-link v-for="cat in Categories" v-if="showCategory(cat)"
+                             :to="{ name: 'category', params: { id: cat.id }, meta: { category: cat } }">
                     <th><i class="fontawesome" :class="getCategoryIcon(cat)"></i></th>
                     <td>{{cat.categoryName}}<span class="badge badge-secondary" v-if="cat.articlesCount != 0">{{cat.articlesCount}}</span></td>
-                </tr>
+                </router-link>
             </table>      
         </div>
         <!--</Categories>  -->

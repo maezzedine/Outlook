@@ -21,5 +21,7 @@
   "topFavoritedArticles": "Most Favorited Articles",
   "topWriters": "Top Writers",
   "stats-box-shadow": "box-shadow-left",
-  "sidebar-box-shadow": "box-shadow-right"
+  "sidebar-box-shadow": "box-shadow-right",
+  "nbrOfArticles": "Number of articles",
+  "juniorEditors": "Junior Editor(s)"
 }

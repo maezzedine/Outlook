@@ -19,6 +19,7 @@ body {
             font-weight: lighter;
             font-size: smaller;
 
+
             th {
                 padding-left: 5%;
                 padding-right: 5%;
@@ -40,7 +41,10 @@ body {
             table {
                 width: 100%;
 
-                tr {
+                a, tr {
+                    display: table-row;
+                    text-decoration: none;
+                    color: unset;
                     line-height: 40px;
                     border-right: 2px solid transparent;
                     border-left: 2px solid transparent;
@@ -59,13 +63,13 @@ body {
                     }
                 }
 
-                tr:hover {
+                a:hover, tr:hover {
                     background: var(--bg-0);
                     border-right: 2px solid var(--fg-2);
                     border-left: 2px solid var(--fg-2);
                 }
 
-                .tr-selected {
+                .router-link-exact-active {
                     background: var(--bg-0);
                     border-right: 2px solid var(--fg-4);
                     border-left: 2px solid var(--fg-4);
@@ -95,5 +99,4 @@ body {
     .ar-hide {
         transform: translateX(var(--sidebar-width));
     }
-
 }

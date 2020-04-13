@@ -18,7 +18,8 @@ import { ApiObject } from './models/apiObject';
             Colors: undefined,
             Issue: undefined,
             Volume: undefined,
-            Theme: 'default'
+            Categories: undefined,
+            Theme: 'default',
         }
     }
 })
@@ -34,6 +35,7 @@ export default class App extends Vue {
         this.intializeThemeFromCache();
         this.initializeVolumes();
         this.getColors();
+        this.getCategories();
     }
 
     toggleTheme() {
@@ -108,6 +110,7 @@ export default class App extends Vue {
     getArticles() {
         api.getArticles(this.$data.Issue['id']).then(a => {
             this.Articles = a;
+            this.getCategories();
         })
     }
 
@@ -120,6 +123,14 @@ export default class App extends Vue {
         this.toggleDivClasses('navbar', 'ar-expand', 'en-expand', true);
         this.toggleDivClasses('route', 'ar-expand', 'en-expand', true);
         this.toggleDivClasses('sidebar', 'ar-hide', 'en-hide', true);
+    }
+
+    getCategories() {
+        if (this.$data.Issue != undefined) {
+            api.getCategories(this.$data.Issue.id).then(r => {
+                this.$data.Categories = r;
+            });
+        }
     }
 
     toggleExpansion() {

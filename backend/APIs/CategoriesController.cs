@@ -29,16 +29,15 @@ namespace backend.APIs
 
             foreach (var category in categories)
             {
-                category.TagName = category.Tag.ToString();
-                category.ArticlesCount = context.Article.Where(a => (a.CategoryID == category.Id) && (a.IssueID == issueId)).Count();
+                await getCategoryDetails(category, issueId);
             }
 
             return await categories.ToListAsync();
         }
 
         // GET: api/Categories/5
-        [HttpGet("category/{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        [HttpGet("{id}/{issueId}")]
+        public async Task<ActionResult<Category>> GetCategory(int id, int issueId)
         {
             var category = await context.Category.FindAsync(id);
 
@@ -47,21 +46,27 @@ namespace backend.APIs
                 return NotFound();
             }
 
-            category.JuniorEditors = new List<Member>();
-
-            // Get the IDs of the editors of this category
-            var categoryEdotorIDs = from categoryEditor in context.CategoryEditor
-                                    where categoryEditor.CategoryID == id
-                                    select categoryEditor.MemberID;
-
-            // Add each editor to the list of editors in the category object
-            foreach (var categoryEditorID in categoryEdotorIDs)
-            {
-                var categoryEditor = await context.Member.FindAsync(categoryEditorID);
-                category.JuniorEditors.Add(categoryEditor);
-            }
+            await getCategoryDetails(category, issueId);
 
             return category;
+        }
+
+        private async Task getCategoryDetails(Category category, int issueId)
+        {
+            category.TagName = category.Tag.ToString();
+            category.ArticlesCount = context.Article.Where(a => (a.CategoryID == category.Id) && (a.IssueID == issueId)).Count();
+
+            // Find junior editors of category
+            var juniorEditorsIDs = from categoryEditor in context.CategoryEditor
+                                   where categoryEditor.CategoryID == category.Id
+                                   select categoryEditor.MemberID;
+
+            var juniorEditors = from member in context.Member
+                                where juniorEditorsIDs.Contains(member.ID)
+                                select member;
+
+            category.JuniorEditors = await juniorEditors.ToListAsync();
+            return;
         }
     }
 }
