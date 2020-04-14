@@ -155,6 +155,7 @@ namespace backend.APIs
             // Add the writer name
             var writer = await context.Member.FindAsync(article.MemberID);
             article.Writer = writer.Name;
+            article.WriterPosition = writer.PositionName;
 
             // Add the langauge
             article.Lang = (article.Language == Models.Interfaces.Language.English) ? "en" : "ar";

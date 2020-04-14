@@ -1,5 +1,5 @@
 <template>
-    <div class="article" v-if="showArticle(article)">
+    <router-link :to="{name: 'article', params: { id: article.id} }" class="article" v-if="showArticle(article)">
         <div class="category" :style="[{background: getCategoryColor(article.categoryTagName)}]">{{article.category}}</div>
         <div class="title">{{article.title}}</div>
         <div class="subtitle">-<span>{{article.writer}}:</span> {{article.subtitle}}</div>
@@ -14,7 +14,7 @@
             <span class="row m-0 p-0"><span><i class="far fa-star"></i></span>{{article.numberOfFavorites}}</span>
             <!-- <i class="fas fa-star"></i> -->
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script lang="ts" src="./Article-Thumbnail.ts"></script>

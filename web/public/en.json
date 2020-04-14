@@ -4,6 +4,7 @@
   "dir": "ltr",
   "font": "'Baloo Da 2', cursive",
   "search": "Search",
+  "home": "Home",
   "archives": "Archives",
   "aboutUs": "Meet Outlook",
   "language": "Arabic",
@@ -27,5 +28,7 @@
   "window-expand": "en-expand",
   "sidebar-hide": "en-hide",
   "about": "About",
-  "writers": "Writers"
+  "writers": "Writers",
+  "float": "right;",
+  "article-image": "en-img"
 }

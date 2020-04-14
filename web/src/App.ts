@@ -19,6 +19,7 @@ import { ApiObject } from './models/apiObject';
             Issue: undefined,
             Volume: undefined,
             Categories: undefined,
+            Articles: undefined,
             Theme: 'default',
         }
     }
@@ -26,8 +27,6 @@ import { ApiObject } from './models/apiObject';
 export default class App extends Vue {
     private lang: string | null = null;
     private expanded = false || screen.width > 700;
-
-    private Articles = new ApiObject();
 
     created() {
         this.initializeLanguageFromCache();
@@ -109,7 +108,7 @@ export default class App extends Vue {
     @Watch('$data.Issue')
     getArticles() {
         api.getArticles(this.$data.Issue['id']).then(a => {
-            this.Articles = a;
+            this.$data.Articles = a;
             this.getCategories();
         })
     }

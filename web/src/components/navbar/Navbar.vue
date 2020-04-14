@@ -18,6 +18,14 @@
         <!-- <options> -->
         <div class="options">
 
+            <!-- <Home> -->
+            <router-link to="/" class="btn-group d-sm-none" :data-title="Language.home">
+                <button class="archive">
+                    <i class="fas fa-home"></i>
+                </button>
+            </router-link>
+            <!-- </Home> -->
+
             <!-- <Archives> -->
             <router-link to="/Archives" class="btn-group" :data-title="Language.archives">
                 <button class="archive">

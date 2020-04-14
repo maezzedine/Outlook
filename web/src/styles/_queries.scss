@@ -1,5 +1,6 @@
 @media (min-width: 1500px) {
     :root {
+        font-size: 18px;
         --sidebar-width: 180px;
         --main-width: calc(100vw - var(--sidebar-width));
         --screen-transform: transform ease 0s;
@@ -9,6 +10,7 @@
         --last-article-mb: 5%;
         --main-column-count: 2;
         --route-width: 1500px;
+        --article-element-width: 48%;
     }
 }
 
@@ -23,6 +25,7 @@
         --last-article-mb: 5%;
         --main-column-count: 2;
         --route-width: 100%;
+        --article-element-width: 48%;
     }
 }
 
@@ -40,5 +43,6 @@
         --last-article-mb: 20%;
         --main-column-count: 1;
         --route-width: 100%;
+        --article-element-width: 98%;
     }
 }

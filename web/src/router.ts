@@ -7,6 +7,7 @@ const Home = () => import('./views/Home/Home.vue');
 const Archives = () => import('./views/Archive/Archive.vue');
 const Category = () => import('./views/Category/Category.vue');
 const Writers = () => import('./views/Outlook-Writers/Outlook-Writers.vue');
+const Article = () => import('./views/Outlook-Article/Outlook-Article.vue');
 
 export default new Router({
     mode: 'history',
@@ -27,13 +28,18 @@ export default new Router({
         },
         {
             name: 'category',
-            path: '/category/:id?',
+            path: '/category/:id',
             component: Category
         },
         {
             name: 'writers',
             path: '/writers',
             component: Writers
+        },
+        {
+            name: 'article',
+            path: '/article/:id',
+            component: Article
         },
     ]
 });

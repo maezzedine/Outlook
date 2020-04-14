@@ -49,6 +49,11 @@ export class Api {
         return response.data;
     }
 
+    async getArticle(articleId: Number) {
+        var response = await axios.get(API_URL + 'articles/article/' + articleId);
+        return response.data;
+    }
+
     async getTopArticles() {
         var response = await axios.get(API_URL + 'articles/');
         return response.data;

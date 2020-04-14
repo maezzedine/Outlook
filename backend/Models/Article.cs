@@ -12,39 +12,67 @@ namespace backend.Models
 {
     public class Article : IArticle, IRatedBlog
     {
+        
         public int Id { get; set; }
+        
         public Language Language { get; set; }
+        
         [NotMapped]
+        
         public string Lang { get; set; }
+        
         public int CategoryID { get; set; }
+        
         [NotMapped]
+        
         public string Category { get; set; }
+        
         [NotMapped]
         public string CategoryTagName { get; set; }
+        
         public int IssueID { get; set; }
+        
         public string Title { get; set; }
+        
         public string Subtitle { get; set; }
+        
         [NotMapped]
         public IFormFile Picture { get; set; }
+        
         [Display(Name="Picture")]
+        
         public string PicturePath { get; set; }
+        
         [NotMapped]
         [DisplayName("Delete Picture")]
         public bool DeletePicture { get; set; }
+        
         public string Text { get; set; }
+        
         public int MemberID { get; set; }
+        
         [NotMapped]
         public string Writer { get; set; }
+        
+        [NotMapped]
+        public string WriterPosition { get; set; }
+        
         [NotMapped]
         [DisplayName("New Writer")]
         [MemberUniqueness]
         public string NewWriter { get; set; }
+        
         public DateTime DateTime { get; set; }
+        
         public int Rate { get; set; }
+        
         public int NumberOfVotes { get; set; }
+        
         public int NumberOfFavorites { get; set; }
+        
         [NotMapped]
         public List<Comment> Comments { get; set; }
+        
         [NotMapped]
         public UserRate RatedByUser { get; set; }
 

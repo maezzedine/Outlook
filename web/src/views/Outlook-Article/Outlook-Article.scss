@@ -1,0 +1,89 @@
+.article {
+    @include outlook-window();
+    flex-wrap: nowrap;
+    padding-left: 0;
+    padding-right: 0;
+    align-items: flex-start;
+    text-align: initial;
+
+    .category {
+        font-size: large;
+        text-align: end;
+        width: var(--article-element-width);
+
+        span {
+            border: 1px solid var(--bg-0);
+            padding: 0 1%;
+            margin: 1%;
+        }
+    }
+
+    .article-body {
+        margin: 0% 3%;
+
+        .title {
+            font-size: xx-large;
+            font-weight: bolder;
+
+            @media (max-width: 700px) {
+                font-size: x-large;
+            }
+        }
+
+        .subtitle {
+            font-size: x-large;
+
+            @media (max-width: 700px) {
+                font-size: large;
+            }
+        }
+
+        .writer {
+            font-size: large;
+            margin: 2% 0;
+            width: var(--article-element-width);
+            border-bottom: 1px solid var(--fg-0);
+        }
+
+        img {
+            width: var(--article-element-width);
+            margin: 1% 2%;
+            border-radius: 3px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .en-img {
+            float: right;
+        }
+
+        .ar-img {
+            float: left;
+        }
+
+        #article-text-body {
+            clear: none;
+            border-bottom: 1px solid var(--fg-0);
+            color: var(--text-1);
+            text-align: justify;
+        }
+
+        .footer {
+            @include row();
+            margin: 1% 0 5% 0;
+            font-size: small;
+            color: var(--text-2);
+
+            span {
+                margin: 0 5px;
+            }
+
+            .ratedUp {
+                color: var(--success);
+            }
+
+            .ratedDown {
+                color: var(--danger);
+            }
+        }
+    }
+}

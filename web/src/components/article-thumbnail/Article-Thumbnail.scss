@@ -6,6 +6,8 @@ body {
         width: 100%;
         align-items: flex-start;
         float: left;
+        text-decoration: none;
+        color: unset;
 
         @media (max-width: 700px) {
             width: 100%;
