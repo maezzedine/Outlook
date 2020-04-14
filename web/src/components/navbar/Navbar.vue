@@ -34,7 +34,7 @@
 
             <!-- <Meet Outlook> -->
             <router-link to='/'>
-                <div class="btn mx-sm-0 mx-md-2">{{Language.about}}</div>
+                <div class="btn mx-sm-0 mx-md-2">{{Language.aboutUs}}</div>
             </router-link>
             <!-- </Meet Outlook> -->
 

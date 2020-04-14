@@ -6,6 +6,7 @@ Vue.use(Router);
 const Home = () => import('./views/Home/Home.vue');
 const Archives = () => import('./views/Archive/Archive.vue');
 const Category = () => import('./views/Category/Category.vue');
+const Writers = () => import('./views/Outlook-Writers/Outlook-Writers.vue');
 
 export default new Router({
     mode: 'history',
@@ -28,6 +29,11 @@ export default new Router({
             name: 'category',
             path: '/category/:id?',
             component: Category
+        },
+        {
+            name: 'writers',
+            path: '/writers',
+            component: Writers
         },
     ]
 });

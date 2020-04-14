@@ -25,13 +25,6 @@ namespace backend.APIs
             this.context = context;
         }
 
-        // GET: api/Members
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Member>>> GetMember()
-        {
-            return await context.Member.ToListAsync();
-        }
-
         // GET: api/Members/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Member>> GetMember(int id)
@@ -46,7 +39,19 @@ namespace backend.APIs
             return member;
         }
 
+        // GET: api/Members
         [HttpGet]
+        public async Task<ActionResult<IEnumerable<Member>>> GetWriters()
+        {
+            var writers = from member in context.Member
+                          where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
+                          orderby member.Name
+                          select GetMemberLanguage(member);
+
+            return await writers.ToListAsync();
+        }
+
+        [HttpGet("board")]
         public async Task<ActionResult> GetBoardMembers()
         {
             var arabicBoardMembers = from member in context.ArabicBoard
@@ -74,8 +79,8 @@ namespace backend.APIs
             });
         }
 
-        // GET: api/Members/Top
-        [HttpGet("Top")]
+        // GET: api/Members/top
+        [HttpGet("top")]
         public ActionResult GetTopWriters()
         {
             var topWriters = from member in context.Member

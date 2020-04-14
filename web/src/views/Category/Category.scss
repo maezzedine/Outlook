@@ -1,9 +1,6 @@
 .Category {
     @include row();
-    height: 100%;
-    width: var(--route-width);
-    margin: auto;
-    padding: 3%;
+    @include outlook-window();
 
     .about {
         width: 35%;
@@ -15,11 +12,7 @@
         }
 
         .title {
-            font-size: larger;
-            font-weight: bold;
-            border-bottom: 1px solid;
-            margin-bottom: 2%;
-            text-align: end;
+            @include outlook-writers();
         }
 
         b {

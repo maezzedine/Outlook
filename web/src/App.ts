@@ -132,9 +132,9 @@ export default class App extends Vue {
     toggleExpansion() {
         this.toggleDivClasses('svg-outlook', 'svg-outlook-rotate-left', 'svg-outlook-rotate-right');
 
-        if (screen.width < 700) {
+        //if (screen.width < 700) {
             this.expanded = !this.expanded;
-        }
+        //}
     }
 
     // if toggeling is based on the language then class_a is the one to set for dir = rtl

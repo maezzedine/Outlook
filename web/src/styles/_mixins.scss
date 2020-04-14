@@ -56,3 +56,18 @@
     box-shadow: var(--box-shadow);
     border-radius: 2px;
 }
+
+@mixin outlook-window() {
+    height: 100%;
+    width: var(--route-width);
+    margin: auto;
+    padding: 3%;
+}
+
+@mixin outlook-writers() {
+    font-size: larger;
+    font-weight: bold;
+    border-bottom: 1px solid;
+    margin-bottom: 2%;
+    text-align: end;
+}

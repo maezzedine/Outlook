@@ -13,21 +13,25 @@ namespace backend.Models
     public class Member : IMember
     {
         public int ID { get; set; }
+        
         [MemberUniqueness]
         public string Name { get; set; }
+        
         public Position Position { get; set; }
+        
         public int NumberOfArticles { get; set; }
+        
         [NotMapped]
         [DisplayName("Category")]
         public string CategoryField { get; set; }
+        
         [NotMapped]
         public Category Category { get; set; }
+        
         [NotMapped]
         public Language Language { get; set; }
 
-        public string GetPosition()
-        {
-            return Position.ToString().Replace('_', ' ');
-        }
+        [NotMapped]
+        public string PositionName => Position.ToString().Replace('_', ' ');
     }
 }

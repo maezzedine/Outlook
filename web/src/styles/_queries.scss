@@ -2,7 +2,6 @@
     :root {
         --sidebar-width: 180px;
         --main-width: calc(100vw - var(--sidebar-width));
-        --navbar-transform: translateX(var(--sidebar-width));
         --screen-transform: transform ease 0s;
         --home-width: 975px;
         --stats-width: 525px;
@@ -17,7 +16,6 @@
     :root {
         --sidebar-width: 180px;
         --main-width: calc(100vw - var(--sidebar-width));
-        --navbar-transform: translateX(var(--sidebar-width));
         --screen-transform: transform ease 0s;
         --home-width: 65%;
         --stats-width: 35%;
@@ -37,7 +35,6 @@
     :root {
         --route-width: 100vw;
         --main-width: 100vw;
-        --navbar-transform: none;
         --screen-transform: transform ease .4s;
         --home-width: 100%;
         --last-article-mb: 20%;

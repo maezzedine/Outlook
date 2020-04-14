@@ -58,6 +58,11 @@ export class Api {
         var response = await axios.get(API_URL + 'members/top/');
         return response.data;
     }
+
+    async getWriters() {
+        var response = await axios.get(API_URL + 'members/');
+        return response.data;
+    }
 }
 
 export const api = new Api();

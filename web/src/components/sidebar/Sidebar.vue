@@ -14,18 +14,30 @@
             </table>
         </div>
 
-        <!--<Categories>  -->
+        <!--<Categories>-->
         <div class="main">
             <span>{{Language.categories}}</span>
             <table>
                 <router-link v-for="cat in Categories" v-if="showCategory(cat)"
-                             :to="{ name: 'category', params: { id: cat.id }, meta: { category: cat } }">
+                                :to="{ name: 'category', params: { id: cat.id } }">
                     <th><i class="fontawesome" :class="getCategoryIcon(cat)"></i></th>
-                    <td>{{cat.categoryName}}<span class="badge badge-secondary" v-if="cat.articlesCount != 0">{{cat.articlesCount}}</span></td>
+                    <td>{{cat.categoryName}}<span class="badge badge-secondary m-2" v-if="cat.articlesCount != 0">{{cat.articlesCount}}</span></td>
+                </router-link>
+            </table> 
+        </div>
+        <!--</Categories>-->
+
+        <!--<About>-->
+        <div class="main">
+            <span>{{Language.about}}</span>
+            <table>
+                <router-link to="/writers">
+                    <th><i class="fas fa-feather-alt"></i></th>
+                    <td>{{Language.writers}}</td>
                 </router-link>
             </table>      
         </div>
-        <!--</Categories>  -->
+        <!--</About>-->
 
         <!-- <toggle theme> -->
         <div class="icon-btn" @click="$emit('theme-toggled')">

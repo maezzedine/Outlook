@@ -1,0 +1,13 @@
+body {
+    .writers {
+        @include outlook-window();
+        column-count: 4;
+        text-align: start;
+
+        .title {
+            @include outlook-writers();
+            width: 50%;
+            column-span: all;
+        }
+    }
+}

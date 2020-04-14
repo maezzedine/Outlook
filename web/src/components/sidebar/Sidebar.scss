@@ -11,7 +11,7 @@ body {
         width: var(--sidebar-width);
         transition: var(--screen-transform);
         animation-delay: 1s;
-        overflow: auto;
+        overflow-y: auto;
         color: var(--text-0);
 
         .main:nth-child(2) {
