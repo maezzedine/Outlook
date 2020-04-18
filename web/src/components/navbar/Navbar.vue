@@ -19,7 +19,7 @@
         <div class="options">
 
             <!-- <Home> -->
-            <router-link to="/" class="btn-group d-sm-none" :data-title="$store.getters.Language.home">
+            <router-link :to="{ name: 'home' }" class="btn-group d-sm-none" :data-title="$store.getters.Language.home">
                 <button class="archive">
                     <i class="fas fa-home"></i>
                 </button>
@@ -27,7 +27,7 @@
             <!-- </Home> -->
 
             <!-- <Archives> -->
-            <router-link to="/Archives" class="btn-group" :data-title="$store.getters.Language.archives">
+            <router-link :to="{ name: 'archives' }" class="btn-group" :data-title="$store.getters.Language.archives">
                 <button class="archive">
                     <i class="fas fa-archive"></i>
                 </button>
@@ -41,7 +41,7 @@
             <!-- </Change Language> -->
 
             <!-- <Meet Outlook> -->
-            <router-link to='/'>
+            <router-link :to="{ name: '' }">
                 <div class="btn mx-sm-0 mx-md-2">{{$store.getters.Language.aboutUs}}</div>
             </router-link>
             <!-- </Meet Outlook> -->

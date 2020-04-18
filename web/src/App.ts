@@ -50,32 +50,40 @@ export default class App extends Vue {
     }
 
     // Language
-    toggleLang() {
-        this.lang = (this.lang == 'en') ? 'ar' : 'en';
-        localStorage.setItem('language', this.lang);
-        this.commitStateLanguage();
-    }
-
-    commitStateLanguage() {
-        this.$store.dispatch('setLang', this.lang);
-        this.setPageSpecifications();
-    }
-
     initializeStateLanguages() {
         api.getLanguageFile('en').then(e => {
             this.$store.dispatch('setEnglish', e);
 
             api.getLanguageFile('ar').then(a => {
                 this.$store.dispatch('setArabic', a);
-                this.initializeLanguageFromCache();
+                this.initializeLanguage();
             });
         });
     }
 
-    initializeLanguageFromCache() {
-        var localLanguage = localStorage.getItem('language');
-        this.lang = (localLanguage != null) ? localLanguage : "en";
+    initializeLanguage() {
+        var fromParams = this.$route.params.lang;
+        if (fromParams != undefined && (fromParams == 'en' || fromParams == 'ar')) {
+            this.lang = fromParams;
+        }
+        else {
+            var localLanguage = localStorage.getItem('language');
+            this.lang = (localLanguage != null) ? localLanguage : "en";
+            this.$router.push('/' + this.lang);
+        }
         this.commitStateLanguage();
+    }
+
+    toggleLang() {
+        this.lang = (this.lang == 'en') ? 'ar' : 'en';
+        localStorage.setItem('language', this.lang);
+        this.commitStateLanguage();
+        this.$router.push('/' + this.lang);
+    }
+
+    commitStateLanguage() {
+        this.$store.dispatch('setLang', this.lang);
+        this.setPageSpecifications();
     }
 
     setPageSpecifications() {

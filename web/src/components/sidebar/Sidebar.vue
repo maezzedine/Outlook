@@ -31,7 +31,7 @@
         <div class="main">
             <span>{{$store.getters.Language.about}}</span>
             <table>
-                <router-link to="/writers">
+                <router-link :to="{ name: 'writers' }">
                     <th><i class="fas fa-feather-alt"></i></th>
                     <td>{{$store.getters.Language.writers}}</td>
                 </router-link>

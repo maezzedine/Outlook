@@ -9,37 +9,39 @@ const Category = () => import('./views/Category/Category.vue');
 const Writers = () => import('./views/Outlook-Writers/Outlook-Writers.vue');
 const Article = () => import('./views/Outlook-Article/Outlook-Article.vue');
 
+//function prefixRoutes(prefix: string, routes: RouteConfig) {
+//    return routes.map(route => route.path = prefix + '/' + route.path)
+//}
+
 export default new Router({
     mode: 'history',
     routes: [
-        {
-            path: '*',
-            redirect: '/'
-        },
-        {
-            name: 'home',
-            path: '/',
-            component: Home
-        },
-        {
-            name: 'archives',
-            path: '/archives',
-            component: Archives
-        },
-        {
-            name: 'category',
-            path: '/category/:id',
-            component: Category
-        },
-        {
-            name: 'writers',
-            path: '/writers',
-            component: Writers
-        },
-        {
-            name: 'article',
-            path: '/article/:id',
-            component: Article
-        },
+        //...prefixRoutes('/:lang', [
+            {
+                name: 'home',
+                path: '/:lang',
+                component: Home,
+            },
+            {
+                name: 'archives',
+                path: '/:lang/archives',
+                component: Archives
+            },
+            {
+                name: 'category',
+                path: '/:lang/category/:id',
+                component: Category
+            },
+            {
+                name: 'writers',
+                path: '/:lang/writers',
+                component: Writers
+            },
+            {
+                name: 'article',
+                path: '/:lang/article/:id',
+                component: Article
+            }
+        //])
     ]
 });
