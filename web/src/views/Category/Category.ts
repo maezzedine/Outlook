@@ -5,11 +5,6 @@ import articleThumbnail from '@/components/article-thumbnail/Article-Thumbnail';
 
 @Component({
     components: { articleThumbnail },
-    data() {
-        return {
-            Language: undefined
-        }
-    }
 })
 export default class Category extends Vue {
     private Colors: ApiObject | null = null;
@@ -20,7 +15,6 @@ export default class Category extends Vue {
     created() {
         this.getColors();
         this.getIdFromParams();
-        this.UpdateLanguage();
     }
 
     getColors() {
@@ -55,7 +49,7 @@ export default class Category extends Vue {
     }
 
     showCategory() {
-        return (this.Category != undefined) && (this.Category.language == this.$data.Language.num);
+        return (this.Category != undefined) && (this.Category.language == this.$store.getters.Language.num);
     }
 
     @Watch('$route.params.id')
@@ -83,16 +77,13 @@ export default class Category extends Vue {
         if ((this.Category != null) && !(this.$parent.$data.Articles instanceof ApiObject)) {
             var articles = this.$parent.$data.Articles;
             this.Articles = new Array();
-            for (let a of articles) {
-                if (a.categoryID == this.Category.id) {
-                    this.Articles.push(a);
+            if (articles != undefined) {
+                for (let a of articles) {
+                    if (a.categoryID == this.Category.id) {
+                        this.Articles.push(a);
+                    }
                 }
             }
         }
-    }
-
-    @Watch("$parent.$data.Language")
-    UpdateLanguage() {
-        this.$data.Language = this.$parent.$data.Language;
     }
 }

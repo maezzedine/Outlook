@@ -6,17 +6,7 @@ import { ApiObject } from '../../models/apiObject';
     components: { svgOutlook },
 })
 export default class Navbar extends Vue {
-    private Language = new ApiObject();
     private expanded = false;
-
-    created() {
-        this.UpdateLanguage();
-    }
-
-    @Watch("$parent.$data.Language")
-    UpdateLanguage() {
-        this.Language = this.$parent.$data.Language;
-    }
 
     @Watch("$parent.$data.expanded")
     UpdateExpansion() {

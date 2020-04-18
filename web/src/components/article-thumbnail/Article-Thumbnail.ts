@@ -11,13 +11,11 @@ import { api } from '@/services/api';
     }
 })
 export default class ArticleThumbnail extends Vue {
-    private Language = new ApiObject();
     private APP_URL = process.env.VUE_APP_OUTLOOK;
     private Colors: ApiObject | null = null;
 
     created() {
         this.getColors();
-        this.UpdateLanguage();
     }
 
     getColors() {
@@ -40,14 +38,9 @@ export default class ArticleThumbnail extends Vue {
     }
 
     showArticle(article: ApiObject) {
-        if (this.Language == undefined || article == undefined) {
+        if (this.$store.getters.Language == undefined || article == undefined) {
             return false;
         }
-        return article.lang == this.Language.lang;
-    }
-
-    @Watch("$parent.$data.Language")
-    UpdateLanguage() {
-        this.Language = this.$parent.$data.Language;
+        return article.lang == this.$store.getters.Language.lang;
     }
 }

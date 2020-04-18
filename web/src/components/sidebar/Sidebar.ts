@@ -13,7 +13,6 @@ import { getCurrentTheme, setTheme, Theme } from 'css-theming';
 export default class SideBar extends Vue {
     private Icons: ApiObject | null = null;
     private theme: string | null = null;
-    private Language = new ApiObject();
     private expanded = false;
 
     created() {
@@ -21,7 +20,6 @@ export default class SideBar extends Vue {
         this.getIcons();
         this.getCategories();
         this.collapseWhenSmall();
-        this.UpdateLanguage();
     }
 
     @Watch('$parent.$data.Categories')
@@ -41,7 +39,7 @@ export default class SideBar extends Vue {
     }
 
     showCategory(cat: ApiObject) {
-        return this.getCategoryLanguage(parseInt(cat.language)) == this.Language.lang
+        return this.getCategoryLanguage(parseInt(cat.language)) == this.$store.getters.Language.lang
     }
 
     getIcons() {
@@ -64,11 +62,6 @@ export default class SideBar extends Vue {
                 sidebar.classList.add('collapsed');
             }
         }
-    }
-
-    @Watch("$parent.$data.Language")
-    UpdateLanguage() {
-        this.Language = this.$parent.$data.Language;
     }
 
     @Watch("$parent.$data.expanded")

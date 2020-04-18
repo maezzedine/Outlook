@@ -9,7 +9,6 @@ import stats from '@/views/Stats/Stats.vue';
         return {
             Volume: undefined,
             Issue: undefined,
-            Language: undefined,
             Models: undefined
         }
     }
@@ -18,7 +17,6 @@ export default class Home extends Vue {
     created() {
         this.UpdateIssue();
         this.UpdateVolume();
-        this.UpdateLanguage();
     }
 
     @Watch('$parent.$data.Issue')
@@ -29,10 +27,5 @@ export default class Home extends Vue {
     @Watch('$parent.$data.Volume')
     UpdateVolume() {
         this.$data.Volume = this.$parent.$data.Volume;
-    }
-
-    @Watch("$parent.$data.Language")
-    UpdateLanguage() {
-        this.$data.Language = this.$parent.$data.Language;
     }
 } 

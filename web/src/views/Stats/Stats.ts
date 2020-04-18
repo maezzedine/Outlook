@@ -5,11 +5,6 @@ import { api } from '@/services/api';
 
 @Component({
     components: { topStats },
-    data() {
-        return {
-            Language: undefined
-        }
-    }
 })
 export default class Stats extends Vue {
 
@@ -18,20 +13,20 @@ export default class Stats extends Vue {
     private TopWriters: TopModel | null = null;
 
     created() {
-        this.UpdateLanguage();
+        this.getTopArticles();
     }
 
     getTopArticles() {
         api.getTopArticles().then(d => {
-            this.TopRatedArticles = new TopModel(this.$data.Language.topRatedArticles, 'fas fa-trophy', 'fas fa-thumbs-up', d.topRatedArticles, 'title', 'rate');
-            this.TopFavoritedArticles = new TopModel(this.$data.Language.topFavoritedArticles, 'fas fa-medal', 'fas fa-star', d.topFavoritedArticles, 'title', 'numberOfFavorites');
+            this.TopRatedArticles = new TopModel(this.$store.getters.Language.topRatedArticles, 'fas fa-trophy', 'fas fa-thumbs-up', d.topRatedArticles, 'title', 'rate');
+            this.TopFavoritedArticles = new TopModel(this.$store.getters.Language.topFavoritedArticles, 'fas fa-medal', 'fas fa-star', d.topFavoritedArticles, 'title', 'numberOfFavorites');
             this.getTopWriters();
         });
     }
 
     getTopWriters() {
         api.getTopWriters().then(d => {
-            this.TopWriters = new TopModel(this.$data.Language.topWriters, 'fas fa-chart-bar', 'fas fa-file-alt', d, 'name', 'numberOfArticles');
+            this.TopWriters = new TopModel(this.$store.getters.Language.topWriters, 'fas fa-chart-bar', 'fas fa-file-alt', d, 'name', 'numberOfArticles');
 
             if (this.TopRatedArticles != null && this.TopFavoritedArticles && this.TopWriters != null) {
                 this.$data.Models = new Array<TopModel>(this.TopRatedArticles, this.TopFavoritedArticles, this.TopWriters);
@@ -39,11 +34,4 @@ export default class Stats extends Vue {
         })
     }
 
-    @Watch("$parent.$parent.$data.Language")
-    UpdateLanguage() {
-        this.$data.Language = this.$parent.$parent.$data.Language;
-        if (this.$data.Language != undefined) {
-            this.getTopArticles();
-        }
-    }
 }

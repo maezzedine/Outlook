@@ -12,10 +12,7 @@ export default class Archive extends Vue {
     private Issues = new Array<ApiObject>();
     private Issue = new ApiObject();
 
-    private Language = new ApiObject();
-
     created() {
-        this.UpdateLanguage();
         this.intializeData();
     }
 
@@ -50,10 +47,5 @@ export default class Archive extends Vue {
                 this.Issue = i[i.length - 1];
             });
         }
-    }
-
-    @Watch("$parent.$data.Language")
-    UpdateLanguage() {
-        this.Language = this.$parent.$data.Language;
     }
 }

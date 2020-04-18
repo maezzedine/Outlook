@@ -14,7 +14,6 @@ import { ApiObject } from './models/apiObject';
     },
     data() {
         return {
-            Language: {},
             Colors: undefined,
             Issue: undefined,
             Volume: undefined,
@@ -29,8 +28,7 @@ export default class App extends Vue {
     private expanded = false || screen.width > 700;
 
     created() {
-        this.initializeLanguageFromCache();
-        this.getLanguage();
+        this.initializeStateLanguages();
         this.intializeThemeFromCache();
         this.initializeVolumes();
         this.getColors();
@@ -44,15 +42,26 @@ export default class App extends Vue {
         localStorage.setItem('theme', this.$data.Theme);
     }
 
-    async toggleLang() {
+    toggleLang() {
         this.lang = (this.lang == 'en') ? 'ar' : 'en';
         localStorage.setItem('language', this.lang);
-        await this.getLanguage();
+        this.commitStateLanguage();
     }
 
-    getLanguage() {
-        api.getLanguageFile(this.lang).then(d => {
-            this.$data.Language = d;
+    commitStateLanguage() {
+        this.$store.commit('setLang', this.lang);
+        this.$data.Language = this.$store.getters.Language;
+    }
+
+    initializeStateLanguages() {
+        api.getLanguageFile('en').then(e => {
+            this.$store.commit('setEnglish', e);
+
+            api.getLanguageFile('ar').then(a => {
+                this.$store.commit('setArabic', a);
+
+                this.initializeLanguageFromCache();
+            });
         });
     }
 
@@ -65,6 +74,7 @@ export default class App extends Vue {
     initializeLanguageFromCache() {
         var localLanguage = localStorage.getItem('language');
         this.lang = (localLanguage != null) ? localLanguage : "en";
+        this.commitStateLanguage();
     }
 
     intializeThemeFromCache() {
@@ -131,9 +141,9 @@ export default class App extends Vue {
     toggleExpansion() {
         this.toggleDivClasses('svg-outlook', 'svg-outlook-rotate-left', 'svg-outlook-rotate-right');
 
-        //if (screen.width < 700) {
+        if (screen.width < 700) {
             this.expanded = !this.expanded;
-        //}
+        }
     }
 
     // if toggeling is based on the language then class_a is the one to set for dir = rtl

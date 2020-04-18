@@ -1,30 +1,22 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { ApiObject } from '../../models/apiObject';
-import { api } from '@/services/api';
+import { api, Api } from '@/services/api';
+import App from '../../App';
 
 @Component
 export default class OutlookArticle extends Vue {
     private id: Number | null = null;
     private Article: ApiObject | null = null;
     private Colors: ApiObject | null = null;
-    private Language: ApiObject | null = null;
     private APP_URL = process.env.VUE_APP_OUTLOOK;
     private loading = true;
-
-    private body = document.getElementById('article-text-body');
 
     created() {
         this.getIdFromParams();
         this.getArticle();
         this.getColors();
-        this.UpdateLanguage();
         // todo: if the article's language wasn't the app language, switch langauges
     }
-
-    mounted() {
-        console.log(this.$el.textContent);
-    }
-
 
     getColors() {
         var colors = this.$root.$children[0].$data.Colors
@@ -85,10 +77,5 @@ export default class OutlookArticle extends Vue {
     @Watch('$route.params.id')
     getIdFromParams() {
         this.id = parseInt(this.$route.params.id);
-    }
-
-    @Watch("$parent.$data.Language")
-    UpdateLanguage() {
-        this.$data.Language = this.$parent.$data.Language;
     }
 }

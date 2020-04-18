@@ -11,15 +11,4 @@ import TopModel from '../../models/topModel';
         }
     }
 })
-export default class TopArticles extends Vue {
-    private Language = new ApiObject();
-
-    created() {
-        this.UpdateLanguage();
-    }
-
-    @Watch("$parent.$data.Language")
-    UpdateLanguage() {
-        this.Language = this.$parent.$data.Language;
-    }
-}
+export default class TopArticles extends Vue { }
