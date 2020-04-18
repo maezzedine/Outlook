@@ -38,9 +38,9 @@ export default class ArticleThumbnail extends Vue {
     }
 
     showArticle(article: ApiObject) {
-        if (this.$store.getters.Language == undefined || article == undefined) {
+        if (this.$store.getters['language/Language'] == undefined || article == undefined) {
             return false;
         }
-        return article.lang == this.$store.getters.Language.lang;
+        return article.lang == this.$store.getters['language/Language'].lang;
     }
 }

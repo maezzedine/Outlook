@@ -39,7 +39,7 @@ export default class SideBar extends Vue {
     }
 
     showCategory(cat: ApiObject) {
-        return this.getCategoryLanguage(parseInt(cat.language)) == this.$store.getters.Language.lang
+        return this.getCategoryLanguage(parseInt(cat.language)) == this.$store.getters['language/Language'].lang
     }
 
     getIcons() {

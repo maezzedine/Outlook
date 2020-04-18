@@ -49,7 +49,7 @@ export default class Category extends Vue {
     }
 
     showCategory() {
-        return (this.Category != undefined) && (this.Category.language == this.$store.getters.Language.num);
+        return (this.Category != undefined) && (this.Category.language == this.$store.getters['language/Language'].num);
     }
 
     @Watch('$route.params.id')

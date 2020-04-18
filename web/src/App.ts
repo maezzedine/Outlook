@@ -6,6 +6,7 @@ import Home from './views/Home/Home.vue';
 import outlookNavbar from '@/components/navbar/Navbar.vue';
 import outlookSidebar from '@/components/sidebar/Sidebar.vue';
 import { ApiObject } from './models/apiObject';
+import language from './store/modules/language';
 
 @Component({
     name: 'App',
@@ -49,18 +50,19 @@ export default class App extends Vue {
     }
 
     commitStateLanguage() {
-        this.$store.commit('setLang', this.lang);
-        this.$data.Language = this.$store.getters.Language;
+        this.$store.dispatch('language/setLang', this.lang);
+        this.setPageSpecifications();
     }
 
     initializeStateLanguages() {
         api.getLanguageFile('en').then(e => {
-            this.$store.commit('setEnglish', e);
+            this.$store.dispatch('language/setEnglish', e);
 
             api.getLanguageFile('ar').then(a => {
-                this.$store.commit('setArabic', a);
-
+                this.$store.dispatch('language/setArabic', a);
                 this.initializeLanguageFromCache();
+
+                console.log(this.$store.getters['language/Language']);
             });
         });
     }
@@ -123,11 +125,10 @@ export default class App extends Vue {
         })
     }
 
-    @Watch('$data.Language')
     setPageSpecifications() {
-        document.body.style.fontFamily = this.$data.Language.font;
-        document.body.lang = this.$data.Language.lang;
-        document.body.dir = this.$data.Language.dir;
+        document.body.style.fontFamily = this.$store.getters['language/Language'].font;
+        document.body.lang = this.$store.getters['language/Language'].lang;
+        document.body.dir = this.$store.getters['language/Language'].dir;
     }
 
     getCategories() {

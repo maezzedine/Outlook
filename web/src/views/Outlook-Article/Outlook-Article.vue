@@ -14,7 +14,7 @@
             </div>
 
             <template v-if="!loading">
-                <img v-if="Article.picturePath != null" :src="APP_URL + Article.picturePath" :class="$store.getters.Language['article-image']"/>
+                <img v-if="Article.picturePath != null" :src="APP_URL + Article.picturePath" :class="$store.getters['language/Language']['article-image']"/>
             </template>
 
             <div class="writer">
@@ -27,8 +27,8 @@
                 <span :class="[{ ratedUp : Article.ratedByUser == 1 }]"><i class="fas fa-angle-up"></i></span>
                 {{Article.rate}}
                 <span :class="[{ ratedDown : Article.ratedByUser == 2 }]"><i class="fas fa-angle-down"></i></span>
-                <span>{{$store.getters.Language.votes}}: {{Article.numberOfVotes}}</span>
-                <span v-if="Article.comments != undefined">{{$store.getters.Language.comments}}: {{Article.comments.length}}</span>
+                <span>{{$store.getters['language/Language'].votes}}: {{Article.numberOfVotes}}</span>
+                <span v-if="Article.comments != undefined">{{$store.getters['language/Language'].comments}}: {{Article.comments.length}}</span>
                 <span class="row m-0 p-0"><span><i class="far fa-star"></i></span>{{Article.numberOfFavorites}}</span>
                 <!-- <i class="fas fa-star"></i> -->
             </div>

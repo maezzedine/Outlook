@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
+    <Folder Include="src\store\" />
     <Folder Include="public\" />
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
@@ -91,6 +92,7 @@
     <Folder Include="src\components\svgs\" />
     <Folder Include="src\models\" />
     <Folder Include="src\services\" />
+    <Folder Include="src\store\modules\" />
     <Folder Include="src\styles\" />
     <Folder Include="src\views\" />
     <Folder Include="src\views\Category\" />
@@ -109,7 +111,7 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\store.ts" />
+    <TypeScriptCompile Include="src\store\modules\language.ts" />
     <TypeScriptCompile Include="src\components\article-thumbnail\Article-Thumbnail.ts" />
     <TypeScriptCompile Include="src\components\main-menu\MainMenu.ts" />
     <TypeScriptCompile Include="src\components\sidebar\Sidebar.ts" />
@@ -127,6 +129,7 @@
     <TypeScriptCompile Include="src\views\Outlook-Article\Outlook-Article.ts" />
     <TypeScriptCompile Include="src\views\Outlook-Writers\Outlook-Writers.ts" />
     <TypeScriptCompile Include="src\views\Stats\Stats.ts" />
+    <TypeScriptCompile Include="src\store\index.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

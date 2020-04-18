@@ -1,9 +1,9 @@
 <template>
     <div class="Archives">
-        <p>{{$store.getters.Language['volume']}} {{Volume['volumeNumber']}} | {{$store.getters.Language['issue']}} {{Issue['issueNumber']}}</p>
+        <p>{{$store.getters['language/Language']['volume']}} {{Volume['volumeNumber']}} | {{$store.getters['language/Language']['issue']}} {{Issue['issueNumber']}}</p>
         <table>
             <tr>
-                <th>{{$store.getters.Language['selectVolume']}}</th>
+                <th>{{$store.getters['language/Language']['selectVolume']}}</th>
                 <td>
                     <select v-model="Volume">
                         <option v-for="volume in Volumes" :value="volume">
@@ -13,7 +13,7 @@
                 </td>
             </tr>
             <tr>
-                <th>{{$store.getters.Language['selectIssue']}}</th>
+                <th>{{$store.getters['language/Language']['selectIssue']}}</th>
                 <td>
                     <select v-model="Issue">
                         <option v-for="issue in Issues" :value="issue">

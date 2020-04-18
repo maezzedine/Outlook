@@ -1,22 +1,22 @@
 <template>
-    <div id="sidebar" :class="[$store.getters.Language['sidebar-box-shadow'], $store.getters.Language['sidebar-hide']]" >
+    <div id="sidebar" :class="[$store.getters['language/Language']['sidebar-box-shadow'], $store.getters['language/Language']['sidebar-hide']]" >
 
         <div class="main">
             <table>
                 <router-link :to="{ name: 'home' }">
                     <th><i class="fas fa-home"></i></th>
-                    <td>{{$store.getters.Language.mainmenu}}</td>
+                    <td>{{$store.getters['language/Language'].mainmenu}}</td>
                 </router-link>
                 <router-link to="/PDF">
                     <th><i class="fas fa-file-pdf"></i></th>
-                    <td>{{$store.getters.Language.pdf}}</td>
+                    <td>{{$store.getters['language/Language'].pdf}}</td>
                 </router-link>
             </table>
         </div>
 
         <!--<Categories>-->
         <div class="main">
-            <span>{{$store.getters.Language.categories}}</span>
+            <span>{{$store.getters['language/Language'].categories}}</span>
             <table>
                 <router-link v-for="cat in Categories" v-if="showCategory(cat)"
                                 :to="{ name: 'category', params: { id: cat.id } }">
@@ -29,11 +29,11 @@
 
         <!--<About>-->
         <div class="main">
-            <span>{{$store.getters.Language.about}}</span>
+            <span>{{$store.getters['language/Language'].about}}</span>
             <table>
                 <router-link to="/writers">
                     <th><i class="fas fa-feather-alt"></i></th>
-                    <td>{{$store.getters.Language.writers}}</td>
+                    <td>{{$store.getters['language/Language'].writers}}</td>
                 </router-link>
             </table>      
         </div>

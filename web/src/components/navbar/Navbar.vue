@@ -1,5 +1,5 @@
 <template>
-    <nav id="navbar" class="navbar" :class="$store.getters.Language['window-expand']">
+    <nav id="navbar" class="navbar" :class="$store.getters['language/Language']['window-expand']">
 
         <!-- <logo> -->
         <div @click="$emit('expansion-toggled')">
@@ -9,7 +9,7 @@
 
         <!-- <search bar> -->
         <div class="d-none d-sm-flex col-4 form-control">
-            <input class="form-control" type="text" :placeholder="$store.getters.Language.search" />
+            <input class="form-control" type="text" :placeholder="$store.getters['language/Language'].search" />
             <i class="fas fa-search"></i>
         </div>
         <!-- </search bar> -->
@@ -19,7 +19,7 @@
         <div class="options">
 
             <!-- <Home> -->
-            <router-link to="/" class="btn-group d-sm-none" :data-title="$store.getters.Language.home">
+            <router-link to="/" class="btn-group d-sm-none" :data-title="$store.getters['language/Language'].home">
                 <button class="archive">
                     <i class="fas fa-home"></i>
                 </button>
@@ -27,7 +27,7 @@
             <!-- </Home> -->
 
             <!-- <Archives> -->
-            <router-link to="/Archives" class="btn-group" :data-title="$store.getters.Language.archives">
+            <router-link to="/Archives" class="btn-group" :data-title="$store.getters['language/Language'].archives">
                 <button class="archive">
                     <i class="fas fa-archive"></i>
                 </button>
@@ -35,14 +35,14 @@
             <!-- </Archives> -->
 
             <!-- <Change Language> -->
-            <button class="archive" :data-title="$store.getters.Language.language">
+            <button class="archive" :data-title="$store.getters['language/Language'].language">
                 <i class="fas fa-language" @click="$emit('language-toggled')"></i>
             </button>
             <!-- </Change Language> -->
 
             <!-- <Meet Outlook> -->
             <router-link to='/'>
-                <div class="btn mx-sm-0 mx-md-2">{{$store.getters.Language.aboutUs}}</div>
+                <div class="btn mx-sm-0 mx-md-2">{{$store.getters['language/Language'].aboutUs}}</div>
             </router-link>
             <!-- </Meet Outlook> -->
 
