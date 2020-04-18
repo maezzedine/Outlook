@@ -4,8 +4,8 @@
             <div class="volume">{{VolumeToString()}}</div>
             <div class="issue">{{IssueToString()}}</div>
             <div class="theme" v-if="Issue != undefined">
-                <template v-if="$store.getters['language/Language'].lang == 'en'">{{Issue.englishTheme}}</template>
-                <template v-if="$store.getters['language/Language'].lang == 'ar'">{{Issue.arabicTheme}}</template>
+                <template v-if="$store.getters.Language.lang == 'en'">{{Issue.englishTheme}}</template>
+                <template v-if="$store.getters.Language.lang == 'ar'">{{Issue.arabicTheme}}</template>
             </div>
             
         </div>

@@ -5,10 +5,10 @@
                 {{Category.categoryName}}
             </div>
             <div class="row m-0 p-0">
-                <b>{{$store.getters['language/Language'].nbrOfArticles}}: </b>
+                <b>{{$store.getters.Language.nbrOfArticles}}: </b>
                 <p>{{Category.articlesCount}}</p>
             </div>
-            <b>{{$store.getters['language/Language'].juniorEditors}}:</b>
+            <b>{{$store.getters.Language.juniorEditors}}:</b>
             <p>
                 <ul>
                     <li v-for="editor in Category.juniorEditors">{{editor.name}}</li>

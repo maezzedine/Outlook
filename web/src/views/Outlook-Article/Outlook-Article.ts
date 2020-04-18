@@ -7,34 +7,17 @@ import App from '../../App';
 export default class OutlookArticle extends Vue {
     private id: Number | null = null;
     private Article: ApiObject | null = null;
-    private Colors: ApiObject | null = null;
     private APP_URL = process.env.VUE_APP_OUTLOOK;
     private loading = true;
 
     created() {
         this.getIdFromParams();
         this.getArticle();
-        this.getColors();
         // todo: if the article's language wasn't the app language, switch langauges
     }
 
-    getColors() {
-        var colors = this.$root.$children[0].$data.Colors
-        if (colors != undefined) {
-            this.Colors = colors;
-        }
-        else {
-            api.getColors().then(d => {
-                this.Colors = d;
-            });
-        }
-    }
-
     getCategoryColor(cat: string) {
-        if (this.Colors == null) {
-            return "";
-        }
-        return this.Colors[cat]
+        return this.$store.state.colors.colors[cat]
     }
 
     getArticle() {

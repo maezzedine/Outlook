@@ -1,8 +1,8 @@
 <template>
     <div class="writers">
-        <div class="title">{{$store.getters['language/Language'].writers}}</div>
+        <div class="title">{{$store.getters.Language.writers}}</div>
         <ol>
-            <li v-for="writer in Writers" v-if="writer.language == $store.getters['language/Language'].num">
+            <li v-for="writer in Writers" v-if="writer.language == $store.getters.Language.num">
                 {{writer.name}}
             </li>
         </ol>

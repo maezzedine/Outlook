@@ -3,7 +3,7 @@
         <span><i :class="model.titleIcon"></i> {{model.title}} <i :class="model.titleIcon"></i></span>
 
         <ol>
-            <li v-for="item in model.items" v-if="item.language == $store.getters['language/Language'].num">
+            <li v-for="item in model.items" v-if="item.language == $store.getters.Language.num">
                 <div>
                     {{item[model.itemTitle]}}
                     <span>{{item[model.field]}} <i :class="model.itemIcon"></i></span>

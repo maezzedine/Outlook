@@ -1,13 +1,4 @@
-import Vue from 'vue';
-import Vuex, { ActionContext } from 'vuex';
-
-Vue.use(Vuex);
-
-interface languageState {
-    lang: string;
-    english: object;
-    arabic: object;
-}
+import { ActionContext } from 'vuex';
 
 const state = {
     english: Object,
@@ -16,37 +7,36 @@ const state = {
 }
 
 const mutations = {
-    setLang(state: languageState, lang: string) {
+    setLang(state: state, lang: string) {
         state.lang = lang;
     },
-    setEnglish(state: languageState, en: languageState) {
+    setEnglish(state: state, en: state) {
         state.english = en;
     },
-    setArabic(state: languageState, ar: languageState) {
+    setArabic(state: state, ar: state) {
         state.arabic = ar;
     }
 }
 
 const actions = {
-    setLang(context: ActionContext<languageState, languageState>, lang: string) {
+    setLang(context: ActionContext<state, state>, lang: string) {
         context.commit('setLang', lang);
     },
-    setEnglish(context: ActionContext<languageState, languageState>, en: languageState) {
+    setEnglish(context: ActionContext<state, state>, en: state) {
         context.commit('setEnglish', en);
     },
-    setArabic(context: ActionContext<languageState, languageState>, ar: languageState) {
+    setArabic(context: ActionContext<state, state>, ar: state) {
         context.commit('setArabic', ar);
     }
 }
 
 const getters = {
-    Language: (state: languageState) => {
+    Language: (state: state) => {
         return (state.lang == 'en') ? state.english : state.arabic;
     }
 }
 
 export default {
-    namespaced: true,
     state,
     mutations,
     actions,

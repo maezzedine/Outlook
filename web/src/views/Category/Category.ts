@@ -7,27 +7,19 @@ import articleThumbnail from '@/components/article-thumbnail/Article-Thumbnail';
     components: { articleThumbnail },
 })
 export default class Category extends Vue {
-    private Colors: ApiObject | null = null;
     private Category: ApiObject | null = null;
     private Articles: Array<ApiObject> | null = null;
     private id: Number | null = null;
 
     created() {
-        this.getColors();
         this.getIdFromParams();
     }
 
-    getColors() {
-        api.getColors().then(d => {
-            this.Colors = d;
-        });
-    }
-
     getCategoryColor() {
-        if (this.Colors == null || this.Category == null) {
+        if (this.Category == null) {
             return '';
         }
-        return this.Colors[this.Category.tagName]
+        return this.$store.state.colors.colors[this.Category.tagName]
     }
 
     getCatgory() {
@@ -49,7 +41,7 @@ export default class Category extends Vue {
     }
 
     showCategory() {
-        return (this.Category != undefined) && (this.Category.language == this.$store.getters['language/Language'].num);
+        return (this.Category != undefined) && (this.Category.language == this.$store.getters.Language.num);
     }
 
     @Watch('$route.params.id')

@@ -15,7 +15,6 @@ import language from './store/modules/language';
     },
     data() {
         return {
-            Colors: undefined,
             Issue: undefined,
             Volume: undefined,
             Categories: undefined,
@@ -36,6 +35,7 @@ export default class App extends Vue {
         this.getCategories();
     }
 
+    // Theme
     toggleTheme() {
         const previousTheme = getCurrentTheme();
         this.$data.Theme = previousTheme.name == 'default' ? 'default-dark' : 'default';
@@ -43,6 +43,13 @@ export default class App extends Vue {
         localStorage.setItem('theme', this.$data.Theme);
     }
 
+    intializeThemeFromCache() {
+        var localTheme = localStorage.getItem('theme');
+        this.$data.Theme = (localTheme != null) ? localTheme : 'default';
+        initializeTheming(getTheme(this.$data.Theme));
+    }
+
+    // Language
     toggleLang() {
         this.lang = (this.lang == 'en') ? 'ar' : 'en';
         localStorage.setItem('language', this.lang);
@@ -50,26 +57,18 @@ export default class App extends Vue {
     }
 
     commitStateLanguage() {
-        this.$store.dispatch('language/setLang', this.lang);
+        this.$store.dispatch('setLang', this.lang);
         this.setPageSpecifications();
     }
 
     initializeStateLanguages() {
         api.getLanguageFile('en').then(e => {
-            this.$store.dispatch('language/setEnglish', e);
+            this.$store.dispatch('setEnglish', e);
 
             api.getLanguageFile('ar').then(a => {
-                this.$store.dispatch('language/setArabic', a);
+                this.$store.dispatch('setArabic', a);
                 this.initializeLanguageFromCache();
-
-                console.log(this.$store.getters['language/Language']);
             });
-        });
-    }
-
-    getColors() {
-        api.getColors().then(d => {
-            this.$data.Colors = d;
         });
     }
 
@@ -79,18 +78,37 @@ export default class App extends Vue {
         this.commitStateLanguage();
     }
 
-    intializeThemeFromCache() {
-        var localTheme = localStorage.getItem('theme');
-        this.$data.Theme = (localTheme != null) ? localTheme : 'default';
-        initializeTheming(getTheme(this.$data.Theme));
+    setPageSpecifications() {
+        document.body.style.fontFamily = this.$store.getters.Language.font;
+        document.body.lang = this.$store.getters.Language.lang;
+        document.body.dir = this.$store.getters.Language.dir;
     }
 
+    // Colors
+    getColors() {
+        api.getColors().then(d => {
+            this.$store.dispatch('setColors', d);
+        });
+    }
+
+    // Volumes
     initializeVolumes() {
         api.getVolumeNumbers().then(d => {
             this.initializeVolume(d);
         });
     }
 
+    initializeVolume(volumes: Array<ApiObject>) {
+        this.$data.Volume = cacher.initializeVolume(volumes);
+        this.initializeIssues();
+    }
+
+    setVolume(volume: ApiObject) {
+        this.$data.Volume = volume;
+        sessionStorage.setItem('Outlook-Volume', this.$data.Volume['id']);
+    }
+
+    // Issues
     initializeIssues() {
         api.getIssues(parseInt(this.$data.Volume['id'])).then(i => {
             this.initializeIssue(i);
@@ -102,19 +120,9 @@ export default class App extends Vue {
         this.getArticles();
     }
 
-    initializeVolume(volumes: Array<ApiObject>) {
-        this.$data.Volume = cacher.initializeVolume(volumes);
-        this.initializeIssues();
-    }
-
     setIssue(issue: ApiObject) {
         this.$data.Issue = issue;
         sessionStorage.setItem('Outlook-Issue', this.$data.Issue['id']);
-    }
-
-    setVolume(volume: ApiObject) {
-        this.$data.Volume = volume;
-        sessionStorage.setItem('Outlook-Volume', this.$data.Volume['id']);
     }
 
     @Watch('$data.Issue')
@@ -125,12 +133,7 @@ export default class App extends Vue {
         })
     }
 
-    setPageSpecifications() {
-        document.body.style.fontFamily = this.$store.getters['language/Language'].font;
-        document.body.lang = this.$store.getters['language/Language'].lang;
-        document.body.dir = this.$store.getters['language/Language'].dir;
-    }
-
+    // Categories
     getCategories() {
         if (this.$data.Issue != undefined) {
             api.getCategories(this.$data.Issue.id).then(r => {
@@ -139,6 +142,7 @@ export default class App extends Vue {
         }
     }
 
+    // Toggle Expansion
     toggleExpansion() {
         this.toggleDivClasses('svg-outlook', 'svg-outlook-rotate-left', 'svg-outlook-rotate-right');
 
