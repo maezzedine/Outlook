@@ -68,6 +68,11 @@ export class Api {
         var response = await axios.get(API_URL + 'members/');
         return response.data;
     }
+
+    async getBoardMembers() {
+        var response = await axios.get(API_URL + 'members/board');
+        return response.data;
+    }
 }
 
 export const api = new Api();

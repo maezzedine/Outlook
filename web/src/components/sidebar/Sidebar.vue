@@ -7,7 +7,7 @@
                     <th><i class="fas fa-home"></i></th>
                     <td>{{$store.getters.Language.mainmenu}}</td>
                 </router-link>
-                <router-link to="/PDF">
+                <router-link :to="{ name: '' }">
                     <th><i class="fas fa-file-pdf"></i></th>
                     <td>{{$store.getters.Language.pdf}}</td>
                 </router-link>
@@ -34,6 +34,10 @@
                 <router-link :to="{ name: 'writers' }">
                     <th><i class="fas fa-feather-alt"></i></th>
                     <td>{{$store.getters.Language.writers}}</td>
+                </router-link>
+                <router-link :to="{ name: 'about' }">
+                    <th><i class="fas fa-handshake"></i></th>
+                    <td>{{$store.getters.Language.aboutUs}}</td>
                 </router-link>
             </table>      
         </div>

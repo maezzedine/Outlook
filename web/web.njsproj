@@ -61,6 +61,8 @@
     <Content Include="src\styles\_mixins.scss" />
     <Content Include="src\styles\_queries.scss" />
     <Content Include="src\styles\_variables.scss" />
+    <Content Include="src\views\Meet-Outlook\Meet-Outlook.scss" />
+    <Content Include="src\views\Meet-Outlook\Meet-Outlook.vue" />
     <Content Include="src\views\Archive\Archive.scss" />
     <Content Include="src\views\Archive\Archive.vue" />
     <Content Include="src\views\Category\Category.scss" />
@@ -98,6 +100,7 @@
     <Folder Include="src\views\Category\" />
     <Folder Include="src\views\Home\" />
     <Folder Include="src\views\Archive\" />
+    <Folder Include="src\views\Meet-Outlook\" />
     <Folder Include="src\views\Outlook-Article\" />
     <Folder Include="src\views\Outlook-Writers\" />
     <Folder Include="src\views\Stats\" />
@@ -124,6 +127,8 @@
     <TypeScriptCompile Include="src\components\navbar\Navbar.ts" />
     <TypeScriptCompile Include="src\services\api.ts" />
     <TypeScriptCompile Include="src\services\cacher.ts" />
+    <TypeScriptCompile Include="src\store\state.ts" />
+    <TypeScriptCompile Include="src\views\Meet-Outlook\Meet-Outlook.ts" />
     <TypeScriptCompile Include="src\views\Archive\Archive.ts" />
     <TypeScriptCompile Include="src\views\Category\Category.ts" />
     <TypeScriptCompile Include="src\views\Home\Home.ts" />

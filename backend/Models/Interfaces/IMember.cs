@@ -14,22 +14,22 @@ namespace backend.Models.Interfaces
     public enum Position
     {
         Editor_In_Chief,
-        Senior_Editor,
-        Associate_Editor,
-        Junior_Editor,
-        Proofreader,
-        Web_Editor,
-        Copy_Editor,
-        Staff_Writer,
-        Former_Member,
         رئيس_تحرير,
+        Senior_Editor,
         المحرر,
+        Associate_Editor,
         نائب_المحرر,
+        Junior_Editor,
         رئيس_قسم,
-        مدقق_النسخة,
+        Proofreader,
         مدقق_لغوي,
+        Web_Editor,
         مدقق_الموقع,
+        Copy_Editor,
+        مدقق_النسخة,
+        Staff_Writer,
         كاتب_صحفي,
+        Former_Member,
         عضو_سابق
     }
 }

@@ -9,15 +9,22 @@ namespace backend.Models
     public class Category : ICategory
     {
         public int Id { get; set; }
+        
         public Language Language { get; set; }
+        
         [CategoryUniqueness]
         [DisplayName("Category Name")]
         public string CategoryName { get; set; }
+        
+        [NotMapped]
         [DisplayName("Editors")]
         public IList<Member> JuniorEditors { get; set; }
+        
         public Tag Tag { get; set; }
+        
         [NotMapped]
         public string TagName { get; set; }
+        
         [NotMapped]
         public int ArticlesCount { get; set; }
     }

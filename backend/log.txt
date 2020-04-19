@@ -78,3 +78,29 @@ Category: أخبارWriter: محمد الصايغ
 Picture Name: 637222453924959307.jpgBody: <p>هذا النص للتجريب</p>
  by Admin
 4/14/2020 8:39:48 PM | Admin created writer `حسين المعلم`
+4/18/2020 10:42:46 PM | Admin created member `Hayat Abdallah` with position Editor_In_Chief (Category = ) 
+4/18/2020 10:43:00 PM | Admin admits to delete writer `Ahmad Attar`
+4/18/2020 10:43:00 PM | Delet Completed.
+4/18/2020 10:43:15 PM | Admin created member `أحمد عطار` with position المحرر (Category = ) 
+4/18/2020 10:43:34 PM | Admin created member `حسن سليقا` with position نائب_المحرر (Category = ) 
+4/18/2020 10:43:47 PM | Admin created member `محسن شمص` with position رئيس_قسم (Category = آراء) 
+4/18/2020 10:44:06 PM | Admin created member `Caline Pechdimaljian` with position Senior_Editor (Category = ) 
+4/18/2020 10:44:25 PM | Admin created member `Maeve Lane` with position Junior_Editor (Category = News) 
+4/18/2020 10:44:39 PM | Admin created member `Michek Salamouni` with position Junior_Editor (Category = Opinions) 
+4/18/2020 10:44:56 PM | Admin created member `Sarah Moritz` with position Junior_Editor (Category = Lifestyle) 
+4/18/2020 10:45:13 PM | Admin created member `Celine Aljamil` with position Junior_Editor (Category = Arts) 
+4/19/2020 12:07:37 AM | to become: Name: 
+Position: رئيس_قسم
+Category: آراء
+4/19/2020 12:08:03 AM | Admin created member `جواد طرفة` with position مدقق_لغوي (Category = ) 
+4/19/2020 12:10:21 AM | Admin editted member `ناهية كنج` with position رئيس_قسم (Category = آراء) 
+4/19/2020 12:10:21 AM | to become: Name: 
+Position: مدقق_النسخة
+Category: 
+4/19/2020 12:10:47 AM | to become: Name: 
+Position: رئيس_قسم
+Category: آراء
+4/19/2020 12:11:18 AM | Admin editted member `ناهية كنج` with position رئيس_قسم (Category = آراء) 
+4/19/2020 12:11:18 AM | to become: Name: 
+Position: رئيس_قسم
+Category: آراء

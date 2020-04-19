@@ -1,0 +1,58 @@
+.meet-outlook {
+    @include row();
+    @include outlook-window();
+    direction: rtl;
+    text-align: initial;
+    justify-content: center;
+
+    .editor-in-chief {
+        direction: ltr;
+        width: 100%;
+        font-size: x-large;
+        margin-bottom: 3%;
+        text-align: center;
+    }
+
+    .english-board {
+        direction: ltr;
+        float: left;
+        width: var(--board-members-width);
+        margin-right: 1%;
+    }
+
+    .arabic-board {
+        direction: rtl;
+        float: right;
+        width: var(--board-members-width);
+        margin-left: 1%;
+    }
+
+    .board {
+        font-size: x-large;
+        text-decoration: underline;
+        margin: 0 1%;
+    }
+
+    ul {
+        font-weight: bold;
+        font-size: larger;
+
+        li {
+            margin: 0 10%;
+            font-weight: 400;
+            list-style: url(../../../public/logo.svg);
+
+            span {
+                color: var(--text-2);
+            }
+        }
+    }
+
+    .footer {
+        margin-top: auto;
+        width: 100%;
+        font-size: x-small;
+        border-top: 1px solid var(--fg-0);
+        padding: 1% 0;
+    }
+}

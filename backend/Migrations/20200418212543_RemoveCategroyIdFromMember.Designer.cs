@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(OutlookContext))]
-    partial class OutlookContextModelSnapshot : ModelSnapshot
+    [Migration("20200418212543_RemoveCategroyIdFromMember")]
+    partial class RemoveCategroyIdFromMember
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -373,6 +375,9 @@ namespace backend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -383,6 +388,8 @@ namespace backend.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Member");
                 });
@@ -401,10 +408,6 @@ namespace backend.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("CategoryID");
-
-                    b.HasIndex("MemberID");
 
                     b.ToTable("CategoryEditor");
                 });
@@ -546,19 +549,11 @@ namespace backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("backend.Models.Relations.CategoryEditorRelation", b =>
+            modelBuilder.Entity("backend.Models.Member", b =>
                 {
-                    b.HasOne("backend.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("backend.Models.Member", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("backend.Models.Category", null)
+                        .WithMany("JuniorEditors")
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("backend.Models.Relations.UserFavoritedArticleRelation", b =>

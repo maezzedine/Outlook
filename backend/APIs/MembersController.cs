@@ -18,7 +18,7 @@ namespace backend.APIs
         private readonly OutlookContext context;
 
         private static Position[] ArabicPositions = { Position.المحرر, Position.رئيس_تحرير, Position.رئيس_قسم, Position.عضو_سابق, Position.كاتب_صحفي, Position.مدقق_الموقع, Position.مدقق_النسخة, Position.مدقق_لغوي, Position.نائب_المحرر };
-        private static Position[] EnglishPositions = { Position.Associate_Editor, Position.Copy_Editor, Position.Editor_In_Chief, Position.Former_Member, Position.Junior_Editor, Position.Proofreader, Position.Senior_Editor, Position.Staff_Writer, Position.Web_Editor };
+        private static Position[] EnglishPositions = { Position.Editor_In_Chief, Position.Senior_Editor, Position.Associate_Editor, Position.Junior_Editor, Position.Proofreader, Position.Copy_Editor, Position.Web_Editor, Position.Former_Member, Position.Staff_Writer  };
 
         public MembersController(OutlookContext context)
         {
@@ -54,22 +54,41 @@ namespace backend.APIs
         [HttpGet("board")]
         public async Task<ActionResult> GetBoardMembers()
         {
-            var arabicBoardMembers = from member in context.ArabicBoard
-                                     select member;
+            var nonBoardMembers = new Position[] { Position.Staff_Writer, Position.Former_Member, Position.كاتب_صحفي, Position.عضو_سابق };
 
-            var englishBoardMembers = from member in context.EnglishBoard
-                                     select member;
+            var englishPositons = from position in EnglishPositions orderby position select position;
+            var arabicPositons = from position in ArabicPositions orderby position select position;
 
-            foreach (var arabicMember in arabicBoardMembers)
+            var boardmMembers = from member in context.Member
+                                where !(nonBoardMembers.Contains(member.Position))
+                                select member;
+
+            await boardmMembers.ForEachAsync(m => GetJuniorEditorCategory(m));
+
+            var englishBoardMembers = new Dictionary<string, IQueryable<Member>>();
+            foreach (var position in englishPositons)
             {
-                var member = await context.Member.FindAsync(arabicMember.MemberID);
-                arabicMember.Member = member;
+                if (!nonBoardMembers.Contains(position))
+                {
+                    var members = from member in boardmMembers
+                                  where member.Position == position
+                                  select member;
+
+                    englishBoardMembers[position.ToString().Replace('_', ' ')] = members;
+                }
             }
 
-            foreach (var englishMember in englishBoardMembers)
+            var arabicBoardMembers = new Dictionary<string, IQueryable<Member>>();
+            foreach (var position in arabicPositons)
             {
-                var member = await context.Member.FindAsync(englishMember.MemberID);
-                englishMember.Member = member;
+                if (!nonBoardMembers.Contains(position))
+                {
+                    var members = from member in boardmMembers
+                                  where member.Position == position
+                                  select member;
+
+                    arabicBoardMembers[position.ToString().Replace('_', ' ')] = members;
+                }
             }
 
             return Ok(new
@@ -105,6 +124,16 @@ namespace backend.APIs
                 member.Language = Language.English;
             }
             return member;
+        }
+
+        private void GetJuniorEditorCategory(Member member)
+        {
+            if ((member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم))
+            {
+                var categoryId = context.CategoryEditor.FirstOrDefault(c => c.MemberID == member.ID).CategoryID;
+                var category = context.Category.Find(categoryId);
+                member.Category = category;
+            }
         }
     }
 }

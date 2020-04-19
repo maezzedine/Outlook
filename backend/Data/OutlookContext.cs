@@ -20,8 +20,6 @@ namespace backend.Data
         public DbSet<Issue> Issue { get; set; }
         public DbSet<Member> Member { get; set; }
         public DbSet<Reply> Reply { get; set; }
-        public DbSet<ArabicBoardRelation> ArabicBoard { get; set; }
-        public DbSet<EnglishBoardRelation> EnglishBoard { get; set; }
         public DbSet<CategoryEditorRelation> CategoryEditor { get; set; }
         public DbSet<UserFavoritedArticleRelation> UserFavoritedArticleRelation { get; set; }
         public DbSet<UserRateArticle> UserRateArticle { get; set; }

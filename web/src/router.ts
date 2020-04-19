@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import Router, { RouteConfig } from 'vue-router';
 
 Vue.use(Router);
 
@@ -8,40 +8,48 @@ const Archives = () => import('./views/Archive/Archive.vue');
 const Category = () => import('./views/Category/Category.vue');
 const Writers = () => import('./views/Outlook-Writers/Outlook-Writers.vue');
 const Article = () => import('./views/Outlook-Article/Outlook-Article.vue');
+const MeetOutlook = () => import('./views/Meet-Outlook/Meet-Outlook.vue');
 
-//function prefixRoutes(prefix: string, routes: RouteConfig) {
-//    return routes.map(route => route.path = prefix + '/' + route.path)
-//}
+const withPrefix = (prefix: string, routes: Array<RouteConfig>) =>
+    routes.map((route) => {
+        route.path = prefix + route.path;
+        return route;
+    });
 
 export default new Router({
     mode: 'history',
     routes: [
-        //...prefixRoutes('/:lang', [
+        ...withPrefix('/:lang', [
             {
                 name: 'home',
-                path: '/:lang',
+                path: '',
                 component: Home,
             },
             {
                 name: 'archives',
-                path: '/:lang/archives',
+                path: '/archives',
                 component: Archives
             },
             {
                 name: 'category',
-                path: '/:lang/category/:id',
+                path: '/category/:id',
                 component: Category
             },
             {
                 name: 'writers',
-                path: '/:lang/writers',
+                path: '/writers',
                 component: Writers
             },
             {
                 name: 'article',
-                path: '/:lang/article/:id',
+                path: '/article/:id',
                 component: Article
+            },
+            {
+                name: 'about',
+                path: '/meet-outlook',
+                component: MeetOutlook
             }
-        //])
+        ])
     ]
 });
