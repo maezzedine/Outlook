@@ -41,5 +41,8 @@
   "here": "here",
   "old-user": "Already have an account?",
   "no-volume-selected": "No Selected Volume",
-  "no-issue-selected": "No Selected Issue"
+  "no-issue-selected": "No Selected Issue",
+  "position": "Position",
+  "category": "Category",
+  "number-of-articles": "Number Of Articles"
 }

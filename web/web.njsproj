@@ -72,6 +72,8 @@
     <Content Include="src\views\Category\Category.vue" />
     <Content Include="src\views\Home\Home.scss" />
     <Content Include="src\views\Home\Home.vue" />
+    <Content Include="src\views\Member\Member.scss" />
+    <Content Include="src\views\Member\Member.vue" />
     <Content Include="src\views\Outlook-Article\Outlook-Article.scss" />
     <Content Include="src\views\Outlook-Article\Outlook-Article.vue" />
     <Content Include="src\views\Outlook-Writers\Outlook-Writers.scss" />
@@ -105,6 +107,7 @@
     <Folder Include="src\views\Archive\" />
     <Folder Include="src\views\Meet-Outlook\" />
     <Folder Include="src\views\Authentication\" />
+    <Folder Include="src\views\Member\" />
     <Folder Include="src\views\Outlook-Article\" />
     <Folder Include="src\views\Outlook-Writers\" />
     <Folder Include="src\views\Stats\" />
@@ -141,6 +144,7 @@
     <TypeScriptCompile Include="src\views\Archive\Archive.ts" />
     <TypeScriptCompile Include="src\views\Category\Category.ts" />
     <TypeScriptCompile Include="src\views\Home\Home.ts" />
+    <TypeScriptCompile Include="src\views\Member\Member.ts" />
     <TypeScriptCompile Include="src\views\Outlook-Article\Outlook-Article.ts" />
     <TypeScriptCompile Include="src\views\Outlook-Writers\Outlook-Writers.ts" />
     <TypeScriptCompile Include="src\views\Stats\Stats.ts" />

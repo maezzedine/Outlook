@@ -8,10 +8,12 @@
             <ul v-for="position in Object.keys(EnglishBoard)" v-if="position != 'Editor In Chief' && EnglishBoard[position].length > 0">
                 {{position}}
                 <li v-for="member in EnglishBoard[position]">
-                    {{member.name}} 
-                    <span v-if="position == 'Junior Editor'">
-                        ({{member.category.categoryName}})
-                    </span>
+                    <router-link :to="{ name: 'member', params: { id: member.id } }">
+                        {{member.name}}
+                        <span v-if="position == 'Junior Editor'">
+                            ({{member.category.categoryName}})
+                        </span>
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -20,10 +22,13 @@
             <ul v-for="position in Object.keys(ArabicBoard)" v-if="position != '\u0631\u0626\u064a\u0633 \u0627\u0644\u062a\u062d\u0631\u064a\u0631' && ArabicBoard[position].length > 0">
                 {{position}}
                 <li v-for="member in ArabicBoard[position]">
-                    {{member.name}}
-                    <span v-if="position == '\u0631\u0626\u064a\u0633 \u0642\u0633\u0645'"> <!-- junior editors -->
-                        ({{member.category.categoryName}})
-                    </span>
+                    <router-link :to="{ name: 'member', params: { id: member.id } }">
+                        {{member.name}}
+                        <span v-if="position == '\u0631\u0626\u064a\u0633 \u0642\u0633\u0645'">
+                            <!-- junior editors -->
+                            ({{member.category.categoryName}})
+                        </span>
+                    </router-link>
                 </li>
             </ul>
         </div>

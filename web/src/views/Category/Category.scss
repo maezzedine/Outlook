@@ -12,7 +12,7 @@
         }
 
         .title {
-            @include outlook-writers();
+            @include outlook-title();
         }
 
         b {

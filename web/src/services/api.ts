@@ -69,6 +69,11 @@ export class Api {
         return response.data;
     }
 
+    async getMember(id: string) {
+        var response = await axios.get(`${API_URL}members/${id}`);
+        return response.data;
+    }
+
     async getBoardMembers() {
         var response = await axios.get(API_URL + 'members/board');
         return response.data;

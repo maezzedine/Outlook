@@ -36,7 +36,9 @@ namespace backend.APIs
                 return NotFound();
             }
 
-            return member;
+            GetJuniorEditorCategory(member);
+
+            return GetMemberLanguage(member);
         }
 
         // GET: api/Members

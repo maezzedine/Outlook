@@ -42,8 +42,12 @@
             font-weight: 400;
             list-style: url(../../../public/logo.svg);
 
-            span {
-                color: var(--text-2);
+            a {
+                color: unset;
+
+                span {
+                    color: var(--text-2);
+                }
             }
         }
     }

@@ -26,7 +26,7 @@ export default class Stats extends Vue {
 
     getTopWriters() {
         api.getTopWriters().then(d => {
-            this.TopWriters = new TopModel(this.$store.getters.Language.topWriters, 'fas fa-chart-bar', 'fas fa-file-alt', d, 'name', 'numberOfArticles', 'writer');
+            this.TopWriters = new TopModel(this.$store.getters.Language.topWriters, 'fas fa-chart-bar', 'fas fa-file-alt', d, 'name', 'numberOfArticles', 'member');
 
             if (this.TopRatedArticles != null && this.TopFavoritedArticles && this.TopWriters != null) {
                 this.$data.Models = new Array<TopModel>(this.TopRatedArticles, this.TopFavoritedArticles, this.TopWriters);

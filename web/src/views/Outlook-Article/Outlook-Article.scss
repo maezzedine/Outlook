@@ -44,6 +44,10 @@
             margin: 2% 0;
             width: var(--article-element-width);
             border-bottom: 1px solid var(--fg-0);
+
+            a {
+                color: unset;
+            }
         }
 
         img {

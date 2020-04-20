@@ -1,0 +1,9 @@
+.member {
+    @include outlook-window();
+    text-align: initial;
+
+    .title {
+        @include outlook-title();
+        width: var(--outlook-title-width);
+    }
+}

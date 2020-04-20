@@ -5,9 +5,13 @@ body {
         text-align: start;
 
         .title {
-            @include outlook-writers();
+            @include outlook-title();
             width: 50%;
             column-span: all;
+        }
+
+        a {
+            color: unset;
         }
     }
 }

@@ -18,7 +18,7 @@
             </template>
 
             <div class="writer">
-                <template v-if="!loading">{{Article.writer}} | {{Article.writerPosition}}</template>
+                <router-link :to="{ name: 'member', params: { id: Article.memberID } }" v-if="!loading">{{Article.writer}} | {{Article.writerPosition}}</router-link>
             </div>
 
             <div id="article-text-body"></div>

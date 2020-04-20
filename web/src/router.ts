@@ -7,6 +7,7 @@ const Home = () => import('./views/Home/Home.vue');
 const Archives = () => import('./views/Archive/Archive.vue');
 const Category = () => import('./views/Category/Category.vue');
 const Writers = () => import('./views/Outlook-Writers/Outlook-Writers.vue');
+const Member = () => import('./views/Member/Member');
 const Article = () => import('./views/Outlook-Article/Outlook-Article.vue');
 const MeetOutlook = () => import('./views/Meet-Outlook/Meet-Outlook.vue');
 const Login = () => import('./views/Authentication/Login.vue');
@@ -51,6 +52,11 @@ export default new Router({
                 name: 'about',
                 path: '/meet-outlook',
                 component: MeetOutlook
+            },
+            {
+                name: 'member',
+                path: '/member/:id',
+                component: Member
             },
             {
                 name: 'login',
