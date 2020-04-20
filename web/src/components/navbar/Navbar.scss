@@ -7,50 +7,17 @@ body {
         height: 55px;
         box-shadow: var(--box-shadow);
 
-        .form-control {
-            background: var(--bg-0);
-            border-color: var(--fg-0);
-            justify-content: space-between;
-
-            input, span {
-                @include borderless();
-                height: 100%;
-                outline: none;
-            }
-
-            input {
-                flex: 1;
-            }
-        }
-
-        .form-control::placeholder {
-            color: var(--text-2);
-        }
-
         .options {
             @include row();
-            @include div-title();
 
             * {
                 color: var(--text-0);
                 outline: none;
             }
 
-            .archive {
+            .option {
                 @include borderless();
                 color: var(--text-0);
-            }
-
-            a {
-                margin: 0;
-            }
-
-            .btn {
-                border-color: var(--fg-0);
-            }
-
-            .btn:hover {
-                background: var(--fg-0);
             }
         }
     }

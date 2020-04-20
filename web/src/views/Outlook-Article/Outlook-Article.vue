@@ -24,13 +24,33 @@
             <div id="article-text-body"></div>
 
             <div v-if="!loading" class="footer">
-                <span :class="[{ ratedUp : Article.ratedByUser == 1 }]"><i class="fas fa-angle-up"></i></span>
+
+                <span :class="[{ ratedUp : Article.ratedByUser == 1 }]">
+                    <i class="fas fa-angle-up"></i>
+                </span>
+
                 {{Article.rate}}
-                <span :class="[{ ratedDown : Article.ratedByUser == 2 }]"><i class="fas fa-angle-down"></i></span>
-                <span>{{$store.getters.Language.votes}}: {{Article.numberOfVotes}}</span>
-                <span v-if="Article.comments != undefined">{{$store.getters.Language.comments}}: {{Article.comments.length}}</span>
-                <span class="row m-0 p-0"><span><i class="far fa-star"></i></span>{{Article.numberOfFavorites}}</span>
-                <!-- <i class="fas fa-star"></i> -->
+
+                <span :class="[{ ratedDown : Article.ratedByUser == 2 }]">
+                    <i class="fas fa-angle-down"></i>
+                </span>
+
+                <span>
+                    {{$store.getters.Language.votes}}: {{Article.numberOfVotes}}
+                </span>
+
+                <span v-if="Article.comments != undefined">
+                    {{$store.getters.Language.comments}}: {{Article.comments.length}}
+                </span>
+
+                <span class="row m-0 p-0">
+                    <span><i class="far fa-star"></i></span>
+                    {{Article.numberOfFavorites}}
+                </span>
+
+                <div class="signature mx-3">
+                    {{$store.getters.Language['made-with']}}  <i class="fas fa-heart"></i>  {{$store.getters.Language['by-outlook']}}
+                </div>
             </div>
         </div>
     </div>

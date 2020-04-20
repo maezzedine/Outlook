@@ -11,59 +11,59 @@ body {
         width: var(--sidebar-width);
         transition: var(--screen-transform);
         animation-delay: 1s;
-        overflow-y: auto;
         color: var(--text-0);
-
-        .sidebar-body {
-
-            .main {
-                @include col();
-
-                table {
-                    width: 100%;
-                    color: var(--text-2);
-                    font-weight: lighter;
-                    font-size: smaller;
-
-                    a, tr {
-                        display: table-row;
-                        text-decoration: none;
-                        color: unset;
-                        border-right: 2px solid transparent;
-                        border-left: 2px solid transparent;
-                        cursor: pointer;
+        min-height: 100vh;
 
 
-                        span {
-                            @include flex-wrap();
-                            padding-top: 10px;
-                            text-align: initial;
-                            margin: 20%;
-                            font-weight: 600;
-                            font-size: smaller;
-                        }
+        .main {
+            @include col();
+            height: 100%;
+            overflow-y: auto;
 
-                        th {
-                            text-align: center;
-                        }
+            table {
+                width: 100%;
+                color: var(--text-2);
+                font-weight: lighter;
+                font-size: smaller;
 
-                        td {
-                            text-align: initial;
-                            line-height: 40px;
-                        }
+                a, tr {
+                    display: table-row;
+                    text-decoration: none;
+                    color: unset;
+                    border-right: 2px solid transparent;
+                    border-left: 2px solid transparent;
+                    cursor: pointer;
+
+
+                    span {
+                        @include flex-wrap();
+                        padding-top: 10px;
+                        text-align: initial;
+                        margin: 20%;
+                        font-weight: 600;
+                        font-size: smaller;
                     }
 
-                    a:hover, tr:hover {
-                        color: var(--text-1);
-                        border-right: 2px solid var(--fg-2);
-                        border-left: 2px solid var(--fg-2);
+                    th {
+                        text-align: center;
                     }
 
-                    .router-link-exact-active {
-                        color: var(--text-0);
-                        border-right: 2px solid var(--fg-4);
-                        border-left: 2px solid var(--fg-4);
+                    td {
+                        text-align: initial;
+                        line-height: 40px;
                     }
+                }
+
+                a:hover, tr:not(.theme):hover {
+                    color: var(--text-1);
+                    border-right: 2px solid var(--fg-2);
+                    border-left: 2px solid var(--fg-2);
+                }
+
+                .router-link-exact-active {
+                    color: var(--text-0);
+                    border-right: 2px solid var(--fg-4);
+                    border-left: 2px solid var(--fg-4);
                 }
             }
         }
