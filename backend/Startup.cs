@@ -62,13 +62,13 @@ namespace backend
 
             });
 
-
+            var config = new Config(Configuration);
             // Add IdentityServer4
             var builder = services.AddIdentityServer()
                 .AddSigningCredential(new X509Certificate2(".\\outlook.pfx", Configuration.GetValue<string>("CertifcatePassword")))
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApis())
-                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryIdentityResources(config.GetIdentityResources())
+                .AddInMemoryApiResources(config.GetApis())
+                .AddInMemoryClients(config.GetClients())
                 .AddAspNetIdentity<OutlookUser>()
                 .AddJwtBearerClientAuthentication()
                 .AddProfileService<IdentityProfileService>();
@@ -76,7 +76,8 @@ namespace backend
             services.AddAuthentication(/*JwtBearerDefaults.AuthenticationScheme*/)
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = Configuration.GetValue<string>("BaseUrl");
+                    options.IncludeErrorDetails = true;
                     options.RequireHttpsMetadata = false;
                     options.Audience = "outlookApi";
                     options.TokenValidationParameters = new TokenValidationParameters()

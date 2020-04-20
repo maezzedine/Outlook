@@ -91,7 +91,8 @@ namespace backend.APIs
         [HttpPut("RateUpArticle/{articleID}")]
         public async Task<ActionResult> RateUpArticle(int articleID)
         {
-            var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            var username = HttpContext.User.FindFirst("name")?.Value;
+            var user = await userManager.FindByNameAsync(username);
 
             var userLikesArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id) && (u.Rate == UserRate.Up));
             var userDislikesArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id) && (u.Rate == UserRate.Down));
@@ -113,6 +114,8 @@ namespace backend.APIs
             context.UserRateArticle.Add(new UserRateArticle { UserID = user.Id, ArticleID = articleID, Rate = UserRate.Up });
             article.RateUp();
 
+            await context.SaveChangesAsync();
+
             return Ok();
         }
 
@@ -120,7 +123,8 @@ namespace backend.APIs
         [HttpPut("RateDownArticle/{articleID}")]
         public async Task<ActionResult> RateDownArticle(int articleID)
         {
-            var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            var username = HttpContext.User.FindFirst("name")?.Value;
+            var user = await userManager.FindByNameAsync(username);
 
             var userLikesArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id));
             var userDislikesArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id));
@@ -141,6 +145,8 @@ namespace backend.APIs
             // Rate down the article
             context.UserRateArticle.Add(new UserRateArticle { UserID = user.Id, ArticleID = articleID, Rate = UserRate.Down });
             article.RateDown();
+
+            await context.SaveChangesAsync();
 
             return Ok();
         }

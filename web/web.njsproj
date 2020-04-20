@@ -61,6 +61,9 @@
     <Content Include="src\styles\_mixins.scss" />
     <Content Include="src\styles\_queries.scss" />
     <Content Include="src\styles\_variables.scss" />
+    <Content Include="src\views\Authentication\Authentication.scss" />
+    <Content Include="src\views\Authentication\Login.vue" />
+    <Content Include="src\views\Authentication\Register.vue" />
     <Content Include="src\views\Meet-Outlook\Meet-Outlook.scss" />
     <Content Include="src\views\Meet-Outlook\Meet-Outlook.vue" />
     <Content Include="src\views\Archive\Archive.scss" />
@@ -101,6 +104,7 @@
     <Folder Include="src\views\Home\" />
     <Folder Include="src\views\Archive\" />
     <Folder Include="src\views\Meet-Outlook\" />
+    <Folder Include="src\views\Authentication\" />
     <Folder Include="src\views\Outlook-Article\" />
     <Folder Include="src\views\Outlook-Writers\" />
     <Folder Include="src\views\Stats\" />
@@ -114,6 +118,7 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\services\auth-service.ts" />
     <TypeScriptCompile Include="src\store\modules\colors.ts" />
     <TypeScriptCompile Include="src\store\modules\language.ts" />
     <TypeScriptCompile Include="src\components\article-thumbnail\Article-Thumbnail.ts" />
@@ -128,6 +133,8 @@
     <TypeScriptCompile Include="src\services\api.ts" />
     <TypeScriptCompile Include="src\services\cacher.ts" />
     <TypeScriptCompile Include="src\store\state.ts" />
+    <TypeScriptCompile Include="src\views\Authentication\Login.ts" />
+    <TypeScriptCompile Include="src\views\Authentication\Register.ts" />
     <TypeScriptCompile Include="src\views\Meet-Outlook\Meet-Outlook.ts" />
     <TypeScriptCompile Include="src\views\Archive\Archive.ts" />
     <TypeScriptCompile Include="src\views\Category\Category.ts" />

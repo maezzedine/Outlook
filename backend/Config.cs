@@ -1,6 +1,7 @@
 ﻿using backend.Areas.Identity;
 using IdentityServer4;
 using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +11,14 @@ namespace backend
 {
     public class Config
     {
-        //public static List<OutlookUser> GetUsers()
-        //{
-        //    return new List<OutlookUser>
-        //    {
-        //        new OutlookUser
-        //        {
-        //            SubjectId = "1",
-        //            Username = "alice@alice.com",
-        //            Password = "password"
-        //        }
-        //    };
-        //}
+        public Config(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-        public static IEnumerable<IdentityResource> GetIdentityResources()
+        public IConfiguration Configuration { get; }
+
+        public IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new IdentityResource[]
             {
@@ -32,7 +27,7 @@ namespace backend
             };
         }
 
-        public static IEnumerable<ApiResource> GetApis()
+        public IEnumerable<ApiResource> GetApis()
         {
             return new ApiResource[]
             {
@@ -40,24 +35,25 @@ namespace backend
             };
         }
 
-        public static IEnumerable<Client> GetClients()
+        public IEnumerable<Client> GetClients()
         {
             return new Client[]
             {
                 new Client
                 {
                     ClientId = "Outlook",
+                    AllowedCorsOrigins = Configuration.GetValue<string>("ClientUrl").Split(';'),
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     RequireClientSecret = false,
                     AllowAccessTokensViaBrowser = true,
-                    AccessTokenLifetime = 300,
+                    AccessTokenLifetime = 60,
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "outlookApi"
-                    }
+                    },
                 }
             };
         }

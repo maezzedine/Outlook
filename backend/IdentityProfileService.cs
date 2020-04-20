@@ -41,7 +41,7 @@ namespace backend
             var claims = principal.Claims.ToList();
 
             // test role
-            claims.Add(new Claim(JwtClaimTypes.Role, "test_role"));
+            claims.Add(new Claim(JwtClaimTypes.Role, "outlook_user_role"));
 
             context.IssuedClaims = claims;
         }

@@ -9,6 +9,8 @@ const Category = () => import('./views/Category/Category.vue');
 const Writers = () => import('./views/Outlook-Writers/Outlook-Writers.vue');
 const Article = () => import('./views/Outlook-Article/Outlook-Article.vue');
 const MeetOutlook = () => import('./views/Meet-Outlook/Meet-Outlook.vue');
+const Login = () => import('./views/Authentication/Login.vue');
+const Register = () => import('./views/Authentication/Register.vue');
 
 const withPrefix = (prefix: string, routes: Array<RouteConfig>) =>
     routes.map((route) => {
@@ -49,6 +51,16 @@ export default new Router({
                 name: 'about',
                 path: '/meet-outlook',
                 component: MeetOutlook
+            },
+            {
+                name: 'login',
+                path: '/login',
+                component: Login
+            },
+            {
+                name: 'register',
+                path: '/register',
+                component: Register
             }
         ])
     ]

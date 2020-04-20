@@ -73,6 +73,38 @@ export class Api {
         var response = await axios.get(API_URL + 'members/board');
         return response.data;
     }
+
+    // Authorized
+    async rateUpArticle(token: string, articleId: Number) {
+        //if (token == null) {
+        //    return Error("Unathorized action.");
+        //}
+        //var response = await axios.put(`${API_URL}articles/RateUpArticle/${articleId}`, {
+        //    headers: {
+        //        "Content-Type": "application/json",
+        //        "x-functions-key": "{{auth}}",
+        //        'Authorization': `Bearer ${token}`
+        //    },
+        //    redirect: 'follow'
+            
+        //});
+        //return response.data;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("x-functions-key", "{{auth}}");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions: RequestInit = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        return fetch(`${API_URL}articles/RateUpArticle/${articleId}`, requestOptions)
+            .then(response => response.json())
+            .catch(error => console.log('error', error));
+    }
 }
 
 export const api = new Api();

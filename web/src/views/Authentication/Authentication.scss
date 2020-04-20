@@ -1,0 +1,37 @@
+.auth {
+    @include outlook-window();
+    @include col();
+
+    .form {
+        @include outlook-box();
+        padding: 2%;
+
+        .title {
+            font-size: x-large;
+            font-weight: bold;
+            padding-bottom: 2%;
+            border-radius: 0 0 3px 3px;
+            background: var(--fg-3);
+            color: var(--text-3);
+        }
+
+        table {
+            background: var(--bg-1);
+            border-radius: 3px 3px 0 0;
+
+
+            tr {
+                border: 12px solid transparent;
+
+                input {
+                    border: none;
+                    outline: none;
+                    padding: 0 2%;
+                    background: var(--fg-2);
+                    border-radius: 3px;
+                    color: var(--text-1);
+                }
+            }
+        }
+    }
+}

@@ -9,16 +9,16 @@ $ct-themes: (
         'bg-2' : #fefefe, // top
 
         'fg-0': mix(#4c4caa, white, 15%),
-
         'fg-1': #c2d4e9,
-        /*'fg-2': mix(#4c4caa, white, 35%),*/
-        /*'fg-3': mix(#4c4caa, white, 65%),*/
+        'fg-2': white,
+        'fg-3': mix(#99e3ff, black, 45%),
     
         'fg-4': mix(#4c4caa, white, 85%),
 
         'text-0': mix(#4c4caa, black, 55%),
         'text-1': mix(white, black, 25%),
         'text-2': mix(white, black, 35%),
+        'text-3': mix(white, black, 85%),
 
         'shadow' : rgba(184,184,184,1),
 
@@ -33,13 +33,14 @@ $ct-themes: (
 
         'fg-0': mix(#99e3ff, black, 15%),
         'fg-1': mix(#c2d4e9, black, 25%),
-        /*'fg-2': mix(#99e3ff, black, 35%),*/
-        /*'fg-3': mix(#99e3ff, black, 45%),*/
+        'fg-2': mix(grey, black, 30%),
+        'fg-3': mix(#99e3ff, black, 45%),
         'fg-4': mix(#99e3ff, black, 55%),
 
         'text-0': mix(black, white, 35%),
         'text-1': mix(black, white, 45%),
         'text-2': mix(black, white, 55%),
+        'text-3': mix(black, white, 85%),
 
         'shadow' : rgb(59, 58, 59),
 

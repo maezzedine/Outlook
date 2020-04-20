@@ -30,5 +30,14 @@
   "about": "About",
   "writers": "Writers",
   "float": "right;",
-  "article-image": "en-img"
+  "article-image": "en-img",
+  "login": "Login",
+  "register": "Register",
+  "first-name": "First Name",
+  "last-name": "Last Name",
+  "username": "Username",
+  "password": "Password",
+  "new-user": "Don't have an account?",
+  "here": "here",
+  "old-user": "Already have an account?"
 }
