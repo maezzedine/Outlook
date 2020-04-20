@@ -5,6 +5,7 @@ body {
         padding-right: 5%;
         flex: 0 1 auto;
         height: 55px;
+        box-shadow: var(--box-shadow);
 
         .form-control {
             background: var(--bg-0);

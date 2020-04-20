@@ -118,6 +118,8 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\models\loginModel.ts" />
+    <TypeScriptCompile Include="src\models\registerModel.ts" />
     <TypeScriptCompile Include="src\services\auth-service.ts" />
     <TypeScriptCompile Include="src\store\modules\colors.ts" />
     <TypeScriptCompile Include="src\store\modules\language.ts" />

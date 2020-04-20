@@ -39,5 +39,7 @@
   "password": "Password",
   "new-user": "Don't have an account?",
   "here": "here",
-  "old-user": "Already have an account?"
+  "old-user": "Already have an account?",
+  "no-volume-selected": "No Selected Volume",
+  "no-issue-selected": "No Selected Issue"
 }

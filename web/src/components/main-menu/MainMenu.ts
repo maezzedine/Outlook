@@ -22,7 +22,7 @@ export default class MainMenu extends Vue {
         if (volume != undefined) {
             return this.$store.getters.Language.volume + ' ' + volume.volumeNumber + ' | ' + volume.fallYear + ' - ' + volume.springYear;
         }
-        return 'No Selected Volume';
+        return this.$store.getters.Language['no-volume-selected'];
     }
 
     IssueToString() {
@@ -30,7 +30,7 @@ export default class MainMenu extends Vue {
         if (issue != undefined) {
             return this.$store.getters.Language.issue + ' ' + issue.issueNumber;
         }
-        return 'No Selected Issue';
+        return this.$store.getters.Language['no-issue-selected'];
     }
 
     @Watch('$parent.$parent.$data.Articles')

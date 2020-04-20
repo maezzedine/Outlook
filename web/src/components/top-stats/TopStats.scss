@@ -17,9 +17,10 @@ body {
 
             li {
 
-                div {
+                a {
                     justify-content: space-between;
                     display: flex;
+                    color: unset;
 
                     span {
                         font-size: small;

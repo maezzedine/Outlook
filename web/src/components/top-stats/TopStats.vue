@@ -4,10 +4,10 @@
 
         <ol>
             <li v-for="item in model.items" v-if="item.language == $store.getters.Language.num">
-                <div>
+                <router-link :to="{ name: model.component, params: { id: item.id } }">
                     {{item[model.itemTitle]}}
                     <span>{{item[model.field]}} <i :class="model.itemIcon"></i></span>
-                </div>
+                </router-link>
             </li>
         </ol>
     </div>

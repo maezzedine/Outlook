@@ -18,15 +18,15 @@ export default class Stats extends Vue {
 
     getTopArticles() {
         api.getTopArticles().then(d => {
-            this.TopRatedArticles = new TopModel(this.$store.getters.Language.topRatedArticles, 'fas fa-trophy', 'fas fa-thumbs-up', d.topRatedArticles, 'title', 'rate');
-            this.TopFavoritedArticles = new TopModel(this.$store.getters.Language.topFavoritedArticles, 'fas fa-medal', 'fas fa-star', d.topFavoritedArticles, 'title', 'numberOfFavorites');
+            this.TopRatedArticles = new TopModel(this.$store.getters.Language.topRatedArticles, 'fas fa-trophy', 'fas fa-thumbs-up', d.topRatedArticles, 'title', 'rate', 'article');
+            this.TopFavoritedArticles = new TopModel(this.$store.getters.Language.topFavoritedArticles, 'fas fa-medal', 'fas fa-star', d.topFavoritedArticles, 'title', 'numberOfFavorites', 'article');
             this.getTopWriters();
         });
     }
 
     getTopWriters() {
         api.getTopWriters().then(d => {
-            this.TopWriters = new TopModel(this.$store.getters.Language.topWriters, 'fas fa-chart-bar', 'fas fa-file-alt', d, 'name', 'numberOfArticles');
+            this.TopWriters = new TopModel(this.$store.getters.Language.topWriters, 'fas fa-chart-bar', 'fas fa-file-alt', d, 'name', 'numberOfArticles', 'writer');
 
             if (this.TopRatedArticles != null && this.TopFavoritedArticles && this.TopWriters != null) {
                 this.$data.Models = new Array<TopModel>(this.TopRatedArticles, this.TopFavoritedArticles, this.TopWriters);

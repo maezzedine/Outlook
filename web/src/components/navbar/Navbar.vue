@@ -41,9 +41,9 @@
             <!-- </Change Language> -->
 
             <!-- <Meet Outlook> -->
-            <router-link :to="{ name: '' }">
+            <!--<router-link :to="{ name: '' }">
                 <div class="btn mx-sm-0 mx-md-2">{{$store.getters.Language.aboutUs}}</div>
-            </router-link>
+            </router-link>-->
             <!-- </Meet Outlook> -->
 
         </div>

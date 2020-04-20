@@ -14,65 +14,56 @@ body {
         overflow-y: auto;
         color: var(--text-0);
 
-        .main:nth-child(2) {
-            color: var(--text-2);
-            font-weight: lighter;
-            font-size: smaller;
+        .sidebar-body {
+
+            .main {
+                @include col();
+
+                table {
+                    width: 100%;
+                    color: var(--text-2);
+                    font-weight: lighter;
+                    font-size: smaller;
+
+                    a, tr {
+                        display: table-row;
+                        text-decoration: none;
+                        color: unset;
+                        border-right: 2px solid transparent;
+                        border-left: 2px solid transparent;
+                        cursor: pointer;
 
 
-            th {
-                padding-left: 5%;
-                padding-right: 5%;
-            }
-        }
+                        span {
+                            @include flex-wrap();
+                            padding-top: 10px;
+                            text-align: initial;
+                            margin: 20%;
+                            font-weight: 600;
+                            font-size: smaller;
+                        }
 
-        .main {
-            @include col();
-            margin-bottom: 20%;
+                        th {
+                            text-align: center;
+                        }
 
-            span {
-                text-align: initial;
-                margin-left: 10%;
-                margin-right: 10%;
-                font-weight: 600;
-                font-size: smaller;
-            }
-
-            table {
-                width: 100%;
-
-                a, tr {
-                    display: table-row;
-                    text-decoration: none;
-                    color: unset;
-                    line-height: 40px;
-                    border-right: 2px solid transparent;
-                    border-left: 2px solid transparent;
-                    cursor: pointer;
-
-                    th {
-                        text-align: center;
-
-                        .fontawesome {
-                            font-size: larger;
+                        td {
+                            text-align: initial;
+                            line-height: 40px;
                         }
                     }
 
-                    td {
-                        text-align: initial;
+                    a:hover, tr:hover {
+                        color: var(--text-1);
+                        border-right: 2px solid var(--fg-2);
+                        border-left: 2px solid var(--fg-2);
                     }
-                }
 
-                a:hover, tr:hover {
-                    background: var(--bg-0);
-                    border-right: 2px solid var(--fg-2);
-                    border-left: 2px solid var(--fg-2);
-                }
-
-                .router-link-exact-active {
-                    background: var(--bg-0);
-                    border-right: 2px solid var(--fg-4);
-                    border-left: 2px solid var(--fg-4);
+                    .router-link-exact-active {
+                        color: var(--text-0);
+                        border-right: 2px solid var(--fg-4);
+                        border-left: 2px solid var(--fg-4);
+                    }
                 }
             }
         }

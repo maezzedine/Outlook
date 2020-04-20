@@ -13,13 +13,16 @@ export default class TopModel {
 
     public field: string;
 
-    constructor(title: string, titleIcon: string, itemIcon: string, items: Array<ApiObject>, itemTitle: string, field: string) {
+    public component: string;
+
+    constructor(title: string, titleIcon: string, itemIcon: string, items: Array<ApiObject>, itemTitle: string, field: string, component: string) {
         this.title = title;
         this.titleIcon = titleIcon;
         this.itemIcon = itemIcon;
         this.items = items;
         this.itemTitle = itemTitle;
         this.field = field;
+        this.component = component;
     }
 
     public setTitle(title: string) {
