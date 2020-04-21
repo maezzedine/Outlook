@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using backend.Models.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using backend.Areas.Identity;
 
 namespace backend.APIs
 {
@@ -16,13 +18,15 @@ namespace backend.APIs
     public class MembersController : ControllerBase
     {
         private readonly OutlookContext context;
+        private readonly UserManager<OutlookUser> userManager;
 
         private static Position[] ArabicPositions = { Position.المحرر, Position.رئيس_تحرير, Position.رئيس_قسم, Position.عضو_سابق, Position.كاتب_صحفي, Position.مدقق_الموقع, Position.مدقق_النسخة, Position.مدقق_لغوي, Position.نائب_المحرر };
         private static Position[] EnglishPositions = { Position.Editor_In_Chief, Position.Senior_Editor, Position.Associate_Editor, Position.Junior_Editor, Position.Proofreader, Position.Copy_Editor, Position.Web_Editor, Position.Former_Member, Position.Staff_Writer  };
 
-        public MembersController(OutlookContext context)
+        public MembersController(OutlookContext context, UserManager<OutlookUser> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
         }
 
         // GET: api/Members/5
@@ -37,6 +41,7 @@ namespace backend.APIs
             }
 
             GetJuniorEditorCategory(member);
+            await GetMemberArticles(member);
 
             return GetMemberLanguage(member);
         }
@@ -136,6 +141,21 @@ namespace backend.APIs
                 var category = context.Category.Find(categoryId);
                 member.Category = category;
             }
+        }
+
+        private async Task GetMemberArticles(Member member)
+        {
+            var articles = from article in context.Article
+                           where article.MemberID == member.ID
+                           select article;
+
+            member.Articles = await articles.ToListAsync();
+
+            var articlesController = new ArticlesController(context, userManager);
+            member.Articles.ForEach(a =>
+            {
+                articlesController.GetArticleProperties(a).Wait();
+            });
         }
     }
 }

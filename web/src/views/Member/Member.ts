@@ -1,8 +1,11 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { ApiObject } from '../../models/apiObject';
 import { api } from '../../services/api';
+import articleThumbnail from '@/components/article-thumbnail/Article-Thumbnail.vue';
 
-@Component
+@Component({
+    components: { articleThumbnail }
+})
 export default class Member extends Vue {
     private member = new ApiObject();
 

@@ -15,6 +15,9 @@
                 <td>{{member.numberOfArticles}}</td>
             </tr>
         </table>
+        <div class="articles">
+            <article-thumbnail v-for="article in member.articles" :article="article" />
+        </div>
     </div>
 </template>
 

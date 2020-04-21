@@ -21,6 +21,6 @@ export default class ArticleThumbnail extends Vue {
         if (this.$store.getters.Language == undefined || article == undefined) {
             return false;
         }
-        return article.lang == this.$store.getters.Language.lang;
+        return article.language == this.$store.getters.Language.num;
     }
 }

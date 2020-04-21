@@ -151,7 +151,7 @@ namespace backend.APIs
             return Ok();
         }
 
-        private async Task GetArticleProperties(Article article)
+        public async Task GetArticleProperties(Article article)
         {
             // Add the category name
             var category = await context.Category.FindAsync(article.CategoryID);
@@ -183,22 +183,22 @@ namespace backend.APIs
 
             article.Comments = await comments.ToListAsync();
 
-            if (User.Identity.Name != null)
-            {
-                var user = await userManager.FindByNameAsync(User.Identity.Name);
+            //if (User.Identity.Name != null)
+            //{
+            //    var user = await userManager.FindByNameAsync(User.Identity.Name);
 
-                // Add user rate to the article
-                var userRatedArticle = await context.UserRateArticle.FirstOrDefaultAsync(r => (r.UserID == user.Id) && (r.ArticleID == article.Id));
+            //    // Add user rate to the article
+            //    var userRatedArticle = await context.UserRateArticle.FirstOrDefaultAsync(r => (r.UserID == user.Id) && (r.ArticleID == article.Id));
 
-                if (userRatedArticle == null)
-                {
-                    article.RatedByUser = UserRate.None;
-                }
-                else
-                {
-                    article.RatedByUser = userRatedArticle.Rate;
-                }
-            }
+            //    if (userRatedArticle == null)
+            //    {
+            //        article.RatedByUser = UserRate.None;
+            //    }
+            //    else
+            //    {
+            //        article.RatedByUser = userRatedArticle.Rate;
+            //    }
+            //}
         }
     }
 }
