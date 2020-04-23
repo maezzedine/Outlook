@@ -227,21 +227,6 @@ namespace backend.Controllers
             var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
             article.Category = category;
 
-            //// Retrieve the article image form the file server if there is any
-            //if (article.PicturePath != null)
-            //{
-            //    var path = env.WebRootPath + article.PicturePath;
-            //    using (var fileStream = System.IO.File.OpenRead(path))
-            //    {
-            //        var file = new FormFile(fileStream, 0, fileStream.Length, null, fileStream.Name)
-            //        {
-            //            Headers = new HeaderDictionary(),
-            //            ContentType = "image/jpg",
-            //            ContentDisposition = $"form-data; name=\"Picture\"; filename=\"{article.PictureName}\""
-            //        };
-            //        article.Picture = file;
-            //    }
-            //}
             return View(article);
         }
 

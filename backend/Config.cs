@@ -46,7 +46,7 @@ namespace backend
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     RequireClientSecret = false,
                     AllowAccessTokensViaBrowser = true,
-                    AccessTokenLifetime = 60,
+                    AccessTokenLifetime = 86400,
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {

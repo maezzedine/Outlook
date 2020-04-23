@@ -19,7 +19,6 @@
             background: var(--bg-1);
             border-radius: 3px 3px 0 0;
 
-
             tr {
                 border: 12px solid transparent;
 
@@ -32,6 +31,10 @@
                     color: var(--text-1);
                 }
             }
+        }
+
+        .error {
+            color: var(--danger-400);
         }
     }
 }

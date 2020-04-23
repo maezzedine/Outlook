@@ -15,7 +15,6 @@
     "css-theming": "^1.0.3",
     "es6-promise": "^4.2.8",
     "node-sass": "^4.13.1",
-    "oidc-client": "^1.10.1",
     "sass-loader": "^8.0.2",
     "vue": "2.5.17",
     "vue-class-component": "6.0.0",

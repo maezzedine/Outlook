@@ -6,4 +6,6 @@ interface state {
     arabic: object;
 
     colors: object;
+
+    user: outlookUser
 }

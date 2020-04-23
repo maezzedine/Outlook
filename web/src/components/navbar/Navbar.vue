@@ -10,21 +10,22 @@
         <!-- <options> -->
         <div class="options">
 
-            <!-- <Login> -->
-            <router-link :to="{ name: 'login' }" class="btn-group">
-                <button class="option">
-                    <i class="fas fa-user"></i>
-                </button>
-            </router-link>
-            <!-- </Login> -->
-
-            <!-- <Register> -->
-            <router-link :to="{ name: 'register' }" class="btn-group">
-                <button class="option">
-                    <i class="fas fa-user-plus"></i>
-                </button>
-            </router-link>
-            <!-- </Register> -->
+            <template v-if="!($store.getters.IsAuthenitcated)">
+                <!-- <Login> -->
+                <router-link :to="{ name: 'login' }" class="btn-group">
+                    <button class="option">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </router-link>
+                <!-- </Login> -->
+                <!-- <Register> -->
+                <router-link :to="{ name: 'register' }" class="btn-group">
+                    <button class="option">
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                </router-link>
+                <!-- </Register> -->
+            </template>
 
             <!-- <Home> -->
             <router-link :to="{ name: 'home' }" class="btn-group d-sm-none">
