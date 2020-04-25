@@ -151,11 +151,11 @@ namespace backend.APIs
 
             member.Articles = await articles.ToListAsync();
 
-            var articlesController = new ArticlesController(context, userManager);
-            member.Articles.ForEach(a =>
-            {
-                articlesController.GetArticleProperties(a).Wait();
-            });
+            //var articlesController = new ArticlesController(context, userManager);
+            //member.Articles.ForEach(a =>
+            //{
+            //    articlesController.GetArticleProperties(a).Wait();
+            //});
         }
     }
 }

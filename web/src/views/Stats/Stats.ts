@@ -16,6 +16,7 @@ export default class Stats extends Vue {
         this.getTopArticles();
     }
 
+    @Watch('$store.getters.Language')
     getTopArticles() {
         api.getTopArticles().then(d => {
             this.TopRatedArticles = new TopModel(this.$store.getters.Language.topRatedArticles, 'fas fa-trophy', 'fas fa-thumbs-up', d.topRatedArticles, 'title', 'rate', 'article');

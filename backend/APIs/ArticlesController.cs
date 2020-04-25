@@ -12,6 +12,8 @@ using backend.Areas.Identity;
 using backend.Models.Relations;
 using static backend.Models.Relations.UserRateArticle;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using backend.Hubs;
 
 namespace backend.APIs
 {
@@ -21,11 +23,13 @@ namespace backend.APIs
     {
         private readonly OutlookContext context;
         private readonly UserManager<OutlookUser> userManager;
+        private readonly IHubContext<ArticleHub, IArticleHub> hubContext;
 
-        public ArticlesController(OutlookContext context, UserManager<OutlookUser> userManager)
+        public ArticlesController(OutlookContext context, UserManager<OutlookUser> userManager, IHubContext<ArticleHub, IArticleHub> articlehub)
         {
             this.context = context;
             this.userManager = userManager;
+            this.hubContext = articlehub;
         }
 
         // GET: api/Articles
@@ -94,25 +98,30 @@ namespace backend.APIs
             var username = HttpContext.User.FindFirst("name")?.Value;
             var user = await userManager.FindByNameAsync(username);
 
-            var userLikesArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id) && (u.Rate == UserRate.Up));
-            var userDislikesArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id) && (u.Rate == UserRate.Down));
+            var userRateArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id));
 
             var article = await context.Article.FindAsync(articleID);
 
-            if (userLikesArticle != null)
+            if (userRateArticle != null && userRateArticle.Rate == UserRate.Up)
             {
                 return ValidationProblem(detail: "You've already rated up this article.");
             }
 
-            if (userDislikesArticle != null)
+            if (userRateArticle != null && userRateArticle.Rate == UserRate.Down)
             {
-                context.UserRateArticle.Remove(userDislikesArticle);
+                userRateArticle.Rate = UserRate.Up;
                 article.UnRateDown();
             }
 
             // Rate up the article
             context.UserRateArticle.Add(new UserRateArticle { UserID = user.Id, ArticleID = articleID, Rate = UserRate.Up });
             article.RateUp();
+
+            // Notify all clients
+            await this.hubContext
+                .Clients
+                .All
+                .ArticleScoreChange(article.Id, article.Rate, article.NumberOfVotes);
 
             await context.SaveChangesAsync();
 
@@ -126,19 +135,19 @@ namespace backend.APIs
             var username = HttpContext.User.FindFirst("name")?.Value;
             var user = await userManager.FindByNameAsync(username);
 
-            var userLikesArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id));
-            var userDislikesArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id));
+            var userRateArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id));
+
 
             var article = await context.Article.FindAsync(articleID);
 
-            if (userDislikesArticle != null)
+            if (userRateArticle != null && userRateArticle.Rate == UserRate.Down)
             {
-                return ValidationProblem(detail: "You've already rated up this article.");
+                return ValidationProblem(detail: "You've already rated down this article.");
             }
 
-            if (userLikesArticle != null)
+            if (userRateArticle != null && userRateArticle.Rate == UserRate.Up)
             {
-                context.UserRateArticle.Remove(userLikesArticle);
+                userRateArticle.Rate = UserRate.Down;
                 article.UnRateUp();
             }
 
@@ -146,7 +155,43 @@ namespace backend.APIs
             context.UserRateArticle.Add(new UserRateArticle { UserID = user.Id, ArticleID = articleID, Rate = UserRate.Down });
             article.RateDown();
 
+            // Notify all clients
+            await this.hubContext
+                .Clients
+                .All
+                .ArticleScoreChange(article.Id, article.Rate, article.NumberOfVotes);
+
             await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPut("FavoriteArticle/{articleID}")]
+        public async Task<ActionResult> FavoriteArticle(int articleID)
+        {
+            var username = HttpContext.User.FindFirst("name")?.Value;
+            var user = await userManager.FindByNameAsync(username);
+
+            var userFavoritedArticle = await context.UserFavoritedArticleRelation.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.User.Id == user.Id));
+
+            var article = await context.Article.FindAsync(articleID);
+
+            if (userFavoritedArticle != null)
+            {
+                context.UserFavoritedArticleRelation.Remove(userFavoritedArticle);
+                article.NumberOfFavorites--;
+            }
+            else
+            {
+                context.UserFavoritedArticleRelation.Add(new UserFavoritedArticleRelation { User = user, ArticleID = articleID });
+                article.NumberOfFavorites++;
+            }
+
+            await context.SaveChangesAsync();
+            
+            // Notify all clients
+            await hubContext.Clients.All.ArticleFavoriteChange(article.Id, article.NumberOfFavorites);
 
             return Ok();
         }
@@ -155,12 +200,10 @@ namespace backend.APIs
         {
             // Add the category name
             var category = await context.Category.FindAsync(article.CategoryID);
-            article.Category = category.CategoryName;
             article.CategoryTagName = category.Tag.ToString();
 
             // Add the writer name
             var writer = await context.Member.FindAsync(article.MemberID);
-            article.Writer = writer.Name;
             article.WriterPosition = writer.PositionName;
 
             // Add the langauge
@@ -174,11 +217,8 @@ namespace backend.APIs
             // Add replies list for each comment
             foreach (var comment in comments)
             {
-                var replies = from reply in context.Reply
-                              where reply.CommentID == comment.Id
-                              select reply;
-
-                comment.Replies = await replies.ToListAsync();
+                var owner = await context.Users.FindAsync(comment.UserID);
+                comment.User = owner;
             }
 
             article.Comments = await comments.ToListAsync();

@@ -47,5 +47,8 @@
   "dark-mode": "Dark Mode",
   "light-mode": "Light Mode",
   "made-with": "Made with",
-  "by-outlook": "by Outlook"
+  "by-outlook": "by Outlook",
+  "unauthorized-comment": "Sign in to be able to comment on the article.",
+  "comment": "Add a comment...",
+  "submit": "Submit"
 }

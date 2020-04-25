@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using backend.Areas.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography.X509Certificates;
+using backend.Hubs;
 
 namespace backend
 {
@@ -28,12 +29,15 @@ namespace backend
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(p => p
+                    //.WithOrigins(Configuration.GetValue<string>("ClientUrl").Split(';'))
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowAnyOrigin());
             }); 
             
             services.AddControllersWithViews();
+
+            services.AddSignalR();
 
             services.AddDbContext<OutlookContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OutlookContext")));
@@ -59,7 +63,6 @@ namespace backend
                 // User settings.
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@";
-
             });
 
             var config = new Config(Configuration);
@@ -100,11 +103,18 @@ namespace backend
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseCors();
+            app.UseCors(builder =>
+                    builder
+                        .WithOrigins(Configuration.GetValue<string>("ClientUrl").Split(';'))
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+            );
 
             app.UseIdentityServer();
             app.UseAuthentication();
@@ -117,6 +127,7 @@ namespace backend
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<ArticleHub>("/article-hub");
             });
         }
     }

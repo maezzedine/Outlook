@@ -1,6 +1,5 @@
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import svgOutlook from '@/components/svgs/svg-outlook.vue';
-import { ApiObject } from '../../models/apiObject';
 
 @Component({
     components: { svgOutlook },

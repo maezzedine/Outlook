@@ -82,12 +82,91 @@
                 margin: 0 5px;
             }
 
+            .rate {
+                cursor: pointer;
+            }
+
+            .rate:hover {
+                color: var(--fg-3);
+            }
+
             .ratedUp {
                 color: var(--success);
             }
 
             .ratedDown {
                 color: var(--danger);
+            }
+
+            .star {
+                cursor: pointer;
+
+                .favorited {
+                    display: none;
+                }
+            }
+
+            .star:hover {
+
+                .unfavorited {
+                    display: none;
+                }
+
+                .favorited {
+                    display: block;
+                }
+            }
+
+            .comment-section {
+                width: 100%;
+                margin-top: 2%;
+
+                .comments {
+                    width: var( --article-element-width);
+                    padding: 1%;
+                    margin: 1% 0;
+                    background: var(--bg-1);
+
+                    .new-comment {
+                        display: flex;
+
+                        textarea {
+                            resize: none;
+                            flex-grow: 1;
+                            outline: none;
+                            border: .5px solid var(--fg-0);
+                            border-radius: 3px;
+                            padding: 5px;
+                            background: var(--fg-2);
+                        }
+
+                        textarea:disabled {
+                            background: unset;
+                        }
+
+                        button {
+                            background: var(--fg-3);
+                            color: var(--text-3);
+                            justify-content: end;
+                        }
+                    }
+
+                    .comment {
+                        background: var(--bg-0);
+                        margin: 2% 0;
+                        padding: 2%;
+
+                        .owner {
+                            font-weight: bold;
+                        }
+
+                        .time {
+                            font-weight: 400;
+                            font-size: smaller;
+                            text-align: end;
+                        }
+                    }
+                }
             }
         }
     }

@@ -9,6 +9,10 @@ using backend.Data;
 using backend.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using backend.Areas.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
+using backend.Hubs;
 
 namespace backend.APIs
 {
@@ -18,11 +22,21 @@ namespace backend.APIs
     {
         private readonly OutlookContext context;
         private readonly IConfiguration config;
+        private readonly UserManager<OutlookUser> userManager;
+        private readonly IHubContext<ArticleHub, IArticleHub> hubContext;
 
-        public CommentsController(OutlookContext context, IConfiguration config)
+        public CommentsController(OutlookContext context, IConfiguration config, UserManager<OutlookUser> userManager, IHubContext<ArticleHub, IArticleHub> articlehub)
         {
             this.context = context;
             this.config = config;
+            this.userManager = userManager;
+            this.hubContext = articlehub;
+        }
+
+        public class PostCommentModel
+        {
+            public int articleId;
+            public string text;
         }
 
         // GET: api/Comments
@@ -51,8 +65,6 @@ namespace backend.APIs
         }
 
         // PUT: api/Comments/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutComment(int id, Comment comment)
@@ -60,6 +72,14 @@ namespace backend.APIs
             if (id != comment.Id)
             {
                 return BadRequest();
+            }
+
+            var username = HttpContext.User.FindFirst("name")?.Value;
+            var user = await userManager.FindByNameAsync(username);
+
+            if (comment.UserID != user.Id)
+            {
+                return ValidationProblem("Only the owner of this comment is allowed to edit it.");
             }
 
             context.Entry(comment).State = EntityState.Modified;
@@ -79,8 +99,7 @@ namespace backend.APIs
                     throw;
                 }
             }
-
-            var user = await context.Users.FindAsync(comment.UserID);
+            
             var article = await context.Article.FindAsync(comment.ArticleID);
 
             FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.UserName} editted his comment `{comment.Text}` on the article of title `{article.Title}`");
@@ -89,17 +108,29 @@ namespace backend.APIs
         }
 
         // POST: api/Comments
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
-        public async Task<ActionResult<Comment>> PostComment(Comment comment)
+        public async Task<ActionResult<Comment>> PostComment(Comment _comment)
         {
+            var username = HttpContext.User.FindFirst("name")?.Value;
+            var user = await userManager.FindByNameAsync(username);
+
+            var comment = new Comment() { ArticleID = _comment.ArticleID, Text = _comment.Text, DateTime = DateTime.Now, UserID = user.Id };
+
             context.Comment.Add(comment);
             await context.SaveChangesAsync();
 
-            var user = await context.Users.FindAsync(comment.UserID);
             var article = await context.Article.FindAsync(comment.ArticleID);
+
+            var comments = await context.Comment.Where(c => c.ArticleID == article.Id).ToListAsync();
+
+            foreach (var comment_ in comments)
+            {
+                var owner = await context.Users.FindAsync(comment_.UserID);
+                comment_.User = owner;
+            }
+
+            await hubContext.Clients.All.ArticleCommentChange(article.Id, comments);
 
             FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.UserName} posted a comment `{comment.Text}` on the article of title `{article.Title}`");
 
@@ -120,11 +151,18 @@ namespace backend.APIs
             var article = await context.Article.FindAsync(comment.ArticleID);
             FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {HttpContext.User.Identity.Name} attempts to delete his comment `{comment.Text}` on the article of title `{article.Title}`");
 
+            var username = HttpContext.User.FindFirst("name")?.Value;
+            var user = await userManager.FindByNameAsync(username);
+
+            if (comment.UserID != user.Id)
+            {
+                return ValidationProblem("Only the owner of this comment is allowed to delete it.");
+            }
+
             context.Comment.Remove(comment);
             await context.SaveChangesAsync();
 
             FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | Delete Completed");
-
 
             return comment;
         }

@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
+    <Folder Include="src\hubs\" />
     <Folder Include="src\store\" />
     <Folder Include="public\" />
     <Folder Include="src\" />
@@ -121,9 +122,12 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\hubs\article-hub.ts" />
     <TypeScriptCompile Include="src\models\loginModel.ts" />
+    <TypeScriptCompile Include="src\models\outlookUser.ts" />
     <TypeScriptCompile Include="src\models\registerModel.ts" />
     <TypeScriptCompile Include="src\services\auth-service.ts" />
+    <TypeScriptCompile Include="src\store\modules\authentication.ts" />
     <TypeScriptCompile Include="src\store\modules\colors.ts" />
     <TypeScriptCompile Include="src\store\modules\language.ts" />
     <TypeScriptCompile Include="src\components\article-thumbnail\Article-Thumbnail.ts" />

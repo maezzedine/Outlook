@@ -33,6 +33,10 @@ export default class App extends Vue {
         this.initializeVolumes();
         this.getColors();
         this.getCategories();
+
+        this.$articleHub.$on('article-score-changed', this.onArticleScoreChange);
+        this.$articleHub.$on('article-comment-changed', this.onArticleCommentChange);
+        this.$articleHub.$on('article-favorite-changed', this.onArticleFavoriteChange);
     }
 
     // Theme
@@ -138,6 +142,34 @@ export default class App extends Vue {
         api.getArticles(this.$data.Issue['id']).then(a => {
             this.$data.Articles = a;
             this.getCategories();
+        })
+    }
+
+    onArticleScoreChange({ articleId, rate, numberOfVotes }) {
+        this.$data.Articles.forEach(a => {
+            if (a.id == articleId) {
+                a.rate = rate;
+                a.numberOfVotes = numberOfVotes;
+                return;
+            }
+        })
+    }
+
+    onArticleCommentChange({ articleId, comments }) {
+        this.$data.Articles.forEach(a => {
+            if (a.id == articleId) {
+                a.comments = comments;
+                return;
+            }
+        })
+    }
+
+    onArticleFavoriteChange({ articleId, numberOfFavorites }) {
+        this.$data.Articles.forEach(a => {
+            if (a.id == articleId) {
+                a.numberOfFavorites = numberOfFavorites;
+                return;
+            }
         })
     }
 

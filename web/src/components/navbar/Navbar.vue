@@ -10,7 +10,7 @@
         <!-- <options> -->
         <div class="options">
 
-            <template v-if="!($store.getters.IsAuthenitcated)">
+            <template v-if="!$store.getters.IsAuthenticated">
                 <!-- <Login> -->
                 <router-link :to="{ name: 'login' }" class="btn-group">
                     <button class="option">
