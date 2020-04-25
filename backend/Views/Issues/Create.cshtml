@@ -13,7 +13,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="IssueNumber" class="control-label"></label>
@@ -29,16 +29,6 @@
                 <label asp-for="EnglishTheme" class="control-label"></label>
                 <input asp-for="EnglishTheme" class="form-control" />
                 <span asp-validation-for="EnglishTheme" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ArabicPDF" class="control-label"></label>
-                <input asp-for="ArabicPDF" class="form-control" ref="file" type="file" />
-                <span asp-validation-for="ArabicPDF" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EnglishPDF" class="control-label"></label>
-                <input asp-for="EnglishPDF" class="form-control" ref="file" type="file" />
-                <span asp-validation-for="EnglishPDF" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

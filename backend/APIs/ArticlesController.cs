@@ -98,7 +98,7 @@ namespace backend.APIs
             var username = HttpContext.User.FindFirst("name")?.Value;
             var user = await userManager.FindByNameAsync(username);
 
-            var userRateArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id));
+            var userRateArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.Article.Id == articleID) && (u.User.Id == user.Id));
 
             var article = await context.Article.FindAsync(articleID);
 
@@ -114,7 +114,7 @@ namespace backend.APIs
             }
 
             // Rate up the article
-            context.UserRateArticle.Add(new UserRateArticle { UserID = user.Id, ArticleID = articleID, Rate = UserRate.Up });
+            context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = UserRate.Up });
             article.RateUp();
 
             // Notify all clients
@@ -135,7 +135,7 @@ namespace backend.APIs
             var username = HttpContext.User.FindFirst("name")?.Value;
             var user = await userManager.FindByNameAsync(username);
 
-            var userRateArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.UserID == user.Id));
+            var userRateArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.Article.Id == articleID) && (u.User.Id == user.Id));
 
 
             var article = await context.Article.FindAsync(articleID);
@@ -152,7 +152,7 @@ namespace backend.APIs
             }
 
             // Rate down the article
-            context.UserRateArticle.Add(new UserRateArticle { UserID = user.Id, ArticleID = articleID, Rate = UserRate.Down });
+            context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = UserRate.Down });
             article.RateDown();
 
             // Notify all clients
@@ -173,7 +173,7 @@ namespace backend.APIs
             var username = HttpContext.User.FindFirst("name")?.Value;
             var user = await userManager.FindByNameAsync(username);
 
-            var userFavoritedArticle = await context.UserFavoritedArticleRelation.FirstOrDefaultAsync(u => (u.ArticleID == articleID) && (u.User.Id == user.Id));
+            var userFavoritedArticle = await context.UserFavoritedArticleRelation.FirstOrDefaultAsync(u => (u.Article.Id == articleID) && (u.User.Id == user.Id));
 
             var article = await context.Article.FindAsync(articleID);
 
@@ -184,7 +184,7 @@ namespace backend.APIs
             }
             else
             {
-                context.UserFavoritedArticleRelation.Add(new UserFavoritedArticleRelation { User = user, ArticleID = articleID });
+                context.UserFavoritedArticleRelation.Add(new UserFavoritedArticleRelation { User = user, Article = article });
                 article.NumberOfFavorites++;
             }
 
@@ -198,13 +198,12 @@ namespace backend.APIs
 
         public async Task GetArticleProperties(Article article)
         {
-            // Add the category name
+            // Add the category
             var category = await context.Category.FindAsync(article.CategoryID);
             article.CategoryTagName = category.Tag.ToString();
 
-            // Add the writer name
+            // Add the writer
             var writer = await context.Member.FindAsync(article.MemberID);
-            article.WriterPosition = writer.PositionName;
 
             // Add the langauge
             article.Lang = (article.Language == Models.Interfaces.Language.English) ? "en" : "ar";
@@ -222,23 +221,6 @@ namespace backend.APIs
             }
 
             article.Comments = await comments.ToListAsync();
-
-            //if (User.Identity.Name != null)
-            //{
-            //    var user = await userManager.FindByNameAsync(User.Identity.Name);
-
-            //    // Add user rate to the article
-            //    var userRatedArticle = await context.UserRateArticle.FirstOrDefaultAsync(r => (r.UserID == user.Id) && (r.ArticleID == article.Id));
-
-            //    if (userRatedArticle == null)
-            //    {
-            //        article.RatedByUser = UserRate.None;
-            //    }
-            //    else
-            //    {
-            //        article.RatedByUser = userRatedArticle.Rate;
-            //    }
-            //}
         }
     }
 }

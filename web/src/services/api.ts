@@ -1,7 +1,11 @@
 import axios from 'axios';
+import { __await } from 'tslib';
+import articleHub from '../hubs/article-hub';
 
 const APP_URL = process.env.VUE_APP_OUTLOOK;
-const API_URL = APP_URL + '/api/';
+const API_URL = process.env.VUE_APP_OUTLOOK + '/api/';
+const WEBSOCKET_API_URL = process.env.VUE_APP_OUTLOOK_WEBSOCKET + '/api/';
+
 
 const BASE_URL = process.env.VUE_APP_BASE_URL;
 
@@ -80,7 +84,7 @@ export class Api {
     }
 
     // Authorized
-    async rateUpArticle(token: string, articleId: Number) {
+    async rateUpArticle(token: string, articleId: string) {
         //if (token == null) {
         //    return Error("Unathorized action.");
         //}
@@ -107,6 +111,66 @@ export class Api {
         };
 
         return fetch(`${API_URL}articles/RateUpArticle/${articleId}`, requestOptions)
+            .then(response => response.json())
+            .catch(error => console.log('error', error));
+    }
+
+    // Authorized
+    async rateDownArticle(token: string, articleId: string) {
+        if (token == null) {
+            return Error("Unathorized action.");
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("x-functions-key", "{{auth}}");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions: RequestInit = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        return fetch(`${API_URL}articles/RateDownArticle/${articleId}`, requestOptions)
+            .then(response => response.json())
+            .catch(error => console.log('error', error));
+    }
+
+    // Authorized
+    async addComment(token: string, articleId: string, content: string) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+
+        var raw = JSON.stringify({ "ArticleId": articleId, "Text": content });
+
+        var requestOptions: RequestInit = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: raw
+        };
+
+        return fetch(`${API_URL}comments`, requestOptions)
+            .then(response => response.json())
+            .catch(error => console.log('error', error));
+    }
+
+    // Authorized
+    async favoriteArticle(token: string, articleId: string) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions: RequestInit = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        return fetch(`${API_URL}articles/FavoriteArticle/${articleId}`, requestOptions)
             .then(response => response.json())
             .catch(error => console.log('error', error));
     }

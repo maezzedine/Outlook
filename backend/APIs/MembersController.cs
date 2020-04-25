@@ -31,7 +31,7 @@ namespace backend.APIs
 
         // GET: api/Members/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Member>> GetMember(int id)
+        public async Task<ActionResult> GetMember(int id)
         {
             var member = await context.Member.FindAsync(id);
 
@@ -40,10 +40,31 @@ namespace backend.APIs
                 return NotFound();
             }
 
+            GetMemberLanguage(member);
             GetJuniorEditorCategory(member);
-            await GetMemberArticles(member);
 
-            return GetMemberLanguage(member);
+            var articles = from article in context.Article
+                           where article.MemberID == member.ID
+                           select article;
+
+            foreach (var article in articles)
+            {
+                var category = await context.Category.FirstOrDefaultAsync(c => c.Id == article.CategoryID);
+                article.CategoryTagName = category.Tag.ToString();
+
+                // Add the comment list on the article
+                var comments = from comment in context.Comment
+                               where comment.ArticleID == article.Id
+                               select comment;
+                
+                article.Comments = await comments.ToListAsync();
+            }
+
+            return Ok(new
+            {
+                member = member,
+                articles = articles
+            });
         }
 
         // GET: api/Members
@@ -141,21 +162,6 @@ namespace backend.APIs
                 var category = context.Category.Find(categoryId);
                 member.Category = category;
             }
-        }
-
-        private async Task GetMemberArticles(Member member)
-        {
-            var articles = from article in context.Article
-                           where article.MemberID == member.ID
-                           select article;
-
-            member.Articles = await articles.ToListAsync();
-
-            //var articlesController = new ArticlesController(context, userManager);
-            //member.Articles.ForEach(a =>
-            //{
-            //    articlesController.GetArticleProperties(a).Wait();
-            //});
         }
     }
 }

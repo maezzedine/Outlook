@@ -2,7 +2,7 @@
     <div class="article">
         <div v-if="!loading"  class="category" 
                 :style="[{background: getCategoryColor(Article.categoryTagName)}]">
-            {{Article.category}} <span></span>
+            {{Article.category.categoryName}} <span></span>
         </div>
 
         <div class="article-body">
@@ -18,7 +18,7 @@
             </template>
 
             <div class="writer">
-                <router-link :to="{ name: 'member', params: { id: Article.memberID } }" v-if="!loading">{{Article.writer}} | {{Article.writerPosition}}</router-link>
+                <router-link :to="{ name: 'member', params: { id: Article.memberID } }" v-if="!loading">{{Article.member.name}} | {{Article.member.positionName}}</router-link>
             </div>
 
             <div id="article-text-body"></div>

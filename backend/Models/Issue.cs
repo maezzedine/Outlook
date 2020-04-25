@@ -1,9 +1,5 @@
 ﻿using backend.Models.Interfaces;
-using backend.Validation_Attributes;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
@@ -13,6 +9,8 @@ namespace backend.Models
         public int Id { get; set; }
         
         public int VolumeID { get; set; }
+
+        public Volume Volume { get; set; }
         
         [DisplayName("Issue Number")]
         public int IssueNumber { get; set; }
@@ -22,22 +20,5 @@ namespace backend.Models
         
         [DisplayName("English Theme")]
         public string EnglishTheme { get; set; }
-
-        [DisplayName("Arabic PDF")]
-        public string ar_pdf { get; set; }
-        
-        [NotMapped]
-        [DisplayName("Arabic PDF")]
-        public IFormFile ArabicPDF { get; set; }
-        
-        [DisplayName("Arabic PDF")]
-        public string en_pdf { get; set; }
-        
-        [NotMapped]
-        [DisplayName("English PDF")]
-        public IFormFile EnglishPDF { get; set; }
-        
-        [NotMapped]
-        public int VolumeNumber { get; set; }
     }
 }

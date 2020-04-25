@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static backend.Models.Relations.UserRateArticle;
 
 namespace backend.Models
 {
@@ -18,20 +17,19 @@ namespace backend.Models
         public Language Language { get; set; }
         
         [NotMapped]
-        
         public string Lang { get; set; }
         
         public int CategoryID { get; set; }
         
-        [NotMapped]
-        
-        public string Category { get; set; }
+        public Category Category { get; set; }
         
         [NotMapped]
         public string CategoryTagName { get; set; }
         
         public int IssueID { get; set; }
-        
+
+        public Issue Issue { get; set; }
+
         public string Title { get; set; }
         
         public string Subtitle { get; set; }
@@ -40,7 +38,6 @@ namespace backend.Models
         public IFormFile Picture { get; set; }
         
         [Display(Name="Picture")]
-        
         public string PicturePath { get; set; }
         
         [NotMapped]
@@ -51,12 +48,8 @@ namespace backend.Models
         
         public int MemberID { get; set; }
         
-        [NotMapped]
-        public string Writer { get; set; }
-        
-        [NotMapped]
-        public string WriterPosition { get; set; }
-        
+        public Member Member { get; set; }
+
         [NotMapped]
         [DisplayName("New Writer")]
         [MemberUniqueness]
@@ -70,12 +63,8 @@ namespace backend.Models
         
         public int NumberOfFavorites { get; set; }
         
-        [NotMapped]
         public List<Comment> Comments { get; set; }
         
-        [NotMapped]
-        public UserRate RatedByUser { get; set; }
-
         public void RateDown()
         {
             Rate--;
@@ -100,14 +89,13 @@ namespace backend.Models
             NumberOfVotes--;
         }
 
-        public void UpdateArticleInfo(Language lang, int categoryID, string title, string subtitle, int memberID, /*string picture,*/ string text )
+        public void UpdateArticleInfo(Language lang, int categoryID, string title, string subtitle, int memberID, string text )
         {
             Language = lang;
             CategoryID = categoryID;
             Title = title;
             Subtitle = subtitle;
             MemberID = memberID;
-            //Picture = picture;
             Text = text;
         }
     }

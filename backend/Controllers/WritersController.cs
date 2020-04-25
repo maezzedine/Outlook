@@ -76,7 +76,7 @@ namespace backend.Controllers
         }
 
             // GET: Writers/Edit/5
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {

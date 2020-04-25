@@ -355,3 +355,4 @@ appsettings.Development.json
 log.txt
 *.jpg
 backend/log.txt
+web/dist

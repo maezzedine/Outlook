@@ -83,13 +83,11 @@ namespace backend.Controllers
                 var category = context.Category.FirstOrDefault(c => c.Id == article.CategoryID);
                 if (writer != null)
                 {
-                    var writerName = writer.Name;
-                    article.Writer = writerName;
+                    article.Member = writer;
                 }
                 if (category != null)
                 {
-                    var categoryName = category.CategoryName;
-                    article.Category = categoryName;
+                    article.Category = category;
                 }
             }
 
@@ -112,11 +110,11 @@ namespace backend.Controllers
             }
 
             // Get article's writer
-            var writer = context.Member.First(m => m.ID == article.MemberID).Name;
-            article.Writer = writer;
+            var writer = context.Member.First(m => m.ID == article.MemberID);
+            article.Member = writer;
             
             // Get article's category
-            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
+            var category = context.Category.First(c => c.Id == article.CategoryID);
             article.Category = category;
 
             return View(article);
@@ -146,10 +144,10 @@ namespace backend.Controllers
                 article.DateTime = DateTime.Now;
 
                 Member writer;
-                if (article.Writer != "New Writer")
+                if (article.Member.Name != "New Writer")
                 {
                     // Assign value to the MemberID that refers to the writer of the article
-                    writer = context.Member.First(m => m.Name == article.Writer);
+                    writer = context.Member.First(m => m.Name == article.Member.Name);
                 }
                 else
                 {
@@ -170,8 +168,8 @@ namespace backend.Controllers
                 article.MemberID = writerID;
                 writer.NumberOfArticles++;
 
-                // Assign value to the MemberID that reefers to the writer of the article
-                var categoryID = context.Category.First(c => c.CategoryName == article.Category).Id;
+                // Assign value to the MemberID that refers to the writer of the article
+                var categoryID = context.Category.First(c => c.CategoryName == article.Category.CategoryName).Id;
                 article.CategoryID = categoryID;
 
                 if (article.Picture != null)
@@ -220,11 +218,11 @@ namespace backend.Controllers
             }
 
             // Get article's writer
-            var writer = context.Member.First(m => m.ID == article.MemberID).Name;
-            article.Writer = writer;
+            var writer = context.Member.First(m => m.ID == article.MemberID);
+            article.Member = writer;
 
             // Get article's category
-            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
+            var category = context.Category.First(c => c.Id == article.CategoryID);
             article.Category = category;
 
             return View(article);
@@ -257,9 +255,9 @@ namespace backend.Controllers
 
                     // Update the value to the MemberID that refers to the writer of the article
                     Member writer;
-                    if (article.Writer != "New Writer")
+                    if (article.Member.Name != "New Writer")
                     {
-                        writer = context.Member.First(m => m.Name == article.Writer);
+                        writer = context.Member.First(m => m.Name == article.Member.Name);
                     }
                     else
                     {
@@ -282,7 +280,7 @@ namespace backend.Controllers
                     article.MemberID = writerID;
 
                     // Update the value to the MemberID that reefers to the writer of the article
-                    var categoryID = context.Category.First(c => c.CategoryName == article.Category).Id;
+                    var categoryID = context.Category.First(c => c.CategoryName == article.Category.CategoryName).Id;
                     article.CategoryID = categoryID;
 
                     oldVersionArticle.UpdateArticleInfo(article.Language, categoryID, article.Title, article.Subtitle, writerID, article.Text);
@@ -372,11 +370,11 @@ namespace backend.Controllers
             }
 
             // Get article's writer
-            var writer = context.Member.First(m => m.ID == article.MemberID).Name;
-            article.Writer = writer;
+            var writer = context.Member.First(m => m.ID == article.MemberID);
+            article.Member = writer;
 
             // Get article's category
-            var category = context.Category.First(c => c.Id == article.CategoryID).CategoryName;
+            var category = context.Category.First(c => c.Id == article.CategoryID);
             article.Category = category;
 
             return View(article);

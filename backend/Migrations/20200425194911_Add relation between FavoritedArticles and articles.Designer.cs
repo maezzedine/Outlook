@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(OutlookContext))]
-    partial class OutlookContextModelSnapshot : ModelSnapshot
+    [Migration("20200425194911_Add relation between FavoritedArticles and articles")]
+    partial class AddrelationbetweenFavoritedArticlesandarticles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -444,22 +446,42 @@ namespace backend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ArticleId")
+                    b.Property<int>("ArticleID")
                         .HasColumnType("int");
 
                     b.Property<int>("Rate")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ArticleId");
-
-                    b.HasIndex("UserId");
-
                     b.ToTable("UserRateArticle");
+                });
+
+            modelBuilder.Entity("backend.Models.Reply", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommentID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reply");
                 });
 
             modelBuilder.Entity("backend.Models.Volume", b =>
@@ -593,17 +615,6 @@ namespace backend.Migrations
                 });
 
             modelBuilder.Entity("backend.Models.Relations.UserFavoritedArticleRelation", b =>
-                {
-                    b.HasOne("backend.Models.Article", "Article")
-                        .WithMany()
-                        .HasForeignKey("ArticleId");
-
-                    b.HasOne("backend.Areas.Identity.OutlookUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("backend.Models.Relations.UserRateArticle", b =>
                 {
                     b.HasOne("backend.Models.Article", "Article")
                         .WithMany()

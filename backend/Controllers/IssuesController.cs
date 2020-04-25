@@ -69,8 +69,6 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            issue.VolumeNumber = context.Volume.First(v => v.Id == issue.VolumeID).VolumeNumber;
-
             return View(issue);
         }
 
@@ -94,16 +92,6 @@ namespace backend.Controllers
                     return ValidationProblem(detail: "Volume Id cannot be null");
                 }
                 issue.VolumeID = (int) id;
-
-                if (issue.ArabicPDF != null)
-                {
-                    issue.ar_pdf = await CopyPdfFileToLocal(issue.ArabicPDF);
-                }
-
-                if (issue.EnglishPDF != null)
-                {
-                    issue.en_pdf = await CopyPdfFileToLocal(issue.EnglishPDF);
-                }
 
                 context.Add(issue);
                 await context.SaveChangesAsync();
@@ -151,29 +139,6 @@ namespace backend.Controllers
                 {
                     var oldIssueVersion = await context.Issue.FindAsync(id);
 
-                    // Update Arabic PDF file of the issue
-                    if (issue.ArabicPDF != null)
-                    {
-                        if (oldIssueVersion.ar_pdf != null)
-                        {
-                            // Delete the old pdf from the server
-                            var path = env.WebRootPath + oldIssueVersion.ar_pdf;
-                            System.IO.File.Delete(path);
-                        }
-                        oldIssueVersion.ar_pdf = await CopyPdfFileToLocal(issue.ArabicPDF);
-                    }
-
-                    // Update Arabic PDF file of the issue
-                    if (issue.EnglishPDF != null)
-                    {
-                        if (oldIssueVersion.en_pdf != null)
-                        {
-                            // Delete the old pdf from the server
-                            var path = env.WebRootPath + oldIssueVersion.en_pdf;
-                            System.IO.File.Delete(path);
-                        }
-                        oldIssueVersion.en_pdf = await CopyPdfFileToLocal(issue.EnglishPDF);
-                    }
                     var Volume = await context.Volume.FindAsync(issue.VolumeID);
 
                     FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} editted Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber} ");

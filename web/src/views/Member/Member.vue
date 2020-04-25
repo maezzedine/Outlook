@@ -16,7 +16,7 @@
             </tr>
         </table>
         <div class="articles">
-            <article-thumbnail v-for="article in member.articles" :article="article" />
+            <article-thumbnail v-for="article in articles" :article="article" />
         </div>
     </div>
 </template>

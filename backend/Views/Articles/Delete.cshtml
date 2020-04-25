@@ -19,16 +19,16 @@
             @Html.DisplayFor(model => model.Language)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Category)
+            @Html.DisplayFor(model => model.Category.CategoryName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Writer)
+            @Html.DisplayNameFor(model => model.Member.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Writer)
+            @Html.DisplayFor(model => model.Member.Name)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Title)

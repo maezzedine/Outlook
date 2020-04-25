@@ -1,23 +1,28 @@
-﻿using backend.Models.Interfaces;
+﻿using backend.Areas.Identity;
+using backend.Models.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
     public class Comment : IComment, IRatedBlog
     {
         public int Id { get; set; }
+        
         public string UserID { get; set; }
+        
+        public OutlookUser User { get; set; }
+        
         public string Text { get; set; }
+        
         public DateTime DateTime { get; set; }
+        
         public int Rate { get; set; }
+        
         public int NumberOfVotes { get; set; }
+        
         public int NumberOfFavorites { get; set; }
+        
         public int ArticleID { get; set; }
-        [NotMapped]
-        public List<Reply> Replies { get; set; }
 
         public void RateDown()
         {

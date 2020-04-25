@@ -21,11 +21,6 @@
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.IssueNumber)
-                <th>
-                    @Html.DisplayNameFor(model => model.ar_pdf)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.en_pdf)
                 </th>
                 <th></th>
                 <th></th>
@@ -37,26 +32,6 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.IssueNumber)
-                    </td>
-                    <td>
-                        @if (item.ar_pdf != null)
-                        {
-                            <i class="fas fa-check" style="color: forestgreen"></i>
-                        }
-                        else
-                        {
-                            <i class="fas fa-times" style="color: red"></i>
-                        }
-                    </td>
-                    <td>
-                        @if (item.en_pdf != null)
-                        {
-                            <i class="fas fa-check" style="color: forestgreen"></i>
-                        }
-                        else
-                        {
-                            <i class="fas fa-times" style="color: red"></i>
-                        }
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
