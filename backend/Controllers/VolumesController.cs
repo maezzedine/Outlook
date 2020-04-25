@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
@@ -16,12 +13,12 @@ namespace backend.Controllers
     public class VolumesController : Controller
     {
         private readonly OutlookContext context;
-        private readonly IConfiguration config;
+        private readonly Logger.Logger logger;
 
-        public VolumesController(OutlookContext context, IConfiguration config)
+        public VolumesController(OutlookContext context)
         {
             this.context = context;
-            this.config = config;
+            logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
         }
 
         // GET: Volumes/Details/5
@@ -59,7 +56,7 @@ namespace backend.Controllers
             {
                 context.Add(volume);
 
-                FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} created Volume {volume.VolumeNumber} ");
+                logger.Log($"{HttpContext.User.Identity.Name} created Volume {volume.VolumeNumber} ");
 
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), controllerName: "Home");
@@ -103,7 +100,7 @@ namespace backend.Controllers
                     oldVolume.FallYear = volume.FallYear;
                     oldVolume.SpringYear = volume.SpringYear;
 
-                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} editted Volume {volume.VolumeNumber}");
+                    logger.Log($"{HttpContext.User.Identity.Name} editted Volume {volume.VolumeNumber}");
                     await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -149,11 +146,11 @@ namespace backend.Controllers
         {
             var volume = await context.Volume.FindAsync(id);
             
-            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} admits to delete Volume {volume.VolumeNumber}");
+            logger.Log($"{HttpContext.User.Identity.Name} admits to delete Volume {volume.VolumeNumber}");
             
             context.Volume.Remove(volume);
             
-            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"Delete Completed");
+            logger.Log($"Delete Completed");
             
             await context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.Models;
@@ -9,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
@@ -17,12 +14,12 @@ namespace backend.Controllers
     public class WritersController : Controller
     {
         private readonly OutlookContext context;
-        private readonly IConfiguration config;
+        private readonly Logger.Logger logger;
 
-        public WritersController(OutlookContext context, IConfiguration config)
+        public WritersController(OutlookContext context)
         {
             this.context = context;
-            this.config = config;
+            logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
         }
         // GET: Writers
         public async Task<ActionResult> Index()
@@ -68,7 +65,7 @@ namespace backend.Controllers
                 context.Add(member);
                 await context.SaveChangesAsync();
 
-                FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} created writer `{member.Name}`");
+                logger.Log($"{HttpContext.User.Identity.Name} created writer `{member.Name}`");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -110,7 +107,7 @@ namespace backend.Controllers
                     {
                         oldWriter.Position = member.Position;
                         await context.SaveChangesAsync();
-                        FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} eddited writer `{oldWriter.Name}` to become `{member.Position}`");
+                        logger.Log($"{HttpContext.User.Identity.Name} eddited writer `{oldWriter.Name}` to become `{member.Position}`");
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -155,10 +152,14 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var member = await context.Member.FindAsync(id);
-            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} admits to delete writer `{member.Name}`");
+            
+            logger.Log($"{HttpContext.User.Identity.Name} admits to delete writer `{member.Name}`");
+            
             context.Member.Remove(member);
             await context.SaveChangesAsync();
-            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"Delet Completed.");
+            
+            logger.Log("Delet Completed.");
+            
             return RedirectToAction(nameof(Index));
         }
 

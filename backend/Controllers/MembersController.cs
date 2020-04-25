@@ -18,13 +18,13 @@ namespace backend.Controllers
     public class MembersController : Controller
     {
         private readonly OutlookContext context;
-        private readonly IConfiguration config;
+        private readonly Logger.Logger logger;
         public static List<string> Categories;
         
-        public MembersController(OutlookContext context, IConfiguration config)
+        public MembersController(OutlookContext context)
         {
             this.context = context;
-            this.config = config;
+            logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
         }
 
         // GET: Members
@@ -117,7 +117,7 @@ namespace backend.Controllers
 
                 await context.SaveChangesAsync();
 
-                FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} created member `{member.Name}` with position {member.Position} " +
+                logger.Log($"{HttpContext.User.Identity.Name} created member `{member.Name}` with position {member.Position} " +
                     $"(Category = {member.CategoryField}) ");
 
                 return RedirectToAction(nameof(Index));
@@ -174,7 +174,7 @@ namespace backend.Controllers
                         var oldCategoryEditorData = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == oldMemberData.ID);
                         var oldCategory = await context.Category.FindAsync(oldCategoryEditorData.CategoryID);
 
-                        FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} editted member `{oldMemberData.Name}` with position {oldMemberData.Position} " +
+                        logger.Log($"{HttpContext.User.Identity.Name} editted member `{oldMemberData.Name}` with position {oldMemberData.Position} " +
                             $"(Category = {oldCategory.CategoryName}) ");
 
                         // Delete CategoryEditor relation if needed
@@ -218,7 +218,7 @@ namespace backend.Controllers
 
                     oldMemberData.Position = member.Position;
 
-                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"to become: Name: {member.Name}\n" +
+                    logger.Log($"to become: Name: {member.Name}\n" +
                         $"Position: {member.Position}\n" +
                         $"Category: {member.CategoryField}");
 
@@ -272,12 +272,12 @@ namespace backend.Controllers
         {
             var member = await context.Member.FindAsync(id);
 
-            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} admits to delete member `{member.Name}`");
+            logger.Log($"{HttpContext.User.Identity.Name} admits to delete member `{member.Name}`");
 
             context.Member.Remove(member);
             await context.SaveChangesAsync();
 
-            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"Delete Completed.");
+            logger.Log($"Delete Completed.");
 
             return RedirectToAction(nameof(Index));
         }

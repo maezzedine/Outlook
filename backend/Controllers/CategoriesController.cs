@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
@@ -16,12 +13,12 @@ namespace backend.Controllers
     public class CategoriesController : Controller
     {
         private readonly OutlookContext context;
-        private readonly IConfiguration config;
+        private readonly Logger.Logger logger;
 
-        public CategoriesController(OutlookContext context, IConfiguration config)
+        public CategoriesController(OutlookContext context)
         {
             this.context = context;
-            this.config = config;
+            logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
         }
 
         // GET: Categories
@@ -97,7 +94,7 @@ namespace backend.Controllers
                 context.Add(category);
                 await context.SaveChangesAsync();
 
-                FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} created Category `{category.CategoryName}` and ID `{category.Id}`.");
+                logger.Log($"{HttpContext.User.Identity.Name} created Category `{category.CategoryName}` and ID `{category.Id}`.");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -137,7 +134,7 @@ namespace backend.Controllers
                 try
                 {
                     var oldCategory = await context.Category.FindAsync(category.Id);
-                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} editted Category `{category.CategoryName}`");
+                    logger.Log($"{HttpContext.User.Identity.Name} editted Category `{category.CategoryName}`");
                     oldCategory.Language = category.Language;
                     oldCategory.Tag = category.Tag;
                     await context.SaveChangesAsync();
@@ -197,10 +194,10 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var category = await context.Category.FindAsync(id);
-            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} attempts to delete Category `{category.CategoryName}`");
+            logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Category `{category.CategoryName}`");
             context.Category.Remove(category);
             await context.SaveChangesAsync();
-            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"Delete Completed.");
+            logger.Log($"Delete Completed.");
             return RedirectToAction(nameof(Index));
         }
 

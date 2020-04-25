@@ -11,9 +11,6 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Identity;
-using backend.Areas.Identity;
 
 namespace backend.Controllers
 {
@@ -22,18 +19,18 @@ namespace backend.Controllers
     {
         private readonly OutlookContext context;
         private readonly IWebHostEnvironment env;
-        private readonly IConfiguration config;
+        private readonly Logger.Logger logger;
         public static int VolumeNumber;
         public static int IssueNumber;
 
         public static List<string> Writers;
         public static List<string> Categories;
 
-        public ArticlesController(OutlookContext context, IWebHostEnvironment env, IConfiguration config)
+        public ArticlesController(OutlookContext context, IWebHostEnvironment env)
         {
             this.context = context;
             this.env = env;
-            this.config = config;
+            logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
         }
 
         // GET: Articles
@@ -194,7 +191,7 @@ namespace backend.Controllers
                 context.Add(article);
                 await context.SaveChangesAsync();
 
-                FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} created article of title `{article.Title}` and ID `{article.Id}`");
+                logger.Log($"{HttpContext.User.Identity.Name} created article of title `{article.Title}` and ID `{article.Id}`");
                 
                 return RedirectToAction(nameof(Index), new { id = id});
             }
@@ -250,7 +247,7 @@ namespace backend.Controllers
 
                     string startLogMessage = await GetEditLogMessage(oldVersionArticle);
 
-                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"This article is edited from `{startLogMessage}`");
+                    logger.Log($"This article is edited from `{startLogMessage}`");
 
 
                     // Update the value to the MemberID that refers to the writer of the article
@@ -332,7 +329,7 @@ namespace backend.Controllers
 
                     string endLogMessage = await GetEditLogMessage(oldVersionArticle);
 
-                    FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"to: {endLogMessage} by {HttpContext.User.Identity.Name}");
+                    logger.Log($"to: {endLogMessage} by {HttpContext.User.Identity.Name}");
 
                     //context.Update(article);
                     await context.SaveChangesAsync();
@@ -399,12 +396,12 @@ namespace backend.Controllers
                 System.IO.File.Delete(path);
             }
 
-            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"{HttpContext.User.Identity.Name} attempts to delete article of title `{article.Title}` and ID `{article.Id}`.");
+            logger.Log($"{HttpContext.User.Identity.Name} attempts to delete article of title `{article.Title}` and ID `{article.Id}`.");
 
             context.Article.Remove(article);
             await context.SaveChangesAsync();
             
-            FileLogger.FileLogger.Log(config.GetValue<string>("LogFilePath"), $"Delete Completed.");
+            logger.Log($"Delete Completed.");
             
             return RedirectToAction(nameof(Index), new { id = article.IssueID});
         }

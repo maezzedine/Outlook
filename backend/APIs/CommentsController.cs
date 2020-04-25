@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using backend.Areas.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -21,90 +19,22 @@ namespace backend.APIs
     public class CommentsController : ControllerBase
     {
         private readonly OutlookContext context;
-        private readonly IConfiguration config;
         private readonly UserManager<OutlookUser> userManager;
         private readonly IHubContext<ArticleHub, IArticleHub> hubContext;
+        private readonly Logger.Logger logger;
 
-        public CommentsController(OutlookContext context, IConfiguration config, UserManager<OutlookUser> userManager, IHubContext<ArticleHub, IArticleHub> articlehub)
+        public CommentsController(OutlookContext context, UserManager<OutlookUser> userManager, IHubContext<ArticleHub, IArticleHub> articlehub)
         {
             this.context = context;
-            this.config = config;
             this.userManager = userManager;
             this.hubContext = articlehub;
+            logger = Logger.Logger.Instance(Logger.Logger.LogField.web);
         }
 
         public class PostCommentModel
         {
             public int articleId;
             public string text;
-        }
-
-        // GET: api/Comments
-        [HttpGet("{articleID}")]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetComments(int articleID)
-        {
-            var comments = from comment in context.Comment
-                           where comment.ArticleID == articleID
-                           select comment;
-
-            return await comments.ToListAsync();
-        }
-
-        // GET: api/Comments/5
-        [HttpGet("Comment/{id}")]
-        public async Task<ActionResult<Comment>> GetComment(int id)
-        {
-            var comment = await context.Comment.FindAsync(id);
-
-            if (comment == null)
-            {
-                return NotFound();
-            }
-
-            return comment;
-        }
-
-        // PUT: api/Comments/5
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutComment(int id, Comment comment)
-        {
-            if (id != comment.Id)
-            {
-                return BadRequest();
-            }
-
-            var username = HttpContext.User.FindFirst("name")?.Value;
-            var user = await userManager.FindByNameAsync(username);
-
-            if (comment.UserID != user.Id)
-            {
-                return ValidationProblem("Only the owner of this comment is allowed to edit it.");
-            }
-
-            context.Entry(comment).State = EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CommentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            
-            var article = await context.Article.FindAsync(comment.ArticleID);
-
-            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.UserName} editted his comment `{comment.Text}` on the article of title `{article.Title}`");
-
-            return NoContent();
         }
 
         // POST: api/Comments
@@ -132,7 +62,7 @@ namespace backend.APIs
 
             await hubContext.Clients.All.ArticleCommentChange(article.Id, comments);
 
-            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {user.UserName} posted a comment `{comment.Text}` on the article of title `{article.Title}`");
+            logger.Log($"{user.UserName} posted a comment `{comment.Text}` on the article of title `{article.Title}`");
 
             return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
         }
@@ -148,11 +78,11 @@ namespace backend.APIs
                 return NotFound();
             }
 
-            var article = await context.Article.FindAsync(comment.ArticleID);
-            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | {HttpContext.User.Identity.Name} attempts to delete his comment `{comment.Text}` on the article of title `{article.Title}`");
-
             var username = HttpContext.User.FindFirst("name")?.Value;
             var user = await userManager.FindByNameAsync(username);
+
+            var article = await context.Article.FindAsync(comment.ArticleID);
+            logger.Log($"{user.UserName} attempts to delete his comment `{comment.Text}` on the article of title `{article.Title}`");
 
             if (comment.UserID != user.Id)
             {
@@ -162,14 +92,9 @@ namespace backend.APIs
             context.Comment.Remove(comment);
             await context.SaveChangesAsync();
 
-            FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | Delete Completed");
+            logger.Log("Delete Completed");
 
             return comment;
-        }
-
-        private bool CommentExists(int id)
-        {
-            return context.Comment.Any(e => e.Id == id);
         }
     }
 }

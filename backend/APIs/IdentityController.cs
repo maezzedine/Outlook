@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using backend.Areas.Identity;
 using backend.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -14,16 +13,14 @@ namespace backend.APIs
     public class IdentityController : ControllerBase
     {
         private readonly UserManager<OutlookUser> userManager;
-        private readonly IConfiguration config;
+        private readonly Logger.Logger logger;
 
-        public IdentityController(
-            UserManager<OutlookUser> userManager,
-            IConfiguration config)
+        public IdentityController(UserManager<OutlookUser> userManager)
         {
             this.userManager = userManager;
-            this.config = config;
+            logger = Logger.Logger.Instance(Logger.Logger.LogField.web);
         }
-        
+
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody]RegisterModel registerModel) 
         {
@@ -32,7 +29,7 @@ namespace backend.APIs
                 var user = new OutlookUser { UserName = registerModel.Username, FirstName = registerModel.FirstName, LastName = registerModel.LastName };
                 var result = await userManager.CreateAsync(user, registerModel.Password);
 
-                FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | User {user.UserName} was created.");
+                logger.Log($"User {user.UserName} was created.");
 
                 return new JsonResult(result);
             }
@@ -51,7 +48,7 @@ namespace backend.APIs
                 {
                     var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
 
-                    FileLogger.FileLogger.Log(config.GetValue<string>("WebsiteLogFilePath"), $"{DateTime.Now} | User {user.UserName} changed their password.");
+                    logger.Log($"User {user.UserName} changed their password.");
 
                     return new JsonResult(result);
                 }
