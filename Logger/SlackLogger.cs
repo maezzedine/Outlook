@@ -8,11 +8,13 @@ namespace Logger
     {
         private SbmClient webSlackBotClient;
         private SbmClient serverSlackBotClient;
+        private SbmClient userArticlesSlackBotClient;
 
-        public SlackLogger(string webChannelUrl, string serverChannelUrl)
+        public SlackLogger(string webChannelUrl, string serverChannelUrl, string userArticlesChannelUrl)
         {
             webSlackBotClient = new SbmClient(webChannelUrl);
             serverSlackBotClient = new SbmClient(serverChannelUrl);
+            userArticlesSlackBotClient = new SbmClient(userArticlesChannelUrl);
         }
 
         public void Log(LogField logField, string msg)
@@ -25,12 +27,16 @@ namespace Logger
             {
                 serverSlackBotClient.Send(FormatMessage(msg));
             }
+            if (logField == LogField.userArticles)
+            {
+                userArticlesSlackBotClient.Send(FormatMessage(msg));
+            }
         }
 
         private Message FormatMessage(string msg) =>
             new Message
             {
-                Username = "Mohammed Ezzedine",
+                Username = "Article By User",
                 Text = msg
             };
     }

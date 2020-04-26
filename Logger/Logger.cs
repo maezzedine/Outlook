@@ -6,6 +6,7 @@ namespace Logger
     {
         private static Logger webLogger;
         private static Logger serverLogger;
+        private static Logger userArticlesLogger;
 
         private FileLogger fileLogger;
         private SlackLogger slackLogger;
@@ -15,7 +16,7 @@ namespace Logger
         private Logger(LogField logField) 
         {
             fileLogger = new FileLogger(Config.WebFileName, Config.ServerFileName);
-            slackLogger = new SlackLogger(Config.WebSlackChannel, Config.ServerSlackChannel);
+            slackLogger = new SlackLogger(Config.WebSlackChannel, Config.ServerSlackChannel, Config.UserArticlesSlackChannel);
             this.logField = logField;
         }
 
@@ -28,6 +29,14 @@ namespace Logger
                     webLogger = new Logger(LogField.web);
                 }
                 return webLogger;
+            }
+            else if (logField == LogField.userArticles)
+            {
+                if (userArticlesLogger == null)
+                {
+                    userArticlesLogger = new Logger(LogField.userArticles);
+                }
+                return userArticlesLogger;
             }
             else
             {
@@ -46,7 +55,7 @@ namespace Logger
             slackLogger.Log(logField, msg);
         }
 
-        public enum LogField { server, web }
+        public enum LogField { server, web, userArticles }
 
         private static string MessageFormat(string msg) => $"{DateTime.Now} | {msg}\n";
     }

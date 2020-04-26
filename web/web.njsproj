@@ -79,6 +79,8 @@
     <Content Include="src\views\Outlook-Writers\Outlook-Writers.scss" />
     <Content Include="src\views\Outlook-Writers\Outlook-Writers.vue" />
     <Content Include="src\views\Stats\Stats.vue" />
+    <Content Include="src\views\Upload-Article\Upload-Article.scss" />
+    <Content Include="src\views\Upload-Article\Upload-Article.vue" />
     <Content Include="tsconfig.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -109,6 +111,7 @@
     <Folder Include="src\views\Meet-Outlook\" />
     <Folder Include="src\views\Authentication\" />
     <Folder Include="src\views\Member\" />
+    <Folder Include="src\views\Upload-Article\" />
     <Folder Include="src\views\Outlook-Article\" />
     <Folder Include="src\views\Outlook-Writers\" />
     <Folder Include="src\views\Stats\" />
@@ -153,6 +156,7 @@
     <TypeScriptCompile Include="src\views\Outlook-Writers\Outlook-Writers.ts" />
     <TypeScriptCompile Include="src\views\Stats\Stats.ts" />
     <TypeScriptCompile Include="src\store\index.ts" />
+    <TypeScriptCompile Include="src\views\Upload-Article\Upload-Article.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

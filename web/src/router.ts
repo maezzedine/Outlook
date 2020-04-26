@@ -10,6 +10,7 @@ const Writers = () => import('./views/Outlook-Writers/Outlook-Writers.vue');
 const Member = () => import('./views/Member/Member');
 const Article = () => import('./views/Outlook-Article/Outlook-Article.vue');
 const MeetOutlook = () => import('./views/Meet-Outlook/Meet-Outlook.vue');
+const UploadArticle = () => import('./views/Upload-Article/Upload-Article.vue');
 const Login = () => import('./views/Authentication/Login.vue');
 const Register = () => import('./views/Authentication/Register.vue');
 
@@ -67,6 +68,11 @@ export default new Router({
                 name: 'register',
                 path: '/register',
                 component: Register
+            },
+            {
+                name: 'upload-article',
+                path: '/upload-article',
+                component: UploadArticle
             }
         ])
     ]

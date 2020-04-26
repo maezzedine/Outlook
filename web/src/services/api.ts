@@ -83,6 +83,15 @@ export class Api {
         return response.data;
     }
 
+    async uploadArticle(file: FormData) {
+        var response = await axios.post(`${API_URL}articles/upload`, file, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return response.status;
+    }
+
     // Authorized
     async rateUpArticle(token: string, articleId: string) {
         //if (token == null) {

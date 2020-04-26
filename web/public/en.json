@@ -54,5 +54,18 @@
   "username-required": "Username is required",
   "password-required": "Password is required",
   "firstname-required": "First name is required",
-  "lastname-required": "Last name is required"
+  "lastname-required": "Last name is required",
+  "contribute-to-outlook": "Contribute To Outlook",
+  "write-for-outlook-question": "Do You want to write for Outlook?",
+  "good-news": "We have some good news, because ",
+  "you-can-upload": "you now can upload your articles through the website!",
+  "to-upload": "To upload your article:",
+  "sign-in": "Sign in to your AUB Outlook account.",
+  "upload-your-document": "Upload your article as a document file containing:",
+  "your-name": "Your name",
+  "upload-picture": "HD picture if there is any",
+  "upload-title": "Title",
+  "upload-subtitle": "Subtitle (Optional, but recommended)",
+  "upload-content": "Content",
+  "upload-note": "The article will be reviewed by our editors and proofreaders."
 }

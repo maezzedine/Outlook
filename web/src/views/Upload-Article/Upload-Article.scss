@@ -1,0 +1,79 @@
+.upload-article {
+    @include outlook-window();
+    text-align: start;
+
+    .title {
+        @include outlook-title();
+        font-size: x-large;
+        width: var(--outlook-title-width);
+    }
+
+    .body {
+        font-size: large;
+
+        p {
+            span {
+                text-transform: capitalize;
+                color: var(--fg-3);
+            }
+        }
+
+        .form {
+            @include row();
+            @include outlook-pad();
+            justify-content: space-between;
+            margin-bottom: 5%;
+
+            .instructions {
+                color: var(--text-1);
+                width: var(--form-half-width);
+
+                .instructions-title {
+                    font-weight: bold;
+                }
+
+                .instructions-details {
+                    text-indent: 20px;
+
+                    ul {
+                        color: var(--text-2);
+                    }
+                }
+
+                .note {
+                    color: var(--secondary);
+                    font-size: smaller;
+                }
+            }
+
+            .vertical-seperator {
+                border: .5px solid;
+            }
+
+            form {
+                @include col();
+                width: var(--form-half-width);
+                justify-content: center;
+                align-content: center;
+                background: var(--bg-1);
+                padding: 5%;
+
+                div {
+                    @include row();
+                    justify-content: center;
+                    width: 100%;
+
+                    input {
+                        max-width: 98%;
+                        margin-bottom: 2%;
+                    }
+
+                    button {
+                        background: var(--fg-3);
+                        color: var(--text-3);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -27,6 +27,10 @@
                     <th><i class="fas fa-handshake"></i></th>
                     <td>{{$store.getters.Language.aboutUs}}</td>
                 </router-link>
+                <router-link :to="{ name: 'upload-article' }">
+                    <th><i class="fas fa-hand-holding"></i></th>
+                    <td>{{$store.getters.Language['contribute-to-outlook']}}</td>
+                </router-link>
                 <!--</About>-->
 
                 <tr><span>{{$store.getters.Language.theme}}</span></tr>

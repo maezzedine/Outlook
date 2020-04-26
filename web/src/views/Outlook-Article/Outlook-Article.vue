@@ -49,10 +49,13 @@
                     {{Article.numberOfFavorites}}
                 </span>
 
+
                 <div class="signature mx-3">
                     {{$store.getters.Language['made-with']}}  <i class="fas fa-heart"></i>  {{$store.getters.Language['by-outlook']}}
                 </div>
-                
+
+                <div class="time"> {{getDateTime(Article.dateTime)}}</div>
+
                 <div class="comment-section">
                     <div class="comments">
                         <form class="new-comment" @submit.prevent="addComment">

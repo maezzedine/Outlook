@@ -15,6 +15,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using backend.Hubs;
 using backend.Services;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace backend.APIs
 {
@@ -24,13 +27,23 @@ namespace backend.APIs
     {
         private readonly OutlookContext context;
         private readonly UserManager<OutlookUser> userManager;
+        private readonly IWebHostEnvironment env;
         private readonly IHubContext<ArticleHub, IArticleHub> hubContext;
+        private readonly Logger.Logger logger;
+        public IConfiguration Configuration { get; }
 
-        public ArticlesController(OutlookContext context, UserManager<OutlookUser> userManager, IHubContext<ArticleHub, IArticleHub> articlehub)
+        public ArticlesController(
+            OutlookContext context, 
+            UserManager<OutlookUser> userManager, 
+            IHubContext<ArticleHub, IArticleHub> articlehub, 
+            IWebHostEnvironment env, IConfiguration configuration)
         {
             this.context = context;
             this.userManager = userManager;
-            this.hubContext = articlehub;
+            this.env = env;
+            Configuration = configuration;
+            hubContext = articlehub;
+            logger = Logger.Logger.Instance(Logger.Logger.LogField.userArticles);
         }
 
         // GET: api/Articles
@@ -186,6 +199,41 @@ namespace backend.APIs
             
             // Notify all clients
             await hubContext.Clients.All.ArticleFavoriteChange(article.Id, article.NumberOfFavorites);
+
+            return Ok();
+        }
+
+        [HttpPost("Upload")]
+        public async Task<ActionResult> UploadArticle(IFormCollection file)
+        {
+            if (file.Files.Count != 0)
+            {
+                var document = file.Files.ElementAt(0);
+                var extension = document.ContentType.Split('/')[1];
+
+                // Add unique name to avoid possible name conflicts
+                var uniqueDocumentName = DateTime.Now.Ticks.ToString() + $".{extension}";
+                var articleDocumentsFolderPath = Path.Combine(new string[] { env.WebRootPath, "docs", "Articles\\" });
+                var articleDocumentFilePath = Path.Combine(articleDocumentsFolderPath, uniqueDocumentName);
+                
+                if (!Directory.Exists(articleDocumentsFolderPath))
+                {
+                    Directory.CreateDirectory(articleDocumentsFolderPath);
+                }
+                
+                using (var fileStream = new FileStream(articleDocumentFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    if (file.Files.Count != 0)
+                    {
+                        // Copy the photo to storage
+                        await document.CopyToAsync(fileStream);
+                    }
+                }
+
+                var baseUrl = Configuration.GetValue<string>("BaseUrl");
+                var ArticleDocumentFullPath = $"{baseUrl}/docs/Articles/{uniqueDocumentName}" ;
+                logger.Log(ArticleDocumentFullPath);
+            }
 
             return Ok();
         }

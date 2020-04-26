@@ -44,3 +44,10 @@
     margin-bottom: 2%;
     text-align: end;
 }
+
+@mixin outlook-pad() {
+    background: var(--bg-2);
+    padding: 3%;
+    border-radius: 5px;
+    border: .5px solid var(--text-3);
+}

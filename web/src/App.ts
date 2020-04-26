@@ -6,7 +6,6 @@ import Home from './views/Home/Home.vue';
 import outlookNavbar from '@/components/navbar/Navbar.vue';
 import outlookSidebar from '@/components/sidebar/Sidebar.vue';
 import { ApiObject } from './models/apiObject';
-import language from './store/modules/language';
 
 @Component({
     name: 'App',
