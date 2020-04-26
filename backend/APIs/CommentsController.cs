@@ -11,6 +11,7 @@ using backend.Areas.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using backend.Hubs;
+using backend.Services;
 
 namespace backend.APIs
 {
@@ -42,8 +43,7 @@ namespace backend.APIs
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(Comment _comment)
         {
-            var username = HttpContext.User.FindFirst("name")?.Value;
-            var user = await userManager.FindByNameAsync(username);
+            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
 
             var comment = new Comment() { ArticleID = _comment.ArticleID, Text = _comment.Text, DateTime = DateTime.Now, UserID = user.Id };
 
@@ -77,9 +77,7 @@ namespace backend.APIs
             {
                 return NotFound();
             }
-
-            var username = HttpContext.User.FindFirst("name")?.Value;
-            var user = await userManager.FindByNameAsync(username);
+            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
 
             var article = await context.Article.FindAsync(comment.ArticleID);
             logger.Log($"{user.UserName} attempts to delete his comment `{comment.Text}` on the article of title `{article.Title}`");

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using backend.Services;
 
 namespace backend.APIs
 {
@@ -29,7 +27,7 @@ namespace backend.APIs
 
             foreach (var category in categories)
             {
-                await getCategoryDetails(category, issueId);
+                await CategoryService.GetCategoryDetails(category, issueId, context);
             }
 
             return await categories.ToListAsync();
@@ -46,27 +44,9 @@ namespace backend.APIs
                 return NotFound();
             }
 
-            await getCategoryDetails(category, issueId);
+            await CategoryService.GetCategoryDetails(category, issueId, context);
 
             return category;
-        }
-
-        private async Task getCategoryDetails(Category category, int issueId)
-        {
-            category.TagName = category.Tag.ToString();
-            category.ArticlesCount = context.Article.Where(a => (a.CategoryID == category.Id) && (a.IssueID == issueId)).Count();
-
-            // Find junior editors of category
-            var juniorEditorsIDs = from categoryEditor in context.CategoryEditor
-                                   where categoryEditor.CategoryID == category.Id
-                                   select categoryEditor.MemberID;
-
-            var juniorEditors = from member in context.Member
-                                where juniorEditorsIDs.Contains(member.ID)
-                                select member;
-
-            category.JuniorEditors = await juniorEditors.ToListAsync();
-            return;
         }
     }
 }

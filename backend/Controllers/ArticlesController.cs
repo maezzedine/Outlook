@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using backend.Services;
 
 namespace backend.Controllers
 {
@@ -31,6 +32,18 @@ namespace backend.Controllers
             this.context = context;
             this.env = env;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
+
+            // Save the List of wrtiers names to be accessed
+            var writers = from member in context.Member
+                          select member.Name;
+
+            Writers = writers.ToList();
+
+            // Save the List of categories names to be accessed
+            var categories = from category in context.Category
+                             select category.CategoryName;
+
+            Categories = categories.ToList();
         }
 
         // GET: Articles
@@ -42,33 +55,16 @@ namespace backend.Controllers
             }
 
             // Save the Issue Number to be accessed
-            var issue = from _issue in context.Issue
-                        where _issue.Id == id
-                        select _issue;
+            var issue = await context.Issue.FindAsync(id);
 
             // Save the Volume Number to be accessed
-            var volume = from _volume in context.Volume
-                         where _volume.Id == issue.FirstOrDefault().VolumeID
-                         select _volume;
+            var volume = await context.Volume.FindAsync(issue.VolumeID);
 
-
-            if (issue.FirstOrDefault() != null && volume.FirstOrDefault() != null)
+            if (issue != null && volume != null)
             {
-                IssueNumber = issue.FirstOrDefault().IssueNumber;
-                VolumeNumber = volume.FirstOrDefault().VolumeNumber;
+                IssueNumber = issue.IssueNumber;
+                VolumeNumber = volume.VolumeNumber;
             }
-
-            // Save the List of wrtiers names to be accessed
-            var writers = from member in context.Member
-                          select member.Name;
-
-            Writers = await writers.ToListAsync();
-
-            // Save the List of categories names to be accessed
-            var categories = from category in context.Category
-                             select category.CategoryName;
-
-            Categories = await categories.ToListAsync();
 
             var articles = from article in context.Article
                            where article.IssueID == id
@@ -78,14 +74,6 @@ namespace backend.Controllers
             {
                 var writer = context.Member.FirstOrDefault(m => m.ID == article.MemberID);
                 var category = context.Category.FirstOrDefault(c => c.Id == article.CategoryID);
-                if (writer != null)
-                {
-                    article.Member = writer;
-                }
-                if (category != null)
-                {
-                    article.Category = category;
-                }
             }
 
             return View(await articles.ToListAsync());
@@ -106,13 +94,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            // Get article's writer
-            var writer = context.Member.First(m => m.ID == article.MemberID);
-            article.Member = writer;
-            
-            // Get article's category
-            var category = context.Category.First(c => c.Id == article.CategoryID);
-            article.Category = category;
+            ArticleService.GetArticleWriterAndCategory(article, context);
 
             return View(article);
         }
@@ -140,30 +122,7 @@ namespace backend.Controllers
                 // Save the date where the article was uploaded
                 article.DateTime = DateTime.Now;
 
-                Member writer;
-                if (article.Member.Name != "New Writer")
-                {
-                    // Assign value to the MemberID that refers to the writer of the article
-                    writer = context.Member.First(m => m.Name == article.Member.Name);
-                }
-                else
-                {
-                    writer = new Member { Name = article.NewWriter };
-
-                    if (Regex.IsMatch(article.NewWriter, "^[a-zA-Z0-9. ]*$"))
-                    {
-                        writer.Position = Position.Staff_Writer;
-                    }
-                    else
-                    {
-                        writer.Position = Position.كاتب_صحفي;
-                    }
-                    context.Member.Add(writer);
-                    await context.SaveChangesAsync();
-                }
-                var writerID = writer.ID;
-                article.MemberID = writerID;
-                writer.NumberOfArticles++;
+                await ArticleService.EditArticleWriter(article, context);
 
                 // Assign value to the MemberID that refers to the writer of the article
                 var categoryID = context.Category.First(c => c.CategoryName == article.Category.CategoryName).Id;
@@ -171,21 +130,7 @@ namespace backend.Controllers
 
                 if (article.Picture != null)
                 {
-                    // Add unique name to avoid possible name conflicts
-                    var uniqueImageName = DateTime.Now.Ticks.ToString() + ".jpg";
-                    var articleImageFolderPath = Path.Combine(new string[] { env.WebRootPath, "img", "Articles\\" });
-                    var articleImageFilePath = Path.Combine(articleImageFolderPath, uniqueImageName);
-                    if (!Directory.Exists(articleImageFolderPath))
-                    {
-                        Directory.CreateDirectory(articleImageFolderPath);
-                    }
-                    using (var fileStream = new FileStream(articleImageFilePath, FileMode.Create, FileAccess.Write))
-                    {
-                        // Copy the photo to storage
-                        await article.Picture.CopyToAsync(fileStream);
-                    }
-                    // Save picture local path in the article object
-                    article.PicturePath = @"/img/Articles/"+ uniqueImageName;
+                    await ArticleService.AddArticlePicture(article, article.Picture, context, env.WebRootPath);
                 }
                 
                 context.Add(article);
@@ -195,8 +140,7 @@ namespace backend.Controllers
                 
                 return RedirectToAction(nameof(Index), new { id = id});
             }
-
-
+            
             return View(article);
         }
 
@@ -214,20 +158,12 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            // Get article's writer
-            var writer = context.Member.First(m => m.ID == article.MemberID);
-            article.Member = writer;
-
-            // Get article's category
-            var category = context.Category.First(c => c.Id == article.CategoryID);
-            article.Category = category;
+            ArticleService.GetArticleWriterAndCategory(article, context);
 
             return View(article);
         }
 
         // POST: Articles/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Category,Title,Subtitle,Writer,Picture,DeletePicture,Text")] Article article)
@@ -243,96 +179,43 @@ namespace backend.Controllers
                 
                 try
                 {
-                   
-
-                    string startLogMessage = await GetEditLogMessage(oldVersionArticle);
+                    string startLogMessage = GetEditLogMessage(oldVersionArticle);
 
                     logger.Log($"This article is edited from `{startLogMessage}`");
 
-
-                    // Update the value to the MemberID that refers to the writer of the article
-                    Member writer;
-                    if (article.Member.Name != "New Writer")
-                    {
-                        writer = context.Member.First(m => m.Name == article.Member.Name);
-                    }
-                    else
-                    {
-                        // Create a new writer if needed
-                        writer = new Member { Name = article.NewWriter };
-
-                        // Decide whether the writer writes for the English section or the Arabic section
-                        if (Regex.IsMatch(article.NewWriter, "^[a-zA-Z0-9. ]*$"))
-                        {
-                            writer.Position = Position.Staff_Writer;
-                        }
-                        else
-                        {
-                            writer.Position = Position.كاتب_صحفي;
-                        }
-                        context.Member.Add(writer);
-                        await context.SaveChangesAsync();
-                    }
-                    var writerID = writer.ID;
-                    article.MemberID = writerID;
+                    await ArticleService.EditArticleWriter(article, context);
 
                     // Update the value to the MemberID that reefers to the writer of the article
                     var categoryID = context.Category.First(c => c.CategoryName == article.Category.CategoryName).Id;
                     article.CategoryID = categoryID;
 
-                    oldVersionArticle.UpdateArticleInfo(article.Language, categoryID, article.Title, article.Subtitle, writerID, article.Text);
+                    ArticleService.UpdateArticleInfo(article, article.Language, categoryID, article.Title, article.Subtitle, article.Text);
 
                     if (oldVersionArticle.PicturePath == null)
                     {
                         if (article.Picture != null)
                         {
-                            // Add unique name to avoid possible name conflicts
-                            var uniqueImageName = DateTime.Now.Ticks.ToString() + ".jpg";
-                            var articleImageFilePath = Path.Combine(new string[] { env.WebRootPath, "img", "Articles", uniqueImageName });
-                            using (var fileStream = new FileStream(articleImageFilePath, FileMode.Create, FileAccess.Write))
-                            {
-                                // Copy the photo to storage
-                                await article.Picture.CopyToAsync(fileStream);
-                            }
-                            // Save picture local path in the article object
-                            oldVersionArticle.PicturePath = @"/img/Articles/" + uniqueImageName;
+                            await ArticleService.AddArticlePicture(article, article.Picture, context, env.WebRootPath);
                         }
                     }
                     else
                     {
                         if (article.Picture != null)
                         {
-                            // Delete the old picture from the server
-                            var path = env.WebRootPath + oldVersionArticle.PicturePath;
-                            System.IO.File.Delete(path);
+                            ArticleService.DeleteArticlePicture(oldVersionArticle, env.WebRootPath);
 
-                            // Copy the new picture to the server
-                            var uniqueImageName = DateTime.Now.Ticks.ToString() + ".jpg";
-                            var articleImageFilePath = Path.Combine(new string[] { env.WebRootPath, "img", "Articles", uniqueImageName });
-                            using (var fileStream = new FileStream(articleImageFilePath, FileMode.Create, FileAccess.Write))
-                            {
-                                // Copy the photo to storage
-                                await article.Picture.CopyToAsync(fileStream);
-                            }
-                            // Save picture local path in the article object
-                            oldVersionArticle.PicturePath = @"/img/Articles/" + uniqueImageName;
+                            await ArticleService.AddArticlePicture(oldVersionArticle, article.Picture, context, env.WebRootPath);
                         }
                         else if (article.DeletePicture)
                         {
-                            // Delete the old picture from the server
-                            var path = env.WebRootPath + oldVersionArticle.PicturePath;
-                            System.IO.File.Delete(path);
-
-                            oldVersionArticle.PicturePath = null;
+                            ArticleService.DeleteArticlePicture(oldVersionArticle, env.WebRootPath);
                         }
                     }
 
-                    string endLogMessage = await GetEditLogMessage(oldVersionArticle);
-
-                    logger.Log($"to: {endLogMessage} by {HttpContext.User.Identity.Name}");
-
-                    //context.Update(article);
                     await context.SaveChangesAsync();
+
+                    string endLogMessage = GetEditLogMessage(oldVersionArticle);
+                    logger.Log($"to: {endLogMessage} by {HttpContext.User.Identity.Name}");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -359,20 +242,14 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var article = await context.Article
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var article = await context.Article.FirstOrDefaultAsync(m => m.Id == id);
+
             if (article == null)
             {
                 return NotFound();
             }
 
-            // Get article's writer
-            var writer = context.Member.First(m => m.ID == article.MemberID);
-            article.Member = writer;
-
-            // Get article's category
-            var category = context.Category.First(c => c.Id == article.CategoryID);
-            article.Category = category;
+            ArticleService.GetArticleWriterAndCategory(article, context);
 
             return View(article);
         }
@@ -385,15 +262,10 @@ namespace backend.Controllers
         {
             var article = await context.Article.FindAsync(id);
 
-            // Decrement the number of articles for the writer
-            var writer = context.Member.First(m => m.ID == article.MemberID);
-            writer.NumberOfArticles--;
-
             // Delete the article image form the file server if there is any
             if (article.PicturePath != null)
             {
-                var path = env.WebRootPath + article.PicturePath;
-                System.IO.File.Delete(path);
+                ArticleService.DeleteArticlePicture(article, env.WebRootPath);
             }
 
             logger.Log($"{HttpContext.User.Identity.Name} attempts to delete article of title `{article.Title}` and ID `{article.Id}`.");
@@ -411,15 +283,14 @@ namespace backend.Controllers
             return context.Article.Any(e => e.Id == id);
         }
 
-        private async Task<string> GetEditLogMessage(Article article)
+        private string GetEditLogMessage(Article article)
         {
-            var Writer = await context.Member.FindAsync(article.MemberID);
-            var Category = await context.Category.FindAsync(article.CategoryID);
+            ArticleService.GetArticleWriterAndCategory(article, context);
 
             return $"Title: {article.Title}\n" +
                 $"Subtitle: {article.Subtitle}\n" +
-                $"Category: {Category.CategoryName}" +
-                $"Writer: {Writer.Name}\n" +
+                $"Category: {article.Category.CategoryName}" +
+                $"Writer: {article.Member.Name}\n" +
                 $"Picture Name: {Path.GetFileName(article.PicturePath)}" +
                 $"Body: {article.Text}\n";
         }

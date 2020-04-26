@@ -1,5 +1,5 @@
 ﻿@model backend.Models.Member
-@using backend.Controllers
+@using backend.Services
 
 @{
     ViewData["Title"] = "Details";
@@ -30,7 +30,7 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Position)
         </dd>
-        @if (MembersController.isJuniorEditor(Model))
+        @if (MemberService.IsJuniorEditor(Model))
         {
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.CategoryField)

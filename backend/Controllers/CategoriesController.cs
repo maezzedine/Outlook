@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using backend.Services;
 
 namespace backend.Controllers
 {
@@ -28,18 +29,7 @@ namespace backend.Controllers
 
             foreach (var category in categories)
             {
-                category.JuniorEditors = new List<Member>();
-
-                var editorIDs = from categoryEditor in context.CategoryEditor
-                                where categoryEditor.CategoryID == category.Id
-                                select categoryEditor.MemberID;
-
-                // Usually there are 1 or 2 editors
-                foreach (var editorID in editorIDs)
-                {
-                    var editor = await context.Member.FindAsync(editorID);
-                    category.JuniorEditors.Add(editor);
-                }
+                await CategoryService.GetCategoryJuniorEditors(category, context);
             }
 
             return View(await context.Category.ToListAsync());
@@ -53,25 +43,14 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var category = await context.Category
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var category = await context.Category.FirstOrDefaultAsync(m => m.Id == id);
+
             if (category == null)
             {
                 return NotFound();
             }
 
-            category.JuniorEditors = new List<Member>();
-
-            var editorIDs = from categoryEditor in context.CategoryEditor
-                            where categoryEditor.CategoryID == category.Id
-                            select categoryEditor.MemberID;
-
-            // Usually there are 1 or 2 editors
-            foreach (var editorID in editorIDs)
-            {
-                var editor = await context.Member.FindAsync(editorID);
-                category.JuniorEditors.Add(editor);
-            }
+            await CategoryService.GetCategoryJuniorEditors(category, context);
 
             return View(category);
         }
@@ -83,8 +62,6 @@ namespace backend.Controllers
         }
 
         // POST: Categories/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Language,CategoryName,Tag")] Category category)
@@ -110,6 +87,7 @@ namespace backend.Controllers
             }
 
             var category = await context.Category.FindAsync(id);
+
             if (category == null)
             {
                 return NotFound();
@@ -118,8 +96,6 @@ namespace backend.Controllers
         }
 
         // POST: Categories/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Tag")] Category category)
@@ -134,10 +110,11 @@ namespace backend.Controllers
                 try
                 {
                     var oldCategory = await context.Category.FindAsync(category.Id);
-                    logger.Log($"{HttpContext.User.Identity.Name} editted Category `{category.CategoryName}`");
                     oldCategory.Language = category.Language;
                     oldCategory.Tag = category.Tag;
                     await context.SaveChangesAsync();
+                    
+                    logger.Log($"{HttpContext.User.Identity.Name} editted Category `{category.CategoryName}`");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -171,18 +148,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            category.JuniorEditors = new List<Member>();
-
-            var editorIDs = from categoryEditor in context.CategoryEditor
-                            where categoryEditor.CategoryID == category.Id
-                            select categoryEditor.MemberID;
-
-            // Usually there are 1 or 2 editors
-            foreach (var editorID in editorIDs)
-            {
-                var editor = await context.Member.FindAsync(editorID);
-                category.JuniorEditors.Add(editor);
-            }
+            await CategoryService.GetCategoryJuniorEditors(category, context);
 
             return View(category);
         }
@@ -194,10 +160,14 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var category = await context.Category.FindAsync(id);
+            
             logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Category `{category.CategoryName}`");
+            
             context.Category.Remove(category);
             await context.SaveChangesAsync();
+            
             logger.Log($"Delete Completed.");
+            
             return RedirectToAction(nameof(Index));
         }
 

@@ -15,6 +15,7 @@ namespace backend.Models
         
         public Position Position { get; set; }
         
+        // todo: unmap this
         public int NumberOfArticles { get; set; }
 
         [NotMapped]

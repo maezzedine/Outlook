@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using backend.Models.Interfaces;
 using backend.Models.Relations;
 using Microsoft.Extensions.Configuration;
+using backend.Services;
 
 namespace backend.Controllers
 {
@@ -25,24 +26,24 @@ namespace backend.Controllers
         {
             this.context = context;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
+
+            // Save the List of categories names to be accessed
+            var categories = from category in context.Category
+                             select category.CategoryName;
+
+            Categories = categories.ToList();
         }
 
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            // Save the List of categories names to be accessed
-            var categories = from category in context.Category
-                             select category.CategoryName;
-
-            Categories = await categories.ToListAsync();
-            
             var members = from member in context.Member
                           where (member.Position != Position.كاتب_صحفي) && (member.Position != Position.Staff_Writer)
                           select member;
 
             foreach (var member in members)
             {
-                if (isJuniorEditor(member))
+                if (MemberService.IsJuniorEditor(member))
                 {
                     var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
                     var category = await context.Category.FirstAsync(c => c.Id == categoryEditor.CategoryID);
@@ -73,7 +74,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            if (isJuniorEditor(member))
+            if (MemberService.IsJuniorEditor(member))
             {
                 var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
                 var category = await context.Category.FirstAsync(c => c.Id == categoryEditor.CategoryID);
@@ -108,7 +109,7 @@ namespace backend.Controllers
                 context.Add(member);
                 await context.SaveChangesAsync();
 
-                if (isJuniorEditor(member))
+                if (MemberService.IsJuniorEditor(member))
                 {
                     // Creating new CategoryEditor relation instance
                     var categoryID = context.Category.First(c => c.CategoryName == member.CategoryField).Id;
@@ -135,7 +136,7 @@ namespace backend.Controllers
 
             var member = await context.Member.FindAsync(id);
 
-            if (isJuniorEditor(member))
+            if (MemberService.IsJuniorEditor(member))
             {
                 var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
                 var categoryID = categoryEditor.CategoryID;
@@ -169,7 +170,7 @@ namespace backend.Controllers
                     var oldMemberData = await context.Member.FindAsync(member.ID);
 
 
-                    if (isJuniorEditor(oldMemberData))
+                    if (MemberService.IsJuniorEditor(oldMemberData))
                     {
                         var oldCategoryEditorData = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == oldMemberData.ID);
                         var oldCategory = await context.Category.FindAsync(oldCategoryEditorData.CategoryID);
@@ -201,7 +202,7 @@ namespace backend.Controllers
                     }
                     else
                     {
-                        if (isJuniorEditor(member))
+                        if (MemberService.IsJuniorEditor(member))
                         {
                             var newCategory = await context.Category.FirstOrDefaultAsync(c => c.CategoryName == member.CategoryField);
                             
@@ -248,19 +249,14 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await context.Member
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var member = await context.Member.FirstOrDefaultAsync(m => m.ID == id);
+
             if (member == null)
             {
                 return NotFound();
             }
 
-            if (isJuniorEditor(member))
-            {
-                var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
-                var category = await context.Category.FirstAsync(c => c.Id == categoryEditor.CategoryID);
-                member.CategoryField = category.CategoryName;
-            }
+            MemberService.GetJuniorEditorCategory(member, context);
 
             return View(member);
         }
@@ -287,6 +283,5 @@ namespace backend.Controllers
             return context.Member.Any(e => e.ID == id);
         }
 
-        public static bool isJuniorEditor(Member member) => (member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم);
     }
 }

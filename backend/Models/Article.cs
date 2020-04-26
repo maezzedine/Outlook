@@ -88,15 +88,5 @@ namespace backend.Models
             Rate--;
             NumberOfVotes--;
         }
-
-        public void UpdateArticleInfo(Language lang, int categoryID, string title, string subtitle, int memberID, string text )
-        {
-            Language = lang;
-            CategoryID = categoryID;
-            Title = title;
-            Subtitle = subtitle;
-            MemberID = memberID;
-            Text = text;
-        }
     }
 }

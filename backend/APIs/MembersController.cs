@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
@@ -10,6 +9,7 @@ using backend.Models;
 using backend.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using backend.Areas.Identity;
+using backend.Services;
 
 namespace backend.APIs
 {
@@ -20,9 +20,7 @@ namespace backend.APIs
         private readonly OutlookContext context;
         private readonly UserManager<OutlookUser> userManager;
 
-        private static Position[] ArabicPositions = { Position.المحرر, Position.رئيس_تحرير, Position.رئيس_قسم, Position.عضو_سابق, Position.كاتب_صحفي, Position.مدقق_الموقع, Position.مدقق_النسخة, Position.مدقق_لغوي, Position.نائب_المحرر };
-        private static Position[] EnglishPositions = { Position.Editor_In_Chief, Position.Senior_Editor, Position.Associate_Editor, Position.Junior_Editor, Position.Proofreader, Position.Copy_Editor, Position.Web_Editor, Position.Former_Member, Position.Staff_Writer  };
-
+        
         public MembersController(OutlookContext context, UserManager<OutlookUser> userManager)
         {
             this.context = context;
@@ -40,8 +38,8 @@ namespace backend.APIs
                 return NotFound();
             }
 
-            GetMemberLanguage(member);
-            GetJuniorEditorCategory(member);
+            MemberService.GetMemberLanguage(member);
+            MemberService.GetJuniorEditorCategory(member, context);
 
             var articles = from article in context.Article
                            where article.MemberID == member.ID
@@ -49,15 +47,7 @@ namespace backend.APIs
 
             foreach (var article in articles)
             {
-                var category = await context.Category.FirstOrDefaultAsync(c => c.Id == article.CategoryID);
-                article.CategoryTagName = category.Tag.ToString();
-
-                // Add the comment list on the article
-                var comments = from comment in context.Comment
-                               where comment.ArticleID == article.Id
-                               select comment;
-                
-                article.Comments = await comments.ToListAsync();
+                await ArticleService.GetArticleProperties(article, context);
             }
 
             return Ok(new
@@ -72,9 +62,9 @@ namespace backend.APIs
         public async Task<ActionResult<IEnumerable<Member>>> GetWriters()
         {
             var writers = from member in context.Member
-                          where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
+                          where MemberService.IsWriter(member)
                           orderby member.Name
-                          select GetMemberLanguage(member);
+                          select MemberService.GetMemberLanguage(member);
 
             return await writers.ToListAsync();
         }
@@ -82,42 +72,21 @@ namespace backend.APIs
         [HttpGet("board")]
         public async Task<ActionResult> GetBoardMembers()
         {
-            var nonBoardMembers = new Position[] { Position.Staff_Writer, Position.Former_Member, Position.كاتب_صحفي, Position.عضو_سابق };
 
-            var englishPositons = from position in EnglishPositions orderby position select position;
-            var arabicPositons = from position in ArabicPositions orderby position select position;
+            var englishPositons = from position in MemberService.EnglishPositions orderby position select position;
+            var arabicPositons = from position in MemberService.ArabicPositions orderby position select position;
 
-            var boardmMembers = from member in context.Member
-                                where !(nonBoardMembers.Contains(member.Position))
+            var boardMembers = from member in context.Member
+                                where !(MemberService.NonBoardMembers.Contains(member.Position))
                                 select member;
 
-            await boardmMembers.ForEachAsync(m => GetJuniorEditorCategory(m));
+            await boardMembers.ForEachAsync(m => MemberService.GetJuniorEditorCategory(m, context));
 
             var englishBoardMembers = new Dictionary<string, IQueryable<Member>>();
-            foreach (var position in englishPositons)
-            {
-                if (!nonBoardMembers.Contains(position))
-                {
-                    var members = from member in boardmMembers
-                                  where member.Position == position
-                                  select member;
-
-                    englishBoardMembers[position.ToString().Replace('_', ' ')] = members;
-                }
-            }
+            MemberService.AddBoardMembers(englishBoardMembers, englishPositons, boardMembers);
 
             var arabicBoardMembers = new Dictionary<string, IQueryable<Member>>();
-            foreach (var position in arabicPositons)
-            {
-                if (!nonBoardMembers.Contains(position))
-                {
-                    var members = from member in boardmMembers
-                                  where member.Position == position
-                                  select member;
-
-                    arabicBoardMembers[position.ToString().Replace('_', ' ')] = members;
-                }
-            }
+            MemberService.AddBoardMembers(arabicBoardMembers, englishPositons, boardMembers);
 
             return Ok(new
             {
@@ -133,35 +102,13 @@ namespace backend.APIs
             var topWriters = from member in context.Member
                              orderby member.NumberOfArticles
                              descending
-                             select GetMemberLanguage(member);
+                             select MemberService.GetMemberLanguage(member);
 
             var shortListedTopWriters = topWriters.AsEnumerable().Where(w => w.Language == Language.English).Take(3)
                 .Concat(topWriters.AsEnumerable().Where(w => w.Language == Language.Arabic).Take(3));
 
             return Ok(shortListedTopWriters);
         }
-
-        private static Member GetMemberLanguage(Member member)
-        {
-            if (ArabicPositions.Contains(member.Position))
-            {
-                member.Language = Language.Arabic;
-            }
-            else if (EnglishPositions.Contains(member.Position))
-            {
-                member.Language = Language.English;
-            }
-            return member;
-        }
-
-        private void GetJuniorEditorCategory(Member member)
-        {
-            if ((member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم))
-            {
-                var categoryId = context.CategoryEditor.FirstOrDefault(c => c.MemberID == member.ID).CategoryID;
-                var category = context.Category.Find(categoryId);
-                member.Category = category;
-            }
-        }
+        
     }
 }

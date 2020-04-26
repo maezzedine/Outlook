@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using backend.Data;
 using backend.Models;
 using backend.Models.Interfaces;
+using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace backend.Controllers
         public async Task<ActionResult> Index()
         {
             var writers = from member in context.Member
-                          where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
+                          where MemberService.IsWriter(member)
                           select member;
 
             return View(await writers.ToListAsync());
@@ -39,8 +40,8 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await context.Member
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var member = await context.Member.FirstOrDefaultAsync(m => m.ID == id);
+
             if (member == null)
             {
                 return NotFound();
@@ -135,8 +136,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await context.Member
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var member = await context.Member.FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
             {
                 return NotFound();
