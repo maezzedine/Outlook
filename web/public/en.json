@@ -50,5 +50,9 @@
   "by-outlook": "by Outlook",
   "unauthorized-comment": "Sign in to be able to comment on the article.",
   "comment": "Add a comment...",
-  "submit": "Submit"
+  "submit": "Submit",
+  "username-required": "Username is required",
+  "password-required": "Password is required",
+  "firstname-required": "First name is required",
+  "lastname-required": "Last name is required"
 }

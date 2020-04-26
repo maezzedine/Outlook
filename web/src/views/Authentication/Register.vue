@@ -1,8 +1,11 @@
 <template>
-    <div class="auth">
-        <div class="w-100">{{token}}</div>
-        <div class="w-100">{{error}}</div>
-        <div class="form">
+    <div class="auth">     
+        <form class="form">
+            <div class="error" v-if="errors.length > 0">
+                <ul>
+                    <li v-for="error in errors">{{error}}</li>
+                </ul>
+            </div>
             <span>{{$store.getters.Language['old-user']}} <router-link :to="{ name: 'login'}">{{$store.getters.Language['login']}}</router-link> {{$store.getters.Language['here']}}</span>
             <table>
                 <tr>
@@ -23,7 +26,7 @@
                 </tr>
             </table>
             <button class="btn title" @click="register">{{$store.getters.Language['register']}}</button>
-        </div>
+        </form>
     </div>
 </template>
 
