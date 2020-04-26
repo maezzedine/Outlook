@@ -359,3 +359,5 @@ web/dist
 Logger/Config.cs
 backend/webLog.txt
 backend/serverLog.txt
+backend/wwwroot/img
+backend/wwwroot/docs

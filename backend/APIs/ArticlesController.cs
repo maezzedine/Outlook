@@ -209,7 +209,7 @@ namespace backend.APIs
             if (file.Files.Count != 0)
             {
                 var document = file.Files.ElementAt(0);
-                var extension = document.ContentType.Split('/')[1];
+                var extension = document.FileName.Substring(document.FileName.LastIndexOf('.'));
 
                 // Add unique name to avoid possible name conflicts
                 var uniqueDocumentName = DateTime.Now.Ticks.ToString() + $".{extension}";

@@ -22,7 +22,7 @@
                 <div class="vertical-seperator d-none d-sm-block"></div>
                 <form @submit.prevent="sendFile">
                     <div>
-                        <input id="file" type="file" @change="updateFile($event.target.files[0])" />
+                        <input id="file" type="file" @change="updateFile($event.target.files[0])" accept="application/pdf" multiple="false"/>
                         <button type="submit" class="btn">{{$store.getters.Language['submit']}}</button>
                         <i class="fas fa-check w-100 text-center" style="color: forestgreen" v-if="ProcessCompleted"></i>
                     </div>
