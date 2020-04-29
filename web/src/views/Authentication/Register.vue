@@ -1,16 +1,17 @@
 <template>
     <div class="auth">     
-        <form class="form">
+        <form class="form" @submit.prevent="register">
             <div class="error" v-if="errors.length > 0">
                 <ul>
                     <li v-for="error in errors">{{error}}</li>
                 </ul>
             </div>
+            <div class="text-success" v-if="signInSuccessfuly">{{$store.getters.Language['signin-successfully']}}</div>
             <span>{{$store.getters.Language['old-user']}} <router-link :to="{ name: 'login'}">{{$store.getters.Language['login']}}</router-link> {{$store.getters.Language['here']}}</span>
             <table>
                 <tr>
                     <th>{{$store.getters.Language['first-name']}}:</th>
-                    <td><input v-model="Model.firstName" /></td>
+                    <td><input v-model="Model.firstName" autofocus autocomplete="on"/></td>
                 </tr>
                 <tr>
                     <th>{{$store.getters.Language['last-name']}}:</th>
@@ -25,7 +26,7 @@
                     <td><input v-model="Model.password" type="password" /></td>
                 </tr>
             </table>
-            <button class="btn title" @click="register">{{$store.getters.Language['register']}}</button>
+            <button class="btn title" type="submit">{{$store.getters.Language['register']}}</button>
         </form>
     </div>
 </template>

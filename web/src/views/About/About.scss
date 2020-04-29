@@ -1,0 +1,30 @@
+.about {
+    @include outlook-window();
+    @include col();
+    justify-content: center;
+
+    .about-pannel {
+        @include outlook-pad();
+        margin: auto;
+        text-align: center;
+
+        .title {
+            font-size: x-large;
+            font-weight: bolder;
+        }
+
+        table {
+            text-align: initial;
+            margin: 5% 0;
+
+            tr {
+                line-height: 30px;
+
+                a {
+                    text-decoration: none;
+                    color: unset;
+                }
+            }
+        }
+    }
+}

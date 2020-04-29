@@ -1,4 +1,5 @@
 {
+  "about": "About",
   "lang": "en",
   "num": 1,
   "dir": "ltr",
@@ -25,7 +26,7 @@
   "juniorEditors": "Junior Editor(s)",
   "window-expand": "en-expand",
   "sidebar-hide": "en-hide",
-  "about": "About",
+  "about-outlook": "About",
   "writers": "Writers",
   "float": "right;",
   "article-image": "en-img",
@@ -55,7 +56,7 @@
   "password-required": "Password is required",
   "firstname-required": "First name is required",
   "lastname-required": "Last name is required",
-  "contribute-to-outlook": "Contribute To Outlook",
+  "contribute-to-outlook": "Contribute",
   "write-for-outlook-question": "Do You want to write for Outlook?",
   "good-news": "We have some good news, because ",
   "you-can-upload": "you now can upload your articles through the website!",
@@ -67,5 +68,12 @@
   "upload-title": "Title",
   "upload-subtitle": "Subtitle (Optional, but recommended)",
   "upload-content": "Content",
-  "upload-note": "The article will be reviewed by our editors and proofreaders."
+  "upload-note": "The article will be reviewed by our editors and proofreaders.",
+  "signin-successfully": "You've signed in successfully.",
+  "outlook": "Outlook",
+  "version": "Version:",
+  "author": "Author:",
+  "author-name": "Mohammed Ezzedine",
+  "contact": "Contact:",
+  "email": "info@auboutlook.com"
 }

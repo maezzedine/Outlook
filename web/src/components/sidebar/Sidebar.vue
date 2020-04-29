@@ -18,18 +18,22 @@
                 <!--</Categories>-->
 
                 <!--<About>-->
-                <tr><span>{{$store.getters.Language.about}}</span></tr>
+                <tr><span>{{$store.getters.Language['about-outlook']}}</span></tr>
                 <router-link :to="{ name: 'writers' }">
                     <th><i class="fas fa-feather-alt"></i></th>
                     <td>{{$store.getters.Language.writers}}</td>
                 </router-link>
-                <router-link :to="{ name: 'about' }">
+                <router-link :to="{ name: 'meet-outlook' }">
                     <th><i class="fas fa-handshake"></i></th>
                     <td>{{$store.getters.Language.aboutUs}}</td>
                 </router-link>
                 <router-link :to="{ name: 'upload-article' }">
                     <th><i class="fas fa-hand-holding"></i></th>
                     <td>{{$store.getters.Language['contribute-to-outlook']}}</td>
+                </router-link>
+                <router-link :to="{ name: 'about' }">
+                    <th><i class="fas fa-info"></i></th>
+                    <td>{{$store.getters.Language['about']}}</td>
                 </router-link>
                 <!--</About>-->
 

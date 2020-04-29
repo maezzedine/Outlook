@@ -1,5 +1,6 @@
 import Vue from 'vue';
-import Router, { RouteConfig } from 'vue-router';
+import Router, { RouteConfig, Route } from 'vue-router';
+import store from './store';
 
 Vue.use(Router);
 
@@ -11,6 +12,7 @@ const Member = () => import('./views/Member/Member');
 const Article = () => import('./views/Outlook-Article/Outlook-Article.vue');
 const MeetOutlook = () => import('./views/Meet-Outlook/Meet-Outlook.vue');
 const UploadArticle = () => import('./views/Upload-Article/Upload-Article.vue');
+const About = () => import('./views/About/About.vue');
 const Login = () => import('./views/Authentication/Login.vue');
 const Register = () => import('./views/Authentication/Register.vue');
 
@@ -20,13 +22,20 @@ const withPrefix = (prefix: string, routes: Array<RouteConfig>) =>
         return route;
     });
 
+const isAuthenticated = (to: Route, from: Route, next: Function) => {
+    if (to.meta.authPage && store.getters.IsAuthenticated) {
+        return;
+    }
+    next();
+}
+
 export default new Router({
     mode: 'history',
     routes: [
         ...withPrefix('/:lang', [
             {
                 name: 'home',
-                path: '',
+                path: '/',
                 component: Home,
             },
             {
@@ -50,7 +59,7 @@ export default new Router({
                 component: Article
             },
             {
-                name: 'about',
+                name: 'meet-outlook',
                 path: '/meet-outlook',
                 component: MeetOutlook
             },
@@ -62,17 +71,26 @@ export default new Router({
             {
                 name: 'login',
                 path: '/login',
-                component: Login
+                component: Login,
+                meta: { authPage: true },
+                beforeEnter: isAuthenticated,
             },
             {
                 name: 'register',
                 path: '/register',
-                component: Register
+                component: Register,
+                meta: { authPage: true },
+                beforeEnter: isAuthenticated
             },
             {
                 name: 'upload-article',
                 path: '/upload-article',
                 component: UploadArticle
+            },
+            {
+                name: 'about',
+                path: '/about',
+                component: About
             }
         ])
     ]

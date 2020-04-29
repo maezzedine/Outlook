@@ -52,6 +52,7 @@
     <Content Include="src\components\navbar\Navbar.vue" />
     <Content Include="src\components\sidebar\Sidebar.scss" />
     <Content Include="src\components\sidebar\Sidebar.vue" />
+    <Content Include="src\components\svgs\svg-github.vue" />
     <Content Include="src\components\svgs\svg-outlook.vue" />
     <Content Include="public\en.json">
       <SubType>Code</SubType>
@@ -61,6 +62,8 @@
     <Content Include="src\styles\_mixins.scss" />
     <Content Include="src\styles\_queries.scss" />
     <Content Include="src\styles\_variables.scss" />
+    <Content Include="src\views\About\About.scss" />
+    <Content Include="src\views\About\About.vue" />
     <Content Include="src\views\Authentication\Authentication.scss" />
     <Content Include="src\views\Authentication\Login.vue" />
     <Content Include="src\views\Authentication\Register.vue" />
@@ -111,6 +114,7 @@
     <Folder Include="src\views\Meet-Outlook\" />
     <Folder Include="src\views\Authentication\" />
     <Folder Include="src\views\Member\" />
+    <Folder Include="src\views\About\" />
     <Folder Include="src\views\Upload-Article\" />
     <Folder Include="src\views\Outlook-Article\" />
     <Folder Include="src\views\Outlook-Writers\" />
@@ -145,6 +149,7 @@
     <TypeScriptCompile Include="src\services\api.ts" />
     <TypeScriptCompile Include="src\services\cacher.ts" />
     <TypeScriptCompile Include="src\store\state.ts" />
+    <TypeScriptCompile Include="src\views\About\About.ts" />
     <TypeScriptCompile Include="src\views\Authentication\Login.ts" />
     <TypeScriptCompile Include="src\views\Authentication\Register.ts" />
     <TypeScriptCompile Include="src\views\Meet-Outlook\Meet-Outlook.ts" />

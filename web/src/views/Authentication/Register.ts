@@ -1,4 +1,4 @@
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { authService } from '@/services/auth-service';
 import RegisterModel from '../../models/registerModel';
 import outlookUser from '../../models/outlookUser';
@@ -7,9 +7,7 @@ import outlookUser from '../../models/outlookUser';
 export default class Login extends Vue {
     private Model = new RegisterModel();
     private errors = new Array<string>();
-
-    created() {
-    }
+    private signInSuccessfuly = false;
 
     register() {
         this.errors = new Array<string>();
@@ -22,15 +20,28 @@ export default class Login extends Vue {
                         var user = new outlookUser();
                         user.username = this.Model.username;
                         user.token = d.access_token;
+                        localStorage.setItem('outlook-user', JSON.stringify(user));
 
                         this.$store.dispatch('setUser', user);
+                        this.signInSuccessfuly = true;
                     }
                 })
                 .catch(e => {
                     this.$store.dispatch('removeUser');
-                    for (var error of e.response.data.errors.Password) {
-                        this.errors.push(error.replace(/_/g, ' '));
-                    }
+                    this.signInSuccessfuly = false;
+                    localStorage.setItem('outlook-user', '');
+
+                    // todo : Catch errors properly
+                    try {
+                        for (var error of e.response.data.errors.Password) {
+                            this.errors.push(error.replace(/_/g, ' '));
+                        }
+                    } catch (e) { }
+                    try {
+                        for (var error of e.response.data.errors.Username) {
+                            this.errors.push(error.replace(/_/g, ' '));
+                        }
+                    } catch (e) { }
                 });
         }
         else {

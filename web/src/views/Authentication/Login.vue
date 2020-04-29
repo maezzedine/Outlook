@@ -6,11 +6,12 @@
                     <li v-for="error in errors">{{error}}</li>
                 </ul>
             </div>
+            <div class="text-success" v-if="signInSuccessfuly">{{$store.getters.Language['signin-successfully']}}</div>
             <span>{{$store.getters.Language['new-user']}} <router-link :to="{ name: 'register'}">{{$store.getters.Language['register']}}</router-link> {{$store.getters.Language['here']}}</span>
             <table>
                 <tr>
                     <th>{{$store.getters.Language['username']}}:</th>
-                    <td><input v-model.trim="Model.username"/></td>
+                    <td><input v-model.trim="Model.username" autofocus/></td>
                 </tr>
                 <tr>
                     <th>{{$store.getters.Language['password']}}:</th>
