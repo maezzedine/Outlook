@@ -6,7 +6,7 @@ import Home from './views/Home/Home.vue';
 import outlookNavbar from '@/components/navbar/Navbar.vue';
 import outlookSidebar from '@/components/sidebar/Sidebar.vue';
 import { ApiObject } from './models/apiObject';
-import jwt from 'jsonwebtoken';
+import outlookUser from './models/outlookUser';
 
 @Component({
     name: 'App',
@@ -33,7 +33,7 @@ export default class App extends Vue {
         this.initializeVolumes();
         this.getColors();
         this.getCategories();
-        //this.CheckIfAuthenticated();
+        this.CheckIfAuthenticated();
 
         this.$articleHub.$on('article-score-changed', this.onArticleScoreChange);
         this.$articleHub.$on('article-comment-changed', this.onArticleCommentChange);
@@ -208,17 +208,16 @@ export default class App extends Vue {
         }
     }
 
-    //// Authentication
-    //async CheckIfAuthenticated() {
-    //    var localStorageUser = localStorage.getItem('outlook-user');
-    //    if (localStorageUser != null) {
-    //        var user = JSON.parse(localStorageUser);
-    //        var decodedToken = jwt.decode(user.token);
-    //        var expiration = new Date(decodedToken.exp * 1000)
-    //        var now = new Date();
-    //        if (expiration.valueOf() > now.valueOf()) {
-    //            this.$store.dispatch('setUser', user);
-    //        }
-    //    }
-    //}
+    // Authentication
+    CheckIfAuthenticated() {
+        var localStorageUser = localStorage.getItem('outlook-user');
+        if (localStorageUser != null) {
+            var user: outlookUser = JSON.parse(localStorageUser);
+            var expiration = new Date(user.expirayDate);
+            var now = new Date();
+            if (expiration.valueOf() - now.valueOf() > 86400000) {
+                this.$store.dispatch('setUser', user);
+            }
+        }
+    }
 }

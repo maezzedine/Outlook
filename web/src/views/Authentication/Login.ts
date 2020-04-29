@@ -1,7 +1,6 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { authService } from '@/services/auth-service';
 import LoginModel from '../../models/loginModel';
-import outlookUser from '../../models/outlookUser';
 
 @Component
 export default class Login extends Vue {
@@ -16,17 +15,11 @@ export default class Login extends Vue {
         if (validInput) {
             authService.Login(this.Model)
                 .then(response => {
-                    var user = new outlookUser();
-                    user.username = this.Model.username;
-                    user.token = response.access_token;
-                    this.$store.dispatch('setUser', user);
-                    localStorage.setItem('outlook-user', JSON.stringify(user));
                     this.signInSuccessfuly = true;
                 })
-                .catch(e => {
-                    this.$store.dispatch('removeUser');
+                .catch (e => {
                     this.signInSuccessfuly = false;
-                    localStorage.setItem('outlook-user', '');
+                    authService.Logout();
 
                     e.then(f => {
                         this.errors.push(f.error_description.replace(/_/g, ' '));

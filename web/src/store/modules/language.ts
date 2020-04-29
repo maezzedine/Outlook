@@ -1,4 +1,5 @@
 import { ActionContext } from 'vuex';
+import state from '../state';
 
 const state = {
     english: Object,

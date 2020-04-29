@@ -15,8 +15,6 @@ export default class About extends Vue {
     getBoardMembers() {
         api.getBoardMembers().then(d => {
             this.ArabicBoard = d['arabicBoard'];
-            console.log(d['arabicBoard']);
-            console.log(this.ArabicBoard);
             this.EnglishBoard = d['englishBoard'];
         })
     }

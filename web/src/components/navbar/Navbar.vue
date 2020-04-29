@@ -27,6 +27,15 @@
                 <!-- </Register> -->
             </template>
 
+            <template v-else>
+                <!-- <Logout> -->
+                <div>{{$store.getters.User.username}}</div>
+                <button class="option" @click="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+                <!-- </Logout> -->
+            </template>
+
             <!-- <Home> -->
             <router-link :to="{ name: 'home' }" class="btn-group d-sm-none">
                 <button class="option">

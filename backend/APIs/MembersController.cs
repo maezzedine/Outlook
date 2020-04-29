@@ -62,7 +62,7 @@ namespace backend.APIs
         public async Task<ActionResult<IEnumerable<Member>>> GetWriters()
         {
             var writers = from member in context.Member
-                          where MemberService.IsWriter(member)
+                          where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
                           orderby member.Name
                           select MemberService.GetMemberLanguage(member);
 

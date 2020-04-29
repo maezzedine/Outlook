@@ -1,5 +1,6 @@
 import { ActionContext } from 'vuex';
 import outlookUser from '../../models/outlookUser';
+import state from '../state';
 
 const state = {
     user: new outlookUser()
@@ -12,6 +13,7 @@ const mutations = {
     removeUser(state: state) {
         state.user.username = '';
         state.user.token = '';
+        state.user.expirayDate = new Date();
     }
 }
 

@@ -46,8 +46,10 @@ namespace backend
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     RequireClientSecret = false,
                     AllowAccessTokensViaBrowser = true,
-                    AccessTokenLifetime = 86400,
+                    AccessTokenLifetime = 604800,
                     AllowOfflineAccess = true,
+                    RefreshTokenUsage = TokenUsage.ReUse,
+                    RefreshTokenExpiration = TokenExpiration.Sliding,
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,

@@ -11,11 +11,11 @@
             <table>
                 <tr>
                     <th>{{$store.getters.Language['username']}}:</th>
-                    <td><input v-model.trim="Model.username" autofocus/></td>
+                    <td><input v-model.trim="Model.username" autofocus autocomplete="on"/></td>
                 </tr>
                 <tr>
                     <th>{{$store.getters.Language['password']}}:</th>
-                    <td><input v-model.trim="Model.password" type="password"/></td>
+                    <td><input v-model.trim="Model.password" type="password" autocomplete="on"/></td>
                 </tr>
             </table>
             <button class="btn title" type="submit">{{$store.getters.Language['login']}}</button>

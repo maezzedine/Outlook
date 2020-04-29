@@ -15,15 +15,15 @@
                 </tr>
                 <tr>
                     <th>{{$store.getters.Language['last-name']}}:</th>
-                    <td><input v-model="Model.lastName" /></td>
+                    <td><input v-model="Model.lastName" autocomplete="on"/></td>
                 </tr>
                 <tr>
                     <th>{{$store.getters.Language['username']}}:</th>
-                    <td><input v-model="Model.username" /></td>
+                    <td><input v-model="Model.username" autocomplete="on"/></td>
                 </tr>
                 <tr>
                     <th>{{$store.getters.Language['password']}}:</th>
-                    <td><input v-model="Model.password" type="password" /></td>
+                    <td><input v-model="Model.password" type="password" autocomplete="on"/></td>
                 </tr>
             </table>
             <button class="btn title" type="submit">{{$store.getters.Language['register']}}</button>
