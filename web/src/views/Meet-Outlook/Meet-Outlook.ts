@@ -13,15 +13,27 @@ export default class About extends Vue {
     }
 
     getBoardMembers() {
-        api.getBoardMembers().then(d => {
-            this.ArabicBoard = d['arabicBoard'];
-            this.EnglishBoard = d['englishBoard'];
-        })
+        var boardFromSession = sessionStorage.getItem('outlook-board');
+        if (boardFromSession != null) {
+            var boardMembers = JSON.parse(boardFromSession);
+            this.getBoardSections(boardMembers);
+        }
+        else {
+            api.getBoardMembers().then(d => {
+                sessionStorage.setItem('outlook-board', JSON.stringify(d));
+                this.getBoardSections(d);
+            })
+        }
     }
 
     getMemberName(member: Array<ApiObject>) {
         if (member != undefined) {
             return member[0].name + " | " + member[0].positionName;
         }
+    }
+
+    getBoardSections(boardMembers: any) {
+        this.ArabicBoard = boardMembers['arabicBoard'];
+        this.EnglishBoard = boardMembers['englishBoard'];
     }
 }

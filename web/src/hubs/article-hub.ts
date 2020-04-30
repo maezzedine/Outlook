@@ -33,7 +33,7 @@ export default {
             startedPromise = connection.start().catch(err => {
                 console.error('Failed to connect with hub', err);
                 return new Promise((resolve, reject) =>
-                    setTimeout(() => start().then(resolve).catch(reject), 5000))
+                    setTimeout(() => start().then(resolve as any).catch(reject), 5000))
             })
             return startedPromise;
         }

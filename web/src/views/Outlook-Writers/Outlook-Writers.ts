@@ -11,8 +11,17 @@ export default class OutlookWriters extends Vue {
     }
 
     getWriters() {
-        api.getWriters().then(d => {
-            this.Writers = d;
-        });
+        var writersFromSession = sessionStorage.getItem('outlook-writers');
+        if (writersFromSession != null) {
+            var writers = JSON.parse(writersFromSession);
+            this.Writers = writers;
+        }
+        else {
+            api.getWriters().then(d => {
+                sessionStorage.setItem('outlook-writers', JSON.stringify(d));
+                this.Writers = d;
+            });
+        }
+        
     }
 }

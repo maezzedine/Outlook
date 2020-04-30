@@ -5,13 +5,17 @@ import { cacher } from './services/cacher';
 import Home from './views/Home/Home.vue';
 import outlookNavbar from '@/components/navbar/Navbar.vue';
 import outlookSidebar from '@/components/sidebar/Sidebar.vue';
+import svgSpinner from '@/components/svgs/svg-spinner.vue';
 import { ApiObject } from './models/apiObject';
 import outlookUser from './models/outlookUser';
+import { ArticleScoreChange } from './models/articleScoreChange';
+import { ArticleCommentChange } from './models/articleCommentChange';
+import { ArticleFavoriteChange } from './models/articleFavoriteChange';
 
 @Component({
     name: 'App',
     components: {
-        Home, outlookNavbar, outlookSidebar
+        Home, outlookNavbar, outlookSidebar, svgSpinner
     },
     data() {
         return {
@@ -26,6 +30,7 @@ import outlookUser from './models/outlookUser';
 export default class App extends Vue {
     private lang: string | null = null;
     private expanded = false || screen.width > 700;
+    private loading = false;
 
     created() {
         this.initializeStateLanguages();
@@ -146,32 +151,32 @@ export default class App extends Vue {
         })
     }
 
-    onArticleScoreChange({ articleId, rate, numberOfVotes }) {
-        this.$data.Articles.forEach(a => {
-            if (a.id == articleId) {
-                a.rate = rate;
-                a.numberOfVotes = numberOfVotes;
+    onArticleScoreChange(articleScoreChange: ArticleScoreChange) {
+        for (var article of this.$data.Articles) {
+            if (article.id == articleScoreChange.articleId) {
+                article.rate = articleScoreChange.rate;
+                article.numberOfVotes = articleScoreChange.numberOfVotes;
                 return;
             }
-        })
+        }
     }
 
-    onArticleCommentChange({ articleId, comments }) {
-        this.$data.Articles.forEach(a => {
-            if (a.id == articleId) {
-                a.comments = comments;
+    onArticleCommentChange(articleCommentChange: ArticleCommentChange) {
+        for (var article of this.$data.Articles) {
+            if (article.id == articleCommentChange.articleId) {
+                article.comments = articleCommentChange.comments;
                 return;
             }
-        })
+        }
     }
 
-    onArticleFavoriteChange({ articleId, numberOfFavorites }) {
-        this.$data.Articles.forEach(a => {
-            if (a.id == articleId) {
-                a.numberOfFavorites = numberOfFavorites;
+    onArticleFavoriteChange(articleFavoriteChange: ArticleFavoriteChange) {
+        for (var article of this.$data.Articles) {
+            if (article.id == articleFavoriteChange.articleId) {
+                article.numberOfFavorites = articleFavoriteChange.numberOfFavorites;
                 return;
             }
-        })
+        }
     }
 
     // Categories

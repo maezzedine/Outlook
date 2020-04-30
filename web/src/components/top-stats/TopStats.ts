@@ -7,7 +7,7 @@ import TopModel from '../../models/topModel';
         model: {
             type: TopModel,
             private: true,
-            default() { return new TopModel('', '', '', new Array <ApiObject>(), '', '' ); }
+            default() { return new TopModel('', '', '', new Array <ApiObject>(), '', '', '' ); }
         }
     }
 })
