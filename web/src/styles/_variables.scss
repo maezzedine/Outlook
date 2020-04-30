@@ -8,21 +8,21 @@ $ct-themes: (
         'bg-1' : #f2f2f5, // side
         'bg-2' : #fefefe, // top
 
-        'fg-0': mix(#4c4caa, white, 15%),
-        'fg-1': #c2d4e9,
-        'fg-2': white,
-        'fg-3': mix(#99e3ff, black, 45%),
-    
-        'fg-4': mix(#4c4caa, white, 85%),
+        'fg-0': mix(#99e3ff, black, 95%),
+        'fg-1': mix(#99e3ff, white, 75%),
+        'fg-2': mix(#99e3ff, black, 55%),
+        'fg-3': mix(#99e3ff, black, 35%),
+        'fg-4': mix(#99e3ff, black, 15%),
 
         'text-0': mix(#4c4caa, black, 55%),
         'text-1': mix(white, black, 25%),
         'text-2': mix(white, black, 35%),
         'text-3': mix(white, black, 85%),
+        'text-button': mix(white, black, 85%),
 
         'shadow' : rgba(184,184,184,1),
-
         'logo-hover' : mix(black, blue, 35%),
+        'input': white,
     ), 
     'default-dark': (
         'brightness': 'dark', 
@@ -32,19 +32,20 @@ $ct-themes: (
         'bg-2' : #0c1115, // top
 
         'fg-0': mix(#99e3ff, black, 15%),
-        'fg-1': mix(#c2d4e9, black, 25%),
-        'fg-2': mix(grey, black, 30%),
+        'fg-1': mix(#99e3ff, black, 25%),
+        'fg-2': mix(#99e3ff, black, 30%),
         'fg-3': mix(#99e3ff, black, 45%),
         'fg-4': mix(#99e3ff, black, 55%),
 
         'text-0': mix(black, white, 35%),
         'text-1': mix(black, white, 45%),
         'text-2': mix(black, white, 55%),
-        'text-3': mix(black, white, 85%),
+        'text-3': mix(black, white, 75%),
+        'text-button': mix(black, white, 35%),
 
         'shadow' : rgb(59, 58, 59),
-
         'logo-hover' : mix(blue, gray, 35%),
+        'input': mix(#99e3ff, black, 25%),
     ), 
 );
 

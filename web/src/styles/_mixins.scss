@@ -51,3 +51,9 @@
     border-radius: 5px;
     border: .5px solid var(--text-3);
 }
+
+@mixin outlook-button() {
+    background: var(--fg-2);
+    color: var(--text-button);
+    justify-content: end;
+}

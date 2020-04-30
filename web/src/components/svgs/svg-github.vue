@@ -7,8 +7,8 @@
 <style lang="scss" scoped>
     .svg-github {
         width: 40px;
-        stroke: var(--fg-1);
-        fill: var(--fg-1);
+        stroke: var(--fg-2);
+        fill: var(--fg-2);
     }
 
         .svg-github:hover {

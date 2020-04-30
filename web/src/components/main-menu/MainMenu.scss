@@ -3,7 +3,6 @@
     column-count: var(--main-column-count);
 
     .title {
-        /*@include outlook-box();*/
         padding: 2% 5%;
         margin: auto;
         text-align: center;
@@ -11,7 +10,7 @@
         column-span: all;
 
         .volume {
-            border-bottom: 1px solid var(--fg-0);
+            border-bottom: 1px solid var(--text-3);
         }
 
         .issue {
@@ -42,62 +41,3 @@
         margin-bottom: var(--last-article-mb) !important;
     }
 }
-/*
-[ {
-    "id":41,"language":0,"lang":"ar","categoryID":2,"category":"?????","categoryTagName":"News","issueID":1,"title":"??? ?????","subtitle":"????? ????","picture":null,"picturePath":"/img/Articles/637222453924959307.jpg","deletePicture":false,"text":"<p>??? ???? ???????</p>","memberID":1015,"writer":"???? ??????","writerPosition":"???? ??????","newWriter":null,"dateTime":"2020-03-16T19:26:12.4472139","rate":1,"numberOfVotes":1,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":45,"language":1,"lang":"en","categoryID":8,"category":"Lifestyle","categoryTagName":"Lifestyle","issueID":1,"title":"Online Sessions are the best","subtitle":"We are not obliged to attend lectures!","picture":null,"picturePath":"/img/Articles/637218082523669186.jpg","deletePicture":false,"text":"<p><span style=\"font-family: 'times new roman', times, serif;\">Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.</span></p>\r\n<p><span style=\"font-family: 'times new roman', times, serif;\">Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.</span></p>\r\n<p><span style=\"font-family: 'times new roman', times, serif;\">Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.</span></p>","memberID":1008,"writer":"Mohammed Ezzedine","writerPosition":"Junior Editor","newWriter":null,"dateTime":"2020-04-06T22:17:32.3576639","rate":2,"numberOfVotes":3,"numberOfFavorites":2,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":46,"language":1,"lang":"en","categoryID":10,"category":"Opinions","categoryTagName":"Opinion","issueID":1,"title":"Why do we drink water?","subtitle":"Seriously, why?","picture":null,"picturePath":"/img/Articles/637218942068632587.jpg","deletePicture":false,"text":"Drinking water is something essential for us to survive. It contains all the good stuff that our body needs.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-07T22:10:06.8477189","rate":1,"numberOfVotes":4,"numberOfFavorites":4,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-, {
-    "id":47,"language":1,"lang":"en","categoryID":11,"category":"Arts","categoryTagName":"Art","issueID":1,"title":"Lebanese Economy is dying","subtitle":"Lebanon is facing a new economical crisis","picture":null,"picturePath":"/img/Articles/637220511400027505.jpg","deletePicture":false,"text":"Since the beginning of this pandemic issue, all the education system has shifted into the internet. Teaching has been taking place online, with the help to the internet and the live streaming feature.  Some students are complaining of the doubled workload that has arisen, while things are not going well on their psychology. Taking into consideration also the miserable internet and electrical conditions.  Others liked the idea and found it pretty helpfu and on trend, especially that they won't be obliged to attend all their lectures.","memberID":1006,"writer":"Hassan Slika","writerPosition":"Associate Editor","newWriter":null,"dateTime":"2020-04-09T17:45:39.985386","rate":0,"numberOfVotes":0,"numberOfFavorites":0,"comments":[],"ratedByUser":0
-}
-
-]
-    */

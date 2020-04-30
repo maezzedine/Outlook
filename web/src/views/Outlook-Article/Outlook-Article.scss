@@ -43,7 +43,7 @@
             font-size: large;
             margin: 2% 0;
             width: var(--article-element-width);
-            border-bottom: 1px solid var(--fg-0);
+            border-bottom: .5px solid var(--text-3);
 
             a {
                 color: unset;
@@ -67,7 +67,7 @@
 
         #article-text-body {
             clear: none;
-            border-bottom: 1px solid var(--fg-0);
+            border-bottom: .5px solid var(--text-3);
             color: var(--text-1);
             text-align: justify;
         }
@@ -134,10 +134,10 @@
                             resize: none;
                             flex-grow: 1;
                             outline: none;
-                            border: .5px solid var(--fg-0);
+                            border: .5px solid var(--text-3);
                             border-radius: 3px;
                             padding: 5px;
-                            background: var(--fg-2);
+                            background: var(--input);
                         }
 
                         textarea:disabled {
@@ -145,9 +145,7 @@
                         }
 
                         button {
-                            background: var(--fg-3);
-                            color: var(--text-3);
-                            justify-content: end;
+                            @include outlook-button();
                         }
                     }
 

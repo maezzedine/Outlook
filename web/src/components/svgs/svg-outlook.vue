@@ -8,8 +8,8 @@
 <style lang="scss" scoped>
     .svg-outlook {
         width: 40px;
-        stroke: var(--fg-4);
-        fill: var(--fg-4);
+        stroke: var(--fg-2);
+        fill: var(--fg-2);
         cursor: pointer;
     }
 

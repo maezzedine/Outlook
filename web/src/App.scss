@@ -15,6 +15,7 @@
     --text-1:  #{map-get($theme, 'text-1')};
     --text-2:  #{map-get($theme, 'text-2')};
     --text-3:  #{map-get($theme, 'text-3')};
+    --text-button: #{map-get($theme, 'text-button')};
 
     --logo-color: #{map-get($theme, 'text-0')};
     --logo-hover: #{map-get($theme, 'logo-hover')};
@@ -23,6 +24,7 @@
     --shadow-left: inset 14px 0px 15px -14px #{map-get($theme, 'shadow')};
 
     --box-shadow: 2px 2px 5px -1px #{map-get($theme, 'shadow')};
+    --input: #{map-get($theme, 'input')};
 }
 
 :root {

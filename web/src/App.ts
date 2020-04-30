@@ -214,7 +214,7 @@ export default class App extends Vue {
     }
 
     // Authentication
-    CheckIfAuthenticated() {
+    async CheckIfAuthenticated() {
         var localStorageUser = localStorage.getItem('outlook-user');
         if (localStorageUser != null) {
             var user: outlookUser = JSON.parse(localStorageUser);
