@@ -16,7 +16,7 @@ namespace backend.Services
         public static bool IsJuniorEditor(Member member) => (member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم);
         public static bool IsWriter(Member member) => (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي);
 
-        public static Member GetMemberLanguage(Member member)
+        public static void GetMemberLanguageAndArticlesCount(Member member, OutlookContext context)
         {
             if (ArabicPositions.Contains(member.Position))
             {
@@ -26,9 +26,10 @@ namespace backend.Services
             {
                 member.Language = Language.English;
             }
-            return member;
+
+            member.NumberOfArticles = context.Article.Where(a => a.MemberID == member.ID).Count();
         }
-        
+
         public static void GetJuniorEditorCategory(Member member, OutlookContext context)
         {
             if (IsJuniorEditor(member))

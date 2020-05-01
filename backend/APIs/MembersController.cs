@@ -38,7 +38,7 @@ namespace backend.APIs
                 return NotFound();
             }
 
-            MemberService.GetMemberLanguage(member);
+            MemberService.GetMemberLanguageAndArticlesCount(member, context);
             MemberService.GetJuniorEditorCategory(member, context);
 
             var articles = from article in context.Article
@@ -64,7 +64,12 @@ namespace backend.APIs
             var writers = from member in context.Member
                           where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
                           orderby member.Name
-                          select MemberService.GetMemberLanguage(member);
+                          select member;
+
+            foreach (var writer in writers)
+            {
+                MemberService.GetMemberLanguageAndArticlesCount(writer, context);
+            }
 
             return await writers.ToListAsync();
         }
@@ -97,12 +102,21 @@ namespace backend.APIs
 
         // GET: api/Members/top
         [HttpGet("top")]
-        public ActionResult GetTopWriters()
+        public async Task<ActionResult> GetTopWriters()
         {
-            var topWriters = from member in context.Member
-                             orderby member.NumberOfArticles
-                             descending
-                             select MemberService.GetMemberLanguage(member);
+            var members = from member in context.Member
+                          select member;
+
+            foreach (var writer in members)
+            {
+                MemberService.GetMemberLanguageAndArticlesCount(writer, context);
+            }
+
+            var writers = await members.ToListAsync();
+
+            var topWriters = from member in writers
+                             orderby member.NumberOfArticles descending
+                             select member;
 
             var shortListedTopWriters = topWriters.AsEnumerable().Where(w => w.Language == Language.English).Take(3)
                 .Concat(topWriters.AsEnumerable().Where(w => w.Language == Language.Arabic).Take(3));
