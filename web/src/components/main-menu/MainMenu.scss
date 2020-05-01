@@ -24,19 +24,6 @@
         }
     }
 
-    .article {
-        margin: 1%;
-        -webkit-column-break-inside: avoid;
-        page-break-inside: avoid;
-        break-inside: avoid;
-    }
-
-    @-moz-document url-prefix() {
-        .article {
-            min-height: 300px;
-        }
-    }
-
     .article:last-child {
         margin-bottom: var(--last-article-mb) !important;
     }

@@ -1,5 +1,12 @@
 body {
 
+    @-moz-document url-prefix() {
+        .article {
+            min-height: 300px;
+        }
+    }
+
+
     .article {
         @include outlook-box();
         @include col();
@@ -8,6 +15,10 @@ body {
         float: left;
         text-decoration: none;
         color: unset;
+        margin: 1%;
+        -webkit-column-break-inside: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
 
         @media (max-width: 700px) {
             width: 100%;

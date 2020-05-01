@@ -361,3 +361,4 @@ backend/webLog.txt
 backend/serverLog.txt
 backend/wwwroot/img
 backend/wwwroot/docs
+test/Config.cs
