@@ -1,13 +1,11 @@
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { authService } from '@/services/auth-service';
 import RegisterModel from '../../models/registerModel';
-import outlookUser from '../../models/outlookUser';
 
 @Component
 export default class Login extends Vue {
     private Model = new RegisterModel();
     private errors = new Array<string>();
-    private signInSuccessfuly = false;
 
     register() {
         this.errors = new Array<string>();
@@ -15,19 +13,10 @@ export default class Login extends Vue {
 
         if (validInput) {
             authService.Register(this.Model)
-                .then(d => {
-                    if (d != undefined) {
-                        this.signInSuccessfuly = true;
-                    }
-                })
                 .catch(e => {
                     authService.Logout();
-                    this.signInSuccessfuly = false;
 
                     var errorList = e.response.data.errors;
-                    console.log(errorList);
-                    console.log(Object.keys(errorList));
-
                     for (var errors of Object.keys(errorList)) {
                         for (var error of errorList[errors]) {
                             this.errors.push(error.replace(/_/g, ' '));

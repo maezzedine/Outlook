@@ -6,7 +6,6 @@
                     <li v-for="error in errors">{{error}}</li>
                 </ul>
             </div>
-            <div class="text-success" v-if="signInSuccessfuly">{{$store.getters.Language['signin-successfully']}}</div>
             <span>{{$store.getters.Language['old-user']}} <router-link :to="{ name: 'login'}">{{$store.getters.Language['login']}}</router-link> {{$store.getters.Language['here']}}</span>
             <table>
                 <tr>

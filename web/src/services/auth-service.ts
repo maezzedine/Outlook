@@ -4,6 +4,7 @@ import RegisterModel from '../models/registerModel';
 import jwt from 'jsonwebtoken';
 import outlookUser from '../models/outlookUser';
 import store from '@/store/index';
+import router from '@/router';
 
 const APP_URL = process.env.VUE_APP_OUTLOOK;
 const client_id = process.env.VUE_APP_AUTH_CLIENT_ID;
@@ -50,6 +51,9 @@ export class AuthService {
                             user.expirayDate = expiration;
                             localStorage.setItem('outlook-user', JSON.stringify(user));
                             store.dispatch('setUser', user);
+
+                            var lang = router.currentRoute.params['lang'];
+                            router.push(`/${lang}/`);
                         }
                     })
                 }

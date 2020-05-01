@@ -84,7 +84,7 @@ namespace backend.APIs
         public ActionResult GetTopArticles()
         {
             var topRatedArticles = from article in context.Article
-                                   orderby article.NumberOfVotes
+                                   orderby article.Rate
                                    descending
                                    select article;
 
