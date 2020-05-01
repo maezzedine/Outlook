@@ -33,6 +33,5 @@ namespace backend.Models
 
         [NotMapped]
         public string PositionName => Position.ToString().Replace('_', ' ');
-
     }
 }

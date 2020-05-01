@@ -57,6 +57,7 @@
     <Content Include="public\en.json">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\components\svgs\svg-spinner.vue" />
     <Content Include="src\components\top-stats\TopStats.scss" />
     <Content Include="src\components\top-stats\TopStats.vue" />
     <Content Include="src\styles\_mixins.scss" />
@@ -130,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\hubs\article-hub.ts" />
+    <TypeScriptCompile Include="src\models\articleCommentChange.ts" />
+    <TypeScriptCompile Include="src\models\articleFavoriteChange.ts" />
+    <TypeScriptCompile Include="src\models\articleScoreChange.ts" />
     <TypeScriptCompile Include="src\models\loginModel.ts" />
     <TypeScriptCompile Include="src\models\outlookUser.ts" />
     <TypeScriptCompile Include="src\models\registerModel.ts" />

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using backend.Services;
+using backend.Validation_Attributes;
 
 namespace backend.Controllers
 {
@@ -108,8 +109,11 @@ namespace backend.Controllers
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Category,Title,Subtitle,Writer,NewWriter,Picture,Text")] Article article)
+        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Category,Title,Subtitle,Member,NewWriter,Picture,Text")] Article article)
         {
+            ModelState.Remove("Category.CategoryName");
+            ModelState.Remove("Member.Name");
+
             if (ModelState.IsValid)
             {
                 if (id == null)
@@ -122,11 +126,10 @@ namespace backend.Controllers
                 // Save the date where the article was uploaded
                 article.DateTime = DateTime.Now;
 
-                await ArticleService.EditArticleWriter(article, context);
-
                 // Assign value to the MemberID that refers to the writer of the article
-                var categoryID = context.Category.First(c => c.CategoryName == article.Category.CategoryName).Id;
-                article.CategoryID = categoryID;
+                article.Category = context.Category.First(c => c.CategoryName == article.Category.CategoryName);
+
+                await ArticleService.EditArticleWriter(article, context);
 
                 if (article.Picture != null)
                 {
@@ -140,7 +143,7 @@ namespace backend.Controllers
                 
                 return RedirectToAction(nameof(Index), new { id = id});
             }
-            
+
             return View(article);
         }
 
@@ -166,12 +169,15 @@ namespace backend.Controllers
         // POST: Articles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Category,Title,Subtitle,Writer,Picture,DeletePicture,Text")] Article article)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Category,Title,Subtitle,Member,Picture,DeletePicture,Text")] Article article)
         {
             if (id != article.Id)
             {
                 return NotFound();
             }
+
+            ModelState.Remove("Category.CategoryName");
+            ModelState.Remove("Member.Name");
 
             if (ModelState.IsValid)
             {
@@ -186,10 +192,9 @@ namespace backend.Controllers
                     await ArticleService.EditArticleWriter(article, context);
 
                     // Update the value to the MemberID that reefers to the writer of the article
-                    var categoryID = context.Category.First(c => c.CategoryName == article.Category.CategoryName).Id;
-                    article.CategoryID = categoryID;
+                    article.Category = context.Category.First(c => c.CategoryName == article.Category.CategoryName);
 
-                    ArticleService.UpdateArticleInfo(article, article.Language, categoryID, article.Title, article.Subtitle, article.Text);
+                    ArticleService.UpdateArticleInfo(article, article.Language, article.Title, article.Subtitle, article.Text);
 
                     if (oldVersionArticle.PicturePath == null)
                     {

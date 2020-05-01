@@ -76,11 +76,9 @@ namespace backend.Controllers
         }
 
         // POST: Issues/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("IssueNumber,ArabicTheme,EnglishTheme,ArabicPDF,EnglishPDF")] Issue issue)
+        public async Task<IActionResult> Create(int? id, [Bind("IssueNumber,ArabicTheme,EnglishTheme")] Issue issue)
         {
             if (ModelState.IsValid)
             {
@@ -119,11 +117,9 @@ namespace backend.Controllers
         }
 
         // POST: Issues/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IssueNumber,ArabicTheme,EnglishTheme,ArabicPDF,EnglishPDF")] Issue issue)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,IssueNumber,ArabicTheme,EnglishTheme")] Issue issue)
         {
             if (id != issue.Id)
             {
@@ -197,28 +193,6 @@ namespace backend.Controllers
         private bool IssueExists(int id)
         {
             return context.Issue.Any(e => e.Id == id);
-        }
-
-        private async Task<string> CopyPdfFileToLocal(IFormFile file)
-        {
-            // Add unique name to avoid possible name conflicts
-            var uniquePdfName = DateTime.Now.Ticks.ToString() + ".pdf";
-            var issuePdfFolderPath = Path.Combine(new string[] { env.WebRootPath, "pdf", "Issues\\" });
-            var issuePdfFilePath = Path.Combine(issuePdfFolderPath, uniquePdfName);
-            if (!Directory.Exists(issuePdfFolderPath))
-            {
-                Directory.CreateDirectory(issuePdfFolderPath);
-            }
-            using (var fileStream = new FileStream(issuePdfFilePath, FileMode.Create, FileAccess.Write))
-            {
-                // Copy the pdf file to storage
-                await file.CopyToAsync(fileStream);
-            }
-
-            // Save pdf local path in the issue object
-            var pdfFilePath = @"/pdf/Issues/" + uniquePdfName;
-
-            return pdfFilePath;
         }
     }
 }

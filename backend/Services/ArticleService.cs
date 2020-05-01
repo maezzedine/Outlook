@@ -49,7 +49,7 @@ namespace backend.Services
         public static async Task EditArticleWriter(Article article, OutlookContext context)
         {
             Member writer;
-            if (article.Member.Name != "New Writer")
+            if (article.Member.Name != "+ New Writer")
             {
                 writer = context.Member.First(m => m.Name == article.Member.Name);
             }
@@ -68,9 +68,9 @@ namespace backend.Services
                     writer.Position = Position.كاتب_صحفي;
                 }
                 context.Member.Add(writer);
-                await context.SaveChangesAsync();
             }
-            article.MemberID = writer.ID;
+            article.Member = writer;
+            await context.SaveChangesAsync();
         }
 
         public static async Task AddArticlePicture(Article article, IFormFile picture, OutlookContext context, string webRootPath)
@@ -99,10 +99,9 @@ namespace backend.Services
             article.PicturePath = null;
         }
 
-        public static void UpdateArticleInfo(Article article, Language lang, int categoryID, string title, string subtitle, string text)
+        public static void UpdateArticleInfo(Article article, Language lang, string title, string subtitle, string text)
         {
             article.Language = lang;
-            article.CategoryID = categoryID;
             article.Title = title;
             article.Subtitle = subtitle;
             article.Text = text;
