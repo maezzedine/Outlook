@@ -1,0 +1,6 @@
+.favorites {
+    @include outlook-window();
+    margin: unset;
+    column-count: var(--main-column-count);
+    padding: 0 2%;
+}

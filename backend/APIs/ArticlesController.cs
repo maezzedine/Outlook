@@ -203,6 +203,24 @@ namespace backend.APIs
             return Ok();
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPost("GetUserFavorites")]
+        public async Task<ActionResult> GetUserFavorites()
+        {
+            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
+            var userFavoriteArticles = from userFavoritedArticle in context.UserFavoritedArticleRelation
+                                       where userFavoritedArticle.User == user
+                                       select userFavoritedArticle.Article;
+
+            foreach (var article in userFavoriteArticles)
+            {
+                await ArticleService.GetArticleProperties(article, context);
+            }
+
+            return Ok(userFavoriteArticles);
+        }
+
+
         [HttpPost("Upload")]
         public async Task<ActionResult> UploadArticle(IFormCollection file)
         {

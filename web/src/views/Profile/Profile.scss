@@ -11,10 +11,11 @@
         width: 30%;
         justify-content: flex-start;
 
-        div, a {
+        a {
             @include outlook-box();
             margin: 2% 0;
             padding: 5%;
+            color: unset;
         }
     }
 

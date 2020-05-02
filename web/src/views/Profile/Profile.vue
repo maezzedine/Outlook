@@ -4,7 +4,7 @@
         <div class="row m-0">
             <div class="options">
                 <router-link :to="{ 'name': 'change-password' }">{{$store.getters.Language['change-password']}}</router-link>
-                <div>{{$store.getters.Language['favorited-articles']}}</div>
+                <router-link :to="{ 'name': 'favorited-articles' }">{{$store.getters.Language['favorited-articles']}}</router-link>
             </div>
             <router-view class="sub-window"/>
         </div>

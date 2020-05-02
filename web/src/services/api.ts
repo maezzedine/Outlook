@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { __await } from 'tslib';
+import store from '../store';
 
 const APP_URL = process.env.VUE_APP_OUTLOOK;
 const API_URL = process.env.VUE_APP_OUTLOOK + '/api/';
@@ -179,6 +180,25 @@ export class Api {
         };
 
         return fetch(`${API_URL}articles/FavoriteArticle/${articleId}`, requestOptions)
+            .then(response => response.json())
+            .catch(error => console.log('error', error));
+    }
+
+    // Authorized
+    async favoritedArticles() {
+        var token = store.getters.User.token;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions: RequestInit = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        return fetch(`${API_URL}articles/GetUserFavorites`, requestOptions)
             .then(response => response.json())
             .catch(error => console.log('error', error));
     }

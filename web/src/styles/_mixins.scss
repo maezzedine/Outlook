@@ -28,6 +28,10 @@
     -moz-box-shadow: var(--box-shadow);
     box-shadow: var(--box-shadow);
     border-radius: 2px;
+
+    &:hover {
+        background: var(--bg-0);
+    }
 }
 
 @mixin outlook-window() {

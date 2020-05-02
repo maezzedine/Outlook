@@ -17,6 +17,7 @@ const Login = () => import('./views/Authentication/Login.vue');
 const Register = () => import('./views/Authentication/Register.vue');
 const ChangePassword = () => import('./views/Authentication/ChangePassword.vue');
 const Profile = () => import('./views/Profile/Profile.vue');
+const FavoritedArticles = () => import('./views/Profile/Favorited-Articles/FavoritedArticles.vue');
 
 const withPrefix = (prefix: string, routes: Array<RouteConfig>) =>
     routes.map((route) => {
@@ -93,7 +94,12 @@ export default new Router({
                         name: 'change-password',
                         path: 'change-password',
                         component: ChangePassword
-                    }
+                    },
+                    {
+                        name: 'favorited-articles',
+                        path: 'favorited-articles',
+                        component: FavoritedArticles
+                    },
                 ]
             },
             {
