@@ -55,7 +55,9 @@ export default class Category extends Vue {
         if (this.id != null && this.Category == null) {
             var issue = this.$parent.$data.Issue;
             if (issue != undefined) {
-                api.getCategory(this.id, issue.id).then(d => {
+                var params = new Array<Number>();
+                params.push(this.id, issue.id);
+                api.Get('categories', params).then(d => {
                     this.Category = d;
                     return;
                 })

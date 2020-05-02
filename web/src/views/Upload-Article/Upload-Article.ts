@@ -8,7 +8,7 @@ export default class UploadArticle extends Vue {
 
     sendFile() {
         this.ProcessCompleted = false;
-        api.uploadArticle(this.Form).then(status => {
+        api.postFile('articles/upload', this.Form).then(status => {
             if (status > 199 && status < 300) {
                 this.ProcessCompleted = true;
             }

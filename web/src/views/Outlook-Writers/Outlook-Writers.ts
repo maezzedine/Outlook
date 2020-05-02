@@ -17,7 +17,7 @@ export default class OutlookWriters extends Vue {
             this.Writers = writers;
         }
         else {
-            api.getWriters().then(d => {
+            api.Get('members').then(d => {
                 sessionStorage.setItem('outlook-writers', JSON.stringify(d));
                 this.Writers = d;
             });

@@ -68,6 +68,8 @@
     <Content Include="src\views\Authentication\Authentication.scss" />
     <Content Include="src\views\Authentication\ChangePassword.vue" />
     <Content Include="src\views\Authentication\Login.vue" />
+    <Content Include="src\views\Profile\Favorited-Articles\FavoritedArticles.scss" />
+    <Content Include="src\views\Profile\Favorited-Articles\FavoritedArticles.vue" />
     <Content Include="src\views\Profile\Profile.scss" />
     <Content Include="src\views\Profile\Profile.vue" />
     <Content Include="src\views\Authentication\Register.vue" />
@@ -120,6 +122,7 @@
     <Folder Include="src\views\Authentication\" />
     <Folder Include="src\views\Member\" />
     <Folder Include="src\views\About\" />
+    <Folder Include="src\views\Profile\Favorited-Articles\" />
     <Folder Include="src\views\Upload-Article\" />
     <Folder Include="src\views\Outlook-Article\" />
     <Folder Include="src\views\Outlook-Writers\" />
@@ -161,6 +164,7 @@
     <TypeScriptCompile Include="src\views\About\About.ts" />
     <TypeScriptCompile Include="src\views\Authentication\ChangePassword.ts" />
     <TypeScriptCompile Include="src\views\Authentication\Login.ts" />
+    <TypeScriptCompile Include="src\views\Profile\Favorited-Articles\FavoritedArticles.ts" />
     <TypeScriptCompile Include="src\views\Profile\Profile.ts" />
     <TypeScriptCompile Include="src\views\Authentication\Register.ts" />
     <TypeScriptCompile Include="src\views\Meet-Outlook\Meet-Outlook.ts" />

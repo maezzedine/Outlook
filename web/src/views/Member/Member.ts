@@ -18,7 +18,9 @@ export default class Member extends Vue {
     getMember() {
         var id = this.$route.params.id;
         if (id != null) {
-            api.getMember(id).then(d => {
+            var params = new Array<string>();
+            params.push(id);
+            api.Get('members', params).then(d => {
                 this.member = d['member'];
                 this.articles = d['articles'];
             })

@@ -13,7 +13,7 @@ export default class FavoritedArticles extends Vue {
     }
 
     getFavoritedArticles() {
-        api.favoritedArticles().then(d => {
+        api.AuthorizedAction('POST', 'articles/GetUserFavorites').then(d => {
             this.Articles = d;
         })
     }

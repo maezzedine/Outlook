@@ -61,10 +61,10 @@ export default class App extends Vue {
 
     // Language
     initializeStateLanguages() {
-        api.getLanguageFile('en').then(e => {
+        api.getLocalJsonFile('en').then(e => {
             this.$store.dispatch('setEnglish', e);
 
-            api.getLanguageFile('ar').then(a => {
+            api.getLocalJsonFile('ar').then(a => {
                 this.$store.dispatch('setArabic', a);
                 this.initializeLanguage();
             });
@@ -104,14 +104,14 @@ export default class App extends Vue {
 
     // Colors
     getColors() {
-        api.getColors().then(d => {
+        api.getLocalJsonFile('category-color').then(d => {
             this.$store.dispatch('setColors', d);
         });
     }
 
     // Volumes
     initializeVolumes() {
-        api.getVolumeNumbers().then(d => {
+        api.Get('volumes').then(d => {
             this.initializeVolume(d);
         });
     }
@@ -128,7 +128,10 @@ export default class App extends Vue {
 
     // Issues
     initializeIssues() {
-        api.getIssues(parseInt(this.$data.Volume['id'])).then(i => {
+        var params = new Array<Number>();
+        params.push(parseInt(this.$data.Volume['id']))
+
+        api.Get('issues', params).then(i => {
             this.initializeIssue(i);
         });
     }
@@ -145,7 +148,9 @@ export default class App extends Vue {
 
     @Watch('$data.Issue')
     getArticles() {
-        api.getArticles(this.$data.Issue['id']).then(a => {
+        var params = new Array<Number>();
+        params.push(this.$data.Issue['id'])
+        api.Get('articles', params).then(a => {
             this.$data.Articles = a;
             this.getCategories();
         })
@@ -182,7 +187,10 @@ export default class App extends Vue {
     // Categories
     getCategories() {
         if (this.$data.Issue != undefined) {
-            api.getCategories(this.$data.Issue.id).then(r => {
+            var params = new Array<Number>();
+            params.push(this.$data.Issue.id);
+
+            api.Get('categories', params).then(r => {
                 this.$data.Categories = r;
             });
         }

@@ -24,7 +24,7 @@ export default class Stats extends Vue {
             this.assignTopArticles(topArticles);
         }
         else {
-            api.getTopArticles().then(d => {
+            api.Get('articles').then(d => {
                 sessionStorage.setItem('outlook-top-articles', JSON.stringify(d));
                 this.assignTopArticles(d);
             });
@@ -44,7 +44,7 @@ export default class Stats extends Vue {
             this.assignTopWriters(topWriters);
         }
         else {
-            api.getTopWriters().then(d => {
+            api.Get('members/top').then(d => {
                 sessionStorage.setItem('outlook-top-writers', JSON.stringify(d));
                 this.assignTopWriters(d);
             });

@@ -43,7 +43,7 @@ export default class SideBar extends Vue {
     }
 
     getIcons() {
-        api.getIcons().then(d => {
+        api.getLocalJsonFile('font-awesome').then(d => {
             this.Icons = d; 
         });
     }

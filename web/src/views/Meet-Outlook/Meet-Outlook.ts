@@ -19,7 +19,7 @@ export default class About extends Vue {
             this.getBoardSections(boardMembers);
         }
         else {
-            api.getBoardMembers().then(d => {
+            api.Get('members/board').then(d => {
                 sessionStorage.setItem('outlook-board', JSON.stringify(d));
                 this.getBoardSections(d);
             })

@@ -44,7 +44,9 @@ export default class OutlookArticle extends Vue {
 
     getArticlesFromApi() {
         if (this.id != null && this.Article == null) {
-            api.getArticle(this.id).then(d => {
+            var params = new Array<Number>();
+            params.push(this.id)
+            api.Get('articles/article', params).then(d => {
                 this.Article = d;
                 this.loading = false;
                 return;
@@ -54,19 +56,25 @@ export default class OutlookArticle extends Vue {
 
     rateUp() {
         if (this.Article != null && this.$store.getters.IsAuthenticated) {
-            api.rateUpArticle(this.$store.getters.User.token, this.Article.id);
+            var params = new Array<string>();
+            params.push(this.Article.id);
+            api.AuthorizedAction('PUT', 'articles/RateUpArticle', params);
         }
     }
 
     rateDown() {
         if (this.Article != null && this.$store.getters.IsAuthenticated) {
-            api.rateDownArticle(this.$store.getters.User.token, this.Article.id);
+            var params = new Array<string>();
+            params.push(this.Article.id);
+            api.AuthorizedAction('PUT', 'articles/RateDownArticle', params);
         }
     }
 
     addComment() {
         if (this.Article != null && this.$store.getters.IsAuthenticated && this.Comment != null) {
-            api.addComment(this.$store.getters.User.token, this.Article.id, this.Comment).then(r => this.Comment = '');
+            var raw = JSON.stringify({ "ArticleId": this.Article.id, "Text": this.Comment });
+            api.AuthorizedAction('POST', 'comments', undefined, raw);
+            this.Comment = null;
         }
     }
 
@@ -77,7 +85,9 @@ export default class OutlookArticle extends Vue {
 
     favoriteArticle() {
         if (this.Article != null && this.$store.getters.IsAuthenticated) {
-            api.favoriteArticle(this.$store.getters.User.token, this.Article.id);
+            var params = new Array<string>();
+            params.push(this.Article.id);
+            api.AuthorizedAction('PUT', 'articles/FavoriteArticle', params);
         }
     }
 
