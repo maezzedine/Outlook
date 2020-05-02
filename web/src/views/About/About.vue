@@ -16,7 +16,8 @@
                     <td>{{$store.getters.Language['email']}}</td>
                 </tr>
             </table>
-            <a href="https://github.com/mezdn/Outlook"><svg-github /></a>
+            <a href="https://github.com/mezdn/Outlook"><svg-github /></a> 
+            <div> 2020 &copy;</div>
         </div>
     </div>
 </template>
