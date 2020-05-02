@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { __await } from 'tslib';
-import articleHub from '../hubs/article-hub';
 
 const APP_URL = process.env.VUE_APP_OUTLOOK;
 const API_URL = process.env.VUE_APP_OUTLOOK + '/api/';

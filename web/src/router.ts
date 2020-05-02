@@ -15,6 +15,8 @@ const UploadArticle = () => import('./views/Upload-Article/Upload-Article.vue');
 const About = () => import('./views/About/About.vue');
 const Login = () => import('./views/Authentication/Login.vue');
 const Register = () => import('./views/Authentication/Register.vue');
+const ChangePassword = () => import('./views/Authentication/ChangePassword.vue');
+const Profile = () => import('./views/Profile/Profile.vue');
 
 const withPrefix = (prefix: string, routes: Array<RouteConfig>) =>
     routes.map((route) => {
@@ -81,6 +83,18 @@ export default new Router({
                 component: Register,
                 meta: { authPage: true },
                 beforeEnter: isAuthenticated
+            },
+            {
+                name: 'profile',
+                path: '/me',
+                component: Profile,
+                children: [
+                    {
+                        name: 'change-password',
+                        path: 'change-password',
+                        component: ChangePassword
+                    }
+                ]
             },
             {
                 name: 'upload-article',

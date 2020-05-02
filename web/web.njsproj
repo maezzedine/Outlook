@@ -66,7 +66,10 @@
     <Content Include="src\views\About\About.scss" />
     <Content Include="src\views\About\About.vue" />
     <Content Include="src\views\Authentication\Authentication.scss" />
+    <Content Include="src\views\Authentication\ChangePassword.vue" />
     <Content Include="src\views\Authentication\Login.vue" />
+    <Content Include="src\views\Profile\Profile.scss" />
+    <Content Include="src\views\Profile\Profile.vue" />
     <Content Include="src\views\Authentication\Register.vue" />
     <Content Include="src\views\Meet-Outlook\Meet-Outlook.scss" />
     <Content Include="src\views\Meet-Outlook\Meet-Outlook.vue" />
@@ -109,6 +112,7 @@
     <Folder Include="src\store\modules\" />
     <Folder Include="src\styles\" />
     <Folder Include="src\views\" />
+    <Folder Include="src\views\Profile\" />
     <Folder Include="src\views\Category\" />
     <Folder Include="src\views\Home\" />
     <Folder Include="src\views\Archive\" />
@@ -134,6 +138,7 @@
     <TypeScriptCompile Include="src\models\articleCommentChange.ts" />
     <TypeScriptCompile Include="src\models\articleFavoriteChange.ts" />
     <TypeScriptCompile Include="src\models\articleScoreChange.ts" />
+    <TypeScriptCompile Include="src\models\changePasswordModel.ts" />
     <TypeScriptCompile Include="src\models\loginModel.ts" />
     <TypeScriptCompile Include="src\models\outlookUser.ts" />
     <TypeScriptCompile Include="src\models\registerModel.ts" />
@@ -154,7 +159,9 @@
     <TypeScriptCompile Include="src\services\cacher.ts" />
     <TypeScriptCompile Include="src\store\state.ts" />
     <TypeScriptCompile Include="src\views\About\About.ts" />
+    <TypeScriptCompile Include="src\views\Authentication\ChangePassword.ts" />
     <TypeScriptCompile Include="src\views\Authentication\Login.ts" />
+    <TypeScriptCompile Include="src\views\Profile\Profile.ts" />
     <TypeScriptCompile Include="src\views\Authentication\Register.ts" />
     <TypeScriptCompile Include="src\views\Meet-Outlook\Meet-Outlook.ts" />
     <TypeScriptCompile Include="src\views\Archive\Archive.ts" />

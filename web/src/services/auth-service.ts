@@ -5,8 +5,11 @@ import jwt from 'jsonwebtoken';
 import outlookUser from '../models/outlookUser';
 import store from '@/store/index';
 import router from '@/router';
+import ChangePasswordModel from '../models/changePasswordModel';
 
 const APP_URL = process.env.VUE_APP_OUTLOOK;
+const API_URL = `${APP_URL}/api`;
+
 const client_id = process.env.VUE_APP_AUTH_CLIENT_ID;
 const scope = process.env.VUE_APP_AUTH_SCOPE;
 
@@ -63,8 +66,50 @@ export class AuthService {
     }
 
     async Register(model: RegisterModel) {
-        var response = await axios.post(`${APP_URL}/api/identity/register`, model);
+        var response = await axios.post(`${API_URL}/identity/register`, model);
         return response.data;
+    }
+
+    // Authorized
+    async getUser() {
+        var token = store.getters.User.token;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions: RequestInit = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        return fetch(`${API_URL}/identity/getuser`, requestOptions)
+            .then(response => response.json())
+            .catch(error => console.log('error', error));
+    }
+
+    // Authorized
+    async changePassword(model: ChangePasswordModel) {
+        var token = store.getters.User.token;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var raw = JSON.stringify({ "oldPassword": model.oldPassword, "newPassword": model.newPassword });
+
+
+        var requestOptions: RequestInit = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: raw
+        };
+
+        return fetch(`${API_URL}/identity/changepassword`, requestOptions)
+            .then(response => response.json())
+            .catch(error => console.log('error', error));
     }
 
     Logout() {

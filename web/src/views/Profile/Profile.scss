@@ -1,0 +1,24 @@
+.profile {
+    @include outlook-window();
+
+    .name {
+        @include outlook-title();
+        width: var(--outlook-title-width);
+    }
+
+    .options {
+        @include col();
+        width: 30%;
+        justify-content: flex-start;
+
+        div, a {
+            @include outlook-box();
+            margin: 2% 0;
+            padding: 5%;
+        }
+    }
+
+    .sub-window {
+        width: 70%;
+    }
+}

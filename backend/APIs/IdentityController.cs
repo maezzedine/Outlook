@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using backend.Areas.Identity;
 using backend.Entities;
+using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,18 +44,33 @@ namespace backend.APIs
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByEmailAsync(model.Username);
+                var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
                 if (user != null)
                 {
                     var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
 
-                    logger.Log($"User {user.UserName} changed their password.");
+                    if (result.Succeeded)
+                    {
+                        logger.Log($"User {user.UserName} changed their password.");
+                    }
 
                     return new JsonResult(result);
                 }
             }
 
             return BadRequest();
+        }
+
+        [HttpPost("GetUser")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetUser()
+        {
+            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return NotFound();
         }
 
     }

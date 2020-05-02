@@ -29,7 +29,7 @@
 
             <template v-else>
                 <!-- <Logout> -->
-                <div>{{$store.getters.User.username}}</div>
+                <router-link :to="{ 'name': 'profile' }">{{$store.getters.User.username}}</router-link>
                 <button class="option" @click="logout">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
