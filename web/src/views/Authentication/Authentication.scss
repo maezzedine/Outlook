@@ -1,4 +1,4 @@
-.auth {
+.auth, .change-password {
     @include outlook-window();
     @include col();
 
@@ -37,4 +37,8 @@
             color: var(--danger-400);
         }
     }
+}
+
+.change-password {
+    width: inherit;
 }
