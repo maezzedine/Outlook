@@ -68,8 +68,13 @@
                             </template>
                         </form>
                         <div class="comment" v-for="comment in Article.comments">
-                            <div class="owner">{{comment.user.firstName}} {{comment.user.lastName}}</div>
-
+                            <div class="comment-header">
+                                <div class="owner">
+                                    {{comment.user.firstName}} {{comment.user.lastName}}
+                                </div>
+                                <button class="delete" @click="deleteComment(comment.id)"
+                                        v-if="comment.user.userName == $store.getters.User.username">X</button>
+                            </div>
                             {{comment.text}}
                             <div class="time">{{getDateTime(comment.dateTime)}}</div>
                         </div>

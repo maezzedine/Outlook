@@ -154,8 +154,24 @@
                         margin: 2% 0;
                         padding: 2%;
 
-                        .owner {
-                            font-weight: bold;
+                        .comment-header {
+                            @include row();
+                            justify-content: space-between;
+
+                            .owner {
+                                font-weight: bold;
+                            }
+
+                            .delete {
+                                border: none;
+                                background: var(--danger-100);
+                                border-radius: 3px;
+                                font-size: xx-small;
+                            }
+
+                            .delete:hover {
+                                background: var(--danger-300);
+                            }
                         }
 
                         .time {

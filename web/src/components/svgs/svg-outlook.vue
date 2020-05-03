@@ -14,8 +14,8 @@
     }
 
         .svg-outlook:hover {
-            stroke: var(--logo-hover);
-            fill: var(--logo-hover);
+            stroke: var(--text-0);
+            fill: var(--text-0);
         }
 
     .svg-outlook-rotate-right {

@@ -235,6 +235,6 @@ export default class App extends Vue {
     }
 }
 
-window.onresize = () => {
+window.onorientationchange = () => {
     location.reload();
 }

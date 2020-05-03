@@ -78,6 +78,12 @@ export default class OutlookArticle extends Vue {
         }
     }
 
+    deleteComment(commentID: Number) {
+        var params = new Array<Number>();
+        params.push(commentID);
+        api.AuthorizedAction('DELETE', 'comments', params);
+    }
+
     getDateTime(datetime: string) {
         var date = new Date(datetime);
         return date.toDateString() + ' - ' + date.toLocaleTimeString();

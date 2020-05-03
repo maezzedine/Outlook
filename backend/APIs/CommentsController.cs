@@ -77,22 +77,26 @@ namespace backend.APIs
             {
                 return NotFound();
             }
-            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
 
+            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
             var article = await context.Article.FindAsync(comment.ArticleID);
-            logger.Log($"{user.UserName} attempts to delete his comment `{comment.Text}` on the article of title `{article.Title}`");
 
             if (comment.UserID != user.Id)
             {
                 return ValidationProblem("Only the owner of this comment is allowed to delete it.");
             }
 
+            logger.Log($"{user.UserName} attempts to delete his comment `{comment.Text}` on the article of title `{article.Title}`");
+            
             context.Comment.Remove(comment);
             await context.SaveChangesAsync();
 
             logger.Log("Delete Completed");
+            
+            var comments = await context.Comment.Where(c => c.ArticleID == article.Id).ToListAsync();
+            await hubContext.Clients.All.ArticleCommentChange(article.Id, comments);
 
-            return comment;
+            return Ok();
         }
     }
 }
