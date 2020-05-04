@@ -87,5 +87,7 @@
   "check-email-confirmation": "Please check your email for a message from",
   "check-spam": "If you didn't find the message in the main inbox, have a look at the spammed emails.",
   "resend-verificaton": "If you don't recieve an email in 60 seconds, click",
-  "to-resend": "to resend it again."
+  "to-resend": "to resend it again.",
+  "not-found-title": "404 - Page Not Found!",
+  "not-found-details": "Sorry, it doesn't seem this pages is found."
 }

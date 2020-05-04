@@ -19,7 +19,6 @@
             <article-thumbnail v-for="article in Articles" :article="article" />
         </div>
     </div>
-    <!-- todo: add 404 incase of v-else -->
 </template>
 
 <script lang="ts" src="./Category.ts"></script>

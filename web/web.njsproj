@@ -70,6 +70,8 @@
     <Content Include="src\views\Authentication\Email-Confirmation.scss" />
     <Content Include="src\views\Authentication\Email-Confirmation.vue" />
     <Content Include="src\views\Authentication\Login.vue" />
+    <Content Include="src\views\Error\NotFound.scss" />
+    <Content Include="src\views\Error\NotFound.vue" />
     <Content Include="src\views\Profile\Favorited-Articles\FavoritedArticles.scss" />
     <Content Include="src\views\Profile\Favorited-Articles\FavoritedArticles.vue" />
     <Content Include="src\views\Profile\Profile.scss" />
@@ -116,6 +118,7 @@
     <Folder Include="src\store\modules\" />
     <Folder Include="src\styles\" />
     <Folder Include="src\views\" />
+    <Folder Include="src\views\Error\" />
     <Folder Include="src\views\Profile\" />
     <Folder Include="src\views\Category\" />
     <Folder Include="src\views\Home\" />

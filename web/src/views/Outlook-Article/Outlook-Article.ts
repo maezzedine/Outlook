@@ -37,19 +37,21 @@ export default class OutlookArticle extends Vue {
             // If we got this far, then Category wasn't find, so try fetching it from the api
             this.getArticlesFromApi();
         }
-        // If we got this far, then Category doesn't exist
-        // todo: return to 404
     }
 
     getArticlesFromApi() {
         if (this.id != null && this.Article == null) {
             var params = new Array<Number>();
             params.push(this.id)
-            api.Get('articles/article', params).then(d => {
-                this.Article = d;
-                this.loading = false;
-                return;
-            })
+            api.Get('articles/article', params)
+                .then(d => {
+                    this.Article = d;
+                    this.loading = false;
+                    return;
+                })
+                .catch(e => {
+                    this.$router.push(`/${this.$store.getters.Language.lang}/not-found`);
+                })
         }
     }
 

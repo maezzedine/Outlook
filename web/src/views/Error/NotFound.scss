@@ -1,0 +1,14 @@
+.not-found {
+    @include outlook-window();
+    text-align: initial;
+
+    .title {
+        @include outlook-title();
+        width: var(--outlook-title-width);
+    }
+
+    .details {
+        @include outlook-pad();
+        width: var(--outlook-title-width);
+    }
+}

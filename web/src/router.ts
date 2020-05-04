@@ -19,6 +19,7 @@ const EmailConfirmation = () => import('./views/Authentication/Email-Confirmatio
 const ChangePassword = () => import('./views/Authentication/ChangePassword.vue');
 const Profile = () => import('./views/Profile/Profile.vue');
 const FavoritedArticles = () => import('./views/Profile/Favorited-Articles/FavoritedArticles.vue');
+const NotFound = () => import('./views/Error/NotFound.vue');
 
 const withPrefix = (prefix: string, routes: Array<RouteConfig>) =>
     routes.map((route) => {
@@ -117,6 +118,11 @@ export default new Router({
                 name: 'about',
                 path: '/about',
                 component: About
+            },
+            {
+                name: 'not-found',
+                path: '/not-found',
+                component: NotFound
             }
         ])
     ]

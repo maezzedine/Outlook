@@ -36,8 +36,6 @@ export default class Category extends Vue {
             // If we got this far, then Category wasn't find, so try fetching it from the api
             this.getCategoryFromApi();
         }
-        // If we got this far, then Category doesn't exist
-        // todo: return to 404
     }
 
     showCategory() {
@@ -57,10 +55,14 @@ export default class Category extends Vue {
             if (issue != undefined) {
                 var params = new Array<Number>();
                 params.push(this.id, issue.id);
-                api.Get('categories', params).then(d => {
-                    this.Category = d;
-                    return;
-                })
+                api.Get('categories', params)
+                    .then(d => {
+                        this.Category = d;
+                        return;
+                    })
+                    .catch(e => {
+                        this.$router.push(`/${this.$store.getters.Language.lang}/not-found`);
+                    })
             }
         }
     }
