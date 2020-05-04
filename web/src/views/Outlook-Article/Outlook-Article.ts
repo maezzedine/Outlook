@@ -15,7 +15,6 @@ export default class OutlookArticle extends Vue {
     created() {
         this.getIdFromParams();
         this.getArticle();
-        // todo: if the article's language wasn't the app language, switch langauges
     }
 
     getCategoryColor(cat: string) {

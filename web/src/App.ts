@@ -1,5 +1,5 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { initializeTheming, getTheme, getCurrentTheme, setTheme, Theme } from 'css-theming';
+import { initializeTheming, getTheme, getCurrentTheme, setTheme } from 'css-theming';
 import { api } from './services/api';
 import { cacher } from './services/cacher';
 import Home from './views/Home/Home.vue';

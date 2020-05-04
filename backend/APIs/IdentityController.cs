@@ -5,7 +5,6 @@ using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace backend.APIs
 {
@@ -27,8 +26,10 @@ namespace backend.APIs
         {
             if (ModelState.IsValid)
             {
-                var user = new OutlookUser { UserName = registerModel.Username, FirstName = registerModel.FirstName, LastName = registerModel.LastName };
+                var user = new OutlookUser { UserName = registerModel.Username, Email = registerModel.Email, FirstName = registerModel.FirstName, LastName = registerModel.LastName };
                 var result = await userManager.CreateAsync(user, registerModel.Password);
+
+                // TODO: Sent email verification request to the user's email
 
                 logger.Log($"User {user.UserName} was created.");
 

@@ -1,6 +1,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { authService } from '@/services/auth-service';
 import RegisterModel from '../../models/registerModel';
+import { createWriteStream } from 'fs';
 
 @Component
 export default class Login extends Vue {
@@ -13,6 +14,11 @@ export default class Login extends Vue {
 
         if (validInput) {
             authService.Register(this.Model)
+                .then(d => {
+                    if (d.succeeded) {
+                        // TODO: redirect to page to inform the user to confirm their email
+                    }
+                })
                 .catch(e => {
                     authService.Logout();
 
@@ -25,26 +31,22 @@ export default class Login extends Vue {
                     }
                 });
         }
-        else {
-            this.checkRequiredItem(this.Model.username, 'username-required');
-            this.checkRequiredItem(this.Model.password, 'password-required');
-            this.checkRequiredItem(this.Model.firstName, 'firstname-required');
-            this.checkRequiredItem(this.Model.lastName, 'lastname-required');
-        }
     }
 
     inputIsValid() {
-        return (this.Model.username != undefined) && (this.Model.firstName != undefined) && (this.Model.lastName != undefined) && (this.Model.password != '')
-            && (this.Model.password != undefined) && (this.Model.username != '') && (this.Model.firstName != '') && (this.Model.lastName != '')
+        var properties = JSON.parse(this.Model.properties);
+        var valid = true;
+        for (var attribute of properties) {
+            var attributeIsValid = this.notNullOrEmpty(this.Model[attribute]);
+            if (!attributeIsValid) {
+                this.errors.push(this.$store.getters.Language[`${attribute}-required`]);
+            }
+            valid = valid && attributeIsValid;
+        }
+        return valid;
     }
 
     notNullOrEmpty(item: string) {
-        return item == undefined || item == '';
-    }
-
-    checkRequiredItem(item: string, rule: string) {
-        if (this.notNullOrEmpty(item)) {
-            this.errors.push(this.$store.getters.Language[rule]);
-        }
+        return item != undefined && item != '';
     }
 }

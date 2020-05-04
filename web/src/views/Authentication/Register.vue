@@ -17,6 +17,10 @@
                     <td><input v-model="Model.lastName" autocomplete="on"/></td>
                 </tr>
                 <tr>
+                    <th>{{$store.getters.Language['email']}}:</th>
+                    <td><input v-model="Model.email" autocomplete="on"/></td>
+                </tr>
+                <tr>
                     <th>{{$store.getters.Language['username']}}:</th>
                     <td><input v-model="Model.username" autocomplete="on"/></td>
                 </tr>

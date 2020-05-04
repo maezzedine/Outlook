@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "backend", "backend\backend.
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "web", "web\web.njsproj", "{B5397962-44EA-4536-B299-536203D4E7AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logger", "Logger\Logger.csproj", "{977E0416-6605-4EA6-B3D2-DFC95307423A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "logger", "Logger\logger.csproj", "{977E0416-6605-4EA6-B3D2-DFC95307423A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{3E4E173F-A71E-4633-97D5-EFFC1979DABF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", "{3E4E173F-A71E-4633-97D5-EFFC1979DABF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

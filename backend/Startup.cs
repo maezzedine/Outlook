@@ -42,7 +42,7 @@ namespace backend
             services.AddDbContext<OutlookContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OutlookContext")));
 
-            services.AddDefaultIdentity<OutlookUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<OutlookUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<OutlookContext>();
 
@@ -76,13 +76,14 @@ namespace backend
                 .AddJwtBearerClientAuthentication()
                 .AddProfileService<IdentityProfileService>();
 
-            services.AddAuthentication(/*JwtBearerDefaults.AuthenticationScheme*/)
+            services.AddAuthentication()
                 .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = Configuration.GetValue<string>("BaseUrl");
                     options.IncludeErrorDetails = true;
                     options.RequireHttpsMetadata = false;
                     options.Audience = "outlookApi";
+                    options.RequireHttpsMetadata = false; // todo: uncomment when ssl is available
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         ClockSkew = TimeSpan.FromMinutes(0)

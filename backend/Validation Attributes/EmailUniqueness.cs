@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace backend.Validation_Attributes
 {
-    public class CategoryUniquenessAttribute : ValidationAttribute
+    public class EmailUniqueness : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var context = (OutlookContext)validationContext.GetService(typeof(OutlookContext));
-            var existingCategoryWithSameName = context.Category.SingleOrDefault(c => c.CategoryName == value.ToString());
+            var emailAlreadyExists = context.Users.SingleOrDefault(u => u.Email == value.ToString());
 
-            if (existingCategoryWithSameName != null)
+            if (emailAlreadyExists != null)
             {
                 return new ValidationResult(GetErrorMessage(value.ToString()));
             }
@@ -19,6 +19,6 @@ namespace backend.Validation_Attributes
             return ValidationResult.Success;
         }
 
-        public string GetErrorMessage(string v) => $"Category with name {v} already exists.";
+        private string GetErrorMessage(string value) => $"Email {value} is already taken.";
     }
 }

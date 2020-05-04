@@ -21,17 +21,22 @@ export default class Login extends Vue {
                      })
                 });
         }
-        else {
-            if (this.Model.username == undefined || this.Model.username == '') {
-                this.errors.push(this.$store.getters.Language['username-required']);
-            }
-            if (this.Model.password == undefined || this.Model.password == '') {
-                this.errors.push(this.$store.getters.Language['password-required']);
-            }
-        }
     }
 
     inputIsValid() {
-        return (this.Model.username != undefined) && (this.Model.password != undefined) && (this.Model.username != '') && (this.Model.password != '')
+        var properties = JSON.parse(this.Model.properties);
+        var valid = true;
+        for (var attribute of properties) {
+            var attributeIsValid = this.notNullOrEmpty(this.Model[attribute]);
+            if (!attributeIsValid) {
+                this.errors.push(this.$store.getters.Language[`${attribute}-required`]);
+            }
+            valid = valid && attributeIsValid;
+        }
+        return valid;
+    }
+
+    notNullOrEmpty(item: string) {
+        return item != undefined && item != '';
     }
 }

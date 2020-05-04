@@ -13,7 +13,7 @@
                 </tr>
                 <tr>
                     <th>{{$store.getters.Language['contact']}}</th>
-                    <td>{{$store.getters.Language['email']}}</td>
+                    <td>{{$store.getters.Language['info-email']}}</td>
                 </tr>
             </table>
             <a href="https://github.com/mezdn/Outlook"><svg-github /></a> 

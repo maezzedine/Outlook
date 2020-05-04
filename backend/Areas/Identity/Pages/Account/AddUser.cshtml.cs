@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using backend.Data;
 using backend.Entities;
 using backend.Models;
+using backend.Validation_Attributes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 
@@ -27,6 +28,7 @@ namespace backend.Areas.Identity.Pages.Account
         private readonly UserManager<OutlookUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly OutlookContext context;
+        private readonly Logger.Logger logger;
 
         public AddUserModel(
             UserManager<OutlookUser> userManager,
@@ -37,6 +39,7 @@ namespace backend.Areas.Identity.Pages.Account
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            this.logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
             this.context = context;
         }
 
@@ -54,12 +57,18 @@ namespace backend.Areas.Identity.Pages.Account
             public string Username { get; set; }
 
             [Required]
+            [Display(Name = "Email")]
+            [EmailAddress]
+            [EmailUniqueness]
+            public string Email { get; set; }
+
+            [Required]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
             [Required]
             [Display(Name = "Last Name")]
-            public string LasttName { get; set; }
+            public string LastName { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -85,20 +94,21 @@ namespace backend.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new OutlookUser { UserName = Input.Username, FirstName = Input.FirstName, LastName = Input.LasttName };
+                var user = new OutlookUser { UserName = Input.Username, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    logger.Log($"{HttpContext.User.Identity.Name} created new user {user.UserName} called {user.FirstName} {user.LastName}.");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code },
-                        protocol: Request.Scheme);
+                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    //var callbackUrl = Url.Page(
+                    //    "/Account/ConfirmEmail",
+                    //    pageHandler: null,
+                    //    values: new { area = "Identity", userId = user.Id, code = code },
+                    //    protocol: Request.Scheme);
 
                     if (Input.Username.IndexOf("WebEditor") != -1)
                     {

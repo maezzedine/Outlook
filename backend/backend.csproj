@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Logger\Logger.csproj" />
+    <ProjectReference Include="..\Logger\logger.csproj" />
   </ItemGroup>
 
 

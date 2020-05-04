@@ -35,6 +35,7 @@
   "first-name": "First Name",
   "last-name": "Last Name",
   "username": "Username",
+  "email": "Email",
   "change-password": "Change Password",
   "favorited-articles": "Favorited Articles",
   "old-password": "Old Password",
@@ -59,8 +60,9 @@
   "submit": "Submit",
   "username-required": "Username is required",
   "password-required": "Password is required",
-  "firstname-required": "First name is required",
-  "lastname-required": "Last name is required",
+  "firstName-required": "First name is required",
+  "lastName-required": "Last name is required",
+  "email-required": "Email is required",
   "contribute-to-outlook": "Contribute",
   "write-for-outlook-question": "Do You want to write for Outlook?",
   "good-news": "We have some good news, because ",
@@ -80,5 +82,5 @@
   "author": "Author:",
   "author-name": "Mohammed Ezzedine",
   "contact": "Contact:",
-  "email": "info@auboutlook.com"
+  "info-email": "info@auboutlook.com"
 }
