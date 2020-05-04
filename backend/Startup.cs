@@ -11,6 +11,8 @@ using backend.Areas.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography.X509Certificates;
 using backend.Hubs;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using backend.Services;
 
 namespace backend
 {
@@ -89,6 +91,8 @@ namespace backend
                         ClockSkew = TimeSpan.FromMinutes(0)
                     };
                 });
+
+            services.AddTransient<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

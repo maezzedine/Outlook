@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -7,11 +6,10 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.Entities;
-using backend.Models;
+using backend.Services;
 using backend.Validation_Attributes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -29,16 +27,19 @@ namespace backend.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly OutlookContext context;
         private readonly Logger.Logger logger;
+        private readonly IEmailSender _emailSender;
 
         public AddUserModel(
             UserManager<OutlookUser> userManager,
             SignInManager<OutlookUser> signInManager,
             ILogger<RegisterModel> logger,
+            IEmailSender emailSender,
             OutlookContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _emailSender = emailSender;
             this.logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
             this.context = context;
         }
@@ -102,13 +103,15 @@ namespace backend.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
                     logger.Log($"{HttpContext.User.Identity.Name} created new user {user.UserName} called {user.FirstName} {user.LastName}.");
 
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    //var callbackUrl = Url.Page(
-                    //    "/Account/ConfirmEmail",
-                    //    pageHandler: null,
-                    //    values: new { area = "Identity", userId = user.Id, code = code },
-                    //    protocol: Request.Scheme);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = user.Id, code = code },
+                        protocol: Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email", EmailSender.EmailVerificationHtmlMessage(HtmlEncoder.Default.Encode(callbackUrl)));
 
                     if (Input.Username.IndexOf("WebEditor") != -1)
                     {

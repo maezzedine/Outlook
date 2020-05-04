@@ -23,6 +23,8 @@ $ct-themes: (
         'shadow' : rgba(184,184,184,1),
         'logo-hover' : mix(black, blue, 35%),
         'input': white,
+        'loading-background': rgba(232, 232, 232, 0.46),
+        
     ), 
     'default-dark': (
         'brightness': 'dark', 
@@ -46,6 +48,7 @@ $ct-themes: (
         'shadow' : rgb(59, 58, 59),
         'logo-hover' : mix(blue, gray, 35%),
         'input': mix(#99e3ff, black, 25%),
+        'loading-background': rgba(75, 75, 75, 0.46),
     ), 
 );
 

@@ -1,22 +1,27 @@
 import { Component, Vue } from "vue-property-decorator";
 import { authService } from '@/services/auth-service';
 import RegisterModel from '../../models/registerModel';
-import { createWriteStream } from 'fs';
+import svgSpinner from '@/components/svgs/svg-spinner.vue';
 
-@Component
+@Component({
+    components: { svgSpinner }
+})
 export default class Login extends Vue {
     private Model = new RegisterModel();
     private errors = new Array<string>();
+    private loading = false;
 
     register() {
         this.errors = new Array<string>();
         var validInput = this.inputIsValid();
 
         if (validInput) {
+            this.loading = true;
             authService.Register(this.Model)
                 .then(d => {
                     if (d.succeeded) {
                         var lang = this.$route.params['lang'];
+                        this.loading = false;
                         this.$router.push(`/${lang}/email-confirmation`);
                     }
                 })
@@ -29,6 +34,7 @@ export default class Login extends Vue {
                             this.errors.push(error.replace(/_/g, ' '));
                         }
                     }
+                    this.loading = false;
                 });
         }
     }

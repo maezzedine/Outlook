@@ -1,5 +1,6 @@
 <template>
-    <div class="auth">     
+    <div class="auth">   
+        <svg-spinner v-if="loading" class="loader"/>
         <form class="form" @submit.prevent="register">
             <div class="error" v-if="errors.length > 0">
                 <ul>

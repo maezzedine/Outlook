@@ -1,10 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using backend.Areas.Identity;
 using backend.Entities;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace backend.APIs
 {
@@ -14,10 +18,12 @@ namespace backend.APIs
     {
         private readonly UserManager<OutlookUser> userManager;
         private readonly Logger.Logger logger;
+        private readonly IEmailSender _emailSender;
 
-        public IdentityController(UserManager<OutlookUser> userManager)
+        public IdentityController(UserManager<OutlookUser> userManager, IEmailSender emailSender)
         {
             this.userManager = userManager;
+            _emailSender = emailSender;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.web);
         }
 
@@ -29,7 +35,15 @@ namespace backend.APIs
                 var user = new OutlookUser { UserName = registerModel.Username, Email = registerModel.Email, FirstName = registerModel.FirstName, LastName = registerModel.LastName };
                 var result = await userManager.CreateAsync(user, registerModel.Password);
 
-                // TODO: Sent email verification request to the user's email
+                var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Page(
+                    "/Account/ConfirmEmail",
+                    pageHandler: null,
+                    values: new { area = "Identity", userId = user.Id, code = code },
+                    protocol: Request.Scheme);
+
+                await _emailSender.SendEmailAsync(registerModel.Email, "Confirm your AUB Outlook Account", EmailSender.EmailVerificationHtmlMessage(HtmlEncoder.Default.Encode(callbackUrl)));
 
                 logger.Log($"User {user.UserName} was created.");
 

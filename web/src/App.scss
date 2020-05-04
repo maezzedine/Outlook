@@ -25,6 +25,7 @@
 
     --box-shadow: 2px 2px 5px -1px #{map-get($theme, 'shadow')};
     --input: #{map-get($theme, 'input')};
+    --loading-background: #{map-get($theme, 'loading-background')};
 }
 
 :root {
