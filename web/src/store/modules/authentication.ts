@@ -14,6 +14,9 @@ const mutations = {
         state.user.username = '';
         state.user.token = '';
         state.user.expirayDate = new Date();
+    },
+    setUsername(state: state, username: string) {
+        state.user.username = username;
     }
 }
 
@@ -23,6 +26,9 @@ const actions = {
     },
     removeUser(context: ActionContext<state, state>) {
         context.commit('removeUser');
+    },
+    setUsername(context: ActionContext<state, state>, username: string) {
+        context.commit('setUsername', username);
     }
 }
 
@@ -32,6 +38,9 @@ const getters = {
     },
     IsAuthenticated: (state: state) => {
         return state.user.token != '';
+    },
+    Username: (state: state) => {
+        return state.user.username;
     }
 }
 

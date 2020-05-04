@@ -67,6 +67,7 @@ export class AuthService {
 
     async Register(model: RegisterModel) {
         var response = await axios.post(`${API_URL}/identity/register`, model);
+        store.dispatch('setUsername', model.username);
         return response.data;
     }
 

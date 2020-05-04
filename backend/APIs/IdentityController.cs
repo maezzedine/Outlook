@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using backend.Areas.Identity;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.APIs
 {
@@ -74,6 +76,27 @@ namespace backend.APIs
             }
 
             return BadRequest();
+        }
+
+        [HttpPost("ResendVerification/{username}")]
+        public async Task<IActionResult> ResendVerification(string username)
+        {
+            var user = await userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
+            if (user != null && !user.EmailConfirmed)
+            {
+                var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Page(
+                    "/Account/ConfirmEmail",
+                    pageHandler: null,
+                    values: new { area = "Identity", userId = user.Id, code = code },
+                    protocol: Request.Scheme);
+
+                await _emailSender.SendEmailAsync(user.Email, "Confirm your AUB Outlook Account", EmailSender.EmailVerificationHtmlMessage(HtmlEncoder.Default.Encode(callbackUrl)));
+
+                return Ok();
+            }
+            return NotFound();
         }
 
         [HttpPost("GetUser")]
