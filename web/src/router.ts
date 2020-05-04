@@ -15,6 +15,7 @@ const UploadArticle = () => import('./views/Upload-Article/Upload-Article.vue');
 const About = () => import('./views/About/About.vue');
 const Login = () => import('./views/Authentication/Login.vue');
 const Register = () => import('./views/Authentication/Register.vue');
+const EmailConfirmation = () => import('./views/Authentication/Email-Confirmation.vue');
 const ChangePassword = () => import('./views/Authentication/ChangePassword.vue');
 const Profile = () => import('./views/Profile/Profile.vue');
 const FavoritedArticles = () => import('./views/Profile/Favorited-Articles/FavoritedArticles.vue');
@@ -84,6 +85,11 @@ export default new Router({
                 component: Register,
                 meta: { authPage: true },
                 beforeEnter: isAuthenticated
+            },
+            {
+                name: 'email-confirmation',
+                path: '/email-confirmation',
+                component: EmailConfirmation,
             },
             {
                 name: 'profile',

@@ -1,0 +1,31 @@
+.email-confirmation {
+    @include outlook-window();
+    text-align: initial;
+
+    .title {
+        @include outlook-title();
+        width: var(--outlook-title-width);
+    }
+
+    .details {
+        span {
+            @include outlook-tag(var(--red-300));
+        }
+
+        p {
+            color: var(--text-2);
+        }
+    }
+
+    .resend-verification {
+        @include outlook-pad();
+        width: var(--outlook-title-width);
+        color: var(--text-1);
+
+        button {
+            background: none;
+            border: none;
+            color: var(--red-text);
+        }
+    }
+}

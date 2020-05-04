@@ -82,5 +82,10 @@
   "author": "Author:",
   "author-name": "Mohammed Ezzedine",
   "contact": "Contact:",
-  "info-email": "info@auboutlook.com"
+  "info-email": "info@auboutlook.com",
+  "confirm-email": "Confirm Your Email",
+  "check-email-confirmation": "Please check your email for a message from",
+  "check-spam": "If you didn't find the message in the main inbox, have a look at the spammed emails.",
+  "resend-verificaton": "If you don't recieve an email in 60 seconds, click",
+  "to-resend": "to resend it again."
 }

@@ -16,7 +16,8 @@ export default class Login extends Vue {
             authService.Register(this.Model)
                 .then(d => {
                     if (d.succeeded) {
-                        // TODO: redirect to page to inform the user to confirm their email
+                        var lang = this.$route.params['lang'];
+                        this.$router.push(`/${lang}/email-confirmation`);
                     }
                 })
                 .catch(e => {
@@ -26,7 +27,6 @@ export default class Login extends Vue {
                     for (var errors of Object.keys(errorList)) {
                         for (var error of errorList[errors]) {
                             this.errors.push(error.replace(/_/g, ' '));
-                            console.log(errorList[error]);
                         }
                     }
                 });

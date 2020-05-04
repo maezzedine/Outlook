@@ -67,6 +67,8 @@
     <Content Include="src\views\About\About.vue" />
     <Content Include="src\views\Authentication\Authentication.scss" />
     <Content Include="src\views\Authentication\ChangePassword.vue" />
+    <Content Include="src\views\Authentication\Email-Confirmation.scss" />
+    <Content Include="src\views\Authentication\Email-Confirmation.vue" />
     <Content Include="src\views\Authentication\Login.vue" />
     <Content Include="src\views\Profile\Favorited-Articles\FavoritedArticles.scss" />
     <Content Include="src\views\Profile\Favorited-Articles\FavoritedArticles.vue" />
@@ -163,6 +165,7 @@
     <TypeScriptCompile Include="src\store\state.ts" />
     <TypeScriptCompile Include="src\views\About\About.ts" />
     <TypeScriptCompile Include="src\views\Authentication\ChangePassword.ts" />
+    <TypeScriptCompile Include="src\views\Authentication\Email-Confirmation.ts" />
     <TypeScriptCompile Include="src\views\Authentication\Login.ts" />
     <TypeScriptCompile Include="src\views\Profile\Favorited-Articles\FavoritedArticles.ts" />
     <TypeScriptCompile Include="src\views\Profile\Profile.ts" />
