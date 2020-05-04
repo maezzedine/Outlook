@@ -1,6 +1,6 @@
 .email-confirmation {
     @include outlook-window();
-    text-align: initial;
+    text-align: justify;
 
     .title {
         @include outlook-title();
@@ -8,8 +8,10 @@
     }
 
     .details {
+
         span {
             @include outlook-tag(var(--red-300));
+            white-space: nowrap;
         }
 
         p {

@@ -91,7 +91,7 @@ namespace backend.APIs
             MemberService.AddBoardMembers(englishBoardMembers, englishPositons, boardMembers);
 
             var arabicBoardMembers = new Dictionary<string, IQueryable<Member>>();
-            MemberService.AddBoardMembers(arabicBoardMembers, englishPositons, boardMembers);
+            MemberService.AddBoardMembers(arabicBoardMembers, arabicPositons, boardMembers);
 
             return Ok(new
             {
