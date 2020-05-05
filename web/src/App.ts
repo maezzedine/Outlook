@@ -61,14 +61,27 @@ export default class App extends Vue {
 
     // Language
     initializeStateLanguages() {
-        api.getLocalJsonFile('en').then(e => {
-            this.$store.dispatch('setEnglish', e);
+        var enFromCache = sessionStorage.getItem('outlook-en');
+        var arFromCache = sessionStorage.getItem('outlook-ar');
+        if (enFromCache != undefined && arFromCache != undefined) {
+            this.$store.dispatch('setEnglish', JSON.parse(enFromCache));
+            this.$store.dispatch('setArabic', JSON.parse(arFromCache));
+            this.initializeLanguage();
+        }
+        else {
+            this.loading = true;
+            api.getLocalJsonFile('en').then(e => {
+                this.$store.dispatch('setEnglish', e);
+                sessionStorage.setItem('outlook-en', JSON.stringify(e));
 
-            api.getLocalJsonFile('ar').then(a => {
-                this.$store.dispatch('setArabic', a);
-                this.initializeLanguage();
+                api.getLocalJsonFile('ar').then(a => {
+                    this.$store.dispatch('setArabic', a);
+                    sessionStorage.setItem('outlook-ar', JSON.stringify(a));
+                    this.initializeLanguage();
+                    this.loading = false;
+                });
             });
-        });
+        }
     }
 
     initializeLanguage() {
@@ -106,7 +119,7 @@ export default class App extends Vue {
     getColors() {
         api.getLocalJsonFile('category-color').then(d => {
             this.$store.dispatch('setColors', d);
-        });
+        }); 
     }
 
     // Volumes

@@ -101,6 +101,10 @@
             -moz-box-shadow: var(--shadow-left);
             box-shadow: var(--shadow-left);
         }
+
+        .svg-spinner {
+            height: 100vh;
+        }
     }
 }
 

@@ -44,6 +44,7 @@ export class Api {
         if (file == null) {
             return;
         }
+
         var response = await axios.get(`${BASE_URL}${file}.json`);
         return response.data;
     }
