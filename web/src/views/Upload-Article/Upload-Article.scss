@@ -72,6 +72,13 @@
                         @include outlook-button();
                     }
                 }
+
+                svg {
+                    width: 100%;
+                    text-align: center;
+                    fill: forestgreen;
+                    stroke: forestgreen;
+                }
             }
         }
     }

@@ -55,6 +55,7 @@
     <Content Include="src\components\svgs\svg-arrow-down.vue" />
     <Content Include="src\components\svgs\svg-arrow-up.vue" />
     <Content Include="src\components\svgs\svg-category.vue" />
+    <Content Include="src\components\svgs\svg-check.vue" />
     <Content Include="src\components\svgs\svg-close.vue" />
     <Content Include="src\components\svgs\svg-contribute.vue" />
     <Content Include="src\components\svgs\svg-stats.vue" />

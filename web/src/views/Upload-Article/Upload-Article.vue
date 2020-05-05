@@ -28,7 +28,7 @@
                     <div v-if="$store.getters.IsAuthenticated">
                         <input id="file" type="file" @change="updateFile($event.target.files[0])" accept="application/pdf" multiple="false"/>
                         <button type="submit" class="btn">{{$store.getters.Language['submit']}}</button>
-                        <i class="fas fa-check w-100 text-center" style="color: forestgreen" v-if="ProcessCompleted"></i>
+                        <svg-check v-if="ProcessCompleted"/>
                     </div>
                     <div v-else>
                         <input id="file" type="file" disabled/>

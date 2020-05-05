@@ -1,7 +1,10 @@
 import { Component, Vue } from "vue-property-decorator";
 import { api } from '../../services/api';
+import svgCheck from '@/components/svgs/svg-check.vue';
 
-@Component
+@Component({
+    components: { svgCheck }
+})
 export default class UploadArticle extends Vue {
     private Form = new FormData();
     private ProcessCompleted = false;
