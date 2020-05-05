@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using backend.Data;
+﻿using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -45,8 +43,8 @@ namespace backend.Controllers
             }
 
             var issues = from issue in context.Issue
-                           where issue.VolumeID == id
-                           select issue;
+                         where issue.VolumeID == id
+                         select issue;
 
             return View(await issues.ToListAsync());
         }
@@ -86,7 +84,7 @@ namespace backend.Controllers
                 {
                     return ValidationProblem(detail: "Volume Id cannot be null");
                 }
-                issue.VolumeID = (int) id;
+                issue.VolumeID = (int)id;
 
                 context.Add(issue);
                 await context.SaveChangesAsync();

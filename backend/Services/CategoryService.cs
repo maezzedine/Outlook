@@ -17,7 +17,7 @@ namespace backend.Services
         public static async Task GetCategoryJuniorEditors(Category category, OutlookContext context)
         {
             category.TagName = category.Tag.ToString();
-            
+
             var juniorEditorsIDs = from categoryEditor in context.CategoryEditor
                                    where categoryEditor.CategoryID == category.Id
                                    select categoryEditor.MemberID;

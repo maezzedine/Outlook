@@ -1,23 +1,23 @@
-﻿using System;
+﻿using backend.Areas.Identity;
+using backend.Data;
+using backend.Hubs;
+using backend.Models;
+using backend.Models.Relations;
+using backend.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models;
-using Microsoft.AspNetCore.Identity;
-using backend.Areas.Identity;
-using backend.Models.Relations;
 using static backend.Models.Relations.UserRateArticle;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
-using backend.Hubs;
-using backend.Services;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using Microsoft.Extensions.Configuration;
 
 namespace backend.APIs
 {
@@ -33,9 +33,9 @@ namespace backend.APIs
         public IConfiguration Configuration { get; }
 
         public ArticlesController(
-            OutlookContext context, 
-            UserManager<OutlookUser> userManager, 
-            IHubContext<ArticleHub, IArticleHub> articlehub, 
+            OutlookContext context,
+            UserManager<OutlookUser> userManager,
+            IHubContext<ArticleHub, IArticleHub> articlehub,
             IWebHostEnvironment env, IConfiguration configuration)
         {
             this.context = context;
@@ -196,7 +196,7 @@ namespace backend.APIs
                 article.NumberOfFavorites++;
             }
             await context.SaveChangesAsync();
-            
+
             // Notify all clients
             await hubContext.Clients.All.ArticleFavoriteChange(article.Id, article.NumberOfFavorites);
 
@@ -233,12 +233,12 @@ namespace backend.APIs
                 var uniqueDocumentName = DateTime.Now.Ticks.ToString() + $".{extension}";
                 var articleDocumentsFolderPath = Path.Combine(new string[] { env.WebRootPath, "docs", "Articles\\" });
                 var articleDocumentFilePath = Path.Combine(articleDocumentsFolderPath, uniqueDocumentName);
-                
+
                 if (!Directory.Exists(articleDocumentsFolderPath))
                 {
                     Directory.CreateDirectory(articleDocumentsFolderPath);
                 }
-                
+
                 using (var fileStream = new FileStream(articleDocumentFilePath, FileMode.Create, FileAccess.Write))
                 {
                     if (file.Files.Count != 0)
@@ -249,7 +249,7 @@ namespace backend.APIs
                 }
 
                 var baseUrl = Configuration["ApplicationUrls:Server"];
-                var ArticleDocumentFullPath = $"{baseUrl}/docs/Articles/{uniqueDocumentName}" ;
+                var ArticleDocumentFullPath = $"{baseUrl}/docs/Articles/{uniqueDocumentName}";
                 logger.Log(ArticleDocumentFullPath);
             }
 

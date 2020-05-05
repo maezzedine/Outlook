@@ -3,9 +3,9 @@
     interface IMember
     {
         public int NumberOfArticles { get; set; }
-        
+
         public string Name { get; set; }
-        
+
         public Position Position { get; set; }
     }
     public enum Position

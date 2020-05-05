@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using backend.Data;
+﻿using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -145,13 +145,13 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var volume = await context.Volume.FindAsync(id);
-            
+
             logger.Log($"{HttpContext.User.Identity.Name} admits to delete Volume {volume.VolumeNumber}");
-            
+
             context.Volume.Remove(volume);
-            
+
             logger.Log($"Delete Completed");
-            
+
             await context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }

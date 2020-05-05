@@ -1,9 +1,6 @@
 ﻿using backend.Areas.Identity;
-using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,9 +16,9 @@ namespace backend.Data
         public static IConfiguration Configuration;
 
         public DataFactory(
-            OutlookContext context, 
-            UserManager<OutlookUser> userManager, 
-            SignInManager<OutlookUser> signInManager, 
+            OutlookContext context,
+            UserManager<OutlookUser> userManager,
+            SignInManager<OutlookUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
         {
@@ -35,9 +32,9 @@ namespace backend.Data
         public async Task SeedData()
         {
             var admin = await CreateUser("Admin");
-            
+
             await CreateRoles();
-            
+
             await AssignUserRole(admin, "Admin");
         }
         public async Task<OutlookUser> CreateUser(string username)
@@ -85,8 +82,8 @@ namespace backend.Data
             }
 
             var WebEditorRole = from role in context.Roles
-                            where role.Name == "Web-Editor"
-                            select role;
+                                where role.Name == "Web-Editor"
+                                select role;
 
             if (WebEditorRole.FirstOrDefault() == null)
             {
@@ -95,8 +92,8 @@ namespace backend.Data
             }
 
             var EditorInChiefRole = from role in context.Roles
-                            where role.Name == "Editor-In-Chief"
-                            select role;
+                                    where role.Name == "Editor-In-Chief"
+                                    select role;
 
             if (EditorInChiefRole.FirstOrDefault() == null)
             {

@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using backend.Data;
+﻿using backend.Data;
 using backend.Models;
 using backend.Models.Interfaces;
-using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -26,7 +25,7 @@ namespace backend.Controllers
         public async Task<ActionResult> Index()
         {
             var writers = from member in context.Member
-                          where MemberService.IsWriter(member)
+                          where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
                           select member;
 
             return View(await writers.ToListAsync());
@@ -73,7 +72,7 @@ namespace backend.Controllers
             return View(member);
         }
 
-            // GET: Writers/Edit/5
+        // GET: Writers/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -152,14 +151,14 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var member = await context.Member.FindAsync(id);
-            
+
             logger.Log($"{HttpContext.User.Identity.Name} admits to delete writer `{member.Name}`");
-            
+
             context.Member.Remove(member);
             await context.SaveChangesAsync();
-            
+
             logger.Log("Delet Completed.");
-            
+
             return RedirectToAction(nameof(Index));
         }
 

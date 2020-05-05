@@ -9,12 +9,12 @@ namespace backend.Models
     public class Member : IMember
     {
         public int ID { get; set; }
-        
+
         [MemberUniqueness]
         public string Name { get; set; }
-        
+
         public Position Position { get; set; }
-        
+
         [NotMapped]
         public int NumberOfArticles { get; set; }
 
@@ -24,10 +24,10 @@ namespace backend.Models
         [NotMapped]
         [DisplayName("Category")]
         public string CategoryField { get; set; }
-        
+
         [NotMapped]
         public Category Category { get; set; }
-        
+
         [NotMapped]
         public Language Language { get; set; }
 

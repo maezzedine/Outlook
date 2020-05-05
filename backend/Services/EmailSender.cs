@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using System.Net.Mail;
-using System.Net;
 using Microsoft.Extensions.Configuration;
+using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace backend.Services
 {

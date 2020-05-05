@@ -1,17 +1,14 @@
-﻿using System;
+﻿using backend.Data;
+using backend.Models;
+using backend.Models.Interfaces;
+using backend.Models.Relations;
+using backend.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models;
-using Microsoft.AspNetCore.Authorization;
-using backend.Models.Interfaces;
-using backend.Models.Relations;
-using Microsoft.Extensions.Configuration;
-using backend.Services;
 
 namespace backend.Controllers
 {
@@ -21,7 +18,7 @@ namespace backend.Controllers
         private readonly OutlookContext context;
         private readonly Logger.Logger logger;
         public static List<string> Categories;
-        
+
         public MembersController(OutlookContext context)
         {
             this.context = context;
@@ -205,7 +202,7 @@ namespace backend.Controllers
                         if (MemberService.IsJuniorEditor(member))
                         {
                             var newCategory = await context.Category.FirstOrDefaultAsync(c => c.CategoryName == member.CategoryField);
-                            
+
                             // Create CategoryEditor relation if needed
                             if (newCategory != null)
                             {

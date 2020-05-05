@@ -1,17 +1,16 @@
-﻿using System;
+﻿using backend.Areas.Identity;
+using backend.Data;
+using backend.Hubs;
+using backend.Models;
+using backend.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models;
-using Microsoft.AspNetCore.Authorization;
-using backend.Areas.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SignalR;
-using backend.Hubs;
-using backend.Services;
 
 namespace backend.APIs
 {
@@ -87,12 +86,12 @@ namespace backend.APIs
             }
 
             logger.Log($"{user.UserName} attempts to delete his comment `{comment.Text}` on the article of title `{article.Title}`");
-            
+
             context.Comment.Remove(comment);
             await context.SaveChangesAsync();
 
             logger.Log("Delete Completed");
-            
+
             var comments = await context.Comment.Where(c => c.ArticleID == article.Id).ToListAsync();
             await hubContext.Clients.All.ArticleCommentChange(article.Id, comments);
 

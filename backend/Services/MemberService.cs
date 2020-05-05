@@ -14,7 +14,6 @@ namespace backend.Services
         public static Position[] NonBoardMembers = { Position.Staff_Writer, Position.Former_Member, Position.كاتب_صحفي, Position.عضو_سابق };
 
         public static bool IsJuniorEditor(Member member) => (member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم);
-        public static bool IsWriter(Member member) => (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي);
 
         public static void GetMemberLanguageAndArticlesCount(Member member, OutlookContext context)
         {

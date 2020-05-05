@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using backend.Areas.Identity;
 using backend.Data;
 using backend.Models;
 using backend.Models.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using backend.Areas.Identity;
 using backend.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.APIs
 {
@@ -20,7 +20,7 @@ namespace backend.APIs
         private readonly OutlookContext context;
         private readonly UserManager<OutlookUser> userManager;
 
-        
+
         public MembersController(OutlookContext context, UserManager<OutlookUser> userManager)
         {
             this.context = context;
@@ -82,8 +82,8 @@ namespace backend.APIs
             var arabicPositons = from position in MemberService.ArabicPositions orderby position select position;
 
             var boardMembers = from member in context.Member
-                                where !(MemberService.NonBoardMembers.Contains(member.Position))
-                                select member;
+                               where !(MemberService.NonBoardMembers.Contains(member.Position))
+                               select member;
 
             await boardMembers.ForEachAsync(m => MemberService.GetJuniorEditorCategory(m, context));
 
@@ -123,6 +123,6 @@ namespace backend.APIs
 
             return Ok(shortListedTopWriters);
         }
-        
+
     }
 }

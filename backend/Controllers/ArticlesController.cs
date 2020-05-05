@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using backend.Data;
+﻿using backend.Data;
 using backend.Models;
-using backend.Models.Interfaces;
-using System.Text.RegularExpressions;
+using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using backend.Services;
-using backend.Validation_Attributes;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -105,7 +102,7 @@ namespace backend.Controllers
         {
             return View();
         }
-         
+
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -121,7 +118,7 @@ namespace backend.Controllers
                     return ValidationProblem(detail: "Issue Id cannot be null");
                 }
                 // Assign value to the IssueID that refers to the Issue of the article
-                article.IssueID = (int) id;
+                article.IssueID = (int)id;
 
                 // Save the date where the article was uploaded
                 article.DateTime = DateTime.Now;
@@ -135,13 +132,13 @@ namespace backend.Controllers
                 {
                     await ArticleService.AddArticlePicture(article, article.Picture, context, env.WebRootPath);
                 }
-                
+
                 context.Add(article);
                 await context.SaveChangesAsync();
 
                 logger.Log($"{HttpContext.User.Identity.Name} created article of title `{article.Title}` and ID `{article.Id}`");
-                
-                return RedirectToAction(nameof(Index), new { id = id});
+
+                return RedirectToAction(nameof(Index), new { id = id });
             }
 
             return View(article);
@@ -182,7 +179,7 @@ namespace backend.Controllers
             if (ModelState.IsValid)
             {
                 var oldVersionArticle = context.Article.First(a => a.Id == id);
-                
+
                 try
                 {
                     string startLogMessage = GetEditLogMessage(oldVersionArticle);
@@ -277,10 +274,10 @@ namespace backend.Controllers
 
             context.Article.Remove(article);
             await context.SaveChangesAsync();
-            
+
             logger.Log($"Delete Completed.");
-            
-            return RedirectToAction(nameof(Index), new { id = article.IssueID});
+
+            return RedirectToAction(nameof(Index), new { id = article.IssueID });
         }
 
         private bool ArticleExists(int id)

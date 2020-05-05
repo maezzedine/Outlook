@@ -1,7 +1,4 @@
-﻿using backend.Models;
-using System.Collections.Generic;
-
-namespace backend.Areas.Identity
+﻿namespace backend.Areas.Identity
 {
     public interface IUser
     {
@@ -10,5 +7,5 @@ namespace backend.Areas.Identity
         public int NumberOfComments { get; set; }
         public int NumberOfReactions { get; set; }
     }
-    
+
 }

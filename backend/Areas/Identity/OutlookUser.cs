@@ -1,7 +1,4 @@
-﻿using backend.Models;
-using backend.Models.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace backend.Areas.Identity
 {

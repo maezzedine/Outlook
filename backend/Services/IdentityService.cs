@@ -7,7 +7,8 @@ namespace backend.Services
 {
     public class IdentityService
     {
-        public static async Task<OutlookUser> GetUserWithToken(UserManager<OutlookUser> userManager, HttpContext context) {
+        public static async Task<OutlookUser> GetUserWithToken(UserManager<OutlookUser> userManager, HttpContext context)
+        {
             var username = context.User.FindFirst("name")?.Value;
             var user = await userManager.FindByNameAsync(username);
             return user;

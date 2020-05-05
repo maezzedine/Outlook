@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using backend.Areas.Identity;
+﻿using backend.Areas.Identity;
 using backend.Entities;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +7,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace backend.APIs
 {
@@ -30,7 +29,7 @@ namespace backend.APIs
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody]RegisterModel registerModel) 
+        public async Task<IActionResult> Register([FromBody]RegisterModel registerModel)
         {
             if (ModelState.IsValid)
             {

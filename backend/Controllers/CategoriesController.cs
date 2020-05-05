@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using backend.Data;
+using backend.Models;
+using backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models;
-using Microsoft.AspNetCore.Authorization;
-using backend.Services;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -113,7 +112,7 @@ namespace backend.Controllers
                     oldCategory.Language = category.Language;
                     oldCategory.Tag = category.Tag;
                     await context.SaveChangesAsync();
-                    
+
                     logger.Log($"{HttpContext.User.Identity.Name} editted Category `{category.CategoryName}`");
                 }
                 catch (DbUpdateConcurrencyException)
@@ -160,14 +159,14 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var category = await context.Category.FindAsync(id);
-            
+
             logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Category `{category.CategoryName}`");
-            
+
             context.Category.Remove(category);
             await context.SaveChangesAsync();
-            
+
             logger.Log($"Delete Completed.");
-            
+
             return RedirectToAction(nameof(Index));
         }
 

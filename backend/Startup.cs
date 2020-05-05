@@ -1,18 +1,18 @@
-﻿using System;
+﻿using backend.Areas.Identity;
+using backend.Data;
+using backend.Hubs;
+using backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using Microsoft.AspNetCore.Identity;
-using backend.Areas.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Security.Cryptography.X509Certificates;
-using backend.Hubs;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using backend.Services;
 
 namespace backend
 {
@@ -36,14 +36,15 @@ namespace backend
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowAnyOrigin());
-            }); 
-            
+            });
+
             services.AddControllersWithViews();
 
             services.AddSignalR();
 
             services.AddDbContext<OutlookContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OutlookContext")));
+            // TODO: For production dataase connection: use SqlConnectionStringBuilder to add the database password from the secrets file
 
             services.AddDefaultIdentity<OutlookUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddRoles<IdentityRole>()
