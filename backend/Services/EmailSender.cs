@@ -18,9 +18,9 @@ namespace backend.Services
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            var server = Configuration.GetValue<string>("SMTPServer");
-            var sender = Configuration.GetValue<string>("EmailVerificationSender");
-            var password = Configuration.GetValue<string>("EmailVerificationPassword");
+            var server = Configuration["SMTP:Server"];
+            var sender = Configuration["EmailVerification:Sender"];
+            var password = Configuration["EmailVerification:Password"];
 
             var client = new SmtpClient
             {

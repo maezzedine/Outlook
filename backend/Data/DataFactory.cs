@@ -57,7 +57,7 @@ namespace backend.Data
 
             if (oldAdmin.FirstOrDefault() == null)
             {
-                var adminPassword = Configuration.GetValue<string>("AdminPassword");
+                var adminPassword = Configuration["Users:Admin"];
                 var addAdmin = await userManager.CreateAsync(admin, adminPassword);
                 if (addAdmin.Succeeded)
                 {

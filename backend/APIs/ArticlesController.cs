@@ -248,7 +248,7 @@ namespace backend.APIs
                     }
                 }
 
-                var baseUrl = Configuration.GetValue<string>("BaseUrl");
+                var baseUrl = Configuration["ApplicationUrls:Server"];
                 var ArticleDocumentFullPath = $"{baseUrl}/docs/Articles/{uniqueDocumentName}" ;
                 logger.Log(ArticleDocumentFullPath);
             }

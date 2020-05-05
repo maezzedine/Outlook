@@ -21,6 +21,7 @@ namespace backend
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            // TODO: add app secrets to environment variables when production
         }
 
         public IConfiguration Configuration { get; }
@@ -70,7 +71,7 @@ namespace backend
             var config = new Config(Configuration);
             // Add IdentityServer4
             var builder = services.AddIdentityServer()
-                .AddSigningCredential(new X509Certificate2(".\\outlook.pfx", Configuration.GetValue<string>("CertifcatePassword")))
+                .AddSigningCredential(new X509Certificate2(".\\outlook.pfx", Configuration["IdentityServer4:CertificatePassword"]))
                 .AddInMemoryIdentityResources(config.GetIdentityResources())
                 .AddInMemoryApiResources(config.GetApis())
                 .AddInMemoryClients(config.GetClients())
@@ -81,7 +82,7 @@ namespace backend
             services.AddAuthentication()
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = Configuration.GetValue<string>("BaseUrl");
+                    options.Authority = Configuration["ApplicationUrls:Server"];
                     options.IncludeErrorDetails = true;
                     options.RequireHttpsMetadata = false;
                     options.Audience = "outlookApi";
@@ -105,7 +106,6 @@ namespace backend
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -115,7 +115,7 @@ namespace backend
             app.UseRouting();
             app.UseCors(builder =>
                     builder
-                        .WithOrigins(Configuration.GetValue<string>("ClientUrl").Split(';'))
+                        .WithOrigins(Configuration["ApplicationUrls:Clients"].Split(';'))
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()

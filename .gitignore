@@ -339,11 +339,6 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-# Configure files
-appsettings.json
-appsettings.Production.json
-appsettings.Development.json
-
 # IdentityServer Certificate
 *.cer
 *.key

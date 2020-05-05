@@ -42,7 +42,7 @@ namespace backend
                 new Client
                 {
                     ClientId = "Outlook",
-                    AllowedCorsOrigins = Configuration.GetValue<string>("ClientUrl").Split(';'),
+                    AllowedCorsOrigins = Configuration["ApplicationUrls:Clients"].Split(';'),
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     RequireClientSecret = false,
                     AllowAccessTokensViaBrowser = true,
