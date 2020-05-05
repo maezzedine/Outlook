@@ -69,9 +69,15 @@ body {
         .footer {
             @include row();
             font-size: small;
+            stroke: var(--text-0);
+            fill: var(--text-0);
 
             span {
                 margin: 0 5px;
+            }
+
+            svg {
+                margin: 3px;
             }
 
             .ratedUp {

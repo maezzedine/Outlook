@@ -1,12 +1,12 @@
 {
-  "News": "far fa-newspaper",
-  "Lifestyle": "fas fa-street-view",
-  "Opinion": "fas fa-comments",
-  "Art": "fas fa-coffee",
-  "Culture": "fas fa-coffee",
-  "Personality": "fas fa-id-card-alt",
-  "Gender": "fas fa-venus-mars",
-  "Society": "fas fa-users",
-  "Cover": "fas fa-exclamation",
-  "Other": "fas fa-genderless"
+  "News": "newspaper",
+  "Lifestyle": "lifestyle",
+  "Opinion": "chat",
+  "Art": "coffee",
+  "Culture": "coffee",
+  "Personality": "personality",
+  "Gender": "gender",
+  "Society": "society",
+  "Cover": "exclamation",
+  "Other": "genderless"
 }

@@ -1,9 +1,17 @@
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import { ApiObject } from '@/models/apiObject';
 import { api } from '@/services/api';
-import { getCurrentTheme, setTheme, Theme } from 'css-theming';
+import svgHome from '@/components/svgs/svg-home.vue';
+import svgQuill from '@/components/svgs/svg-quill.vue';
+import svgMeeting from '@/components/svgs/svg-meeting.vue';
+import svgContribute from '@/components/svgs/svg-contribute.vue';
+import svgInfo from '@/components/svgs/svg-info.vue';
+import svgMoon from '@/components/svgs/svg-moon.vue';
+import svgSun from '@/components/svgs/svg-sun.vue';
+import svgCategory from '@/components/svgs/svg-category.vue';
 
 @Component({
+    components: { svgHome, svgQuill, svgMeeting, svgContribute, svgInfo, svgMoon, svgSun, svgCategory },
     data() {
         return {
             Categories: undefined

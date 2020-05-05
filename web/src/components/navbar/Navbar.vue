@@ -3,26 +3,22 @@
 
         <!-- <logo> -->
         <div @click="$emit('expansion-toggled')">
-            <svg-outlook></svg-outlook>
+            <svg-outlook />
         </div>
         <!-- </logo> -->
             
         <!-- <options> -->
         <div class="options">
-
             <template v-if="!$store.getters.IsAuthenticated">
                 <!-- <Login> -->
                 <router-link :to="{ name: 'login' }" class="btn-group">
-                    <button class="option">
-                        <i class="fas fa-user"></i>
-                    </button>
+                    <button class="option"><svg-signin /></button>
                 </router-link>
                 <!-- </Login> -->
+
                 <!-- <Register> -->
                 <router-link :to="{ name: 'register' }" class="btn-group">
-                    <button class="option">
-                        <i class="fas fa-user-plus"></i>
-                    </button>
+                    <button class="option"><svg-signup /></button>
                 </router-link>
                 <!-- </Register> -->
             </template>
@@ -30,32 +26,24 @@
             <template v-else>
                 <!-- <Logout> -->
                 <router-link :to="{ 'name': 'profile' }">{{$store.getters.User.username}}</router-link>
-                <button class="option" @click="logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
+                <button class="option" @click="logout"><svg-signout /></button>
                 <!-- </Logout> -->
             </template>
 
             <!-- <Home> -->
             <router-link :to="{ name: 'home' }" class="btn-group d-sm-none">
-                <button class="option">
-                    <i class="fas fa-home"></i>
-                </button>
+                <button class="option"><svg-home /></button>
             </router-link>
             <!-- </Home> -->
 
             <!-- <Archives> -->
             <router-link :to="{ name: 'archives' }" class="btn-group">
-                <button class="option">
-                    <i class="fas fa-archive"></i>
-                </button>
+                <button class="option"><svg-archives /></button>
             </router-link>
             <!-- </Archives> -->
 
             <!-- <Change Language> -->
-            <button class="option">
-                <i class="fas fa-language" @click="$emit('language-toggled')"></i>
-            </button>
+            <button class="option" @click="$emit('language-toggled')"><svg-language /></button>
             <!-- </Change Language> -->
 
         </div>

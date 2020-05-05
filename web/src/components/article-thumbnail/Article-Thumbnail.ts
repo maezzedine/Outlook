@@ -1,8 +1,12 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { ApiObject } from '../../models/apiObject';
-import { api } from '@/services/api';
+import svgArrowUp from '@/components/svgs/svg-arrow-up.vue';
+import svgArrowDown from '@/components/svgs/svg-arrow-down.vue';
+import svgStarEmpty from '@/components/svgs/svg-star-empty.vue';
+import svgStarFill from '@/components/svgs/svg-star-fill.vue';
 
 @Component({
+    components: { svgArrowUp, svgArrowDown, svgStarEmpty, svgStarFill },
     props: {
         article: {
             type: Object,

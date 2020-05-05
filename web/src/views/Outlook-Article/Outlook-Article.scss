@@ -77,9 +77,20 @@
             margin: 1% 0 5% 0;
             font-size: small;
             color: var(--text-2);
+            fill: var(--text-2);
+            stroke: var(--text-2);
 
             span {
                 margin: 0 5px;
+            }
+
+            svg {
+                margin: 3px;
+            }
+
+            svg:hover {
+                color: var(--text-0);
+                fill: var(--text-0);
             }
 
             .rate {
@@ -163,14 +174,14 @@
                             }
 
                             .delete {
-                                border: none;
-                                background: var(--danger-100);
-                                border-radius: 3px;
+                                fill: var(--danger-100);
+                                stroke: var(--danger-100);
                                 font-size: xx-small;
                             }
 
                             .delete:hover {
-                                background: var(--danger-300);
+                                fill: var(--danger-300);
+                                stroke: var(--danger-300);
                             }
                         }
 

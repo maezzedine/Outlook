@@ -52,12 +52,32 @@
     <Content Include="src\components\navbar\Navbar.vue" />
     <Content Include="src\components\sidebar\Sidebar.scss" />
     <Content Include="src\components\sidebar\Sidebar.vue" />
+    <Content Include="src\components\svgs\svg-arrow-down.vue" />
+    <Content Include="src\components\svgs\svg-arrow-up.vue" />
+    <Content Include="src\components\svgs\svg-category.vue" />
+    <Content Include="src\components\svgs\svg-close.vue" />
+    <Content Include="src\components\svgs\svg-contribute.vue" />
+    <Content Include="src\components\svgs\svg-stats.vue" />
+    <Content Include="src\components\svgs\svg-heart.vue" />
+    <Content Include="src\components\svgs\svg-info.vue" />
+    <Content Include="src\components\svgs\svg-meeting.vue" />
+    <Content Include="src\components\svgs\svg-home.vue" />
+    <Content Include="src\components\svgs\svg-moon.vue" />
+    <Content Include="src\components\svgs\svg-signup.vue" />
+    <Content Include="src\components\svgs\svg-archive.vue" />
     <Content Include="src\components\svgs\svg-github.vue" />
+    <Content Include="src\components\svgs\svg-language.vue" />
     <Content Include="src\components\svgs\svg-outlook.vue" />
     <Content Include="public\en.json">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\components\svgs\svg-signin.vue" />
+    <Content Include="src\components\svgs\svg-signout.vue" />
     <Content Include="src\components\svgs\svg-spinner.vue" />
+    <Content Include="src\components\svgs\svg-quill.vue" />
+    <Content Include="src\components\svgs\svg-star-empty.vue" />
+    <Content Include="src\components\svgs\svg-star-fill.vue" />
+    <Content Include="src\components\svgs\svg-sun.vue" />
     <Content Include="src\components\top-stats\TopStats.scss" />
     <Content Include="src\components\top-stats\TopStats.vue" />
     <Content Include="src\styles\_mixins.scss" />

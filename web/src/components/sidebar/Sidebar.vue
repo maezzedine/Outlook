@@ -2,56 +2,55 @@
     <div id="sidebar" :class="[$store.getters.Language['sidebar-box-shadow'], $store.getters.Language['sidebar-hide']]" >
 
         <div class="main">
-            <table>
-                <router-link :to="{ name: 'home' }">
-                    <th><i class="fas fa-home"></i></th>
-                    <td>{{$store.getters.Language.mainmenu}}</td>
-                </router-link>
+            <router-link :to="{ name: 'home' }">
+                <svg-home class="header"/>
+                <div class="detail">{{$store.getters.Language.mainmenu}}</div>
+            </router-link>
 
-                <!--<Categories>-->
-                <tr><span>{{$store.getters.Language.categories}}</span></tr>
-                <router-link v-for="cat in Categories" v-if="showCategory(cat)"
-                             :to="{ name: 'category', params: { id: cat.id } }">
-                    <th><i class="fontawesome" :class="getCategoryIcon(cat)"></i></th>
-                    <td>{{cat.categoryName}}<p class="badge badge-secondary m-2" v-if="cat.articlesCount != 0">{{cat.articlesCount}}</p></td>
-                </router-link>
-                <!--</Categories>-->
+            <!--<Categories>-->
+            <label class="table-row"><span>{{$store.getters.Language.categories}}</span></label>
+            <router-link v-for="cat in Categories" v-if="showCategory(cat)"
+                            :to="{ name: 'category', params: { id: cat.id } }">
+                <svg-category :icon="getCategoryIcon(cat)" class="header"/>
+                <div class="detail">{{cat.categoryName}}<p class="badge badge-secondary m-2" v-if="cat.articlesCount != 0">{{cat.articlesCount}}</p></div>
+            </router-link>
+            <!--</Categories>-->
 
-                <!--<About>-->
-                <tr><span>{{$store.getters.Language['about-outlook']}}</span></tr>
-                <router-link :to="{ name: 'writers' }">
-                    <th><i class="fas fa-feather-alt"></i></th>
-                    <td>{{$store.getters.Language.writers}}</td>
-                </router-link>
-                <router-link :to="{ name: 'meet-outlook' }">
-                    <th><i class="fas fa-handshake"></i></th>
-                    <td>{{$store.getters.Language.aboutUs}}</td>
-                </router-link>
-                <router-link :to="{ name: 'upload-article' }">
-                    <th><i class="fas fa-hand-holding"></i></th>
-                    <td>{{$store.getters.Language['contribute-to-outlook']}}</td>
-                </router-link>
-                <router-link :to="{ name: 'about' }">
-                    <th><i class="fas fa-info"></i></th>
-                    <td>{{$store.getters.Language['about']}}</td>
-                </router-link>
-                <!--</About>-->
-
-                <tr><span>{{$store.getters.Language.theme}}</span></tr>
-                <tr @click="$emit('theme-toggled')" class="theme">
-                    <th class="icon-btn">
-                        <i v-if="theme == 'default-dark'" class="fas fa-sun"></i>
-                        <i v-if="theme == 'default'" class="fas fa-moon"></i>
-                    </th>
-                    <td>
-                        <template v-if="theme == 'default-dark'">{{$store.getters.Language['light-mode']}}</template>
-                        <template v-if="theme == 'default'">{{$store.getters.Language['dark-mode']}}</template>
-                    </td>
-                </tr>
-            </table>
+            <!--<About>-->
+            <label class="table-row"><span>{{$store.getters.Language['about-outlook']}}</span></label>
+            <router-link :to="{ name: 'writers' }">
+                <svg-quill class="header" />
+                <div class="detail">{{$store.getters.Language.writers}}</div>
+            </router-link>
+                
+            <router-link :to="{ name: 'meet-outlook' }">
+                <svg-meeting class="header" />
+                <div class="detail">{{$store.getters.Language.aboutUs}}</div>
+            </router-link>
+                
+            <router-link :to="{ name: 'upload-article' }">
+                <svg-contribute class="header" />
+                <div class="detail">{{$store.getters.Language['contribute-to-outlook']}}</div>
+            </router-link>
+            
+            <router-link :to="{ name: 'about' }">
+                <svg-info class="header" />
+                <div class="detail">{{$store.getters.Language['about']}}</div>
+            </router-link>
+            <!--</About>-->
 
             <!-- <toggle theme> -->
-            
+            <label class="table-row"><span>{{$store.getters.Language.theme}}</span></label>
+            <div class="table-row theme" @click="$emit('theme-toggled')">
+                <div class="header icon-btn">
+                    <svg-sun v-if="theme == 'default-dark'" />
+                    <svg-moon v-if="theme == 'default'" />
+                </div>
+                <div class="detail">
+                    <template v-if="theme == 'default-dark'">{{$store.getters.Language['light-mode']}}</template>
+                    <template v-if="theme == 'default'">{{$store.getters.Language['dark-mode']}}</template>
+                </div>
+            </div>
             <!-- </toggle theme> -->
         </div>
 

@@ -1,12 +1,12 @@
 <template>
     <div class="top-voted-articles" v-if="model != null">
-        <span><i :class="model.titleIcon"></i> {{model.title}} <i :class="model.titleIcon"></i></span>
+        <span><svg-stats :icon="model.titleIcon"/> {{model.title}} <svg-stats :icon="model.titleIcon"/></span>
 
         <ol>
             <li v-for="item in model.items" v-if="item.language == $store.getters.Language.num">
                 <router-link :to="{ name: model.component, params: { id: item.id } }">
                     {{item[model.itemTitle]}}
-                    <span>{{item[model.field]}} <i :class="model.itemIcon"></i></span>
+                    <span>{{item[model.field]}} <svg-stats :icon="model.itemIcon" /></span>
                 </router-link>
             </li>
         </ol>

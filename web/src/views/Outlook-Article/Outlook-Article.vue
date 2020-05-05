@@ -25,15 +25,9 @@
 
             <div v-if="!loading" class="footer">
 
-                <span class="rate" :class="[{ ratedUp : Article.ratedByUser == 1 }]" @click="rateUp">
-                    <i class="fas fa-angle-up"></i>
-                </span>
-
+                <svg-arrow-up class="rate" @click="rateUp" />
                 {{Article.rate}}
-
-                <span class="rate" :class="[{ ratedDown : Article.ratedByUser == 2 }]" @click="rateDown">
-                    <i class="fas fa-angle-down"></i>
-                </span>
+                <svg-arrow-down  class="rate" @click="rateDown"/>
 
                 <span>
                     {{$store.getters.Language.votes}}: {{Article.numberOfVotes}}
@@ -44,14 +38,14 @@
                 </span>
 
                 <span class="row m-0 p-0 star" @click="favoriteArticle">
-                    <span class="unfavorited"><i class="far fa-star"></i></span>
-                    <span class="favorited"><i class="fas fa-star"></i></span>
+                    <svg-star-empty class="mt-0 unfavorited" />
+                    <svg-star-fill class="mt-0 favorited" />
                     {{Article.numberOfFavorites}}
                 </span>
 
 
                 <div class="signature mx-3">
-                    {{$store.getters.Language['made-with']}}  <i class="fas fa-heart"></i>  {{$store.getters.Language['by-outlook']}}
+                    {{$store.getters.Language['made-with']}}  <svg-heart />  {{$store.getters.Language['by-outlook']}}
                 </div>
 
                 <div class="time"> {{getDateTime(Article.dateTime)}}</div>
@@ -72,8 +66,7 @@
                                 <div class="owner">
                                     {{comment.user.firstName}} {{comment.user.lastName}}
                                 </div>
-                                <button class="delete" @click="deleteComment(comment.id)"
-                                        v-if="comment.user.userName == $store.getters.User.username">X</button>
+                                <svg-close class="delete" @click="deleteComment(comment.id)" v-if="comment.user.userName == $store.getters.User.username"/>
                             </div>
                             {{comment.text}}
                             <div class="time">{{getDateTime(comment.dateTime)}}</div>

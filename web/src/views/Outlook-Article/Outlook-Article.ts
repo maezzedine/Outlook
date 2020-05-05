@@ -1,8 +1,16 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { ApiObject } from '../../models/apiObject';
-import { api, Api } from '@/services/api';
+import { api } from '@/services/api';
+import svgArrowUp from '@/components/svgs/svg-arrow-up.vue';
+import svgArrowDown from '@/components/svgs/svg-arrow-down.vue';
+import svgStarEmpty from '@/components/svgs/svg-star-empty.vue';
+import svgStarFill from '@/components/svgs/svg-star-fill.vue';
+import svgHeart from '@/components/svgs/svg-heart.vue';
+import svgClose from '@/components/svgs/svg-close.vue';
 
-@Component
+@Component({
+    components: { svgArrowUp, svgArrowDown, svgStarEmpty, svgStarFill, svgHeart, svgClose }
+})
 export default class OutlookArticle extends Vue {
     private APP_URL = process.env.VUE_APP_OUTLOOK;
     private loading = true;

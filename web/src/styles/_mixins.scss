@@ -69,3 +69,10 @@
     border-radius: 5px;
     background: var(--bg-2);
 }
+
+@mixin outlook-svg() {
+    width: 1em;
+    height: 1em;
+    stroke: inherit;
+    fill: inherit;
+}
