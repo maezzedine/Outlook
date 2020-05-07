@@ -14,10 +14,10 @@ body {
         transition: var(--screen-transform);
         animation-delay: 1s;
         min-height: 100vh;
+        overflow-y: auto;
 
 
         .main {
-            overflow-y: auto;
             display: table;
             color: var(--text-2);
             fill: var(--text-2);

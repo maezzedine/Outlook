@@ -11,6 +11,7 @@
         stroke: var(--fg-2);
         fill: var(--fg-2);
         cursor: pointer;
+        transition-duration: .7s;
     }
 
         .svg-outlook:hover {
@@ -20,11 +21,9 @@
 
     .svg-outlook-rotate-right {
         transform: rotate(360deg);
-        transition-duration: .7s;
     }
 
     .svg-outlook-rotate-left {
         transform: rotate(-360deg);
-        transition-duration: .7s;
     }
 </style>

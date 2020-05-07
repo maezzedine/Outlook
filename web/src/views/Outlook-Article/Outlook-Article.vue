@@ -25,9 +25,9 @@
 
             <div v-if="!loading" class="footer">
 
-                <svg-arrow-up class="rate" @click="rateUp" />
+                <div @click="rateUp"><svg-arrow-up class="rate" /></div>
                 {{Article.rate}}
-                <svg-arrow-down  class="rate" @click="rateDown"/>
+                <div @click="rateDown"><svg-arrow-down class="rate" /></div>
 
                 <span>
                     {{$store.getters.Language.votes}}: {{Article.numberOfVotes}}
@@ -66,7 +66,7 @@
                                 <div class="owner">
                                     {{comment.user.firstName}} {{comment.user.lastName}}
                                 </div>
-                                <svg-close class="delete" @click="deleteComment(comment.id)" v-if="comment.user.userName == $store.getters.User.username"/>
+                                <div class="delete" @click="deleteComment(comment.id)" v-if="comment.user.userName == $store.getters.User.username"><svg-close /></div>
                             </div>
                             {{comment.text}}
                             <div class="time">{{getDateTime(comment.dateTime)}}</div>
