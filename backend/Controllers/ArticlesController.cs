@@ -20,7 +20,7 @@ namespace backend.Controllers
         private readonly IWebHostEnvironment env;
         private readonly Logger.Logger logger;
         public static int VolumeNumber;
-        public static int IssueNumber;
+        public static Issue Issue;
 
         public static List<string> Writers;
         public static List<string> Categories;
@@ -60,7 +60,7 @@ namespace backend.Controllers
 
             if (issue != null && volume != null)
             {
-                IssueNumber = issue.IssueNumber;
+                Issue = issue;
                 VolumeNumber = volume.VolumeNumber;
             }
 
@@ -186,10 +186,10 @@ namespace backend.Controllers
 
                     logger.Log($"This article is edited from `{startLogMessage}`");
 
-                    await ArticleService.EditArticleWriter(article, context);
+                    await ArticleService.EditArticleWriter(oldVersionArticle, context);
 
-                    // Update the value to the MemberID that reefers to the writer of the article
-                    article.Category = context.Category.First(c => c.CategoryName == article.Category.CategoryName);
+                    // Update the value to the MemberID that refers to the writer of the article
+                    oldVersionArticle.Category = context.Category.First(c => c.CategoryName == article.Category.CategoryName);
 
                     ArticleService.UpdateArticleInfo(article, article.Language, article.Title, article.Subtitle, article.Text);
 
@@ -197,7 +197,7 @@ namespace backend.Controllers
                     {
                         if (article.Picture != null)
                         {
-                            await ArticleService.AddArticlePicture(article, article.Picture, context, env.WebRootPath);
+                            await ArticleService.AddArticlePicture(oldVersionArticle, article.Picture, context, env.WebRootPath);
                         }
                     }
                     else

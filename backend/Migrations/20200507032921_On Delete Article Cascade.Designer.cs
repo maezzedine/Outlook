@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(OutlookContext))]
-    partial class OutlookContextModelSnapshot : ModelSnapshot
+    [Migration("20200507032921_On Delete Article Cascade")]
+    partial class OnDeleteArticleCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -542,7 +544,7 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.Issue", "Issue")
                         .WithMany("Articles")
                         .HasForeignKey("IssueID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("backend.Models.Member", "Member")
@@ -568,7 +570,7 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Issue", b =>
                 {
                     b.HasOne("backend.Models.Volume", "Volume")
-                        .WithMany("Issues")
+                        .WithMany()
                         .HasForeignKey("VolumeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

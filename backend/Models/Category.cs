@@ -27,5 +27,7 @@ namespace backend.Models
 
         [NotMapped]
         public int ArticlesCount { get; set; }
+
+        public List<Article> Articles { get; set; }
     }
 }

@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20200312213028_test.Designer.cs" />
     <Compile Remove="Migrations\20200313173653_AddUniqueness.cs" />
     <Compile Remove="Migrations\20200313173653_AddUniqueness.Designer.cs" />
+    <Compile Remove="Migrations\20200507032617_On Delete Article Cascade.cs" />
+    <Compile Remove="Migrations\20200507032617_On Delete Article Cascade.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="3.1.2" />

@@ -21,6 +21,7 @@ namespace backend.Services
 
             // Add the writer
             var writer = await context.Member.FindAsync(article.MemberID);
+            writer.Articles = null;
 
             // Add the langauge
             article.Lang = (article.Language == Models.Interfaces.Language.English) ? "en" : "ar";
@@ -34,10 +35,16 @@ namespace backend.Services
             foreach (var comment in comments)
             {
                 var owner = await context.Users.FindAsync(comment.UserID);
+                comment.Article = null;
                 comment.User = owner;
             }
 
             article.Comments = await comments.ToListAsync();
+
+            article.Issue = null;
+            article.Rates = null;
+            article.Favorites = null;
+            article.Category.Articles = null;
         }
 
         public static void GetArticleWriterAndCategory(Article article, OutlookContext context)
@@ -49,7 +56,7 @@ namespace backend.Services
         public static async Task EditArticleWriter(Article article, OutlookContext context)
         {
             Member writer;
-            if (article.Member.Name != "+ New Writer")
+            if (article.Member.Name != "+ NEW WRITER")
             {
                 writer = context.Member.First(m => m.Name == article.Member.Name);
             }
@@ -59,7 +66,7 @@ namespace backend.Services
                 writer = new Member { Name = article.NewWriter };
 
                 // Decide whether the writer writes for the English section or the Arabic section
-                if (Regex.IsMatch(article.NewWriter, "^[a-zA-Z0-9. ]*$"))
+                if (Regex.IsMatch(article.NewWriter, "^[a-zA-Z0-9. ]*'-'*$"))
                 {
                     writer.Position = Position.Staff_Writer;
                 }

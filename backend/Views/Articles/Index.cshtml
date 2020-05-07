@@ -7,7 +7,8 @@
 
     var IssueID = Url.ActionContext.RouteData.Values["id"];
     var volume = ArticlesController.VolumeNumber;
-    var issue = ArticlesController.IssueNumber;
+    var issue = ArticlesController.Issue.IssueNumber;
+    var volumeId = ArticlesController.Issue.VolumeID;
 }
 
     <h1>Articles | Volume @volume - Issue @issue </h1>
@@ -79,4 +80,8 @@
             }
         </tbody>
     </table>
+</div>
+
+<div>
+    <a asp-controller="Issues" asp-action="Index" asp-route-id="@volumeId">Back to List</a>
 </div>

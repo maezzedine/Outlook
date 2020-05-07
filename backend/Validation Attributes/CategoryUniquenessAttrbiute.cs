@@ -8,6 +8,11 @@ namespace backend.Validation_Attributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null)
+            {
+                return new ValidationResult("Category name is required.");
+            }
+
             var context = (OutlookContext)validationContext.GetService(typeof(OutlookContext));
             var existingCategoryWithSameName = context.Category.SingleOrDefault(c => c.CategoryName == value.ToString());
 

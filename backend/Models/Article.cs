@@ -1,4 +1,5 @@
 ﻿using backend.Models.Interfaces;
+using backend.Models.Relations;
 using backend.Validation_Attributes;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -64,6 +65,10 @@ namespace backend.Models
         public int NumberOfFavorites { get; set; }
 
         public List<Comment> Comments { get; set; }
+
+        public List<UserFavoritedArticleRelation> Favorites { get; set; }
+
+        public List<UserRateArticle> Rates { get; set; }
 
         public void RateDown()
         {

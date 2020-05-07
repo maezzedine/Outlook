@@ -33,9 +33,12 @@ namespace backend.Services
         {
             if (IsJuniorEditor(member))
             {
-                var categoryId = context.CategoryEditor.FirstOrDefault(c => c.MemberID == member.ID).CategoryID;
-                var category = context.Category.Find(categoryId);
-                member.Category = category;
+                var categoryEditor = context.CategoryEditor.FirstOrDefault(c => c.MemberID == member.ID);
+                if (categoryEditor != null)
+                {
+                    var category = context.Category.Find(categoryEditor.CategoryID);
+                    member.Category = category;
+                }
             }
         }
 

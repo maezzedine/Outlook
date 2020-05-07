@@ -1,14 +1,25 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using backend.Models.Relations;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace backend.Areas.Identity
 {
     public class OutlookUser : IdentityUser, IUser
     {
         public string FirstName { get; set; }
+        
         public string LastName { get; set; }
+        
         public int NumberOfComments { get; set; }
+        
         public int NumberOfReactions { get; set; }
+        
         public int NumberOfFavoritedArticles { get; set; }
+
+        public List<UserFavoritedArticleRelation> Favorites{ get; set; }
+
+        public List<UserRateArticle> Rates{ get; set; }
+
         public double TotalContribution
         {
             get

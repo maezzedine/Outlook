@@ -107,6 +107,7 @@ namespace backend.APIs
         [HttpPut("RateUpArticle/{articleID}")]
         public async Task<ActionResult> RateUpArticle(int articleID)
         {
+            // TODO: Fix bug when the article gets its first vote
             var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
             var userRateArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.Article.Id == articleID) && (u.User.Id == user.Id));
             var article = await context.Article.FindAsync(articleID);

@@ -103,7 +103,8 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
-
+            
+            ModelState.Remove("CategoryName");
             if (ModelState.IsValid)
             {
                 try

@@ -1,5 +1,6 @@
 ﻿using backend.Models.Interfaces;
 using backend.Validation_Attributes;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace backend.Models
@@ -17,5 +18,7 @@ namespace backend.Models
 
         [DisplayName("Spring Year")]
         public int SpringYear { get; set; }
+
+        public List<Issue> Issues { get; set; }
     }
 }

@@ -24,6 +24,8 @@ namespace backend.Models
 
         public int ArticleID { get; set; }
 
+        public Article Article { get; set; }
+
         public void RateDown()
         {
             Rate--;

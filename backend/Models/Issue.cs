@@ -1,4 +1,5 @@
 ﻿using backend.Models.Interfaces;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace backend.Models
@@ -20,5 +21,7 @@ namespace backend.Models
 
         [DisplayName("English Theme")]
         public string EnglishTheme { get; set; }
+
+        public List<Article> Articles { get; set; }
     }
 }

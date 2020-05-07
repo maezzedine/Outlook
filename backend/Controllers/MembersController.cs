@@ -42,9 +42,15 @@ namespace backend.Controllers
             {
                 if (MemberService.IsJuniorEditor(member))
                 {
-                    var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
-                    var category = await context.Category.FirstAsync(c => c.Id == categoryEditor.CategoryID);
-                    member.CategoryField = category.CategoryName;
+                    var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
+                    if (categoryEditor != null)
+                    {
+                        var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
+                        if (category != null)
+                        {
+                            member.CategoryField = category.CategoryName;
+                        }
+                    }
                 }
                 else
                 {
@@ -73,9 +79,15 @@ namespace backend.Controllers
 
             if (MemberService.IsJuniorEditor(member))
             {
-                var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
-                var category = await context.Category.FirstAsync(c => c.Id == categoryEditor.CategoryID);
-                member.CategoryField = category.CategoryName;
+                var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
+                if (categoryEditor != null)
+                {
+                    var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
+                    if (category != null)
+                    {
+                        member.CategoryField = category.CategoryName;
+                    }
+                }
             }
 
             return View(member);
@@ -135,10 +147,15 @@ namespace backend.Controllers
 
             if (MemberService.IsJuniorEditor(member))
             {
-                var categoryEditor = await context.CategoryEditor.FirstAsync(ce => ce.MemberID == member.ID);
-                var categoryID = categoryEditor.CategoryID;
-                var categoryName = (await context.Category.FindAsync(categoryID)).CategoryName;
-                member.CategoryField = categoryName;
+                var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
+                if (categoryEditor != null)
+                {
+                    var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
+                    if (category != null)
+                    {
+                        member.CategoryField = category.CategoryName;
+                    }
+                }
             }
 
             if (member == null)
