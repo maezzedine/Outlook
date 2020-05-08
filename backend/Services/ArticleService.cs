@@ -85,7 +85,7 @@ namespace backend.Services
                 writer = new Member { Name = article.NewWriter };
 
                 // Decide whether the writer writes for the English section or the Arabic section
-                if (Regex.IsMatch(article.NewWriter, "^[a-zA-Z0-9. ]*'-'*$"))
+                if (Regex.IsMatch(article.NewWriter, @"^[a-zA-Z.\-\s]*$"))
                 {
                     writer.Position = Position.Staff_Writer;
                 }

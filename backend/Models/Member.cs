@@ -2,6 +2,7 @@
 using backend.Validation_Attributes;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
@@ -11,6 +12,7 @@ namespace backend.Models
         public int ID { get; set; }
 
         [MemberUniqueness]
+        [RegularExpression(@"^[a-zA-Z.\-\s]*$", ErrorMessage = "Characters, numbers and special symbols are not allowed.")]
         public string Name { get; set; }
 
         public Position Position { get; set; }
