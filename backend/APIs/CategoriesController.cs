@@ -23,7 +23,18 @@ namespace backend.APIs
             this.categoryService = categoryService;
         }
 
-        // GET: api/Categories
+        /// <summary>
+        /// Gets the list of categories and their articles count in a specific issue
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/categories/1
+        /// 
+        /// </remarks>
+        /// <param name="issueId"></param>
+        /// <returns>List of catgories</returns>
+        /// <response code="200">Returns the list of categories</response>
         [HttpGet("{issueId}")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories(int issueId)
         {
@@ -37,7 +48,19 @@ namespace backend.APIs
             return await categories.ToListAsync();
         }
 
-        // GET: api/Categories/5
+        /// <summary>
+        /// Gets a specific category and its articles count in a specific issue
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/categories/1/2
+        /// </remarks>
+        /// <param name="id">category ID</param>
+        /// <param name="issueId"></param>
+        /// <returns>A category</returns>
+        /// <response code="200">Returns the category with its properties</response>
+        /// <response code="404">Returns NotFound result if no category with the given ID was found</response>
         [HttpGet("{id}/{issueId}")]
         public async Task<ActionResult<Category>> GetCategory(int id, int issueId)
         {

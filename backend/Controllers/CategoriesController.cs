@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace backend.Controllers
@@ -67,12 +68,21 @@ namespace backend.Controllers
         // POST: Categories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Language,CategoryName,Tag")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,CategoryName,Tag")] Category category)
         {
             if (ModelState.IsValid)
             {
                 context.Add(category);
                 await context.SaveChangesAsync();
+
+                if (Regex.IsMatch(category.CategoryName, @"^[a-zA-Z.\-\s]*$"))
+                {
+                    category.Language = Models.Interfaces.Language.English;
+                }
+                else
+                {
+                    category.Language = Models.Interfaces.Language.Arabic;
+                }
 
                 logger.Log($"{HttpContext.User.Identity.Name} created Category `{category.CategoryName}` and ID `{category.Id}`.");
 

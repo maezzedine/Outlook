@@ -33,6 +33,28 @@ namespace backend.APIs
             logger = Logger.Logger.Instance(Logger.Logger.LogField.web);
         }
 
+        /// <summary>
+        /// Registers a new account
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/identity/register
+        ///      {
+        ///         "Content-Type": "application/json",
+        ///         "body": {
+        ///             "Username": "test",
+        ///             "Email": "test@auboutlook.com",
+        ///             "FirstName": "testFirstName",
+        ///             "LastName": "testLastName",
+        ///             "Password": "testPassword"
+        ///         }
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="registerModel">Retrieved from the body of the request</param>
+        /// <response code="200">Returns the registration results</response>
+        /// <response code="400">Returns Bad Request</response>
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody]RegisterModel registerModel)
         {
@@ -59,6 +81,24 @@ namespace backend.APIs
             return BadRequest(ModelState);
         }
 
+        /// <summary>
+        /// Change the password of a user given his Bearer token
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/identity/changepassword
+        ///       "Content-Type": "application/json",
+        ///       "Authorization": `Bearer ${token}`,
+        ///         "body": {
+        ///             "OldPassword": "testOldPassword"
+        ///             "NewPassword": "testNewPassword"
+        ///         }
+        /// 
+        /// </remarks>
+        /// <param name="model"></param>
+        /// <response code="200">Returns the change password results</response>
+        /// <response code="400">Returns Bad Request</response>
         [HttpPost("ChangePassword")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
@@ -82,6 +122,22 @@ namespace backend.APIs
             return BadRequest();
         }
 
+        /// <summary>
+        /// Requests a new email verification message
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/members/resendemailverification
+        ///     {
+        ///         "Content-Type": "application/json",
+        ///         "Authorization": `Bearer ${token}`
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="username"></param>
+        /// <response code="200">The email verification message has been sent successfully</response>
+        /// <response code="404">Returns NotFount result if no member with the given username, whose email isn't verified, was found</response>
         [HttpPost("ResendVerification/{username}")]
         public async Task<IActionResult> ResendVerification(string username)
         {
@@ -103,6 +159,22 @@ namespace backend.APIs
             return NotFound();
         }
 
+        /// <summary>
+        /// Gets a specific user given its Bearer token
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/articles/rateuparticle/1
+        ///     {
+        ///         "Content-Type": "application/json",
+        ///         "Authorization": `Bearer ${token}`
+        ///     }
+        /// 
+        /// </remarks>
+        /// <returns>OutlookUser object</returns>
+        /// <response code="200">Returns the user's information</response>
+        /// <response code="404">Returns NotFount result if no user with the given token was found</response>
         [HttpPost("GetUser")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetUser()
@@ -114,6 +186,5 @@ namespace backend.APIs
             }
             return NotFound();
         }
-
     }
 }

@@ -18,7 +18,17 @@ namespace backend.APIs
             this.context = context;
         }
 
-        // GET: api/Volumes
+        /// <summary>
+        /// Gets the list of available volumes
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/volumes
+        /// 
+        /// </remarks>
+        /// <returns>List of volumes</returns>
+        /// <response code="200">Returns the list of volumes</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Volume>>> GetVolume()
         {

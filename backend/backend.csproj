@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>335a482b-fb87-4958-b45f-033d07f18930</UserSecretsId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Migrations\20200312213028_test.cs" />
@@ -30,6 +31,7 @@
     <PackageReference Include="Sendgrid" Version="9.14.1" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.3.7" />
     <PackageReference Include="ServiceStack.Interfaces" Version="5.8.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\docs\Articles\" />

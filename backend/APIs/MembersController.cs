@@ -31,7 +31,21 @@ namespace backend.APIs
             this.articleService = articleService;
         }
 
-        // GET: api/Members/5
+        /// <summary>
+        /// Gets member given their ID
+        /// </summary>
+        /// <remarks>
+        /// The member can be an outlook staff, former staff or a writer
+        /// 
+        /// Sample request:
+        /// 
+        ///     GET /api/members/1
+        /// 
+        /// </remarks>
+        /// <param name="id">Member ID</param>
+        /// <returns>A JSON object containg the member and their articles</returns>
+        /// <response code="200">Returns the specified member</response>
+        /// <response code="404">Returns NotFound result if no member with the given ID was found</response>
         [HttpGet("{id}")]
         public async Task<ActionResult> GetMember(int id)
         {
@@ -61,7 +75,17 @@ namespace backend.APIs
             });
         }
 
-        // GET: api/Members
+        /// <summary>
+        /// Gets the list of all writers
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/members
+        ///     
+        /// </remarks>
+        /// <returns>List of members</returns>
+        /// <response code="200">Returns the list of members</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Member>>> GetWriters()
         {
@@ -78,6 +102,17 @@ namespace backend.APIs
             return await writers.ToListAsync();
         }
 
+        /// <summary>
+        /// Gets the current board members
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     GET api/members/board
+        /// 
+        /// </remarks>
+        /// <returns>JSON object with the keys ArabicBoard and EnglishBoard</returns>
+        /// <response code="200">Returns a JSON object containing the Enlish and the Arabic board members</response>
         [HttpGet("board")]
         public async Task<ActionResult> GetBoardMembers()
         {
@@ -104,7 +139,17 @@ namespace backend.APIs
             });
         }
 
-        // GET: api/Members/top
+        /// <summary>
+        /// Gets the statistics of the most contributing writers with their articles count
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     GET /api/members/top
+        /// 
+        /// </remarks>
+        /// <returns>List of Arabic and English writers</returns>
+        /// <response code="200">Returns the list of writers</response>
         [HttpGet("top")]
         public async Task<ActionResult> GetTopWriters()
         {

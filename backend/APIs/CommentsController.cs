@@ -38,7 +38,26 @@ namespace backend.APIs
             public string text;
         }
 
-        // POST: api/Comments
+        /// <summary>
+        /// Add a comment on a specific article given its ID and the Bearer token of the user
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/comments
+        ///     {
+        ///         "Content-Type": "application/json",
+        ///         "Authorization": `Bearer ${token}`,
+        ///         "body": {
+        ///             "ArticleId": 1,
+        ///             "Text": "hello world!"
+        ///         }
+        ///     }
+        ///     
+        /// </remarks>
+        /// <param name="_comment"></param>
+        /// <response code="201">Comment has successfully bben added</response>
+        /// <response code="401">The user is unauthorized</response>
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(Comment _comment)
@@ -67,7 +86,24 @@ namespace backend.APIs
             return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
         }
 
-        // DELETE: api/Comments/5
+        /// <summary>
+        /// Delete a comment given its ID and the Bearer token of the user
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     DELETE /api/comments/1
+        ///     {
+        ///         "Content-Type": "application/json",
+        ///         "Authorization": `Bearer ${token}`
+        ///     }
+        ///     
+        /// </remarks>
+        /// <param name="id">comment ID</param>
+        /// <response code="200">The comment has successfully been deleted</response>
+        /// <response code="400">The user is npt the owner of the comment</response>
+        /// <response code="401">The user is unauthorized</response>
+        /// <response code="404">Returns NotFound result if no comment with the given ID was found</response>
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Comment>> DeleteComment(int id)

@@ -11,7 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System;
+using System.IO;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 
 namespace backend
@@ -102,6 +105,25 @@ namespace backend
 
             // Add email sending functionality
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc(Configuration["Open-Source:Version"], new OpenApiInfo { 
+                    Title = "Outlook API", 
+                    Version = Configuration["Open-Source:Version"],
+                    Description = "Documentation of Outlook RESTful API and the schema of the Outlook Database.",
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri(Configuration["Open-Source:License"])
+                    }
+                });
+
+                // Set the XML comments path for the Swagger JSON and UI
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,6 +138,15 @@ namespace backend
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint($"/swagger/{Configuration["Open-Source:Version"]}/swagger.json", "Outlook API");
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

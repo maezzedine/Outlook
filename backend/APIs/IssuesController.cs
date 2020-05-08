@@ -19,8 +19,19 @@ namespace backend.APIs
             this.context = context;
         }
 
-        // GET: api/Issues
-        [HttpGet("{volumeId}")]
+        /// <summary>
+        /// Gets the list of issues in a specific Volume
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/issues/1
+        /// 
+        /// </remarks>
+        /// <param name="volumeID"></param>
+        /// <returns>List of Issues</returns>
+        /// <response code="200">Returns the list of Issues in a volume of given ID</response>
+        [HttpGet("{volumeID}")]
         public async Task<ActionResult<IEnumerable<Issue>>> GetIssues(int volumeID)
         {
             var issues = from issue in context.Issue
@@ -28,20 +39,6 @@ namespace backend.APIs
                          select issue;
 
             return await issues.ToListAsync();
-        }
-
-        // GET: api/Issues/5
-        [HttpGet("Issue/{id}")]
-        public async Task<ActionResult<Issue>> GetIssue(int id)
-        {
-            var issue = await context.Issue.FindAsync(id);
-
-            if (issue == null)
-            {
-                return NotFound();
-            }
-
-            return issue;
         }
     }
 }

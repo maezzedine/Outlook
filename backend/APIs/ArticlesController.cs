@@ -47,7 +47,18 @@ namespace backend.APIs
             logger = Logger.Logger.Instance(Logger.Logger.LogField.userArticles);
         }
 
-        // GET: api/Articles
+        /// <summary>
+        /// Get the list of articles (in all languages) in a specific issue
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/articles/1
+        /// 
+        /// </remarks>
+        /// <param name="issueID"></param>
+        /// <returns>List of articles</returns>
+        /// <response code="200">Returns the list of articles in the issue given its ID</response>
         [HttpGet("{issueID}")]
         public async Task<ActionResult<IEnumerable<Article>>> GetArticles(int issueID)
         {
@@ -65,7 +76,19 @@ namespace backend.APIs
             return await articles.ToListAsync();
         }
 
-        // GET: api/Articles/Article/5
+        /// <summary>
+        /// Get a specific article 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/articles/article/1
+        /// 
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns>An article given its ID</returns>
+        /// <response code="200">Returns the article</response>
+        /// <response code="404">Returns NotFound result if no article with the given ID was found</response>
         [HttpGet("Article/{id}")]
         public async Task<ActionResult<Article>> GetArticle(int id)
         {
@@ -80,7 +103,17 @@ namespace backend.APIs
             return article;
         }
 
-        // GET: api/Articles
+        /// <summary>
+        /// Gets the statistics of the top rated and the most favorited articles in both languages
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/articles
+        /// 
+        /// </remarks>
+        /// <returns>A JSON Result of the keys topRatedArticles and topFavoritedArticles</returns>
+        /// <reponse code="200">JSON object containing a list of the top rated articles and a list of the most favorited articles</reponse>
         [HttpGet]
         public ActionResult GetTopArticles()
         {
@@ -104,6 +137,23 @@ namespace backend.APIs
             });
         }
 
+        /// <summary>
+        /// Upvotes an article given its ID and the Bearer token of the user
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     PUT /api/articles/rateuparticle/1
+        ///     {
+        ///         "Content-Type": "application/json",
+        ///         "Authorization": `Bearer ${token}`
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="articleID"></param>
+        /// <response code="200">The article has been upvoted successfully by the user</response>
+        /// <response code="202">The article is already upvoted by the user</response>
+        /// <response code="401">The user is unauthorized</response>
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("RateUpArticle/{articleID}")]
         public async Task<ActionResult> RateUpArticle(int articleID)
@@ -142,6 +192,23 @@ namespace backend.APIs
             return Ok();
         }
 
+        /// <summary>
+        /// Downvotes an article given its ID and the Bearer token of the user
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     PUT /api/articles/downuparticle/1
+        ///     {
+        ///         "Content-Type": "application/json",
+        ///         "Authorization": `Bearer ${token}`
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="articleID"></param>
+        /// <response code="200">The article has been downvoted successfully by the user</response>
+        /// <response code="202">The article is already downvoted by the user</response>
+        /// <response code="401">The user is unauthorized</response>
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("RateDownArticle/{articleID}")]
         public async Task<ActionResult> RateDownArticle(int articleID)
@@ -179,6 +246,22 @@ namespace backend.APIs
             return Ok();
         }
 
+        /// <summary>
+        /// Add or Remove an article, given its ID and the Bearer token of the user, to and from the user's favorite list
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     PUT /api/articles/favoritearticle/1
+        ///     {
+        ///         "Content-Type": "application/json",
+        ///         "Authorization": `Bearer ${token}`
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="articleID"></param>
+        /// <response code="200">The article has been added/removed successfully to/from the user's favorite list</response>
+        /// <response code="401">The user is unauthorized</response>
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("FavoriteArticle/{articleID}")]
         public async Task<ActionResult> FavoriteArticle(int articleID)
@@ -205,6 +288,22 @@ namespace backend.APIs
             return Ok();
         }
 
+        /// <summary>
+        /// Gets a user's favorite list
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/article/getuserfavorites
+        ///     {
+        ///         "Content-Type": "application/json",
+        ///         "Authorization": `Bearer ${token}`
+        ///     }
+        ///     
+        /// </remarks>
+        /// <returns>List of articles</returns>
+        /// <response code="200">Returns the list of user's favorited articles</response>
+        /// <response code="401">The user is unauthorized</response>
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("GetUserFavorites")]
         public async Task<ActionResult> GetUserFavorites()
@@ -222,17 +321,34 @@ namespace backend.APIs
             return Ok(userFavoriteArticles);
         }
 
-
+        /// <summary>
+        /// Upload an article by the user
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/article/uploadarticle, file.pdf
+        ///     {
+        ///         "Content-Type": "multipart/form-data",
+        ///         "Authorization": `Bearer ${token}`,
+        ///     }
+        ///     
+        /// </remarks>
+        /// <param name="file">PDF document</param>
+        /// <response code="200">Upload completed successfully</response>
+        /// <response code="401">The user is unauthorized</response>
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("Upload")]
         public async Task<ActionResult> UploadArticle(IFormCollection file)
         {
             if (file.Files.Count != 0)
             {
+                var user = await identityService.GetUserWithToken(HttpContext);
                 var document = file.Files.ElementAt(0);
                 var extension = document.FileName.Substring(document.FileName.LastIndexOf('.'));
 
                 // Add unique name to avoid possible name conflicts
-                var uniqueDocumentName = DateTime.Now.Ticks.ToString() + $".{extension}";
+                var uniqueDocumentName = $"{user.UserName} - {DateTime.Now.Ticks}.{extension}";
                 var articleDocumentsFolderPath = Path.Combine(new string[] { env.WebRootPath, "docs", "Articles\\" });
                 var articleDocumentFilePath = Path.Combine(articleDocumentsFolderPath, uniqueDocumentName);
 
