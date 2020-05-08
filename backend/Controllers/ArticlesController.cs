@@ -19,29 +19,29 @@ namespace backend.Controllers
         private readonly OutlookContext context;
         private readonly IWebHostEnvironment env;
         private readonly Logger.Logger logger;
+        private readonly ArticleService articleService;
+
         public static int VolumeNumber;
         public static Issue Issue;
-
         public static List<string> Writers;
         public static List<string> Categories;
 
-        public ArticlesController(OutlookContext context, IWebHostEnvironment env)
+        public ArticlesController(
+            OutlookContext context, 
+            IWebHostEnvironment env,
+            ArticleService articleService)
         {
             this.context = context;
             this.env = env;
+            this.articleService = articleService;
+
             logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
 
             // Save the List of wrtiers names to be accessed
-            var writers = from member in context.Member
-                          select member.Name;
-
-            Writers = writers.ToList();
+            Writers = context.Member.Select(m => m.Name).ToList();
 
             // Save the List of categories names to be accessed
-            var categories = from category in context.Category
-                             select category.CategoryName;
-
-            Categories = categories.ToList();
+            Categories = context.Category.Select(c => c.CategoryName).ToList();
         }
 
         // GET: Articles
@@ -92,7 +92,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            ArticleService.GetArticleWriterAndCategory(article, context);
+            articleService.GetArticleWriterAndCategory(article);
 
             return View(article);
         }
@@ -126,11 +126,11 @@ namespace backend.Controllers
                 // Assign value to the MemberID that refers to the writer of the article
                 article.Category = context.Category.First(c => c.CategoryName == article.Category.CategoryName);
 
-                await ArticleService.EditArticleWriter(article, context);
+                await articleService.EditArticleWriter(article);
 
                 if (article.Picture != null)
                 {
-                    await ArticleService.AddArticlePicture(article, article.Picture, context, env.WebRootPath);
+                    await articleService.AddArticlePicture(article, article.Picture, env.WebRootPath);
                 }
 
                 context.Add(article);
@@ -158,7 +158,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            ArticleService.GetArticleWriterAndCategory(article, context);
+            articleService.GetArticleWriterAndCategory(article);
 
             return View(article);
         }
@@ -186,31 +186,31 @@ namespace backend.Controllers
 
                     logger.Log($"This article is edited from `{startLogMessage}`");
 
-                    await ArticleService.EditArticleWriter(oldVersionArticle, context);
+                    await articleService.EditArticleWriter(oldVersionArticle);
 
                     // Update the value to the MemberID that refers to the writer of the article
                     oldVersionArticle.Category = context.Category.First(c => c.CategoryName == article.Category.CategoryName);
 
-                    ArticleService.UpdateArticleInfo(article, article.Language, article.Title, article.Subtitle, article.Text);
+                    articleService.UpdateArticleInfo(article, article.Language, article.Title, article.Subtitle, article.Text);
 
                     if (oldVersionArticle.PicturePath == null)
                     {
                         if (article.Picture != null)
                         {
-                            await ArticleService.AddArticlePicture(oldVersionArticle, article.Picture, context, env.WebRootPath);
+                            await articleService.AddArticlePicture(oldVersionArticle, article.Picture, env.WebRootPath);
                         }
                     }
                     else
                     {
                         if (article.Picture != null)
                         {
-                            ArticleService.DeleteArticlePicture(oldVersionArticle, env.WebRootPath);
+                            articleService.DeleteArticlePicture(oldVersionArticle, env.WebRootPath);
 
-                            await ArticleService.AddArticlePicture(oldVersionArticle, article.Picture, context, env.WebRootPath);
+                            await articleService.AddArticlePicture(oldVersionArticle, article.Picture, env.WebRootPath);
                         }
                         else if (article.DeletePicture)
                         {
-                            ArticleService.DeleteArticlePicture(oldVersionArticle, env.WebRootPath);
+                            articleService.DeleteArticlePicture(oldVersionArticle, env.WebRootPath);
                         }
                     }
 
@@ -251,7 +251,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            ArticleService.GetArticleWriterAndCategory(article, context);
+            articleService.GetArticleWriterAndCategory(article);
 
             return View(article);
         }
@@ -267,7 +267,7 @@ namespace backend.Controllers
             // Delete the article image form the file server if there is any
             if (article.PicturePath != null)
             {
-                ArticleService.DeleteArticlePicture(article, env.WebRootPath);
+                articleService.DeleteArticlePicture(article, env.WebRootPath);
             }
 
             logger.Log($"{HttpContext.User.Identity.Name} attempts to delete article of title `{article.Title}` and ID `{article.Id}`.");
@@ -287,7 +287,7 @@ namespace backend.Controllers
 
         private string GetEditLogMessage(Article article)
         {
-            ArticleService.GetArticleWriterAndCategory(article, context);
+            articleService.GetArticleWriterAndCategory(article);
 
             return $"Title: {article.Title}\n" +
                 $"Subtitle: {article.Subtitle}\n" +

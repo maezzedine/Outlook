@@ -13,11 +13,15 @@ namespace backend.Controllers
     public class CategoriesController : Controller
     {
         private readonly OutlookContext context;
+        private readonly CategoryService categoryService;
         private readonly Logger.Logger logger;
 
-        public CategoriesController(OutlookContext context)
+        public CategoriesController(
+            OutlookContext context,
+            CategoryService categoryService)
         {
             this.context = context;
+            this.categoryService = categoryService;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
         }
 
@@ -28,7 +32,7 @@ namespace backend.Controllers
 
             foreach (var category in categories)
             {
-                await CategoryService.GetCategoryJuniorEditors(category, context);
+                await categoryService.GetCategoryJuniorEditors(category);
             }
 
             return View(await context.Category.ToListAsync());
@@ -49,7 +53,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            await CategoryService.GetCategoryJuniorEditors(category, context);
+            await categoryService.GetCategoryJuniorEditors(category);
 
             return View(category);
         }
@@ -148,7 +152,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            await CategoryService.GetCategoryJuniorEditors(category, context);
+            await categoryService.GetCategoryJuniorEditors(category);
 
             return View(category);
         }

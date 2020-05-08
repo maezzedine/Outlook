@@ -1,5 +1,4 @@
-﻿using backend.Areas.Identity;
-using backend.Data;
+﻿using backend.Data;
 using backend.Hubs;
 using backend.Models;
 using backend.Models.Relations;
@@ -7,7 +6,6 @@ using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -26,22 +24,25 @@ namespace backend.APIs
     public class ArticlesController : ControllerBase
     {
         private readonly OutlookContext context;
-        private readonly UserManager<OutlookUser> userManager;
+        private readonly ArticleService articleService;
+        private readonly IdentityService identityService;
         private readonly IWebHostEnvironment env;
         private readonly IHubContext<ArticleHub, IArticleHub> hubContext;
         private readonly Logger.Logger logger;
-        public IConfiguration Configuration { get; }
+        public IConfiguration configuration { get; }
 
         public ArticlesController(
             OutlookContext context,
-            UserManager<OutlookUser> userManager,
+            ArticleService articleService,
+            IdentityService identityService,
             IHubContext<ArticleHub, IArticleHub> articlehub,
             IWebHostEnvironment env, IConfiguration configuration)
         {
             this.context = context;
-            this.userManager = userManager;
+            this.articleService = articleService;
+            this.identityService = identityService;
             this.env = env;
-            Configuration = configuration;
+            this.configuration = configuration;
             hubContext = articlehub;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.userArticles);
         }
@@ -58,7 +59,7 @@ namespace backend.APIs
             // Foreach article, add its info
             foreach (var article in articles)
             {
-                await ArticleService.GetArticleProperties(article, context);
+                await articleService.GetArticleProperties(article);
             }
 
             return await articles.ToListAsync();
@@ -74,7 +75,7 @@ namespace backend.APIs
             {
                 return NotFound();
             }
-            await ArticleService.GetArticleProperties(article, context);
+            await articleService.GetArticleProperties(article);
 
             return article;
         }
@@ -108,7 +109,7 @@ namespace backend.APIs
         public async Task<ActionResult> RateUpArticle(int articleID)
         {
             // TODO: Fix bug when the article gets its first vote
-            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
+            var user = await identityService.GetUserWithToken(HttpContext);
             var userRateArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.Article.Id == articleID) && (u.User.Id == user.Id));
             var article = await context.Article.FindAsync(articleID);
 
@@ -145,7 +146,7 @@ namespace backend.APIs
         [HttpPut("RateDownArticle/{articleID}")]
         public async Task<ActionResult> RateDownArticle(int articleID)
         {
-            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
+            var user = await identityService.GetUserWithToken(HttpContext);
             var userRateArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.Article.Id == articleID) && (u.User.Id == user.Id));
             var article = await context.Article.FindAsync(articleID);
 
@@ -182,7 +183,7 @@ namespace backend.APIs
         [HttpPut("FavoriteArticle/{articleID}")]
         public async Task<ActionResult> FavoriteArticle(int articleID)
         {
-            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
+            var user = await identityService.GetUserWithToken(HttpContext);
             var userFavoritedArticle = await context.UserFavoritedArticleRelation.FirstOrDefaultAsync(u => (u.Article.Id == articleID) && (u.User.Id == user.Id));
             var article = await context.Article.FindAsync(articleID);
 
@@ -208,14 +209,14 @@ namespace backend.APIs
         [HttpPost("GetUserFavorites")]
         public async Task<ActionResult> GetUserFavorites()
         {
-            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
+            var user = await identityService.GetUserWithToken(HttpContext);
             var userFavoriteArticles = from userFavoritedArticle in context.UserFavoritedArticleRelation
                                        where userFavoritedArticle.User == user
                                        select userFavoritedArticle.Article;
 
             foreach (var article in userFavoriteArticles)
             {
-                await ArticleService.GetArticleProperties(article, context);
+                await articleService.GetArticleProperties(article);
             }
 
             return Ok(userFavoriteArticles);
@@ -249,7 +250,7 @@ namespace backend.APIs
                     }
                 }
 
-                var baseUrl = Configuration["ApplicationUrls:Server"];
+                var baseUrl = configuration["ApplicationUrls:Server"];
                 var ArticleDocumentFullPath = $"{baseUrl}/docs/Articles/{uniqueDocumentName}";
                 logger.Log(ArticleDocumentFullPath);
             }

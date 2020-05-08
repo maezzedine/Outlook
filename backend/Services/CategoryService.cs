@@ -8,13 +8,30 @@ namespace backend.Services
 {
     public class CategoryService
     {
-        public static async Task GetCategoryDetails(Category category, int issueId, OutlookContext context)
+        private readonly OutlookContext context;
+
+        public CategoryService(OutlookContext context)
         {
-            category.ArticlesCount = context.Article.Where(a => (a.CategoryID == category.Id) && (a.IssueID == issueId)).Count();
-            await GetCategoryJuniorEditors(category, context);
+            this.context = context;
         }
 
-        public static async Task GetCategoryJuniorEditors(Category category, OutlookContext context)
+        /// <summary>
+        /// GetCategoryDetails is a method that gets a category's tag, junior editors and its number of articles in a certain issue
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="issueId"></param>
+        public async Task GetCategoryDetails(Category category, int issueId)
+        {
+            category.ArticlesCount = context.Article.Where(a => (a.CategoryID == category.Id) && (a.IssueID == issueId)).Count();
+            await GetCategoryJuniorEditors(category);
+        }
+
+        /// <summary>
+        /// GetCategoryJuniorEditors is a method that gets a category's tag and junior editors
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public async Task GetCategoryJuniorEditors(Category category)
         {
             category.TagName = category.Tag.ToString();
 

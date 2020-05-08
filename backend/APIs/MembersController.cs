@@ -18,13 +18,17 @@ namespace backend.APIs
     public class MembersController : ControllerBase
     {
         private readonly OutlookContext context;
-        private readonly UserManager<OutlookUser> userManager;
+        private readonly ArticleService articleService;
+        private readonly MemberService memberService;
 
-
-        public MembersController(OutlookContext context, UserManager<OutlookUser> userManager)
+        public MembersController(
+            OutlookContext context, 
+            MemberService memberService,
+            ArticleService articleService)
         {
             this.context = context;
-            this.userManager = userManager;
+            this.memberService = memberService;
+            this.articleService = articleService;
         }
 
         // GET: api/Members/5
@@ -38,8 +42,8 @@ namespace backend.APIs
                 return NotFound();
             }
 
-            MemberService.GetMemberLanguageAndArticlesCount(member, context);
-            MemberService.GetJuniorEditorCategory(member, context);
+            memberService.GetMemberLanguageAndArticlesCount(member);
+            memberService.GetJuniorEditorCategory(member);
 
             var articles = from article in context.Article
                            where article.MemberID == member.ID
@@ -47,7 +51,7 @@ namespace backend.APIs
 
             foreach (var article in articles)
             {
-                await ArticleService.GetArticleProperties(article, context);
+                await articleService.GetArticleProperties(article);
             }
 
             return Ok(new
@@ -68,7 +72,7 @@ namespace backend.APIs
 
             foreach (var writer in writers)
             {
-                MemberService.GetMemberLanguageAndArticlesCount(writer, context);
+                memberService.GetMemberLanguageAndArticlesCount(writer);
             }
 
             return await writers.ToListAsync();
@@ -85,7 +89,7 @@ namespace backend.APIs
                                where !(MemberService.NonBoardMembers.Contains(member.Position))
                                select member;
 
-            await boardMembers.ForEachAsync(m => MemberService.GetJuniorEditorCategory(m, context));
+            await boardMembers.ForEachAsync(m => memberService.GetJuniorEditorCategory(m));
 
             var englishBoardMembers = new Dictionary<string, IQueryable<Member>>();
             MemberService.AddBoardMembers(englishBoardMembers, englishPositons, boardMembers);
@@ -109,7 +113,7 @@ namespace backend.APIs
 
             foreach (var writer in members)
             {
-                MemberService.GetMemberLanguageAndArticlesCount(writer, context);
+                memberService.GetMemberLanguageAndArticlesCount(writer);
             }
 
             var writers = await members.ToListAsync();

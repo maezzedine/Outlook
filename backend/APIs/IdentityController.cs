@@ -18,13 +18,18 @@ namespace backend.APIs
     public class IdentityController : ControllerBase
     {
         private readonly UserManager<OutlookUser> userManager;
+        private readonly IdentityService identityService;
         private readonly Logger.Logger logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSender emailSender;
 
-        public IdentityController(UserManager<OutlookUser> userManager, IEmailSender emailSender)
+        public IdentityController(
+            UserManager<OutlookUser> userManager, 
+            IdentityService identityService,
+            IEmailSender emailSender)
         {
             this.userManager = userManager;
-            _emailSender = emailSender;
+            this.identityService = identityService;
+            this.emailSender = emailSender;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.web);
         }
 
@@ -44,7 +49,7 @@ namespace backend.APIs
                     values: new { area = "Identity", userId = user.Id, code = code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(registerModel.Email, "Confirm your AUB Outlook Account", EmailSender.EmailVerificationHtmlMessage(HtmlEncoder.Default.Encode(callbackUrl)));
+                await emailSender.SendEmailAsync(registerModel.Email, "Confirm your AUB Outlook Account", EmailSender.EmailVerificationHtmlMessage(HtmlEncoder.Default.Encode(callbackUrl)));
 
                 logger.Log($"User {user.UserName} was created.");
 
@@ -60,7 +65,7 @@ namespace backend.APIs
         {
             if (ModelState.IsValid)
             {
-                var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
+                var user = await identityService.GetUserWithToken(HttpContext);
                 if (user != null)
                 {
                     var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
@@ -91,7 +96,7 @@ namespace backend.APIs
                     values: new { area = "Identity", userId = user.Id, code = code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(user.Email, "Confirm your AUB Outlook Account", EmailSender.EmailVerificationHtmlMessage(HtmlEncoder.Default.Encode(callbackUrl)));
+                await emailSender.SendEmailAsync(user.Email, "Confirm your AUB Outlook Account", EmailSender.EmailVerificationHtmlMessage(HtmlEncoder.Default.Encode(callbackUrl)));
 
                 return Ok();
             }
@@ -102,7 +107,7 @@ namespace backend.APIs
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetUser()
         {
-            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
+            var user = await identityService.GetUserWithToken(HttpContext);
             if (user != null)
             {
                 return Ok(user);

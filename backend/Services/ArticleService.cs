@@ -13,7 +13,18 @@ namespace backend.Services
 {
     public class ArticleService
     {
-        public static async Task GetArticleProperties(Article article, OutlookContext context)
+        private readonly OutlookContext context;
+
+        public ArticleService(OutlookContext context)
+        {
+            this.context = context;
+        }
+
+        /// <summary> 
+        /// GetArticleProperties is a method that provides an article with its properties including object from one-to-many and many-to-many relations 
+        /// </summary>
+        /// <param name="article"></param>
+        public async Task GetArticleProperties(Article article)
         {
             // Add the category
             var category = await context.Category.FindAsync(article.CategoryID);
@@ -47,13 +58,21 @@ namespace backend.Services
             article.Category.Articles = null;
         }
 
-        public static void GetArticleWriterAndCategory(Article article, OutlookContext context)
+        /// <summary>
+        /// GetArticleWriterAndCategory is a method that provides an article with its writer and category objects
+        /// </summary>
+        /// <param name="article"></param>
+        public void GetArticleWriterAndCategory(Article article)
         {
             var writer = context.Member.First(m => m.ID == article.MemberID);
             var category = context.Category.First(c => c.Id == article.CategoryID);
         }
 
-        public static async Task EditArticleWriter(Article article, OutlookContext context)
+        /// <summary>
+        /// EditArticleWriter is a method that adds or changes an article's writer 
+        /// </summary>
+        /// <param name="article"></param>
+        public async Task EditArticleWriter(Article article)
         {
             Member writer;
             if (article.Member.Name != "+ NEW WRITER")
@@ -80,7 +99,13 @@ namespace backend.Services
             await context.SaveChangesAsync();
         }
 
-        public static async Task AddArticlePicture(Article article, IFormFile picture, OutlookContext context, string webRootPath)
+        /// <summary>
+        /// AddArticlePicture is a method that adds or changes an article's picture
+        /// </summary>
+        /// <param name="article"></param>
+        /// <param name="picture"></param>
+        /// <param name="webRootPath">the root path of the project</param>
+        public async Task AddArticlePicture(Article article, IFormFile picture, string webRootPath)
         {
             // Add unique name to avoid possible name conflicts
             var uniqueImageName = DateTime.Now.Ticks.ToString() + ".jpg";
@@ -99,14 +124,27 @@ namespace backend.Services
             article.PicturePath = @"/img/Articles/" + uniqueImageName;
         }
 
-        public static void DeleteArticlePicture(Article article, string webRootPath)
+        /// <summary>
+        /// DeleteArticlePicture is a method that deletes an article's picture
+        /// </summary>
+        /// <param name="article"></param>
+        /// <param name="webRootPath">the root path of the project</param>
+        public void DeleteArticlePicture(Article article, string webRootPath)
         {
             var path = webRootPath + article.PicturePath;
             System.IO.File.Delete(path);
             article.PicturePath = null;
         }
 
-        public static void UpdateArticleInfo(Article article, Language lang, string title, string subtitle, string text)
+        /// <summary>
+        /// UpdateArticleInfo is a method that updates the old values of an article with the given parameters
+        /// </summary>
+        /// <param name="article"></param>
+        /// <param name="lang"></param>
+        /// <param name="title"></param>
+        /// <param name="subtitle"></param>
+        /// <param name="text"></param>
+        public void UpdateArticleInfo(Article article, Language lang, string title, string subtitle, string text)
         {
             article.Language = lang;
             article.Title = title;

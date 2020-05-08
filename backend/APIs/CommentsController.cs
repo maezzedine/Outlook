@@ -1,10 +1,8 @@
-﻿using backend.Areas.Identity;
-using backend.Data;
+﻿using backend.Data;
 using backend.Hubs;
 using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -19,15 +17,18 @@ namespace backend.APIs
     public class CommentsController : ControllerBase
     {
         private readonly OutlookContext context;
-        private readonly UserManager<OutlookUser> userManager;
-        private readonly IHubContext<ArticleHub, IArticleHub> hubContext;
+        private readonly IdentityService identityService;
+        private readonly IHubContext<ArticleHub, IArticleHub> articleHub;
         private readonly Logger.Logger logger;
 
-        public CommentsController(OutlookContext context, UserManager<OutlookUser> userManager, IHubContext<ArticleHub, IArticleHub> articlehub)
+        public CommentsController(
+            OutlookContext context, 
+            IdentityService identityService,
+            IHubContext<ArticleHub, IArticleHub> articleHub)
         {
             this.context = context;
-            this.userManager = userManager;
-            this.hubContext = articlehub;
+            this.identityService = identityService;
+            this.articleHub = articleHub;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.web);
         }
 
@@ -42,7 +43,7 @@ namespace backend.APIs
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(Comment _comment)
         {
-            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
+            var user = await identityService.GetUserWithToken(HttpContext);
 
             var comment = new Comment() { ArticleID = _comment.ArticleID, Text = _comment.Text, DateTime = DateTime.Now, UserID = user.Id };
 
@@ -59,7 +60,7 @@ namespace backend.APIs
                 comment_.User = owner;
             }
 
-            await hubContext.Clients.All.ArticleCommentChange(article.Id, comments);
+            await articleHub.Clients.All.ArticleCommentChange(article.Id, comments);
 
             logger.Log($"{user.UserName} posted a comment `{comment.Text}` on the article of title `{article.Title}`");
 
@@ -77,7 +78,7 @@ namespace backend.APIs
                 return NotFound();
             }
 
-            var user = await IdentityService.GetUserWithToken(userManager, HttpContext);
+            var user = await identityService.GetUserWithToken(HttpContext);
             var article = await context.Article.FindAsync(comment.ArticleID);
 
             if (comment.UserID != user.Id)
@@ -93,7 +94,7 @@ namespace backend.APIs
             logger.Log("Delete Completed");
 
             var comments = await context.Comment.Where(c => c.ArticleID == article.Id).ToListAsync();
-            await hubContext.Clients.All.ArticleCommentChange(article.Id, comments);
+            await articleHub.Clients.All.ArticleCommentChange(article.Id, comments);
 
             return Ok();
         }

@@ -94,6 +94,13 @@ namespace backend
                     };
                 });
 
+            // Add app services
+            services.AddTransient<ArticleService>();
+            services.AddTransient<CategoryService>();
+            services.AddTransient<IdentityService>();
+            services.AddTransient<MemberService>();
+
+            // Add email sending functionality
             services.AddTransient<IEmailSender, EmailSender>();
         }
 

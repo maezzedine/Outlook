@@ -16,19 +16,20 @@ namespace backend.Controllers
     public class MembersController : Controller
     {
         private readonly OutlookContext context;
+        private readonly MemberService memberService;
         private readonly Logger.Logger logger;
         public static List<string> Categories;
 
-        public MembersController(OutlookContext context)
+        public MembersController(
+            OutlookContext context,
+            MemberService memberService)
         {
             this.context = context;
+            this.memberService = memberService;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
 
             // Save the List of categories names to be accessed
-            var categories = from category in context.Category
-                             select category.CategoryName;
-
-            Categories = categories.ToList();
+            Categories = context.Category.Select(c => c.CategoryName).ToList();
         }
 
         // GET: Members
@@ -40,7 +41,7 @@ namespace backend.Controllers
 
             foreach (var member in members)
             {
-                if (MemberService.IsJuniorEditor(member))
+                if (memberService.IsJuniorEditor(member))
                 {
                     var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
                     if (categoryEditor != null)
@@ -77,7 +78,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            if (MemberService.IsJuniorEditor(member))
+            if (memberService.IsJuniorEditor(member))
             {
                 var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
                 if (categoryEditor != null)
@@ -100,8 +101,6 @@ namespace backend.Controllers
         }
 
         // POST: Members/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Position,CategoryField")] Member member)
@@ -118,7 +117,7 @@ namespace backend.Controllers
                 context.Add(member);
                 await context.SaveChangesAsync();
 
-                if (MemberService.IsJuniorEditor(member))
+                if (memberService.IsJuniorEditor(member))
                 {
                     // Creating new CategoryEditor relation instance
                     var categoryID = context.Category.First(c => c.CategoryName == member.CategoryField).Id;
@@ -145,7 +144,7 @@ namespace backend.Controllers
 
             var member = await context.Member.FindAsync(id);
 
-            if (MemberService.IsJuniorEditor(member))
+            if (memberService.IsJuniorEditor(member))
             {
                 var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
                 if (categoryEditor != null)
@@ -166,8 +165,6 @@ namespace backend.Controllers
         }
 
         // POST: Members/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Position,CategoryField")] Member member)
@@ -184,7 +181,7 @@ namespace backend.Controllers
                     var oldMemberData = await context.Member.FindAsync(member.ID);
 
 
-                    if (MemberService.IsJuniorEditor(oldMemberData))
+                    if (memberService.IsJuniorEditor(oldMemberData))
                     {
                         var oldCategoryEditorData = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == oldMemberData.ID);
                         var oldCategory = await context.Category.FindAsync(oldCategoryEditorData.CategoryID);
@@ -216,7 +213,7 @@ namespace backend.Controllers
                     }
                     else
                     {
-                        if (MemberService.IsJuniorEditor(member))
+                        if (memberService.IsJuniorEditor(member))
                         {
                             var newCategory = await context.Category.FirstOrDefaultAsync(c => c.CategoryName == member.CategoryField);
 
@@ -270,7 +267,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            MemberService.GetJuniorEditorCategory(member, context);
+            memberService.GetJuniorEditorCategory(member);
 
             return View(member);
         }

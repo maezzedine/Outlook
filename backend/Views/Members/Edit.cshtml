@@ -1,4 +1,5 @@
 ﻿@model backend.Models.Member
+@inject MemberService memberService
 @using backend.Models.Interfaces;
 @using backend.Controllers;
 @using backend.Services;
@@ -42,7 +43,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>: 
+                <label asp-for="Name" class="control-label"></label>:
                 @Html.DisplayFor(model => model.Name)
             </div>
             <div class="form-group">
@@ -52,7 +53,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryField" class="control-label"></label>
-                @if (MemberService.IsJuniorEditor(Model))
+                @if (memberService.IsJuniorEditor(Model))
                 {
                     <select id="category" asp-for="CategoryField" class="form-control" asp-items="new SelectList(categories)"></select>
                 }

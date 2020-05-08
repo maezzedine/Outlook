@@ -13,10 +13,14 @@ namespace backend.APIs
     public class CategoriesController : ControllerBase
     {
         private readonly OutlookContext context;
+        private readonly CategoryService categoryService;
 
-        public CategoriesController(OutlookContext context)
+        public CategoriesController(
+            OutlookContext context,
+            CategoryService categoryService)
         {
             this.context = context;
+            this.categoryService = categoryService;
         }
 
         // GET: api/Categories
@@ -27,7 +31,7 @@ namespace backend.APIs
 
             foreach (var category in categories)
             {
-                await CategoryService.GetCategoryDetails(category, issueId, context);
+                await categoryService.GetCategoryDetails(category, issueId);
             }
 
             return await categories.ToListAsync();
@@ -44,7 +48,7 @@ namespace backend.APIs
                 return NotFound();
             }
 
-            await CategoryService.GetCategoryDetails(category, issueId, context);
+            await categoryService.GetCategoryDetails(category, issueId);
 
             return category;
         }
