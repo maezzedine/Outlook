@@ -158,7 +158,6 @@ namespace backend.APIs
         [HttpPut("RateUpArticle/{articleID}")]
         public async Task<ActionResult> RateUpArticle(int articleID)
         {
-            // TODO: Fix bug when the article gets its first vote
             var user = await identityService.GetUserWithToken(HttpContext);
             var userRateArticle = await context.UserRateArticle.FirstOrDefaultAsync(u => (u.Article.Id == articleID) && (u.User.Id == user.Id));
             var article = await context.Article.FindAsync(articleID);
@@ -180,8 +179,8 @@ namespace backend.APIs
             }
             else
             {
-                // Rate down the article
-                context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = UserRate.Down });
+                // Rate up the article
+                context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = UserRate.Up });
             }
             article.RateUp();
             await context.SaveChangesAsync();
