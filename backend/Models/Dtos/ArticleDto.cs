@@ -8,7 +8,7 @@
         
         public CategorySummaryDto Category { get; set; }
         
-        public IssueSummaryDto Issue { get; set; }
+        public IssueDto Issue { get; set; }
         
         public MemberSummaryDto Member { get; set; }
         

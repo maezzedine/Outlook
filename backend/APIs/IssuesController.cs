@@ -1,5 +1,7 @@
-﻿using backend.Data;
+﻿using AutoMapper;
+using backend.Data;
 using backend.Models;
+using backend.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -13,10 +15,14 @@ namespace backend.APIs
     public class IssuesController : ControllerBase
     {
         private readonly OutlookContext context;
+        private readonly IMapper mapper;
 
-        public IssuesController(OutlookContext context)
+        public IssuesController(
+            OutlookContext context,
+            IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -32,11 +38,11 @@ namespace backend.APIs
         /// <returns>List of Issues</returns>
         /// <response code="200">Returns the list of Issues in a volume of given ID</response>
         [HttpGet("{volumeID}")]
-        public async Task<ActionResult<IEnumerable<Issue>>> GetIssues(int volumeID)
+        public async Task<ActionResult<IEnumerable<IssueDto>>> GetIssues(int volumeID)
         {
-            var issues = from issue in context.Issue
-                         where issue.VolumeID == volumeID
-                         select issue;
+            var issues = context.Issue
+                .Where(i => i.VolumeID == volumeID)
+                .Select(i => mapper.Map<IssueDto>(i));
 
             return await issues.ToListAsync();
         }

@@ -2,7 +2,7 @@
 
 namespace backend.Models.Dtos
 {
-    public class IssueSummaryDto
+    public class IssueDto
     {
         public int Id { get; set; }
 
@@ -13,10 +13,5 @@ namespace backend.Models.Dtos
         public string ArabicTheme { get; set; }
 
         public string EnglishTheme { get; set; }
-    }
-
-    public class IssueDto : IssueSummaryDto
-    {
-        public List<ArticleDto> Articles { get; set; }
     }
 }

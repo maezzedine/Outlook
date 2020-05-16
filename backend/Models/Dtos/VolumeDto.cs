@@ -15,6 +15,6 @@ namespace backend.Models.Dtos
 
     public class VolumeDto : VolumeSummaryDto
     {
-        public List<IssueSummaryDto> Issues { get; set; }
+        public List<IssueDto> Issues { get; set; }
     }
 }

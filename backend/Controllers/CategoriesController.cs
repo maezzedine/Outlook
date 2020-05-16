@@ -14,15 +14,12 @@ namespace backend.Controllers
     public class CategoriesController : Controller
     {
         private readonly OutlookContext context;
-        private readonly CategoryService categoryService;
         private readonly Logger.Logger logger;
 
         public CategoriesController(
-            OutlookContext context,
-            CategoryService categoryService)
+            OutlookContext context)
         {
             this.context = context;
-            this.categoryService = categoryService;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
         }
 
