@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(OutlookContext))]
-    partial class OutlookContextModelSnapshot : ModelSnapshot
+    [Migration("20200516212204_Category Editor Relation adjustment")]
+    partial class CategoryEditorRelationadjustment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -373,9 +375,6 @@ namespace backend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -387,9 +386,30 @@ namespace backend.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Member");
+                });
+
+            modelBuilder.Entity("backend.Models.Relations.CategoryEditorRelation", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MemberID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CategoryID");
+
+                    b.HasIndex("MemberID")
+                        .IsUnique();
+
+                    b.ToTable("CategoryEditor");
                 });
 
             modelBuilder.Entity("backend.Models.Relations.UserFavoritedArticleRelation", b =>
@@ -556,11 +576,19 @@ namespace backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("backend.Models.Member", b =>
+            modelBuilder.Entity("backend.Models.Relations.CategoryEditorRelation", b =>
                 {
                     b.HasOne("backend.Models.Category", "Category")
                         .WithMany("JuniorEditors")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.Member", "Member")
+                        .WithOne("CategoryEditor")
+                        .HasForeignKey("backend.Models.Relations.CategoryEditorRelation", "MemberID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("backend.Models.Relations.UserFavoritedArticleRelation", b =>

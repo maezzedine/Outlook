@@ -1,8 +1,9 @@
 ﻿using ServiceStack.DataAnnotations;
+using System.Collections.Generic;
 
 namespace backend.Models.Interfaces
 {
-    interface IIssue
+    public interface IIssue
     {
         [PrimaryKey]
         public int Id { get; set; }
@@ -14,5 +15,7 @@ namespace backend.Models.Interfaces
         public string ArabicTheme { get; set; }
 
         public string EnglishTheme { get; set; }
+
+        public List<Article> Articles { get; set; }
     }
 }

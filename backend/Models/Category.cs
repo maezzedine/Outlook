@@ -1,4 +1,5 @@
 ﻿using backend.Models.Interfaces;
+using backend.Models.Relations;
 using backend.Validation_Attributes;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,6 @@ namespace backend.Models
         [DisplayName("Category Name")]
         public string CategoryName { get; set; }
 
-        [NotMapped]
         [DisplayName("Editors")]
         public IList<Member> JuniorEditors { get; set; }
 

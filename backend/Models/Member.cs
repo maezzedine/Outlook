@@ -1,4 +1,5 @@
 ﻿using backend.Models.Interfaces;
+using backend.Models.Relations;
 using backend.Validation_Attributes;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,14 +21,12 @@ namespace backend.Models
         [NotMapped]
         public int NumberOfArticles { get; set; }
 
-        [NotMapped]
         public List<Article> Articles { get; set; }
 
         [NotMapped]
         [DisplayName("Category")]
         public string CategoryField { get; set; }
 
-        [NotMapped]
         public Category Category { get; set; }
 
         [NotMapped]

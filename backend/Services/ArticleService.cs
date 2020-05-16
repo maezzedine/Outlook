@@ -24,6 +24,7 @@ namespace backend.Services
         /// GetArticleProperties is a method that provides an article with its properties including object from one-to-many and many-to-many relations 
         /// </summary>
         /// <param name="article"></param>
+        // TODO: Remove
         public async Task GetArticleProperties(Article article)
         {
             // Add the category

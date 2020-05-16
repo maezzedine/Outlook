@@ -57,15 +57,15 @@ namespace backend.Services
         /// <param name="member"></param>
         public void GetJuniorEditorCategory(Member member)
         {
-            if (IsJuniorEditor(member))
-            {
-                var categoryEditor = context.CategoryEditor.FirstOrDefault(c => c.MemberID == member.ID);
-                if (categoryEditor != null)
-                {
-                    var category = context.Category.Find(categoryEditor.CategoryID);
-                    member.Category = category;
-                }
-            }
+            //if (IsJuniorEditor(member))
+            //{
+            //    var categoryEditor = context.CategoryEditor.FirstOrDefault(c => c.MemberID == member.ID);
+            //    if (categoryEditor != null)
+            //    {
+            //        var category = context.Category.Find(categoryEditor.CategoryID);
+            //        member.Category = category;
+            //    }
+            //}
         }
 
         /// <summary>

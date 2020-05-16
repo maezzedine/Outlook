@@ -1,12 +1,16 @@
-﻿namespace backend.Models.Interfaces
+﻿using System.Collections.Generic;
+
+namespace backend.Models.Interfaces
 {
-    interface IMember
+    public interface IMember
     {
         public int NumberOfArticles { get; set; }
 
         public string Name { get; set; }
 
         public Position Position { get; set; }
+
+        public List<Article> Articles { get; set; }
     }
     public enum Position
     {

@@ -1,9 +1,12 @@
-﻿using backend.Data;
+﻿using AutoMapper;
+using backend.Data;
 using backend.Models;
+using backend.Models.Dtos;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace backend.APIs
@@ -13,14 +16,14 @@ namespace backend.APIs
     public class CategoriesController : ControllerBase
     {
         private readonly OutlookContext context;
-        private readonly CategoryService categoryService;
+        private readonly IMapper mapper;
 
         public CategoriesController(
-            OutlookContext context,
-            CategoryService categoryService)
+            IMapper mapper,
+            OutlookContext context)
         {
+            this.mapper = mapper;
             this.context = context;
-            this.categoryService = categoryService;
         }
 
         /// <summary>
@@ -36,16 +39,22 @@ namespace backend.APIs
         /// <returns>List of catgories</returns>
         /// <response code="200">Returns the list of categories</response>
         [HttpGet("{issueId}")]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories(int issueId)
+        public ActionResult<List<CategoryDto>> GetCategories(int issueId)
         {
-            var categories = context.Category;
+            var categories = context.Category
+                .Include(c => c.JuniorEditors)
+                .Include(c => c.Articles)
+                .ThenInclude(a => a.Issue)
+                .Select(c => mapper.Map<CategoryDto>(c))
+                .ToList();
 
             foreach (var category in categories)
             {
-                await categoryService.GetCategoryDetails(category, issueId);
+                var articles = (category.Articles != null)? category.Articles.Where(a => a.Issue.Id == issueId).ToList() : null;
+                category.Articles = articles;
             }
 
-            return await categories.ToListAsync();
+            return categories;
         }
 
         /// <summary>
@@ -62,18 +71,24 @@ namespace backend.APIs
         /// <response code="200">Returns the category with its properties</response>
         /// <response code="404">Returns NotFound result if no category with the given ID was found</response>
         [HttpGet("{id}/{issueId}")]
-        public async Task<ActionResult<Category>> GetCategory(int id, int issueId)
+        public async Task<ActionResult<CategoryDto>>GetCategory(int id, int issueId)
         {
-            var category = await context.Category.FindAsync(id);
+            var category = await context.Category
+                .Include(c => c.Articles)
+                .Include(c => c.JuniorEditors)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (category == null)
             {
                 return NotFound();
             }
 
-            await categoryService.GetCategoryDetails(category, issueId);
+            category.Articles = category.Articles
+                .AsEnumerable()
+                .Where(a => a.IssueID == issueId)
+                .ToList();
 
-            return category;
+            return mapper.Map<CategoryDto>(category);
         }
     }
 }

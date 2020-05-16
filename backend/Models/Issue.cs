@@ -6,7 +6,6 @@ namespace backend.Models
 {
     public class Issue : IIssue
     {
-
         public int Id { get; set; }
 
         public int VolumeID { get; set; }

@@ -1,6 +1,8 @@
-﻿using backend.Data;
+﻿using AutoMapper;
+using backend.Data;
 using backend.Hubs;
-using backend.Models;
+using backend.Models.Dtos;
+using backend.Models.Interfaces;
 using backend.Models.Relations;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +17,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using static backend.Models.Relations.UserRateArticle;
 
 namespace backend.APIs
 {
@@ -24,22 +25,22 @@ namespace backend.APIs
     public class ArticlesController : ControllerBase
     {
         private readonly OutlookContext context;
-        private readonly ArticleService articleService;
         private readonly IdentityService identityService;
         private readonly IWebHostEnvironment env;
         private readonly IHubContext<ArticleHub, IArticleHub> hubContext;
         private readonly Logger.Logger logger;
-        public IConfiguration configuration { get; }
+        private readonly IConfiguration configuration;
+        private readonly IMapper mapper;
 
         public ArticlesController(
             OutlookContext context,
-            ArticleService articleService,
+            IMapper mapper,
             IdentityService identityService,
             IHubContext<ArticleHub, IArticleHub> articlehub,
             IWebHostEnvironment env, IConfiguration configuration)
         {
             this.context = context;
-            this.articleService = articleService;
+            this.mapper = mapper;
             this.identityService = identityService;
             this.env = env;
             this.configuration = configuration;
@@ -60,18 +61,15 @@ namespace backend.APIs
         /// <returns>List of articles</returns>
         /// <response code="200">Returns the list of articles in the issue given its ID</response>
         [HttpGet("{issueID}")]
-        public async Task<ActionResult<IEnumerable<Article>>> GetArticles(int issueID)
+        public async Task<ActionResult<IEnumerable<ArticleDto>>> GetArticles(int issueID)
         {
             // Get articles in an issue
-            var articles = from article in context.Article
-                           where article.IssueID == issueID
-                           select article;
-
-            // Foreach article, add its info
-            foreach (var article in articles)
-            {
-                await articleService.GetArticleProperties(article);
-            }
+            var articles = context.Article
+                .Where(a => a.IssueID == issueID)
+                .Include(a => a.Category)
+                .Include(a => a.Issue)
+                .Include(a => a.Member)
+                .Select(a => mapper.Map<ArticleDto>(a));
 
             return await articles.ToListAsync();
         }
@@ -90,17 +88,20 @@ namespace backend.APIs
         /// <response code="200">Returns the article</response>
         /// <response code="404">Returns NotFound result if no article with the given ID was found</response>
         [HttpGet("Article/{id}")]
-        public async Task<ActionResult<Article>> GetArticle(int id)
+        public async Task<ActionResult<ArticleDto>> GetArticle(int id)
         {
-            var article = await context.Article.FindAsync(id);
+            var article = await context.Article
+                .Include(a => a.Category)
+                .Include(a => a.Issue)
+                .Include(a => a.Member)
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             if (article == null)
             {
                 return NotFound();
             }
-            await articleService.GetArticleProperties(article);
 
-            return article;
+            return mapper.Map<ArticleDto>(article);
         }
 
         /// <summary>
@@ -115,17 +116,23 @@ namespace backend.APIs
         /// <returns>A JSON Result of the keys topRatedArticles and topFavoritedArticles</returns>
         /// <reponse code="200">JSON object containing a list of the top rated articles and a list of the most favorited articles</reponse>
         [HttpGet]
-        public ActionResult GetTopArticles()
+        public async Task<ActionResult> GetTopArticles()
         {
-            var topRatedArticles = from article in context.Article
-                                   orderby article.Rate
-                                   descending
-                                   select article;
+            var topRatedArticles = await context.Article
+                .Include(a => a.Category)
+                .Include(a => a.Issue)
+                .Include(a => a.Member)
+                .OrderByDescending(a => a.Rate)
+                .Select(a => mapper.Map<ArticleDto>(a))
+                .ToListAsync();
 
-            var topFavoritedArticles = from article in context.Article
-                                       orderby article.NumberOfFavorites
-                                       descending
-                                       select article;
+            var topFavoritedArticles = await context.Article
+                .Include(a => a.Category)
+                .Include(a => a.Issue)
+                .Include(a => a.Member)
+                .OrderByDescending(a => a.NumberOfFavorites)
+                .Select(a => mapper.Map<ArticleDto>(a))
+                .ToListAsync();
 
             var shortListedTopRatedArticles = GetShortlistedTopArticles(topRatedArticles);
             var shortListedTopFavoritedArticles = GetShortlistedTopArticles(topFavoritedArticles);
@@ -164,23 +171,23 @@ namespace backend.APIs
 
             if (userRateArticle != null)
             {
-                if (userRateArticle.Rate == UserRate.Up)
+                if (userRateArticle.Rate == UserRateArticle.UserRate.Up)
                 {
                     return Accepted("You've already rated up this article.");
                 }
                 else
                 {
-                    if (userRateArticle.Rate == UserRate.Down)
+                    if (userRateArticle.Rate == UserRateArticle.UserRate.Down)
                     {
                         article.UnRateDown();
                     }
-                    userRateArticle.Rate = UserRate.Up;
+                    userRateArticle.Rate = UserRateArticle.UserRate.Up;
                 }
             }
             else
             {
                 // Rate up the article
-                context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = UserRate.Up });
+                context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = UserRateArticle.UserRate.Up });
             }
             article.RateUp();
             await context.SaveChangesAsync();
@@ -218,23 +225,23 @@ namespace backend.APIs
 
             if (userRateArticle != null)
             {
-                if (userRateArticle.Rate == UserRate.Down)
+                if (userRateArticle.Rate == UserRateArticle.UserRate.Down)
                 {
                     return Accepted("You've already rated down this article.");
                 }
                 else
                 {
-                    if (userRateArticle.Rate == UserRate.Up)
+                    if (userRateArticle.Rate == UserRateArticle.UserRate.Up)
                     {
                         article.UnRateUp();
                     }
-                    userRateArticle.Rate = UserRate.Down;
+                    userRateArticle.Rate = UserRateArticle.UserRate.Down;
                 }
             }
             else
             {
                 // Rate down the article
-                context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = UserRate.Down });
+                context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = UserRateArticle.UserRate.Down });
             }
             article.RateDown();
             await context.SaveChangesAsync();
@@ -305,19 +312,19 @@ namespace backend.APIs
         /// <response code="401">The user is unauthorized</response>
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("GetUserFavorites")]
-        public async Task<ActionResult> GetUserFavorites()
+        public async Task<List<ArticleDto>> GetUserFavorites()
         {
             var user = await identityService.GetUserWithToken(HttpContext);
-            var userFavoriteArticles = from userFavoritedArticle in context.UserFavoritedArticleRelation
-                                       where userFavoritedArticle.User == user
-                                       select userFavoritedArticle.Article;
 
-            foreach (var article in userFavoriteArticles)
-            {
-                await articleService.GetArticleProperties(article);
-            }
+            var userFavoriteArticles = await context.UserFavoritedArticleRelation
+                .Include(a => a.Article.Category)
+                .Include(a => a.Article.Issue)
+                .Include(a => a.Article.Member)
+                .Where(a => a.User == user)
+                .Select(a => mapper.Map<ArticleDto>(a.Article))
+                .ToListAsync();
 
-            return Ok(userFavoriteArticles);
+            return userFavoriteArticles;
         }
 
         /// <summary>
@@ -373,10 +380,10 @@ namespace backend.APIs
             return Ok();
         }
 
-        private IEnumerable<Article> GetShortlistedTopArticles(IOrderedQueryable<Article> articles)
+        private IEnumerable<ArticleDto> GetShortlistedTopArticles(List<ArticleDto> articles)
         {
-            var englishShortlistedArticles = articles.Where(a => a.Language == Models.Interfaces.Language.English).AsEnumerable().Take(3);
-            var arabicShortlistedArticles = articles.Where(a => a.Language == Models.Interfaces.Language.Arabic).AsEnumerable().Take(3);
+            var englishShortlistedArticles = articles.Where(a => a.Language == Language.English.ToString()).AsEnumerable().Take(3);
+            var arabicShortlistedArticles = articles.Where(a => a.Language == Language.Arabic.ToString()).AsEnumerable().Take(3);
 
             return englishShortlistedArticles.Concat(arabicShortlistedArticles);
         }

@@ -29,12 +29,14 @@ namespace backend.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            var categories = await context.Category.ToListAsync();
+            var categories = await context.Category
+                .Include(c => c.JuniorEditors)
+                .ToListAsync();
 
-            foreach (var category in categories)
-            {
-                await categoryService.GetCategoryJuniorEditors(category);
-            }
+            //foreach (var category in categories)
+            //{
+            //    await categoryService.GetCategoryJuniorEditors(category);
+            //}
 
             return View(await context.Category.ToListAsync());
         }
@@ -47,14 +49,16 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var category = await context.Category.FirstOrDefaultAsync(m => m.Id == id);
+            var category = await context.Category
+                .Include(c => c.JuniorEditors)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (category == null)
             {
                 return NotFound();
             }
 
-            await categoryService.GetCategoryJuniorEditors(category);
+            //await categoryService.GetCategoryJuniorEditors(category);
 
             return View(category);
         }
@@ -156,13 +160,15 @@ namespace backend.Controllers
             }
 
             var category = await context.Category
+                .Include(c => c.JuniorEditors)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (category == null)
             {
                 return NotFound();
             }
 
-            await categoryService.GetCategoryJuniorEditors(category);
+            //await categoryService.GetCategoryJuniorEditors(category);
 
             return View(category);
         }

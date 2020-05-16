@@ -35,6 +35,7 @@ namespace backend.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
+            // TODO: Include Category
             var members = from member in context.Member
                           where (member.Position != Position.كاتب_صحفي) && (member.Position != Position.Staff_Writer)
                           select member;
@@ -43,15 +44,16 @@ namespace backend.Controllers
             {
                 if (memberService.IsJuniorEditor(member))
                 {
-                    var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
-                    if (categoryEditor != null)
-                    {
-                        var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
-                        if (category != null)
-                        {
-                            member.CategoryField = category.CategoryName;
-                        }
-                    }
+                    //var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
+                    //if (categoryEditor != null)
+                    //{
+                    //    var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
+                    //    if (category != null)
+                    //    {
+                    //        member.CategoryField = category.CategoryName;
+                    //    }
+                    //}
+                    member.CategoryField = member.Category.CategoryName;
                 }
                 else
                 {
@@ -80,15 +82,16 @@ namespace backend.Controllers
 
             if (memberService.IsJuniorEditor(member))
             {
-                var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
-                if (categoryEditor != null)
-                {
-                    var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
-                    if (category != null)
-                    {
-                        member.CategoryField = category.CategoryName;
-                    }
-                }
+                //var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
+                //if (categoryEditor != null)
+                //{
+                //    var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
+                //    if (category != null)
+                //    {
+                //        member.CategoryField = category.CategoryName;
+                //    }
+                //}
+                member.CategoryField = member.Category.CategoryName;
             }
 
             return View(member);
@@ -120,8 +123,9 @@ namespace backend.Controllers
                 if (memberService.IsJuniorEditor(member))
                 {
                     // Creating new CategoryEditor relation instance
-                    var categoryID = context.Category.First(c => c.CategoryName == member.CategoryField).Id;
-                    context.CategoryEditor.Add(new CategoryEditorRelation { CategoryID = categoryID, MemberID = member.ID });
+                    var category = context.Category.First(c => c.CategoryName == member.CategoryField);
+                    member.Category = category;
+                    //context.CategoryEditor.Add(new CategoryEditorRelation { CategoryID = categoryID, MemberID = member.ID });
                 }
 
                 await context.SaveChangesAsync();
@@ -142,19 +146,19 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await context.Member.FindAsync(id);
+            var member = await context.Member.Include(m => m.Category).FirstOrDefaultAsync(m => m.ID == id);
 
             if (memberService.IsJuniorEditor(member))
             {
-                var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
-                if (categoryEditor != null)
-                {
-                    var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
-                    if (category != null)
-                    {
-                        member.CategoryField = category.CategoryName;
-                    }
-                }
+                //var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
+                //if (categoryEditor != null)
+                //{
+                //    var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
+                //    if (category != null)
+                //    {
+                //        member.CategoryField = category.CategoryName;
+                //    }
+                //}
             }
 
             if (member == null)
@@ -178,21 +182,22 @@ namespace backend.Controllers
             {
                 try
                 {
-                    var oldMemberData = await context.Member.FindAsync(member.ID);
+                    var oldMemberData = await context.Member.Include(m => m.Category).FirstOrDefaultAsync(m => m.ID == member.ID);
 
 
                     if (memberService.IsJuniorEditor(oldMemberData))
                     {
-                        var oldCategoryEditorData = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == oldMemberData.ID);
-                        var oldCategory = await context.Category.FindAsync(oldCategoryEditorData.CategoryID);
+                        //var oldCategoryEditorData = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == oldMemberData.ID);
+                        //var oldCategory = await context.Category.FindAsync(oldCategoryEditorData.CategoryID);
 
                         logger.Log($"{HttpContext.User.Identity.Name} editted member `{oldMemberData.Name}` with position {oldMemberData.Position} " +
-                            $"(Category = {oldCategory.CategoryName}) ");
+                            $"(Category = {oldMemberData.Category.CategoryName}) ");
 
                         // Delete CategoryEditor relation if needed
                         if ((member.Position != Position.Junior_Editor) && (member.Position != Position.رئيس_قسم))
                         {
-                            context.CategoryEditor.Remove(oldCategoryEditorData);
+                            //context.CategoryEditor.Remove(oldCategoryEditorData);
+                            oldMemberData.Category = null;
                             await context.SaveChangesAsync();
                         }
                         else
@@ -203,9 +208,11 @@ namespace backend.Controllers
                             {
                                 var newCategoryID = newCategory.Id;
                                 // Update CategoryEditor relation if needed
-                                if (newCategoryID != oldCategoryEditorData.CategoryID)
+                                //if (newCategoryID != oldCategoryEditorData.CategoryID)
+                                if (newCategoryID != oldMemberData.Category.Id)
                                 {
-                                    oldCategoryEditorData.CategoryID = newCategoryID;
+                                    //oldCategoryEditorData.CategoryID = newCategoryID;
+                                    oldMemberData.Category = newCategory;
                                     await context.SaveChangesAsync();
                                 }
                             }
@@ -221,7 +228,8 @@ namespace backend.Controllers
                             if (newCategory != null)
                             {
                                 var newCategoryID = newCategory.Id;
-                                context.CategoryEditor.Add(new CategoryEditorRelation { CategoryID = newCategoryID, MemberID = member.ID });
+                                oldMemberData.Category = newCategory;
+                                //context.CategoryEditor.Add(new CategoryEditorRelation { CategoryID = newCategoryID, MemberID = member.ID });
                                 await context.SaveChangesAsync();
                             }
                         }
