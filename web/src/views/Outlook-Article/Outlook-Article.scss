@@ -6,10 +6,15 @@
     align-items: flex-start;
     text-align: initial;
 
+    a {
+        color: unset;
+    }
+
     .category {
         font-size: large;
         text-align: end;
         width: var(--article-element-width);
+        padding: 0 2%;
 
         span {
             border-left: 1px solid var(--bg-0);
@@ -44,10 +49,6 @@
             margin: 2% 0;
             width: var(--article-element-width);
             border-bottom: .5px solid var(--text-3);
-
-            a {
-                color: unset;
-            }
         }
 
         img {

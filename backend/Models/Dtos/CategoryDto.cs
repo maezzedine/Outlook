@@ -10,8 +10,6 @@ namespace backend.Models.Dtos
 
         public string Language { get; set; }
 
-        public int ArticlesCount { get; set; }
-
         public string CategoryName { get; set; }
     }
 

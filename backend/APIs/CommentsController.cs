@@ -16,6 +16,7 @@ namespace backend.APIs
     [ApiController]
     public class CommentsController : ControllerBase
     {
+        // TODO: Fix comment websocket
         private readonly OutlookContext context;
         private readonly IdentityService identityService;
         private readonly IHubContext<ArticleHub, IArticleHub> articleHub;

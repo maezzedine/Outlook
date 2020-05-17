@@ -8,8 +8,7 @@ namespace backend.Mappings.Profiles
     {
         public IssueProfile()
         {
-            CreateMap<Issue, IssueDto>()
-                .ForMember(dest => dest.Volume, opt => opt.MapFrom(src => src.Volume));
+            CreateMap<Issue, IssueDto>();
         }
     }
 }

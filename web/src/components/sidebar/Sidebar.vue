@@ -11,8 +11,8 @@
             <label class="table-row"><span>{{$store.getters.Language.categories}}</span></label>
             <router-link v-for="cat in Categories" v-if="showCategory(cat)"
                             :to="{ name: 'category', params: { id: cat.id } }">
-                <svg-category :icon="getCategoryIcon(cat)" class="header"/>
-                <div class="detail">{{cat.categoryName}}<p class="badge badge-secondary m-2" v-if="cat.articlesCount != 0">{{cat.articlesCount}}</p></div>
+                <svg-category :icon="getCategoryIcon(cat)" class="header" :articlesCount="cat.articles.length"/>
+                <div class="detail">{{cat.categoryName}}</div>
             </router-link>
             <!--</Categories>-->
 

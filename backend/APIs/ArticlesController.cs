@@ -69,6 +69,8 @@ namespace backend.APIs
                 .Include(a => a.Category)
                 .Include(a => a.Issue)
                 .Include(a => a.Member)
+                .Include(a => a.Comments)
+                .ThenInclude(c => c.User)
                 .Select(a => mapper.Map<ArticleDto>(a));
 
             return await articles.ToListAsync();
@@ -94,6 +96,8 @@ namespace backend.APIs
                 .Include(a => a.Category)
                 .Include(a => a.Issue)
                 .Include(a => a.Member)
+                .Include(a => a.Comments)
+                .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (article == null)

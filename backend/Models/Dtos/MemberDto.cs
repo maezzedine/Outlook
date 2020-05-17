@@ -13,8 +13,6 @@ namespace backend.Models.Dtos
         public string Position { get; set; }
 
         public CategorySummaryDto Category { get; set; }
-
-        public int NumberOfArticles { get; set; }
     }
 
     public class MemberDto : MemberSummaryDto

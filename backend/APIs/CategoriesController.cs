@@ -43,6 +43,8 @@ namespace backend.APIs
                 .Include(c => c.JuniorEditors)
                 .Include(c => c.Articles)
                 .ThenInclude(a => a.Issue)
+                .Include(c => c.Articles)
+                .ThenInclude(a => a.Member)
                 .Select(c => mapper.Map<CategoryDto>(c))
                 .ToList();
 
@@ -73,6 +75,7 @@ namespace backend.APIs
         {
             var category = await context.Category
                 .Include(c => c.Articles)
+                .ThenInclude(a => a.Member)
                 .Include(c => c.JuniorEditors)
                 .FirstOrDefaultAsync(c => c.Id == id);
 

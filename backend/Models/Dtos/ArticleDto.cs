@@ -1,4 +1,7 @@
-﻿namespace backend.Models.Dtos
+﻿using System;
+using System.Collections.Generic;
+
+namespace backend.Models.Dtos
 {
     public class ArticleDto
     {
@@ -11,9 +14,13 @@
         public IssueDto Issue { get; set; }
         
         public MemberSummaryDto Member { get; set; }
+
+        public List<CommentDto> Comments { get; set; }
         
+        public DateTime DateTime { get; set; }
+
         public string Title { get; set; }
-        
+
         public string Subtitle { get; set; }
         
         public string PicturePath { get; set; }

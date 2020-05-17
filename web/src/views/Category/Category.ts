@@ -8,7 +8,6 @@ import articleThumbnail from '@/components/article-thumbnail/Article-Thumbnail';
 })
 export default class Category extends Vue {
     private Category: ApiObject | null = null;
-    private Articles: Array<ApiObject> | null = null;
     private id: Number | null = null;
 
     created() {
@@ -19,7 +18,7 @@ export default class Category extends Vue {
         if (this.Category == null) {
             return '';
         }
-        return this.$store.state.colors.colors[this.Category.tagName]
+        return this.$store.state.colors.colors[this.Category.tag]
     }
 
     getCatgory() {
@@ -39,7 +38,7 @@ export default class Category extends Vue {
     }
 
     showCategory() {
-        return (this.Category != undefined) && (this.Category.language == this.$store.getters.Language.num);
+        return (this.Category != undefined) && (this.Category.language == this.$store.getters.Language.language);
     }
 
     @Watch('$route.params.id')
@@ -60,25 +59,9 @@ export default class Category extends Vue {
                         this.Category = d;
                         return;
                     })
-                    .catch(e => {
+                    .catch(_ => {
                         this.$router.push(`/${this.$store.getters.Language.lang}/not-found`);
                     })
-            }
-        }
-    }
-
-    @Watch('Category')
-    @Watch('$parent.$data.Articles')
-    updateArticles() {
-        if ((this.Category != null) && !(this.$parent.$data.Articles instanceof ApiObject)) {
-            var articles = this.$parent.$data.Articles;
-            this.Articles = new Array();
-            if (articles != undefined) {
-                for (let a of articles) {
-                    if (a.categoryID == this.Category.id) {
-                        this.Articles.push(a);
-                    }
-                }
             }
         }
     }

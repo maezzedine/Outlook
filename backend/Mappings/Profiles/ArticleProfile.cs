@@ -9,10 +9,7 @@ namespace backend.Mappings.Profiles
         public ArticleProfile()
         {
             CreateMap<Article, ArticleDto>()
-                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
-                .ForMember(dest => dest.Issue, opt => opt.MapFrom(src => src.Issue))
-                .ForMember(dest => dest.Language, opt => opt.MapFrom(src => src.Language.ToString()))
-                .ForMember(dest => dest.Member, opt => opt.MapFrom(src => src.Member));
+                .ForMember(dest => dest.Language, opt => opt.MapFrom(src => src.Language.ToString()));
         }
     }
 }

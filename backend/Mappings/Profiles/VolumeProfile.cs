@@ -8,8 +8,7 @@ namespace backend.Mappings.Profiles
     {
         public VolumeProfile()
         {
-            CreateMap<Volume, VolumeDto>()
-                .ForMember(dest => dest.Issues, opt => opt.MapFrom(src => src.Issues));
+            CreateMap<Volume, VolumeDto>();
         }
     }
 }

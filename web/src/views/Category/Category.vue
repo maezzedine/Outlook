@@ -6,7 +6,7 @@
             </div>
             <div class="row m-0 p-0">
                 <b>{{$store.getters.Language.nbrOfArticles}}: </b>
-                <p>{{Category.articlesCount}}</p>
+                <p>{{Category.articles.length}}</p>
             </div>
             <b>{{$store.getters.Language.juniorEditors}}:</b>
             <p>
@@ -16,7 +16,7 @@
             </p>
         </div>
         <div class="articles">
-            <article-thumbnail v-for="article in Articles" :article="article" />
+            <article-thumbnail v-for="article in Category.articles" :article="article" />
         </div>
     </div>
 </template>
