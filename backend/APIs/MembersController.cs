@@ -1,6 +1,8 @@
-﻿using backend.Areas.Identity;
+﻿using AutoMapper;
+using backend.Areas.Identity;
 using backend.Data;
 using backend.Models;
+using backend.Models.Dtos;
 using backend.Models.Interfaces;
 using backend.Services;
 using Microsoft.AspNetCore.Identity;
@@ -20,15 +22,18 @@ namespace backend.APIs
         private readonly OutlookContext context;
         private readonly ArticleService articleService;
         private readonly MemberService memberService;
+        private readonly IMapper mapper;
 
         public MembersController(
             OutlookContext context, 
             MemberService memberService,
-            ArticleService articleService)
+            ArticleService articleService,
+            IMapper mapper)
         {
             this.context = context;
             this.memberService = memberService;
             this.articleService = articleService;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -47,32 +52,20 @@ namespace backend.APIs
         /// <response code="200">Returns the specified member</response>
         /// <response code="404">Returns NotFound result if no member with the given ID was found</response>
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetMember(int id)
+        public ActionResult<MemberDto> GetMember(int id)
         {
-            var member = await context.Member.FindAsync(id);
+            var member = context.Member
+                .Include(m => m.Articles)
+                .ThenInclude(a => a.Category)
+                .Include(m => m.Category)
+                .FirstOrDefault(m => m.ID == id);
 
             if (member == null)
             {
                 return NotFound();
             }
 
-            memberService.GetMemberLanguageAndArticlesCount(member);
-            memberService.GetJuniorEditorCategory(member);
-
-            var articles = from article in context.Article
-                           where article.MemberID == member.ID
-                           select article;
-
-            foreach (var article in articles)
-            {
-                await articleService.GetArticleProperties(article);
-            }
-
-            return Ok(new
-            {
-                member = member,
-                articles = articles
-            });
+            return mapper.Map<MemberDto>(member);
         }
 
         /// <summary>
@@ -87,17 +80,13 @@ namespace backend.APIs
         /// <returns>List of members</returns>
         /// <response code="200">Returns the list of members</response>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Member>>> GetWriters()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetWriters()
         {
-            var writers = from member in context.Member
-                          where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
-                          orderby member.Name
-                          select member;
-
-            foreach (var writer in writers)
-            {
-                memberService.GetMemberLanguageAndArticlesCount(writer);
-            }
+            var writers = context.Member
+                .Where(m => (m.Position == Position.Staff_Writer) || (m.Position == Position.كاتب_صحفي))
+                .Include(m => m.Articles)
+                .OrderBy(m => m.Name)
+                .Select(m => mapper.Map<MemberDto>(m));
 
             return await writers.ToListAsync();
         }
@@ -114,23 +103,24 @@ namespace backend.APIs
         /// <returns>JSON object with the keys ArabicBoard and EnglishBoard</returns>
         /// <response code="200">Returns a JSON object containing the Enlish and the Arabic board members</response>
         [HttpGet("board")]
-        public async Task<ActionResult> GetBoardMembers()
+        public ActionResult GetBoardMembers()
         {
-
             var englishPositons = from position in MemberService.EnglishPositions orderby position select position;
             var arabicPositons = from position in MemberService.ArabicPositions orderby position select position;
+            var nonBoardMembers = new List<Position> { Position.Staff_Writer, Position.Former_Member, Position.كاتب_صحفي, Position.عضو_سابق };
 
-            var boardMembers = from member in context.Member
-                               where !(MemberService.NonBoardMembers.Contains(member.Position))
-                               select member;
+            var boardMembers = context.Member
+                .Include(m => m.Category)
+                .AsEnumerable()
+                .Where(m => !nonBoardMembers.Any(n => n == m.Position))
+                .Select(m => mapper.Map<MemberDto>(m));
 
-            await boardMembers.ForEachAsync(m => memberService.GetJuniorEditorCategory(m));
+            // TODO: Improvement required
+            var englishBoardMembers = new Dictionary<string, IQueryable<MemberDto>>();
+            MemberService.AddBoardMembers(englishBoardMembers, englishPositons, boardMembers.AsQueryable());
 
-            var englishBoardMembers = new Dictionary<string, IQueryable<Member>>();
-            MemberService.AddBoardMembers(englishBoardMembers, englishPositons, boardMembers);
-
-            var arabicBoardMembers = new Dictionary<string, IQueryable<Member>>();
-            MemberService.AddBoardMembers(arabicBoardMembers, arabicPositons, boardMembers);
+            var arabicBoardMembers = new Dictionary<string, IQueryable<MemberDto>>();
+            MemberService.AddBoardMembers(arabicBoardMembers, arabicPositons, boardMembers.AsQueryable());
 
             return Ok(new
             {
@@ -151,27 +141,17 @@ namespace backend.APIs
         /// <returns>List of Arabic and English writers</returns>
         /// <response code="200">Returns the list of writers</response>
         [HttpGet("top")]
-        public async Task<ActionResult> GetTopWriters()
+        public ActionResult GetTopWriters()
         {
-            var members = from member in context.Member
-                          select member;
+            var members = context.Member
+                .Include(m => m.Articles)
+                .OrderByDescending(m => m.Articles.Count)
+                .Select(m => mapper.Map<MemberDto>(m));
 
-            foreach (var writer in members)
-            {
-                memberService.GetMemberLanguageAndArticlesCount(writer);
-            }
-
-            var writers = await members.ToListAsync();
-
-            var topWriters = from member in writers
-                             orderby member.NumberOfArticles descending
-                             select member;
-
-            var shortListedTopWriters = topWriters.AsEnumerable().Where(w => w.Language == Language.English).Take(3)
-                .Concat(topWriters.AsEnumerable().Where(w => w.Language == Language.Arabic).Take(3));
+            var shortListedTopWriters = members.AsEnumerable().Where(w => w.Language == Language.English.ToString()).Take(3)
+                .Concat(members.AsEnumerable().Where(w => w.Language == Language.Arabic.ToString()).Take(3));
 
             return Ok(shortListedTopWriters);
         }
-
     }
 }
