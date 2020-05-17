@@ -1,5 +1,6 @@
 ﻿using backend.Data;
 using backend.Models;
+using backend.Models.Interfaces;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,27 +15,21 @@ namespace backend.Controllers
     public class CategoriesController : Controller
     {
         private readonly OutlookContext context;
-        private readonly CategoryService categoryService;
         private readonly Logger.Logger logger;
 
         public CategoriesController(
-            OutlookContext context,
-            CategoryService categoryService)
+            OutlookContext context)
         {
             this.context = context;
-            this.categoryService = categoryService;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            var categories = await context.Category.ToListAsync();
-
-            foreach (var category in categories)
-            {
-                await categoryService.GetCategoryJuniorEditors(category);
-            }
+            var categories = await context.Category
+                .Include(c => c.JuniorEditors)
+                .ToListAsync();
 
             return View(await context.Category.ToListAsync());
         }
@@ -47,14 +42,14 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var category = await context.Category.FirstOrDefaultAsync(m => m.Id == id);
+            var category = await context.Category
+                .Include(c => c.JuniorEditors)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (category == null)
             {
                 return NotFound();
             }
-
-            await categoryService.GetCategoryJuniorEditors(category);
 
             return View(category);
         }
@@ -73,16 +68,8 @@ namespace backend.Controllers
             if (ModelState.IsValid)
             {
                 context.Add(category);
+                category.SetLanguage(Regex.IsMatch(category.CategoryName, @"^[a-zA-Z.\-\s]*$") ? Language.English : Language.Arabic);
                 await context.SaveChangesAsync();
-
-                if (Regex.IsMatch(category.CategoryName, @"^[a-zA-Z.\-\s]*$"))
-                {
-                    category.Language = Models.Interfaces.Language.English;
-                }
-                else
-                {
-                    category.Language = Models.Interfaces.Language.Arabic;
-                }
 
                 logger.Log($"{HttpContext.User.Identity.Name} created Category `{category.CategoryName}` and ID `{category.Id}`.");
 
@@ -99,7 +86,8 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var category = await context.Category.FindAsync(id);
+            var category = await context.Category
+                .FindAsync(id);
 
             if (category == null)
             {
@@ -123,9 +111,13 @@ namespace backend.Controllers
             {
                 try
                 {
-                    var oldCategory = await context.Category.FindAsync(category.Id);
-                    oldCategory.Language = category.Language;
-                    oldCategory.Tag = category.Tag;
+                    var originalCategory = await context.Category
+                        .FindAsync(category.Id);
+
+                    originalCategory
+                        .SetLanguage(category.Language)
+                        .SetTag(category.Tag);
+
                     await context.SaveChangesAsync();
 
                     logger.Log($"{HttpContext.User.Identity.Name} editted Category `{category.CategoryName}`");
@@ -156,13 +148,13 @@ namespace backend.Controllers
             }
 
             var category = await context.Category
+                .Include(c => c.JuniorEditors)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (category == null)
             {
                 return NotFound();
             }
-
-            await categoryService.GetCategoryJuniorEditors(category);
 
             return View(category);
         }

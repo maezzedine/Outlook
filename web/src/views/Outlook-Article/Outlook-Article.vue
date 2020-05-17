@@ -1,9 +1,9 @@
 <template>
     <div class="article">
-        <div v-if="!loading"  class="category" 
-                :style="[{background: getCategoryColor(Article.categoryTagName)}]">
+        <router-link v-if="!loading" class="category" :to="{ name: 'category', params: { id: Article.category.id } }"
+                :style="[{background: getCategoryColor(Article.category.tag)}]">
             {{Article.category.categoryName}} <span></span>
-        </div>
+        </router-link>
 
         <div class="article-body">
             <div class="title">
@@ -18,7 +18,7 @@
             </template>
 
             <div class="writer">
-                <router-link :to="{ name: 'member', params: { id: Article.memberID } }" v-if="!loading">{{Article.member.name}} | {{Article.member.positionName}}</router-link>
+                <router-link :to="{ name: 'member', params: { id: Article.member.id } }" v-if="!loading">{{Article.member.name}} | {{Article.member.position}}</router-link>
             </div>
 
             <div id="article-text-body"></div>
@@ -54,10 +54,10 @@
                     <div class="comments">
                         <form class="new-comment" @submit.prevent="addComment">
                             <template v-if="!$store.getters.IsAuthenticated">
-                                <textarea v-model="Comment" autofocus :placeholder="$store.getters.Language['unauthorized-comment']" disabled />
+                                <textarea v-model="Comment" :placeholder="$store.getters.Language['unauthorized-comment']" disabled />
                             </template>
                             <template v-else>
-                                <textarea v-model="Comment" autofocus :placeholder="$store.getters.Language['comment']" />
+                                <textarea v-model="Comment" :placeholder="$store.getters.Language['comment']" />
                                 <span><button type="submit" class="btn">{{$store.getters.Language['submit']}}</button></span>
                             </template>
                         </form>

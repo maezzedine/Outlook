@@ -9,7 +9,6 @@ import stats from '@/views/Stats/Stats.vue';
         return {
             Volume: undefined,
             Issue: undefined,
-            Models: undefined
         }
     }
 })

@@ -102,12 +102,14 @@ namespace backend.Controllers
             {
                 try
                 {
-                    var oldWriter = context.Member.Find(id);
-                    if (oldWriter.Position != member.Position)
+                    var originalWriter = context.Member
+                        .Find(id);
+
+                    if (originalWriter.Position != member.Position)
                     {
-                        oldWriter.Position = member.Position;
+                        originalWriter.Position = member.Position;
                         await context.SaveChangesAsync();
-                        logger.Log($"{HttpContext.User.Identity.Name} eddited writer `{oldWriter.Name}` to become `{member.Position}`");
+                        logger.Log($"{HttpContext.User.Identity.Name} eddited writer `{originalWriter.Name}` to become `{member.Position}`");
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -135,7 +137,9 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await context.Member.FirstOrDefaultAsync(m => m.ID == id);
+            var member = await context.Member
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (member == null)
             {
                 return NotFound();
@@ -153,10 +157,8 @@ namespace backend.Controllers
             var member = await context.Member.FindAsync(id);
 
             logger.Log($"{HttpContext.User.Identity.Name} admits to delete writer `{member.Name}`");
-
             context.Member.Remove(member);
             await context.SaveChangesAsync();
-
             logger.Log("Delet Completed.");
 
             return RedirectToAction(nameof(Index));

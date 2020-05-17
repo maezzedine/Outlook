@@ -1,4 +1,6 @@
-﻿namespace backend.Models.Interfaces
+﻿using System.Collections.Generic;
+
+namespace backend.Models.Interfaces
 {
     public interface ICategory
     {
@@ -9,6 +11,8 @@
         public string CategoryName { get; set; }
 
         public Tag Tag { get; set; }
+
+        public List<Article> Articles { get; set; }
     }
     public enum Tag
     {

@@ -17,15 +17,9 @@ namespace backend.Models
 
         public Language Language { get; set; }
 
-        [NotMapped]
-        public string Lang { get; set; }
-
         public int CategoryID { get; set; }
 
         public Category Category { get; set; }
-
-        [NotMapped]
-        public string CategoryTagName { get; set; }
 
         public int IssueID { get; set; }
 
@@ -92,6 +86,36 @@ namespace backend.Models
         {
             Rate--;
             NumberOfVotes--;
+        }
+
+        public Article SetLanguage(Language language)
+        {
+            Language = language;
+            return this;
+        }
+
+        public Article SetCategory(Category category)
+        {
+            Category = category;
+            return this;
+        }
+
+        public Article SetTitle(string title)
+        {
+            Title = title;
+            return this;
+        }
+
+        public Article SetText(string text)
+        {
+            Text = text;
+            return this;
+        }
+
+        public Article SetSubtitle(string subtitle)
+        {
+            Subtitle = subtitle;
+            return this;
         }
     }
 }

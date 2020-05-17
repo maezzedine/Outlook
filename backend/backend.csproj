@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>335a482b-fb87-4958-b45f-033d07f18930</UserSecretsId>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Migrations\20200312213028_test.cs" />
@@ -12,8 +13,17 @@
     <Compile Remove="Migrations\20200313173653_AddUniqueness.Designer.cs" />
     <Compile Remove="Migrations\20200507032617_On Delete Article Cascade.cs" />
     <Compile Remove="Migrations\20200507032617_On Delete Article Cascade.Designer.cs" />
+    <Compile Remove="Migrations\20200516173401_Map IArticle%27s relations.cs" />
+    <Compile Remove="Migrations\20200516173401_Map IArticle%27s relations.Designer.cs" />
+    <Compile Remove="Migrations\20200516175456_Add Objeccts keys.cs" />
+    <Compile Remove="Migrations\20200516175456_Add Objeccts keys.Designer.cs" />
+    <Compile Remove="Migrations\20200516210652_Category Editor Relation adjustment.cs" />
+    <Compile Remove="Migrations\20200516210652_Category Editor Relation adjustment.Designer.cs" />
+    <Compile Remove="Migrations\20200516211551_Comment Rates Remove.cs" />
+    <Compile Remove="Migrations\20200516211551_Comment Rates Remove.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="IdentityServer4" Version="3.1.2" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2" />

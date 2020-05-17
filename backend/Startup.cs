@@ -1,4 +1,5 @@
-﻿using backend.Areas.Identity;
+﻿using AutoMapper;
+using backend.Areas.Identity;
 using backend.Data;
 using backend.Hubs;
 using backend.Services;
@@ -36,10 +37,12 @@ namespace backend
             {
                 options.AddDefaultPolicy(p => p
                     //.WithOrigins(Configuration.GetValue<string>("ClientUrl").Split(';'))
-                    .AllowAnyHeader()
+                    .AllowAnyHeader() 
                     .AllowAnyMethod()
                     .AllowAnyOrigin());
             });
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllersWithViews();
 
@@ -99,7 +102,6 @@ namespace backend
 
             // Add app services
             services.AddTransient<ArticleService>();
-            services.AddTransient<CategoryService>();
             services.AddTransient<IdentityService>();
             services.AddTransient<MemberService>();
 

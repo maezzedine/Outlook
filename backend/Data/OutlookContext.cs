@@ -29,7 +29,7 @@ namespace backend.Data
 
             builder.Entity<Article>()
                 .HasOne(a => a.Member)
-                .WithMany(c => c.Articles)
+                .WithMany(m => m.Articles)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Article>()
@@ -56,6 +56,22 @@ namespace backend.Data
                .HasOne(uf => uf.User)
                .WithMany(u => u.Rates)
                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Category>()
+                .HasMany(c => c.JuniorEditors)
+                .WithOne(e => e.Category);
+
+            builder.Entity<Issue>()
+                .HasAlternateKey(i => new { i.VolumeID, i.IssueNumber });
+
+            builder.Entity<Volume>()
+                .HasAlternateKey(v => v.VolumeNumber);
+
+            builder.Entity<Category>()
+                .HasAlternateKey(c => c.CategoryName);
+
+            builder.Entity<Member>()
+                .HasAlternateKey(m => m.Name);
         }
 
         public DbSet<Volume> Volume { get; set; }
@@ -64,7 +80,6 @@ namespace backend.Data
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Issue> Issue { get; set; }
         public DbSet<Member> Member { get; set; }
-        public DbSet<CategoryEditorRelation> CategoryEditor { get; set; }
         public DbSet<UserFavoritedArticleRelation> UserFavoritedArticleRelation { get; set; }
         public DbSet<UserRateArticle> UserRateArticle { get; set; }
 

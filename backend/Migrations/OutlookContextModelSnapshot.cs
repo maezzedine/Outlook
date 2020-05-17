@@ -296,7 +296,8 @@ namespace backend.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CategoryName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Language")
                         .HasColumnType("int");
@@ -305,6 +306,8 @@ namespace backend.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("CategoryName");
 
                     b.ToTable("Category");
                 });
@@ -321,15 +324,6 @@ namespace backend.Migrations
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("NumberOfFavorites")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfVotes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rate")
-                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
@@ -367,7 +361,7 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VolumeID");
+                    b.HasAlternateKey("VolumeID", "IssueNumber");
 
                     b.ToTable("Issue");
                 });
@@ -379,37 +373,23 @@ namespace backend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
+                    b.HasAlternateKey("Name");
+
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Member");
-                });
-
-            modelBuilder.Entity("backend.Models.Relations.CategoryEditorRelation", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MemberID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CategoryID");
-
-                    b.HasIndex("MemberID");
-
-                    b.ToTable("CategoryEditor");
                 });
 
             modelBuilder.Entity("backend.Models.Relations.UserFavoritedArticleRelation", b =>
@@ -476,6 +456,8 @@ namespace backend.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("VolumeNumber");
 
                     b.ToTable("Volume");
                 });
@@ -574,19 +556,11 @@ namespace backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("backend.Models.Relations.CategoryEditorRelation", b =>
+            modelBuilder.Entity("backend.Models.Member", b =>
                 {
                     b.HasOne("backend.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("backend.Models.Member", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("JuniorEditors")
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("backend.Models.Relations.UserFavoritedArticleRelation", b =>

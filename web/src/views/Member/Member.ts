@@ -8,7 +8,6 @@ import articleThumbnail from '@/components/article-thumbnail/Article-Thumbnail.v
 })
 export default class Member extends Vue {
     private member = new ApiObject();
-    private articles = new Array<ApiObject>();
 
     created() {
         this.getMember();
@@ -21,8 +20,7 @@ export default class Member extends Vue {
             var params = new Array<string>();
             params.push(id);
             api.Get('members', params).then(d => {
-                this.member = d['member'];
-                this.articles = d['articles'];
+                this.member = d;
             })
         }
     }

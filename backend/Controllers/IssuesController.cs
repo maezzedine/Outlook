@@ -58,7 +58,9 @@ namespace backend.Controllers
             }
 
             var issue = await context.Issue
-                .FirstOrDefaultAsync(m => m.Id == id);
+               .Include(i => i.Volume)
+               .FirstOrDefaultAsync(i => i.Id == id);
+
             if (issue == null)
             {
                 return NotFound();
@@ -106,7 +108,9 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var issue = await context.Issue.FindAsync(id);
+            var issue = await context.Issue
+                .FindAsync(id);
+
             if (issue == null)
             {
                 return NotFound();
@@ -128,13 +132,19 @@ namespace backend.Controllers
             {
                 try
                 {
-                    var oldIssueVersion = await context.Issue.FindAsync(id);
+                    var originalIssue = await context.Issue
+                        .Include(i => i.Volume)
+                        .FirstOrDefaultAsync(i => i.Id == id);
 
-                    var Volume = await context.Volume.FindAsync(issue.VolumeID);
-
-                    logger.Log($"{HttpContext.User.Identity.Name} editted Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber} ");
+                    originalIssue
+                        .SetIssueNumber(issue.IssueNumber)
+                        .SetArabicTheme(issue.ArabicTheme)
+                        .SetEnglishTheme(issue.EnglishTheme);
 
                     await context.SaveChangesAsync();
+                    logger.Log($"{HttpContext.User.Identity.Name} editted Issue `{issue.IssueNumber}` in Volume {originalIssue.Volume.VolumeNumber} ");
+
+                    return RedirectToAction(nameof(Index), new { id = originalIssue.VolumeID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -147,7 +157,6 @@ namespace backend.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(issue);
         }
@@ -162,7 +171,9 @@ namespace backend.Controllers
             }
 
             var issue = await context.Issue
-                .FirstOrDefaultAsync(m => m.Id == id);
+               .Include(i => i.Volume)
+               .FirstOrDefaultAsync(i => i.Id == id);
+
             if (issue == null)
             {
                 return NotFound();
@@ -177,15 +188,18 @@ namespace backend.Controllers
         [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var issue = await context.Issue.FindAsync(id);
-            var VolumeID = issue.VolumeID;
+            var issue = await context.Issue
+                .Include(i => i.Volume)
+                .FirstOrDefaultAsync(i => i.Id == id);
 
-            var Volume = await context.Volume.FindAsync(VolumeID);
-            logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber} ");
+            var Volume = await context.Volume.FindAsync(issue.VolumeID);
+            logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber}.");
 
             context.Issue.Remove(issue);
             await context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index), new { id = VolumeID });
+            logger.Log($"Delete Completed.");
+
+            return RedirectToAction(nameof(Index), new { id = issue.VolumeID });
         }
 
         private bool IssueExists(int id)

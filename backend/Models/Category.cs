@@ -2,7 +2,6 @@
 using backend.Validation_Attributes;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
@@ -16,18 +15,23 @@ namespace backend.Models
         [DisplayName("Category Name")]
         public string CategoryName { get; set; }
 
-        [NotMapped]
         [DisplayName("Editors")]
         public IList<Member> JuniorEditors { get; set; }
 
         public Tag Tag { get; set; }
 
-        [NotMapped]
-        public string TagName { get; set; }
-
-        [NotMapped]
-        public int ArticlesCount { get; set; }
-
         public List<Article> Articles { get; set; }
+
+        public Category SetLanguage(Language language)
+        {
+            Language = language;
+            return this;
+        }
+
+        public Category SetTag(Tag tag)
+        {
+            Tag = tag;
+            return this;
+        }
     }
 }

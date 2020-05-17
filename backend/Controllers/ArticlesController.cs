@@ -38,10 +38,14 @@ namespace backend.Controllers
             logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
 
             // Save the List of wrtiers names to be accessed
-            Writers = context.Member.Select(m => m.Name).ToList();
+            Writers = context.Member
+                .Select(m => m.Name)
+                .ToList();
 
             // Save the List of categories names to be accessed
-            Categories = context.Category.Select(c => c.CategoryName).ToList();
+            Categories = context.Category
+                .Select(c => c.CategoryName)
+                .ToList();
         }
 
         // GET: Articles
@@ -53,10 +57,12 @@ namespace backend.Controllers
             }
 
             // Save the Issue Number to be accessed
-            var issue = await context.Issue.FindAsync(id);
+            var issue = await context.Issue
+                .FindAsync(id);
 
             // Save the Volume Number to be accessed
-            var volume = await context.Volume.FindAsync(issue.VolumeID);
+            var volume = await context.Volume
+                .FindAsync(issue.VolumeID);
 
             if (issue != null && volume != null)
             {
@@ -64,17 +70,13 @@ namespace backend.Controllers
                 VolumeNumber = volume.VolumeNumber;
             }
 
-            var articles = from article in context.Article
-                           where article.IssueID == id
-                           select article;
+            var articles = await context.Article
+                .Where(a => a.IssueID == id)
+                .Include(a => a.Category)
+                .Include(a => a.Member)
+                .ToListAsync();
 
-            foreach (var article in articles)
-            {
-                var writer = context.Member.FirstOrDefault(m => m.ID == article.MemberID);
-                var category = context.Category.FirstOrDefault(c => c.Id == article.CategoryID);
-            }
-
-            return View(await articles.ToListAsync());
+            return View(articles);
         }
 
         // GET: Articles/Details/5
@@ -86,13 +88,14 @@ namespace backend.Controllers
             }
 
             var article = await context.Article
+                .Include(a => a.Category)
+                .Include(a => a.Member)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (article == null)
             {
                 return NotFound();
             }
-
-            articleService.GetArticleWriterAndCategory(article);
 
             return View(article);
         }
@@ -117,16 +120,16 @@ namespace backend.Controllers
                 {
                     return ValidationProblem(detail: "Issue Id cannot be null");
                 }
-                // Assign value to the IssueID that refers to the Issue of the article
-                article.IssueID = (int)id;
 
-                // Save the date where the article was uploaded
+                article.IssueID = (int)id;
                 article.DateTime = DateTime.Now;
 
                 // Assign value to the MemberID that refers to the writer of the article
-                article.Category = context.Category.First(c => c.CategoryName == article.Category.CategoryName);
+                article.Category = context.Category
+                    .First(c => c.CategoryName == article.Category.CategoryName);
 
-                await articleService.EditArticleWriter(article);
+                articleService.SetArticleWriter(article, 
+                    (article.Member.Name == "+ NEW WRITER") ? article.NewWriter : article.Member.Name);
 
                 if (article.Picture != null)
                 {
@@ -152,13 +155,15 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var article = await context.Article.FindAsync(id);
+            var article = await context.Article
+               .Include(a => a.Category)
+               .Include(a => a.Member)
+               .FirstOrDefaultAsync(m => m.Id == id);
+
             if (article == null)
             {
                 return NotFound();
             }
-
-            articleService.GetArticleWriterAndCategory(article);
 
             return View(article);
         }
@@ -178,46 +183,51 @@ namespace backend.Controllers
 
             if (ModelState.IsValid)
             {
-                var oldVersionArticle = context.Article.First(a => a.Id == id);
+                var originalArticle = context.Article.First(a => a.Id == id);
 
                 try
                 {
-                    string startLogMessage = GetEditLogMessage(oldVersionArticle);
+                    string startLogMessage = GetEditLogMessage(originalArticle);
 
-                    logger.Log($"This article is edited from `{startLogMessage}`");
+                    articleService
+                        .SetArticleWriter(originalArticle,
+                            (article.Member.Name == "+ NEW WRITER") ? article.NewWriter : article.Member.Name)
+                        .SetLanguage(article.Language)
+                        .SetText(article.Text)
+                        .SetTitle(article.Title)
+                        .SetSubtitle(article.Subtitle)
+                        .SetCategory(context.Category
+                                        .First(c => c.CategoryName == article.Category.CategoryName));
 
-                    await articleService.EditArticleWriter(oldVersionArticle);
-
-                    // Update the value to the MemberID that refers to the writer of the article
-                    oldVersionArticle.Category = context.Category.First(c => c.CategoryName == article.Category.CategoryName);
-
-                    articleService.UpdateArticleInfo(article, article.Language, article.Title, article.Subtitle, article.Text);
-
-                    if (oldVersionArticle.PicturePath == null)
+                    if (originalArticle.PicturePath == null)
                     {
                         if (article.Picture != null)
                         {
-                            await articleService.AddArticlePicture(oldVersionArticle, article.Picture, env.WebRootPath);
+                            await articleService.AddArticlePicture(originalArticle, article.Picture, env.WebRootPath);
                         }
                     }
                     else
                     {
                         if (article.Picture != null)
                         {
-                            articleService.DeleteArticlePicture(oldVersionArticle, env.WebRootPath);
+                            articleService.DeleteArticlePicture(originalArticle, env.WebRootPath);
 
-                            await articleService.AddArticlePicture(oldVersionArticle, article.Picture, env.WebRootPath);
+                            await articleService.AddArticlePicture(originalArticle, article.Picture, env.WebRootPath);
                         }
                         else if (article.DeletePicture)
                         {
-                            articleService.DeleteArticlePicture(oldVersionArticle, env.WebRootPath);
+                            articleService.DeleteArticlePicture(originalArticle, env.WebRootPath);
                         }
                     }
 
                     await context.SaveChangesAsync();
 
-                    string endLogMessage = GetEditLogMessage(oldVersionArticle);
-                    logger.Log($"to: {endLogMessage} by {HttpContext.User.Identity.Name}");
+                    string endLogMessage = GetEditLogMessage(originalArticle);
+
+                    logger.Log($@"This article is edited 
+                                from `{startLogMessage}`
+                                to: {endLogMessage}
+                                by {HttpContext.User.Identity.Name}");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -230,7 +240,7 @@ namespace backend.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { id = oldVersionArticle.IssueID });
+                return RedirectToAction(nameof(Index), new { id = originalArticle.IssueID });
             }
             return View(article);
         }
@@ -244,14 +254,15 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var article = await context.Article.FirstOrDefaultAsync(m => m.Id == id);
+            var article = await context.Article
+               .Include(a => a.Category)
+               .Include(a => a.Member)
+               .FirstOrDefaultAsync(m => m.Id == id);
 
             if (article == null)
             {
                 return NotFound();
             }
-
-            articleService.GetArticleWriterAndCategory(article);
 
             return View(article);
         }
@@ -287,14 +298,12 @@ namespace backend.Controllers
 
         private string GetEditLogMessage(Article article)
         {
-            articleService.GetArticleWriterAndCategory(article);
-
-            return $"Title: {article.Title}\n" +
-                $"Subtitle: {article.Subtitle}\n" +
-                $"Category: {article.Category.CategoryName}" +
-                $"Writer: {article.Member.Name}\n" +
-                $"Picture Name: {Path.GetFileName(article.PicturePath)}" +
-                $"Body: {article.Text}\n";
+            return $@"Title: {article.Title}
+                    Subtitle: {article.Subtitle}
+                    Category: {article.Category.CategoryName}
+                    Writer: {article.Member.Name}
+                    Picture Name: {Path.GetFileName(article.PicturePath)}
+                    Body: {article.Text}";
         }
     }
 }

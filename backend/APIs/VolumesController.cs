@@ -1,8 +1,11 @@
-﻿using backend.Data;
+﻿using AutoMapper;
+using backend.Data;
 using backend.Models;
+using backend.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace backend.APIs
@@ -12,10 +15,14 @@ namespace backend.APIs
     public class VolumesController : ControllerBase
     {
         private readonly OutlookContext context;
+        private readonly IMapper mapper;
 
-        public VolumesController(OutlookContext context)
+        public VolumesController(
+            OutlookContext context,
+            IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -30,9 +37,11 @@ namespace backend.APIs
         /// <returns>List of volumes</returns>
         /// <response code="200">Returns the list of volumes</response>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Volume>>> GetVolume()
+        public async Task<ActionResult<IEnumerable<VolumeDto>>> GetVolume()
         {
-            return await context.Volume.ToListAsync();
+            return await context.Volume
+                .Select(v => mapper.Map<VolumeDto>(v))
+                .ToListAsync();
         }
     }
 }
