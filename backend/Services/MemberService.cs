@@ -28,22 +28,6 @@ namespace backend.Services
         public bool IsJuniorEditor(Member member) => (member.Position == Position.Junior_Editor) || (member.Position == Position.رئيس_قسم);
 
         /// <summary>
-        /// GetMemberLanguageAndArticlesCount is a method that retrieves a member's language and number of articles
-        /// </summary>
-        /// <param name="member"></param>
-        public void GetMemberLanguage(Member member)
-        {
-            if (ArabicPositions.Contains(member.Position))
-            {
-                member.Language = Language.Arabic;
-            }
-            else if (EnglishPositions.Contains(member.Position))
-            {
-                member.Language = Language.English;
-            }
-        }
-
-        /// <summary>
         /// AddBoardMembers is a method that retrieves all the members that belong to a section, given its positions, from a given set of members
         /// </summary>
         /// <param name="section"></param>

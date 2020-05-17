@@ -9,13 +9,13 @@ namespace backend.Mappings.Profiles
         public CategoryProfile()
         {
             CreateMap<Category, CategorySummaryDto>()
-                .ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.TagName))
+                .ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.Tag.ToString()))
                 .ForMember(dest => dest.Language, opt => opt.MapFrom(src => src.Language.ToString()));
 
             CreateMap<Category, CategoryDto>()
                 .ForMember(dest => dest.Articles, opt => opt.MapFrom(src => src.Articles))
                 .ForMember(dest => dest.JuniorEditors, opt => opt.MapFrom(src => src.JuniorEditors))
-                .ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.TagName))
+                .ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.Tag.ToString()))
                 .ForMember(dest => dest.Language, opt => opt.MapFrom(src => src.Language.ToString()));
         }
     }

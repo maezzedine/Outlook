@@ -22,5 +22,23 @@ namespace backend.Models
         public string EnglishTheme { get; set; }
 
         public List<Article> Articles { get; set; }
+
+        public Issue SetIssueNumber(int number)
+        {
+            IssueNumber = number;
+            return this;
+        }
+
+        public Issue SetArabicTheme(string theme)
+        {
+            ArabicTheme = theme;
+            return this;
+        }
+
+        public Issue SetEnglishTheme(string theme)
+        {
+            EnglishTheme = theme;
+            return this;
+        }
     }
 }

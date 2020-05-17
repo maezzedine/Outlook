@@ -12,12 +12,10 @@ namespace backend.Controllers
     [Authorize(Roles = "Web-Editor, Editor-In-Chief, Admin", AuthenticationSchemes = "Identity.Application")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly OutlookContext context;
 
-        public HomeController(ILogger<HomeController> logger, OutlookContext context)
+        public HomeController(OutlookContext context)
         {
-            _logger = logger;
             this.context = context;
         }
 

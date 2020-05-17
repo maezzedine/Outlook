@@ -1,5 +1,6 @@
 ﻿using backend.Data;
 using backend.Models;
+using backend.Models.Interfaces;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,11 +31,6 @@ namespace backend.Controllers
                 .Include(c => c.JuniorEditors)
                 .ToListAsync();
 
-            //foreach (var category in categories)
-            //{
-            //    await categoryService.GetCategoryJuniorEditors(category);
-            //}
-
             return View(await context.Category.ToListAsync());
         }
 
@@ -55,8 +51,6 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            //await categoryService.GetCategoryJuniorEditors(category);
-
             return View(category);
         }
 
@@ -74,16 +68,8 @@ namespace backend.Controllers
             if (ModelState.IsValid)
             {
                 context.Add(category);
+                category.SetLanguage(Regex.IsMatch(category.CategoryName, @"^[a-zA-Z.\-\s]*$") ? Language.English : Language.Arabic);
                 await context.SaveChangesAsync();
-
-                if (Regex.IsMatch(category.CategoryName, @"^[a-zA-Z.\-\s]*$"))
-                {
-                    category.Language = Models.Interfaces.Language.English;
-                }
-                else
-                {
-                    category.Language = Models.Interfaces.Language.Arabic;
-                }
 
                 logger.Log($"{HttpContext.User.Identity.Name} created Category `{category.CategoryName}` and ID `{category.Id}`.");
 
@@ -100,7 +86,8 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var category = await context.Category.FindAsync(id);
+            var category = await context.Category
+                .FindAsync(id);
 
             if (category == null)
             {
@@ -124,9 +111,13 @@ namespace backend.Controllers
             {
                 try
                 {
-                    var oldCategory = await context.Category.FindAsync(category.Id);
-                    oldCategory.Language = category.Language;
-                    oldCategory.Tag = category.Tag;
+                    var originalCategory = await context.Category
+                        .FindAsync(category.Id);
+
+                    originalCategory
+                        .SetLanguage(category.Language)
+                        .SetTag(category.Tag);
+
                     await context.SaveChangesAsync();
 
                     logger.Log($"{HttpContext.User.Identity.Name} editted Category `{category.CategoryName}`");
@@ -164,8 +155,6 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
-
-            //await categoryService.GetCategoryJuniorEditors(category);
 
             return View(category);
         }

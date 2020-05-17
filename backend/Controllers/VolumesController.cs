@@ -31,6 +31,7 @@ namespace backend.Controllers
 
             var volume = await context.Volume
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (volume == null)
             {
                 return NotFound();
@@ -46,8 +47,6 @@ namespace backend.Controllers
         }
 
         // POST: Volumes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,VolumeNumber,FallYear,SpringYear")] Volume volume)
@@ -55,11 +54,10 @@ namespace backend.Controllers
             if (ModelState.IsValid)
             {
                 context.Add(volume);
-
-                logger.Log($"{HttpContext.User.Identity.Name} created Volume {volume.VolumeNumber} ");
-
                 await context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), controllerName: "Home");
+                logger.Log($"{HttpContext.User.Identity.Name} created Volume {volume.VolumeNumber}.");
+
+                return RedirectToAction(nameof(Index), "Home");
             }
             return View(volume);
         }
@@ -72,7 +70,9 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var volume = await context.Volume.FindAsync(id);
+            var volume = await context.Volume
+                .FindAsync(id);
+
             if (volume == null)
             {
                 return NotFound();
@@ -81,8 +81,6 @@ namespace backend.Controllers
         }
 
         // POST: Volumes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FallYear,SpringYear")] Volume volume)
@@ -96,12 +94,15 @@ namespace backend.Controllers
             {
                 try
                 {
-                    var oldVolume = await context.Volume.FindAsync(volume.Id);
-                    oldVolume.FallYear = volume.FallYear;
-                    oldVolume.SpringYear = volume.SpringYear;
+                    var originalVolume = await context.Volume
+                        .FindAsync(volume.Id);
 
-                    logger.Log($"{HttpContext.User.Identity.Name} editted Volume {volume.VolumeNumber}");
+                    originalVolume
+                        .SetFallYear(volume.FallYear)
+                        .SetSpringYear(volume.SpringYear);
+
                     await context.SaveChangesAsync();
+                    logger.Log($"{HttpContext.User.Identity.Name} editted Volume {originalVolume.VolumeNumber}");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -114,7 +115,7 @@ namespace backend.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "Home");
             }
             return View(volume);
         }
@@ -130,6 +131,7 @@ namespace backend.Controllers
 
             var volume = await context.Volume
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (volume == null)
             {
                 return NotFound();
@@ -144,16 +146,15 @@ namespace backend.Controllers
         [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var volume = await context.Volume.FindAsync(id);
+            var volume = await context.Volume
+                .FindAsync(id);
 
-            logger.Log($"{HttpContext.User.Identity.Name} admits to delete Volume {volume.VolumeNumber}");
-
+            logger.Log($"{HttpContext.User.Identity.Name} admits to delete Volume {volume.VolumeNumber}.");
             context.Volume.Remove(volume);
-
-            logger.Log($"Delete Completed");
+            logger.Log($"Delete Completed.");
 
             await context.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(Index), "Home");
         }
 
         private bool VolumeExists(int id)

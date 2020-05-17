@@ -1,7 +1,6 @@
 ﻿using backend.Data;
 using backend.Models;
 using backend.Models.Interfaces;
-using backend.Models.Relations;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,31 +34,9 @@ namespace backend.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            // TODO: Include Category
-            var members = from member in context.Member
-                          where (member.Position != Position.كاتب_صحفي) && (member.Position != Position.Staff_Writer)
-                          select member;
-
-            foreach (var member in members)
-            {
-                if (memberService.IsJuniorEditor(member))
-                {
-                    //var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
-                    //if (categoryEditor != null)
-                    //{
-                    //    var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
-                    //    if (category != null)
-                    //    {
-                    //        member.CategoryField = category.CategoryName;
-                    //    }
-                    //}
-                    member.CategoryField = member.Category.CategoryName;
-                }
-                else
-                {
-                    member.CategoryField = "";
-                }
-            }
+            var members = context.Member
+                .Include(m => m.Category)
+                .Where(m => (m.Position != Position.كاتب_صحفي) && (m.Position != Position.Staff_Writer));
 
             return View(await members.ToListAsync());
         }
@@ -80,20 +57,6 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            if (memberService.IsJuniorEditor(member))
-            {
-                //var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
-                //if (categoryEditor != null)
-                //{
-                //    var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
-                //    if (category != null)
-                //    {
-                //        member.CategoryField = category.CategoryName;
-                //    }
-                //}
-                member.CategoryField = member.Category.CategoryName;
-            }
-
             return View(member);
         }
 
@@ -106,8 +69,9 @@ namespace backend.Controllers
         // POST: Members/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Position,CategoryField")] Member member)
+        public async Task<IActionResult> Create([Bind("Name,Position,Category")] Member member)
         {
+            ModelState.Remove("Category.CategoryName");
             if (ModelState.IsValid)
             {
                 var memberExists = await context.Member.FirstOrDefaultAsync(m => m.Name == member.Name);
@@ -122,16 +86,14 @@ namespace backend.Controllers
 
                 if (memberService.IsJuniorEditor(member))
                 {
-                    // Creating new CategoryEditor relation instance
-                    var category = context.Category.First(c => c.CategoryName == member.CategoryField);
-                    member.Category = category;
-                    //context.CategoryEditor.Add(new CategoryEditorRelation { CategoryID = categoryID, MemberID = member.ID });
+                    member.Category = context.Category
+                        .First(c => c.CategoryName == member.Category.CategoryName);
                 }
 
                 await context.SaveChangesAsync();
 
                 logger.Log($"{HttpContext.User.Identity.Name} created member `{member.Name}` with position {member.Position} " +
-                    $"(Category = {member.CategoryField}) ");
+                    $"(Category = {member.Category.CategoryName}) ");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -148,19 +110,6 @@ namespace backend.Controllers
 
             var member = await context.Member.Include(m => m.Category).FirstOrDefaultAsync(m => m.ID == id);
 
-            if (memberService.IsJuniorEditor(member))
-            {
-                //var categoryEditor = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == member.ID);
-                //if (categoryEditor != null)
-                //{
-                //    var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryEditor.CategoryID);
-                //    if (category != null)
-                //    {
-                //        member.CategoryField = category.CategoryName;
-                //    }
-                //}
-            }
-
             if (member == null)
             {
                 return NotFound();
@@ -171,50 +120,39 @@ namespace backend.Controllers
         // POST: Members/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Position,CategoryField")] Member member)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Position,Category")] Member member)
         {
             if (id != member.ID)
             {
                 return NotFound();
             }
 
+            ModelState.Remove("Category.CategoryName");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var oldMemberData = await context.Member.Include(m => m.Category).FirstOrDefaultAsync(m => m.ID == member.ID);
+                    var originalMember = await context.Member
+                        .Include(m => m.Category)
+                        .FirstOrDefaultAsync(m => m.ID == member.ID);
 
 
-                    if (memberService.IsJuniorEditor(oldMemberData))
+                    if (memberService.IsJuniorEditor(originalMember))
                     {
-                        //var oldCategoryEditorData = await context.CategoryEditor.FirstOrDefaultAsync(ce => ce.MemberID == oldMemberData.ID);
-                        //var oldCategory = await context.Category.FindAsync(oldCategoryEditorData.CategoryID);
+                        logger.Log($"{HttpContext.User.Identity.Name} editted member {FormatLogEditMessage(originalMember)}");
 
-                        logger.Log($"{HttpContext.User.Identity.Name} editted member `{oldMemberData.Name}` with position {oldMemberData.Position} " +
-                            $"(Category = {oldMemberData.Category.CategoryName}) ");
-
-                        // Delete CategoryEditor relation if needed
                         if ((member.Position != Position.Junior_Editor) && (member.Position != Position.رئيس_قسم))
                         {
-                            //context.CategoryEditor.Remove(oldCategoryEditorData);
-                            oldMemberData.Category = null;
-                            await context.SaveChangesAsync();
+                            originalMember.Category = null;
                         }
                         else
                         {
-                            var newCategory = await context.Category.FirstOrDefaultAsync(c => c.CategoryName == member.CategoryField);
+                            var newCategory = await context.Category
+                                .FirstOrDefaultAsync(c => c.CategoryName == member.Category.CategoryName);
 
-                            if (newCategory != null)
+                            if (newCategory != null && newCategory != originalMember.Category)
                             {
-                                var newCategoryID = newCategory.Id;
-                                // Update CategoryEditor relation if needed
-                                //if (newCategoryID != oldCategoryEditorData.CategoryID)
-                                if (newCategoryID != oldMemberData.Category.Id)
-                                {
-                                    //oldCategoryEditorData.CategoryID = newCategoryID;
-                                    oldMemberData.Category = newCategory;
-                                    await context.SaveChangesAsync();
-                                }
+                                originalMember.Category = newCategory;
                             }
                         }
                     }
@@ -222,27 +160,20 @@ namespace backend.Controllers
                     {
                         if (memberService.IsJuniorEditor(member))
                         {
-                            var newCategory = await context.Category.FirstOrDefaultAsync(c => c.CategoryName == member.CategoryField);
+                            var newCategory = await context.Category
+                                .FirstOrDefaultAsync(c => c.CategoryName == member.Category.CategoryName);
 
-                            // Create CategoryEditor relation if needed
                             if (newCategory != null)
                             {
-                                var newCategoryID = newCategory.Id;
-                                oldMemberData.Category = newCategory;
-                                //context.CategoryEditor.Add(new CategoryEditorRelation { CategoryID = newCategoryID, MemberID = member.ID });
-                                await context.SaveChangesAsync();
+                                originalMember.Category = newCategory;
                             }
                         }
-
                     }
 
-                    oldMemberData.Position = member.Position;
-
-                    logger.Log($"to become: Name: {member.Name}\n" +
-                        $"Position: {member.Position}\n" +
-                        $"Category: {member.CategoryField}");
-
+                    originalMember.Position = member.Position;
                     await context.SaveChangesAsync();
+
+                    logger.Log($"to become:{FormatLogEditMessage(originalMember)}");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -268,14 +199,14 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await context.Member.FirstOrDefaultAsync(m => m.ID == id);
+            var member = await context.Member
+                .Include(m => m.Category)
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if (member == null)
             {
                 return NotFound();
             }
-
-            memberService.GetJuniorEditorCategory(member);
 
             return View(member);
         }
@@ -287,11 +218,9 @@ namespace backend.Controllers
         {
             var member = await context.Member.FindAsync(id);
 
-            logger.Log($"{HttpContext.User.Identity.Name} admits to delete member `{member.Name}`");
-
+            logger.Log($"{HttpContext.User.Identity.Name} admits to delete member `{member.Name}`.");
             context.Member.Remove(member);
             await context.SaveChangesAsync();
-
             logger.Log($"Delete Completed.");
 
             return RedirectToAction(nameof(Index));
@@ -302,5 +231,11 @@ namespace backend.Controllers
             return context.Member.Any(e => e.ID == id);
         }
 
+        private string FormatLogEditMessage(Member member)
+        {
+            return $@"Name: { member.Name}
+                      Position: {member.Position}
+                      Category: {member.Category?.CategoryName}";
+        }
     }
 }
