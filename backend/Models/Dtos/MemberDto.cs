@@ -12,6 +12,8 @@ namespace backend.Models.Dtos
         
         public string Position { get; set; }
 
+        public int numberOfArticles { get; set; }
+
         public CategorySummaryDto Category { get; set; }
     }
 

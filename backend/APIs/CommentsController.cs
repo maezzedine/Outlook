@@ -1,6 +1,8 @@
-﻿using backend.Data;
+﻿using AutoMapper;
+using backend.Data;
 using backend.Hubs;
 using backend.Models;
+using backend.Models.Dtos;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,19 +18,21 @@ namespace backend.APIs
     [ApiController]
     public class CommentsController : ControllerBase
     {
-        // TODO: Fix comment websocket
         private readonly OutlookContext context;
         private readonly IdentityService identityService;
         private readonly IHubContext<ArticleHub, IArticleHub> articleHub;
+        private readonly IMapper mapper;
         private readonly Logger.Logger logger;
 
         public CommentsController(
             OutlookContext context, 
             IdentityService identityService,
+            IMapper mapper,
             IHubContext<ArticleHub, IArticleHub> articleHub)
         {
             this.context = context;
             this.identityService = identityService;
+            this.mapper = mapper;
             this.articleHub = articleHub;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.web);
         }
@@ -72,11 +76,15 @@ namespace backend.APIs
 
             var article = await context.Article.FindAsync(comment.ArticleID);
 
-            var comments = await context.Comment.Where(c => c.ArticleID == article.Id).ToListAsync();
+            var comments = await context.Comment
+                .Where(c => c.ArticleID == article.Id)
+                .Include(c => c.User)
+                .Select(c => mapper.Map<CommentDto>(c))
+                .ToListAsync();
 
             foreach (var comment_ in comments)
             {
-                var owner = await context.Users.FindAsync(comment_.UserID);
+                var owner = await context.Users.FindAsync(comment_.User.Id);
                 comment_.User = owner;
             }
 
@@ -130,7 +138,12 @@ namespace backend.APIs
 
             logger.Log("Delete Completed");
 
-            var comments = await context.Comment.Where(c => c.ArticleID == article.Id).ToListAsync();
+            var comments = await context.Comment
+                .Where(c => c.ArticleID == article.Id)
+                .Include(c => c.User)
+                .Select(c => mapper.Map<CommentDto>(c))
+                .ToListAsync();
+
             await articleHub.Clients.All.ArticleCommentChange(article.Id, comments);
 
             return Ok();

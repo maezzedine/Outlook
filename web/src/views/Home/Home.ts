@@ -9,8 +9,6 @@ import stats from '@/views/Stats/Stats.vue';
         return {
             Volume: undefined,
             Issue: undefined,
-            // TODO: Check Models Usage
-            Models: undefined
         }
     }
 })
