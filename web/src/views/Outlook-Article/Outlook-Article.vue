@@ -1,24 +1,24 @@
 <template>
     <div class="article">
-        <router-link v-if="!loading" class="category" :to="{ name: 'category', params: { id: Article.category.id } }"
-                :style="[{background: getCategoryColor(Article.category.tag)}]">
-            {{Article.category.categoryName}} <span></span>
+        <router-link v-if="!loading" class="category" :to="{ name: 'category', params: { id: $store.getters.Article.category.id } }"
+                :style="[{background: getCategoryColor($store.getters.Article.category.tag)}]">
+            {{$store.getters.Article.category.categoryName}} <span></span>
         </router-link>
 
         <div class="article-body">
             <div class="title">
-                <template v-if="!loading">{{Article.title}}</template>
+                <template v-if="!loading">{{$store.getters.Article.title}}</template>
             </div>
             <div class="subtitle">
-                <template v-if="!loading">{{Article.subtitle}}</template>
+                <template v-if="!loading">{{$store.getters.Article.subtitle}}</template>
             </div>
 
             <template v-if="!loading">
-                <img v-if="Article.picturePath != null" :src="APP_URL + Article.picturePath" :class="$store.getters.Language['article-image']"/>
+                <img v-if="$store.getters.Article.picturePath != null" :src="APP_URL + $store.getters.Article.picturePath" :class="$store.getters.Language['article-image']"/>
             </template>
 
             <div class="writer">
-                <router-link :to="{ name: 'member', params: { id: Article.member.id } }" v-if="!loading">{{Article.member.name}} | {{Article.member.position}}</router-link>
+                <router-link :to="{ name: 'member', params: { id: $store.getters.Article.member.id } }" v-if="!loading">{{$store.getters.Article.member.name}} | {{$store.getters.Article.member.position}}</router-link>
             </div>
 
             <div id="article-text-body"></div>
@@ -26,21 +26,21 @@
             <div v-if="!loading" class="footer">
 
                 <div @click="rateUp"><svg-arrow-up class="rate" /></div>
-                {{Article.rate}}
+                {{$store.getters.Article.rate}}
                 <div @click="rateDown"><svg-arrow-down class="rate" /></div>
 
                 <span>
-                    {{$store.getters.Language.votes}}: {{Article.numberOfVotes}}
+                    {{$store.getters.Language.votes}}: {{$store.getters.Article.numberOfVotes}}
                 </span>
 
-                <span v-if="Article.comments != undefined">
-                    {{$store.getters.Language.comments}}: {{Article.comments.length}}
+                <span v-if="$store.getters.Article.comments != undefined">
+                    {{$store.getters.Language.comments}}: {{$store.getters.Article.comments.length}}
                 </span>
 
                 <span class="row m-0 p-0 star" @click="favoriteArticle">
                     <svg-star-empty class="mt-0 unfavorited" />
                     <svg-star-fill class="mt-0 favorited" />
-                    {{Article.numberOfFavorites}}
+                    {{$store.getters.Article.numberOfFavorites}}
                 </span>
 
 
@@ -48,7 +48,7 @@
                     {{$store.getters.Language['made-with']}}  <svg-heart />  {{$store.getters.Language['by-outlook']}}
                 </div>
 
-                <div class="time"> {{getDateTime(Article.dateTime)}}</div>
+                <div class="time"> {{getDateTime($store.getters.Article.dateTime)}}</div>
 
                 <div class="comment-section">
                     <div class="comments">
@@ -61,7 +61,7 @@
                                 <span><button type="submit" class="btn">{{$store.getters.Language['submit']}}</button></span>
                             </template>
                         </form>
-                        <div class="comment" v-for="comment in Article.comments">
+                        <div class="comment" v-for="comment in $store.getters.Article.comments">
                             <div class="comment-header">
                                 <div class="owner">
                                     {{comment.user.firstName}} {{comment.user.lastName}}

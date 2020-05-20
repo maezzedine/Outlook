@@ -16,7 +16,6 @@ export default class OutlookArticle extends Vue {
     private loading = true;
 
     private id: Number | null = null;
-    private Article: ApiObject | null = null;
 
     private Comment: string | null = null;
 
@@ -36,8 +35,8 @@ export default class OutlookArticle extends Vue {
             if (articles != undefined) {
                 for (let a of articles) {
                     if (a.id == this.id) {
-                        this.Article = a;
                         this.loading = false;
+                        this.$store.dispatch('setArticle', a);
                         return;
                     }
                 }
@@ -48,13 +47,13 @@ export default class OutlookArticle extends Vue {
     }
 
     getArticlesFromApi() {
-        if (this.id != null && this.Article == null) {
+        if (this.id != null) {
             var params = new Array<Number>();
             params.push(this.id)
             api.Get('articles/article', params)
                 .then(d => {
-                    this.Article = d;
                     this.loading = false;
+                    this.$store.dispatch('setArticle', d);
                     return;
                 })
                 .catch(e => {
@@ -64,24 +63,24 @@ export default class OutlookArticle extends Vue {
     }
 
     rateUp() {
-        if (this.Article != null && this.$store.getters.IsAuthenticated) {
+        if (this.$store.getters.Article != null && this.$store.getters.IsAuthenticated) {
             var params = new Array<string>();
-            params.push(this.Article.id);
+            params.push(this.$store.getters.Article.id);
             api.AuthorizedAction('PUT', 'articles/RateUpArticle', params);
         }
     }
 
     rateDown() {
-        if (this.Article != null && this.$store.getters.IsAuthenticated) {
+        if (this.$store.getters != null && this.$store.getters.IsAuthenticated) {
             var params = new Array<string>();
-            params.push(this.Article.id);
+            params.push(this.$store.getters.Article.id);
             api.AuthorizedAction('PUT', 'articles/RateDownArticle', params);
         }
     }
 
     addComment() {
-        if (this.Article != null && this.$store.getters.IsAuthenticated && this.Comment != null) {
-            var raw = JSON.stringify({ "ArticleId": this.Article.id, "Text": this.Comment });
+        if (this.$store.getters.Article != null && this.$store.getters.IsAuthenticated && this.Comment != null) {
+            var raw = JSON.stringify({ "ArticleId": this.$store.getters.Article.id, "Text": this.Comment });
             api.AuthorizedAction('POST', 'comments', undefined, raw);
             this.Comment = null;
         }
@@ -99,18 +98,18 @@ export default class OutlookArticle extends Vue {
     }
 
     favoriteArticle() {
-        if (this.Article != null && this.$store.getters.IsAuthenticated) {
+        if (this.$store.getters.Article != null && this.$store.getters.IsAuthenticated) {
             var params = new Array<string>();
-            params.push(this.Article.id);
+            params.push(this.$store.getters.Article.id);
             api.AuthorizedAction('PUT', 'articles/FavoriteArticle', params);
         }
     }
 
-    @Watch("Article")
+    @Watch("$store.getters.Article")
     fillBodyText() {
         var body = document.getElementById('article-text-body');
-        if (body != null && this.Article != null) {
-            body.innerHTML = this.Article.text;
+        if (body != null && this.$store.getters.Article != null) {
+            body.innerHTML = this.$store.getters.Article.text;
         }
     }
 

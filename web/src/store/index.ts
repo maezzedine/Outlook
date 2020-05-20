@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import language from './modules/language';
 import colors from './modules/colors';
 import authentication from './modules/authentication';
+import article from './modules/article';
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ export default new Vuex.Store({
     modules: {
         language,
         colors,
-        authentication
+        authentication,
+        article
     },
     strict: debug
 })

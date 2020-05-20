@@ -172,29 +172,42 @@ export default class App extends Vue {
     onArticleScoreChange(articleScoreChange: ArticleScoreChange) {
         for (var article of this.$data.Articles) {
             if (article.id == articleScoreChange.articleId) {
+                this.$store.dispatch('updateArticleRate', articleScoreChange);
                 article.rate = articleScoreChange.rate;
                 article.numberOfVotes = articleScoreChange.numberOfVotes;
                 return;
             }
         }
+        // If we reachthis point, then we are viewing an article from outside the chosen issue, thus we have to update the values in the store
+        this.$store.dispatch('updateArticleRate', articleScoreChange);
     }
 
     onArticleCommentChange(articleCommentChange: ArticleCommentChange) {
         for (var article of this.$data.Articles) {
             if (article.id == articleCommentChange.articleId) {
+                this.$store.dispatch('updateArticleComments', articleCommentChange);
                 article.comments = articleCommentChange.comments;
                 return;
             }
         }
+        // If we reachthis point, then we are viewing an article from outside the chosen issue, thus we have to update the values in the store
+        this.$store.dispatch('updateArticleComments', articleCommentChange);
     }
 
     onArticleFavoriteChange(articleFavoriteChange: ArticleFavoriteChange) {
         for (var article of this.$data.Articles) {
             if (article.id == articleFavoriteChange.articleId) {
+                this.$store.dispatch('updateArticleFavorites', articleFavoriteChange);
                 article.numberOfFavorites = articleFavoriteChange.numberOfFavorites;
                 return;
             }
         }
+        // If we reachthis point, then we are viewing an article from outside the chosen issue, thus we have to update the values in the store
+        this.$store.dispatch('updateArticleFavorites', articleFavoriteChange);
+    }
+
+    updateArticleInStore(method: string, changes: object) {
+        this.$store.dispatch(method, changes);
     }
 
     // Categories

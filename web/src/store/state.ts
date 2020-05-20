@@ -1,4 +1,5 @@
 import outlookUser from "../models/outlookUser";
+import articleObject from '../models/articleObject';
 
 export default interface state {
     lang: string;
@@ -9,5 +10,7 @@ export default interface state {
 
     colors: object;
 
-    user: outlookUser
+    user: outlookUser;
+
+    article: articleObject;
 }
