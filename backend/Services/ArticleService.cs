@@ -2,7 +2,6 @@
 using backend.Models;
 using backend.Models.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 using System.Linq;
@@ -36,7 +35,7 @@ namespace backend.Services
                 writer = new Member { Name = writerName };
 
                 // Declare writer's position based on their name
-                writer.Position = Regex.IsMatch(writerName, @"^[a-zA-Z.\-\s]*$") ? Position.Staff_Writer : Position.كاتب_صحفي;
+                writer.Position = Regex.IsMatch(writerName, @"^[a-zA-Z.\-+\s]*$") ? Position.Staff_Writer : Position.كاتب_صحفي;
                 context.Member.Add(writer);
             }
             article.Member = writer;

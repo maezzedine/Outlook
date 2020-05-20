@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace backend.Controllers
@@ -121,7 +122,7 @@ namespace backend.Controllers
         // POST: Issues/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IssueNumber,ArabicTheme,EnglishTheme")] Issue issue)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ArabicTheme,EnglishTheme")] Issue issue)
         {
             if (id != issue.Id)
             {
@@ -137,7 +138,6 @@ namespace backend.Controllers
                         .FirstOrDefaultAsync(i => i.Id == id);
 
                     originalIssue
-                        .SetIssueNumber(issue.IssueNumber)
                         .SetArabicTheme(issue.ArabicTheme)
                         .SetEnglishTheme(issue.EnglishTheme);
 
@@ -188,18 +188,38 @@ namespace backend.Controllers
         [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var issue = await context.Issue
-                .Include(i => i.Volume)
-                .FirstOrDefaultAsync(i => i.Id == id);
+            try
+            {
+                var issue = await context.Issue
+                        .Include(i => i.Volume)
+                        .FirstOrDefaultAsync(i => i.Id == id);
 
-            var Volume = await context.Volume.FindAsync(issue.VolumeID);
-            logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber}.");
+                var Volume = await context.Volume.FindAsync(issue.VolumeID);
+                logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber}.");
 
-            context.Issue.Remove(issue);
-            await context.SaveChangesAsync();
-            logger.Log($"Delete Completed.");
+                context.Issue.Remove(issue);
+                await context.SaveChangesAsync();
+                logger.Log($"Delete Completed.");
 
-            return RedirectToAction(nameof(Index), new { id = issue.VolumeID });
+                return RedirectToAction(nameof(Index), new { id = issue.VolumeID });
+            }
+            catch (DbUpdateException)
+            {
+                logger.Log($"Delete Failed, because of DbUpdateException.");
+
+                var articles = context.Article
+                    .Where(a => a.IssueID == id)
+                    .Select(a => a.Title);
+
+                var errorMessage = "You cannot delete the following issue before deleting its articles: ";
+                var errorDetail = new StringBuilder();
+                foreach (var article in articles)
+                {
+                    errorDetail.Append($"{article} --- ");
+                }
+
+                return RedirectToAction("ServerError", "", new { message = errorMessage.ToString(), detail = errorDetail });
+            }
         }
 
         private bool IssueExists(int id)

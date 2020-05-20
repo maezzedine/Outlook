@@ -171,7 +171,7 @@ namespace backend.Controllers
         // POST: Articles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Category,Title,Subtitle,Member,Picture,DeletePicture,Text")] Article article)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Category,Title,Subtitle,Member,NewWriter,Picture,DeletePicture,Text")] Article article)
         {
             if (id != article.Id)
             {
@@ -183,7 +183,10 @@ namespace backend.Controllers
 
             if (ModelState.IsValid)
             {
-                var originalArticle = context.Article.First(a => a.Id == id);
+                var originalArticle = context.Article
+                    .Include(a => a.Category)
+                    .Include(a => a.Member)
+                    .First(a => a.Id == id);
 
                 try
                 {

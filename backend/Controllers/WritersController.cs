@@ -39,7 +39,10 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var member = await context.Member.FirstOrDefaultAsync(m => m.ID == id);
+            var member = await context.Member
+                .Include(w => w.Category)
+                .Include(w => w.Articles)
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if (member == null)
             {
@@ -73,7 +76,7 @@ namespace backend.Controllers
         }
 
         // GET: Writers/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -91,7 +94,7 @@ namespace backend.Controllers
         // POST: Writers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, [Bind("Position")] Member member)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Position")] Member member)
         {
             if (id != member.ID)
             {
@@ -138,6 +141,8 @@ namespace backend.Controllers
             }
 
             var member = await context.Member
+                .Include(w => w.Category)
+                .Include(w => w.Articles)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (member == null)

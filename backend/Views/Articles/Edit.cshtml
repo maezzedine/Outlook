@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var writers = ArticlesController.Writers;
-    writers.Add("New Writer");
+    writers.Add("+ NEW WRITER");
     var categories = ArticlesController.Categories;
 }
 
@@ -81,7 +81,7 @@
     function toggleEnabledField() {
         var select = document.getElementById('writers');
         var writer = select.options[select.selectedIndex].value;
-        if (writer == "New Writer") {
+        if (writer == "+ NEW WRITER") {
             document.getElementById('newWriter').disabled = false;
         } else {
             document.getElementById('newWriter').disabled = true;

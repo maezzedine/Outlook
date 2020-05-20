@@ -50,6 +50,8 @@ namespace backend.Controllers
             }
 
             var member = await context.Member
+                .Include(m => m.Category)
+                .Include(m => m.Articles)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (member == null)
@@ -196,6 +198,7 @@ namespace backend.Controllers
 
             var member = await context.Member
                 .Include(m => m.Category)
+                .Include(m => m.Articles)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (member == null)

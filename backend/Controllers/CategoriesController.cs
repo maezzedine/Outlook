@@ -5,7 +5,10 @@ using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data.Common;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -68,7 +71,7 @@ namespace backend.Controllers
             if (ModelState.IsValid)
             {
                 context.Add(category);
-                category.SetLanguage(Regex.IsMatch(category.CategoryName, @"^[a-zA-Z.\-\s]*$") ? Language.English : Language.Arabic);
+                category.SetLanguage(Regex.IsMatch(category.CategoryName, @"^[a-zA-Z.\-+\s]*$") ? Language.English : Language.Arabic);
                 await context.SaveChangesAsync();
 
                 logger.Log($"{HttpContext.User.Identity.Name} created Category `{category.CategoryName}` and ID `{category.Id}`.");
@@ -165,16 +168,36 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await context.Category.FindAsync(id);
+            try
+            {
+                var category = await context.Category.FindAsync(id);
 
-            logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Category `{category.CategoryName}`");
+                logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Category `{category.CategoryName}`");
 
-            context.Category.Remove(category);
-            await context.SaveChangesAsync();
+                context.Category.Remove(category);
+                await context.SaveChangesAsync();
 
-            logger.Log($"Delete Completed.");
+                logger.Log($"Delete Completed.");
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                logger.Log($"Delete Failed, because of DbUpdateException.");
+
+                var juniorEditors = context.Member
+                    .Where(m => m.Category.Id == id)
+                    .Select(e => e.Name);
+
+                var errorMessage = "You cannot delete the following category before deleting its junior editors: ";
+                var errorDetail = new StringBuilder();
+                foreach (var editor in juniorEditors)
+                {
+                    errorDetail.Append($"{editor} --- ");
+                }
+
+                return RedirectToAction("ServerError", "", new { message = errorMessage.ToString(), detail = errorDetail });
+            }
         }
 
         private bool CategoryExists(int id)

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace backend.Controllers
@@ -146,15 +147,35 @@ namespace backend.Controllers
         [Authorize(Roles = "Editor-In-Chief, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var volume = await context.Volume
-                .FindAsync(id);
+            try
+            {
+                var volume = await context.Volume
+                        .FindAsync(id);
 
-            logger.Log($"{HttpContext.User.Identity.Name} admits to delete Volume {volume.VolumeNumber}.");
-            context.Volume.Remove(volume);
-            logger.Log($"Delete Completed.");
+                logger.Log($"{HttpContext.User.Identity.Name} admits to delete Volume {volume.VolumeNumber}.");
+                context.Volume.Remove(volume);
+                logger.Log($"Delete Completed.");
 
-            await context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index), "Home");
+                await context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (DbUpdateException)
+            {
+                logger.Log($"Delete Failed, because of DbUpdateException.");
+
+                var issues = context.Issue
+                    .Where(i => i.VolumeID == id)
+                    .Select(i => i.IssueNumber);
+
+                var errorMessage = "You cannot delete the following volume before deleting its issues: ";
+                var errorDetail = new StringBuilder();
+                foreach (var issue in issues)
+                {
+                    errorDetail.Append($"{issue} --- ");
+                }
+
+                return RedirectToAction("ServerError", "", new { message = errorMessage.ToString(), detail = errorDetail });
+            }
         }
 
         private bool VolumeExists(int id)

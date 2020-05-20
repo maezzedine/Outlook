@@ -53,7 +53,7 @@
     </div>
     <div class="form-group col-md-4">
         <label asp-for="Picture" class="control-label"></label>
-        <input asp-for="Picture" ref="file" type="file" class="form-control" />
+        <input asp-for="Picture" ref="file" type="file" class="form-control" accept="image/*" />
         <span asp-validation-for="Picture" class="text-danger"></span>
     </div>
     <div class="form-group col-md-12">
