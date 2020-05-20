@@ -52,7 +52,8 @@ export class Api {
     async postFile(page: string, file: FormData) {
         var response = await axios.post(`${API_URL}${page}`, file, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                "Authorization": `Bearer ${store.getters.User.token}`
             }
         });
         return response.status;

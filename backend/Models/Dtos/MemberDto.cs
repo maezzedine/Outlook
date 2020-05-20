@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Nancy.Json;
+using System.Collections.Generic;
 
 namespace backend.Models.Dtos
 {
@@ -15,6 +16,11 @@ namespace backend.Models.Dtos
         public int numberOfArticles { get; set; }
 
         public CategorySummaryDto Category { get; set; }
+
+        public override string ToString()
+        {
+            return new JavaScriptSerializer().Serialize(this);
+        }
     }
 
     public class MemberDto : MemberSummaryDto

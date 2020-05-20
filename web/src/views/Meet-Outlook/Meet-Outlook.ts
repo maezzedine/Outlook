@@ -28,7 +28,7 @@ export default class About extends Vue {
 
     getMemberName(member: Array<ApiObject>) {
         if (member != undefined) {
-            return member[0].name + " | " + member[0].positionName;
+            return member[0].name + " | " + member[0].position;
         }
     }
 

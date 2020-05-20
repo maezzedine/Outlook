@@ -11,6 +11,10 @@ import svgStarFill from '@/components/svgs/svg-star-fill.vue';
         article: {
             type: Object,
             default() { return new Object(); }
+        },
+        languageSpecific: {
+            type: Boolean,
+            default() { return true; }
         }
     }
 })
@@ -25,6 +29,6 @@ export default class ArticleThumbnail extends Vue {
         if (this.$store.getters.Language == undefined || article == undefined) {
             return false;
         }
-        return article.language == this.$store.getters.Language.language;
+        return !this.$props.languageSpecific || article.language == this.$store.getters.Language.language;
     }
 }

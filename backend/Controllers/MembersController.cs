@@ -81,15 +81,10 @@ namespace backend.Controllers
                     return ValidationProblem(detail: "Member name already exists.");
                 }
 
+                member.Category = (memberService.IsJuniorEditor(member)) ? context.Category
+                        .First(c => c.CategoryName == member.Category.CategoryName) : null;
+
                 context.Add(member);
-                await context.SaveChangesAsync();
-
-                if (memberService.IsJuniorEditor(member))
-                {
-                    member.Category = context.Category
-                        .First(c => c.CategoryName == member.Category.CategoryName);
-                }
-
                 await context.SaveChangesAsync();
 
                 logger.Log($"{HttpContext.User.Identity.Name} created member `{member.Name}` with position {member.Position} " +

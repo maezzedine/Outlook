@@ -358,7 +358,7 @@ namespace backend.APIs
                 var extension = document.FileName.Substring(document.FileName.LastIndexOf('.'));
 
                 // Add unique name to avoid possible name conflicts
-                var uniqueDocumentName = $"{user.UserName} - {DateTime.Now.Ticks}.{extension}";
+                var uniqueDocumentName = $"{user.UserName}_{DateTime.Now.Ticks}.{extension}";
                 var articleDocumentsFolderPath = Path.Combine(new string[] { env.WebRootPath, "docs", "Articles\\" });
                 var articleDocumentFilePath = Path.Combine(articleDocumentsFolderPath, uniqueDocumentName);
 

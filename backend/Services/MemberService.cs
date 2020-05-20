@@ -33,7 +33,7 @@ namespace backend.Services
         /// <param name="section"></param>
         /// <param name="positions">positions of the mentioned sections</param>
         /// <param name="boardMembers">set of members</param>
-        public static void AddBoardMembers(Dictionary<string, IQueryable<MemberDto>> section, IOrderedEnumerable<Position> positions, IQueryable<MemberDto> boardMembers)
+        public static void AddBoardMembers(Dictionary<string, IEnumerable<MemberDto>> section, IOrderedEnumerable<Position> positions, IEnumerable<MemberDto> boardMembers)
         {
             foreach (var position in positions)
             {

@@ -33,9 +33,22 @@
             </ul>
         </div>
         <div class="footer">
-            Outlook is a weekly publication of the American University of Beirut (AUB) and represents the voice of the student body. It is an independent, non-affiliated publication that favors no ethic, 
-            religious or political group. All commons, articles and reports are the property of Outlook. And not neccesary represents the views of outlook or the AUB community. Outlook  welcomes all contributions. 
-            No part of this publication may be reproduces in any way, shape or form without the written  consent of Outlook and/or higher authorities. Outlook reserves the right to edit all material.
+            <div class="row m-0 text-center">
+                <div class="col-12 col-sm-4">
+                    Find us on social media:
+                </div>
+                <div class="col-12 col-sm-4">
+                    To contact us:
+                </div>
+                <div class="col-12 col-sm-4">
+                    2020 &copy; AUB Outlook
+                </div>
+            </div>
+            <div class="signature">
+                Outlook is a weekly publication of the American University of Beirut (AUB) and represents the voice of the student body. It is an independent, non-affiliated publication that favors no ethic,
+                religious or political group. All commons, articles and reports are the property of Outlook. And not neccesary represents the views of outlook or the AUB community. Outlook  welcomes all contributions.
+                No part of this publication may be reproduces in any way, shape or form without the written  consent of Outlook and/or higher authorities. Outlook reserves the right to edit all material.
+            </div>
         </div>
     </div>
 </template>

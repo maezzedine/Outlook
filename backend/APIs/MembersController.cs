@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
-using backend.Areas.Identity;
 using backend.Data;
-using backend.Models;
 using backend.Models.Dtos;
 using backend.Models.Interfaces;
 using backend.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,19 +16,13 @@ namespace backend.APIs
     public class MembersController : ControllerBase
     {
         private readonly OutlookContext context;
-        private readonly ArticleService articleService;
-        private readonly MemberService memberService;
         private readonly IMapper mapper;
 
         public MembersController(
             OutlookContext context, 
-            MemberService memberService,
-            ArticleService articleService,
             IMapper mapper)
         {
             this.context = context;
-            this.memberService = memberService;
-            this.articleService = articleService;
             this.mapper = mapper;
         }
 
@@ -109,6 +99,14 @@ namespace backend.APIs
             var arabicPositons = from position in MemberService.ArabicPositions orderby position select position;
             var nonBoardMembers = new List<Position> { Position.Staff_Writer, Position.Former_Member, Position.كاتب_صحفي, Position.عضو_سابق };
 
+            //var boardMembers = context.Member
+            //    .Include(m => m.Category)
+            //    .AsEnumerable()
+            //    .Where(m => !nonBoardMembers.Any(n => n == m.Position))
+            //    .Select(m => mapper.Map<MemberDto>(m))
+            //    .GroupBy(m => m.Language)
+            //    .Select(g => g.GroupBy(m => m.Position, g => g));
+
             var boardMembers = context.Member
                 .Include(m => m.Category)
                 .AsEnumerable()
@@ -116,11 +114,11 @@ namespace backend.APIs
                 .Select(m => mapper.Map<MemberDto>(m));
 
             // TODO: Improvement required
-            var englishBoardMembers = new Dictionary<string, IQueryable<MemberDto>>();
-            MemberService.AddBoardMembers(englishBoardMembers, englishPositons, boardMembers.AsQueryable());
+            var englishBoardMembers = new Dictionary<string, IEnumerable<MemberDto>>();
+            MemberService.AddBoardMembers(englishBoardMembers, englishPositons, boardMembers);
 
-            var arabicBoardMembers = new Dictionary<string, IQueryable<MemberDto>>();
-            MemberService.AddBoardMembers(arabicBoardMembers, arabicPositons, boardMembers.AsQueryable());
+            var arabicBoardMembers = new Dictionary<string, IEnumerable<MemberDto>>();
+            MemberService.AddBoardMembers(arabicBoardMembers, arabicPositons, boardMembers);
 
             return Ok(new
             {
