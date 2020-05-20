@@ -58,6 +58,8 @@
     <Content Include="src\components\svgs\svg-check.vue" />
     <Content Include="src\components\svgs\svg-close.vue" />
     <Content Include="src\components\svgs\svg-contribute.vue" />
+    <Content Include="src\components\svgs\svg-facebook.vue" />
+    <Content Include="src\components\svgs\svg-instagram.vue" />
     <Content Include="src\components\svgs\svg-stats.vue" />
     <Content Include="src\components\svgs\svg-heart.vue" />
     <Content Include="src\components\svgs\svg-info.vue" />
@@ -79,6 +81,7 @@
     <Content Include="src\components\svgs\svg-star-empty.vue" />
     <Content Include="src\components\svgs\svg-star-fill.vue" />
     <Content Include="src\components\svgs\svg-sun.vue" />
+    <Content Include="src\components\svgs\svg-twitter.vue" />
     <Content Include="src\components\top-stats\TopStats.scss" />
     <Content Include="src\components\top-stats\TopStats.vue" />
     <Content Include="src\styles\_mixins.scss" />

@@ -57,9 +57,15 @@
         width: 100%;
         border-top: 1px solid var(--text-3);
         padding: 1% 0;
-        direction: initial;
+        direction: inherit;
+
+        svg {
+            margin: 0 2%;
+            font-size: large;
+        }
 
         .signature {
+            margin-top: 2%;
             direction: ltr;
             text-align: left;
             font-size: x-small;

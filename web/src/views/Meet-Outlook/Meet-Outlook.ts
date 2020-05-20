@@ -1,8 +1,13 @@
 import { Component, Vue } from "vue-property-decorator";
 import { api } from '../../services/api';
 import { ApiObject } from '../../models/apiObject';
+import svgFacebook from '@/components/svgs/svg-facebook.vue';
+import svgInstagram from '@/components/svgs/svg-instagram.vue';
+import svgTwitter from '@/components/svgs/svg-twitter.vue';
 
-@Component
+@Component({
+    components: { svgFacebook, svgInstagram, svgTwitter }
+})
 export default class About extends Vue {
     private ArabicBoard = new Array();
     private EnglishBoard = new Array();

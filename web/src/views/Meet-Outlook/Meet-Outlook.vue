@@ -35,13 +35,17 @@
         <div class="footer">
             <div class="row m-0 text-center">
                 <div class="col-12 col-sm-4">
-                    Find us on social media:
+                    {{$store.getters.Language['social-media']}} <br />
+                    <a href="https://www.facebook.com/OutlookAUB"><svg-facebook /></a>
+                    <a href="https://www.instagram.com/outlookaub/"><svg-instagram /></a>
+                    <a href="https://twitter.com/OutlookAUB"><svg-twitter /></a>
                 </div>
                 <div class="col-12 col-sm-4">
-                    To contact us:
+                    {{$store.getters.Language['contact']}} <br />
+                    <span class="text-primary">info@auboutlook.com</span>
                 </div>
                 <div class="col-12 col-sm-4">
-                    2020 &copy; AUB Outlook
+                    2020 &copy; {{$store.getters.Language['outlook']}}
                 </div>
             </div>
             <div class="signature">
