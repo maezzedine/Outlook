@@ -351,9 +351,16 @@ namespace backend.APIs
         [HttpPost("Upload")]
         public async Task<ActionResult> UploadArticle(IFormCollection file)
         {
+            var user = await identityService.GetUserWithToken(HttpContext);
+            var aubDomains = new string[] { "aub.edu.lb", "mail.aub.edu" };
+
+            if (!aubDomains.Contains(user.Email.Split('@')[1]))
+            {
+                return Unauthorized();
+            }
+
             if (file.Files.Count != 0)
             {
-                var user = await identityService.GetUserWithToken(HttpContext);
                 var document = file.Files.ElementAt(0);
                 var extension = document.FileName.Substring(document.FileName.LastIndexOf('.'));
 

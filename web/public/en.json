@@ -20,6 +20,8 @@
   "dark-mode": "Dark Mode",
   "dir": "ltr",
   "email": "Email",
+  "email-note": "You must be an AUB staff or student; i.e. your email should end with `@mail.aub.edu` or `@aub.edu.lb`",
+  "email-preference": "AUB email is prefered, if you have one.",
   "email-required": "Email is required",
   "favorited-articles": "Favorited Articles",
   "favorites": "Favorates",

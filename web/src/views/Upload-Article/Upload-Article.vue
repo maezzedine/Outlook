@@ -10,6 +10,7 @@
                     <div class="instructions-details">
                         <ol>
                             <li>{{$store.getters.Language['sign-in']}}</li>
+                            <li>{{$store.getters.Language['email-note']}}</li>
                             <li>{{$store.getters.Language['upload-your-document']}}
                                 <ul>
                                     <li>{{$store.getters.Language['your-name']}}</li>
@@ -25,7 +26,7 @@
                 </div>
                 <div class="vertical-seperator d-none d-sm-block"></div>
                 <form @submit.prevent="sendFile">
-                    <div v-if="$store.getters.IsAuthenticated">
+                    <div v-if="$store.getters.IsAubStaff">
                         <input id="file" type="file" @change="updateFile($event.target.files[0])" accept="application/pdf" multiple="false"/>
                         <button type="submit" class="btn">{{$store.getters.Language['submit']}}</button>
                         <svg-check v-if="ProcessCompleted"/>

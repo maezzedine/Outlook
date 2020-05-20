@@ -1,6 +1,8 @@
 import { ActionContext } from 'vuex';
 import outlookUser from '../../models/outlookUser';
 import state from '../state';
+import { api } from '../../services/api';
+import { authService } from '../../services/auth-service';
 
 const state = {
     user: new outlookUser()
@@ -41,6 +43,18 @@ const getters = {
     },
     Username: (state: state) => {
         return state.user.username;
+    },
+    IsAubStaff: async (state: state) => {
+        var aubDomains = ['mail.aub.edu', 'aub.edu.lb'];
+        if (state.user.token == '') return false;
+
+        if (state.user.email == '' || state.user.email == undefined) {
+            await authService.getUser().then(d => {
+                state.user.email = d['email'];
+            })
+        }
+
+        return aubDomains.includes(state.user.email.split('@')[1])
     }
 }
 

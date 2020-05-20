@@ -1,5 +1,7 @@
-﻿using backend.Areas.Identity;
+﻿using AutoMapper;
+using backend.Areas.Identity;
 using backend.Entities;
+using backend.Models.Dtos;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,15 +23,18 @@ namespace backend.APIs
         private readonly IdentityService identityService;
         private readonly Logger.Logger logger;
         private readonly IEmailSender emailSender;
+        private readonly IMapper mapper;
 
         public IdentityController(
             UserManager<OutlookUser> userManager, 
             IdentityService identityService,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IMapper mapper)
         {
             this.userManager = userManager;
             this.identityService = identityService;
             this.emailSender = emailSender;
+            this.mapper = mapper;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.web);
         }
 
@@ -182,7 +187,7 @@ namespace backend.APIs
             var user = await identityService.GetUserWithToken(HttpContext);
             if (user != null)
             {
-                return Ok(user);
+                return Ok(mapper.Map<UserDto>(user));
             }
             return NotFound();
         }

@@ -19,7 +19,13 @@
                 </tr>
                 <tr>
                     <th>{{$store.getters.Language['email']}}:</th>
-                    <td><input v-model="Model.email" autocomplete="on"/></td>
+                    <td>
+                        <div class="col">
+                            <input v-model="Model.email" autocomplete="on" /> <br />
+                            <span>{{$store.getters.Language['email-preference']}}</span>
+                        </div>
+                    </td>
+                    
                 </tr>
                 <tr>
                     <th>{{$store.getters.Language['username']}}:</th>
