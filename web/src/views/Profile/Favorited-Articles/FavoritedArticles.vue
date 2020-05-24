@@ -1,6 +1,6 @@
 <template>
     <div class="favorites">
-        <article-thumbnail v-for="article in Articles" :article="article" :languageSpecific="false"/>
+        <article-thumbnail v-for="article in Articles" :article="article" :language-specific="false"/>
     </div>
 </template>
 
