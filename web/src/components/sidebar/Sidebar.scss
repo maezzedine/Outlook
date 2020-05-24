@@ -2,10 +2,10 @@ body {
 
     #sidebar {
         @include col();
-/*        visibility: visible;*/
         top: 0;
         bottom: 0;
-        position: absolute;
+        position: fixed;
+        z-index: 1;
         padding: 1% 0 0 0;
         color: var(--text-1);
         fill: var(--text-1);
@@ -25,6 +25,10 @@ body {
             stroke: var(--text-2);
             font-weight: lighter;
             font-size: smaller;
+
+            @media (max-width: 700px) {
+                padding-top: 55px;
+            }
 
             .close {
                 display: table-row;

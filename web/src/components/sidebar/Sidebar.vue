@@ -2,9 +2,9 @@
     <div id="sidebar" :class="[$store.getters.Language['sidebar-box-shadow'], $store.getters.Language['sidebar-hide']]">
        
         <div class="main">
-            <div class="close">
+            <!--<div class="close">
                 <button @click="$emit('expansion-toggled')"><svg-close /></button>
-            </div>
+            </div>-->
 
             <router-link :to="{ name: 'home' }">
                 <svg-home class="header" />
