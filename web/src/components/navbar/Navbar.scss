@@ -6,7 +6,17 @@ body {
         flex: 0 1 auto;
         height: 55px;
         box-shadow: var(--box-shadow);
-        transition: var(--screen-transform);
+        @include row();
+
+        .logo-container {
+
+            .logo {
+                position: fixed;
+                top: 5px;
+                z-index: 2;
+            }
+        }
+
 
         .options {
             @include row();

@@ -8,7 +8,7 @@
             <outlook-navbar @theme-toggled="toggleTheme" @language-toggled="toggleLang" @expansion-toggled="toggleExpansion" />
 
             <div class="window">
-                <outlook-sidebar @theme-toggled="toggleTheme"></outlook-sidebar>
+                <outlook-sidebar @theme-toggled="toggleTheme" @expansion-toggled="toggleExpansion"></outlook-sidebar>
 
                 <div id="route" :class="$store.getters.Language['window-expand']"><router-view @set-issue="setIssue" @set-volume="setVolume" /></div>
             </div>

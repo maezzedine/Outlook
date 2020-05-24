@@ -20,7 +20,7 @@
 
 @media (max-width: 1500px) {
     :root {
-        --sidebar-width: 180px;
+        --sidebar-width: 200px;
         --main-width: calc(100vw - var(--sidebar-width));
         --screen-transform: transform ease 0s;
         --home-width: 65%;
@@ -44,6 +44,7 @@
 }
 @media (max-width: 700px) {
     :root {
+        --sidebar-width: 230px;
         --route-width: 100vw;
         --main-width: 100vw;
         --screen-transform: transform ease .4s;

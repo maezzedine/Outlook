@@ -9,9 +9,10 @@ import svgInfo from '@/components/svgs/svg-info.vue';
 import svgMoon from '@/components/svgs/svg-moon.vue';
 import svgSun from '@/components/svgs/svg-sun.vue';
 import svgCategory from '@/components/svgs/svg-category.vue';
+import svgClose from '@/components/svgs/svg-close.vue';
 
 @Component({
-    components: { svgHome, svgQuill, svgMeeting, svgContribute, svgInfo, svgMoon, svgSun, svgCategory },
+    components: { svgHome, svgQuill, svgMeeting, svgContribute, svgInfo, svgMoon, svgSun, svgCategory, svgClose },
     data() {
         return {
             Categories: undefined

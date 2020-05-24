@@ -70,7 +70,6 @@
                     width: 100%;
                     height: calc(100vh - 55px);
                     overflow-y: auto;
-                    transition: var(--screen-transform);
                 }
             }
         }
@@ -79,14 +78,17 @@
 
             #sidebar {
                 transform: none;
+                visibility: visible;
             }
 
-            .en-expand {
-                transform: translateX(var(--sidebar-width));
-            }
+            @media (min-width: 701px) {
+                .en-expand {
+                    transform: translateX(var(--sidebar-width));
+                }
 
-            .ar-expand {
-                transform: translateX(calc(-1 * var(--sidebar-width)));
+                .ar-expand {
+                    transform: translateX(calc(-1 * var(--sidebar-width)));
+                }
             }
         }
 

@@ -2,8 +2,10 @@
     <nav id="navbar" class="navbar" :class="$store.getters.Language['window-expand']">
 
         <!-- <logo> -->
-        <div @click="$emit('expansion-toggled')">
-            <svg-outlook />
+        <div class="logo-container">
+            <div class="logo" @click="$emit('expansion-toggled')">
+                <svg-outlook />
+            </div>
         </div>
         <!-- </logo> -->
             
