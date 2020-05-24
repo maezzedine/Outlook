@@ -1,5 +1,5 @@
 <template>
-    <nav id="navbar" class="navbar" :class="$store.getters.Language['window-expand']">
+    <nav id="navbar" class="navbar">
 
         <!-- <logo> -->
         <div @click="$emit('expansion-toggled')">

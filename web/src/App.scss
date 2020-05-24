@@ -79,14 +79,7 @@
 
             #sidebar {
                 transform: none;
-            }
-
-            .en-expand {
-                transform: translateX(var(--sidebar-width));
-            }
-
-            .ar-expand {
-                transform: translateX(calc(-1 * var(--sidebar-width)));
+                visibility: visible;
             }
         }
 

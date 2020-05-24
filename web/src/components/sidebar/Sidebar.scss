@@ -2,6 +2,7 @@ body {
 
     #sidebar {
         @include col();
+/*        visibility: visible;*/
         top: 0;
         bottom: 0;
         position: absolute;
@@ -24,6 +25,19 @@ body {
             stroke: var(--text-2);
             font-weight: lighter;
             font-size: smaller;
+
+            .close {
+                display: table-row;
+                width: 100%;
+                margin-bottom: 30%;
+                text-align: start;
+
+                button {
+                    background: none;
+                    border: none;
+                    font-size: small;
+                }
+            }
 
             a, .table-row {
                 display: table-row;
@@ -93,9 +107,11 @@ body {
 
     .en-hide {
         transform: translateX(calc(-1 * var(--sidebar-width)));
+        visibility: hidden;
     }
 
     .ar-hide {
+        visibility: hidden;
         transform: translateX(var(--sidebar-width));
     }
 

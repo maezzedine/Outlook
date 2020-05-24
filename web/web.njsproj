@@ -167,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\hubs\article-hub.ts" />
+    <TypeScriptCompile Include="src\models\articleObject.ts" />
     <TypeScriptCompile Include="src\models\articleCommentChange.ts" />
     <TypeScriptCompile Include="src\models\articleFavoriteChange.ts" />
     <TypeScriptCompile Include="src\models\articleScoreChange.ts" />
@@ -175,6 +176,7 @@
     <TypeScriptCompile Include="src\models\outlookUser.ts" />
     <TypeScriptCompile Include="src\models\registerModel.ts" />
     <TypeScriptCompile Include="src\services\auth-service.ts" />
+    <TypeScriptCompile Include="src\store\modules\article.ts" />
     <TypeScriptCompile Include="src\store\modules\authentication.ts" />
     <TypeScriptCompile Include="src\store\modules\colors.ts" />
     <TypeScriptCompile Include="src\store\modules\language.ts" />
