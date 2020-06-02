@@ -48,6 +48,7 @@ namespace Outlook.Server.Models
         [NotMapped]
         [DisplayName("New Writer")]
         [MemberUniqueness]
+        // TODO: If writer already exists assign the new article to him
         public string NewWriter { get; set; }
 
         public DateTime DateTime { get; set; }
