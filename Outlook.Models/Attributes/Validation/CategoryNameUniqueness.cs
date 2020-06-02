@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Outlook.Models.Data;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Outlook.Models.Attributes.Validation
 {

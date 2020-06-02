@@ -51,6 +51,7 @@
     <Folder Include="wwwroot\img\Articles\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Outlook.Models\Outlook.Models.csproj" />
     <ProjectReference Include="..\Outlook.Logger\Outlook.Logger.csproj" />
   </ItemGroup>
 </Project>

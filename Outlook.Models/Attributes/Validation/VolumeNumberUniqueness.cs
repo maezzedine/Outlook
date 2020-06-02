@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Outlook.Models.Data;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Outlook.Models.Attributes.Validation
 {
@@ -7,7 +9,7 @@ namespace Outlook.Models.Attributes.Validation
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var context = (OutlookContext)validationContext.GetService(typeof(OutlookContext));
-            var existingVolumeWithSameName = context.Volume.SingleOrDefault(v => v.VolumeNumber.ToString() == value.ToString());
+            var existingVolumeWithSameName = context.Volume.SingleOrDefault(v => v.Number.ToString() == value.ToString());
 
             if (existingVolumeWithSameName != null)
             {
