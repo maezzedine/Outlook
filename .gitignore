@@ -352,8 +352,8 @@ log.txt
 backend/log.txt
 web/dist
 Logger/Config.cs
-backend/webLog.txt
-backend/serverLog.txt
+backend/src/Outlook.Server/webLog.txt
+backend/src/Outlook.Server/serverLog.txt
 backend/wwwroot/img
 backend/wwwroot/docs
 test/Config.cs
