@@ -14,7 +14,7 @@ namespace Outlook.Models.Attributes.Validation
             }
 
             var context = (OutlookContext)validationContext.GetService(typeof(OutlookContext));
-            var existingCategoryWithSameName = context.Category.SingleOrDefault(c => c.CategoryName == value.ToString());
+            var existingCategoryWithSameName = context.Category.SingleOrDefault(c => c.Name == value.ToString());
 
             if (existingCategoryWithSameName != null)
             {

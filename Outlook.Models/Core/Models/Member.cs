@@ -2,6 +2,7 @@
 using Outlook.Models.Core.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static Outlook.Models.Services.OutlookConstants;
 
 namespace Outlook.Models.Core.Models
 {
@@ -13,7 +14,7 @@ namespace Outlook.Models.Core.Models
         [RegularExpression(@"^[a-zA-Z\uFE70–\uFEFF.\-\s+\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]*$", ErrorMessage = "Characters, numbers and special symbols are not allowed.")]
         public string Name { get; set; }
 
-        public string Position { get; set; }
+        public Position Position { get; set; }
 
         public List<Article> Articles { get; set; }
 
