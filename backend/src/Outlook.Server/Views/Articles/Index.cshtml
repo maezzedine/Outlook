@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Outlook.Server.Models.Article>
+@using Outlook.Server.Controllers;
+
+@{
+    ViewData["Title"] = "Articles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var IssueID = Url.ActionContext.RouteData.Values["id"];
+    var volume = ArticlesController.VolumeNumber;
+    var issue = ArticlesController.Issue.IssueNumber;
+    var volumeId = ArticlesController.Issue.VolumeID;
+}
+
+    <h1>Articles | Volume @volume - Issue @issue </h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@IssueID">Create New</a>
+</p>
+<div class="text-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category.CategoryName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Member.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subtitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PicturePath)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Member.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @if (item.Subtitle != null)
+                        {
+                            <i class="fas fa-check" style="color: forestgreen"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-times" style="color: red"></i>
+                        }
+                    </td>
+                    <td>
+                        @if (item.PicturePath != null)
+                        {
+                            <i class="fas fa-check" style="color: forestgreen"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-times" style="color: red"></i>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-controller="Issues" asp-action="Index" asp-route-id="@volumeId">Back to List</a>
+</div>

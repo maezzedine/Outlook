@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Outlook.Logger</AssemblyName>
+    <RootNamespace>Outlook.Logger</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SlackBotMessages" Version="2.1.0" />
+  </ItemGroup>
+
+</Project>

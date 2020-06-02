@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "backend", "backend\backend.csproj", "{B1966ECC-A6AF-447C-8476-B8F83D3E6389}"
-EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "web", "web\web.njsproj", "{B5397962-44EA-4536-B299-536203D4E7AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "logger", "Logger\logger.csproj", "{977E0416-6605-4EA6-B3D2-DFC95307423A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", "{3E4E173F-A71E-4633-97D5-EFFC1979DABF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{B64216AD-C305-46A0-A144-483C342BA95B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C77CE86F-7122-46E9-8D81-778DE14EE502}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outlook.Server", "backend\src\Outlook.Server\Outlook.Server.csproj", "{A6AEF33F-3BDF-418B-85F2-77296553F031}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outlook.Logger", "backend\src\Outlook.Logger\Outlook.Logger.csproj", "{634F7337-2D77-410A-9FC6-6A3AFDC2B57B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,24 +21,29 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B1966ECC-A6AF-447C-8476-B8F83D3E6389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1966ECC-A6AF-447C-8476-B8F83D3E6389}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1966ECC-A6AF-447C-8476-B8F83D3E6389}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1966ECC-A6AF-447C-8476-B8F83D3E6389}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B5397962-44EA-4536-B299-536203D4E7AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5397962-44EA-4536-B299-536203D4E7AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5397962-44EA-4536-B299-536203D4E7AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{977E0416-6605-4EA6-B3D2-DFC95307423A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{977E0416-6605-4EA6-B3D2-DFC95307423A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{977E0416-6605-4EA6-B3D2-DFC95307423A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{977E0416-6605-4EA6-B3D2-DFC95307423A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E4E173F-A71E-4633-97D5-EFFC1979DABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E4E173F-A71E-4633-97D5-EFFC1979DABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E4E173F-A71E-4633-97D5-EFFC1979DABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E4E173F-A71E-4633-97D5-EFFC1979DABF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6AEF33F-3BDF-418B-85F2-77296553F031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6AEF33F-3BDF-418B-85F2-77296553F031}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6AEF33F-3BDF-418B-85F2-77296553F031}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6AEF33F-3BDF-418B-85F2-77296553F031}.Release|Any CPU.Build.0 = Release|Any CPU
+		{634F7337-2D77-410A-9FC6-6A3AFDC2B57B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{634F7337-2D77-410A-9FC6-6A3AFDC2B57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{634F7337-2D77-410A-9FC6-6A3AFDC2B57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{634F7337-2D77-410A-9FC6-6A3AFDC2B57B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C77CE86F-7122-46E9-8D81-778DE14EE502} = {B64216AD-C305-46A0-A144-483C342BA95B}
+		{A6AEF33F-3BDF-418B-85F2-77296553F031} = {C77CE86F-7122-46E9-8D81-778DE14EE502}
+		{634F7337-2D77-410A-9FC6-6A3AFDC2B57B} = {C77CE86F-7122-46E9-8D81-778DE14EE502}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {426DBF40-7FE9-4F07-98FB-9CA2DC0B2190}

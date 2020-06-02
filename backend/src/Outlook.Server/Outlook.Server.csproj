@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>335a482b-fb87-4958-b45f-033d07f18930</UserSecretsId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>CS1591</NoWarn>
+    <AssemblyName>Outlook.Server</AssemblyName>
+    <RootNamespace>Outlook.Server</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20200312213028_test.cs" />
+    <Compile Remove="Migrations\20200312213028_test.Designer.cs" />
+    <Compile Remove="Migrations\20200313173653_AddUniqueness.cs" />
+    <Compile Remove="Migrations\20200313173653_AddUniqueness.Designer.cs" />
+    <Compile Remove="Migrations\20200507032617_On Delete Article Cascade.cs" />
+    <Compile Remove="Migrations\20200507032617_On Delete Article Cascade.Designer.cs" />
+    <Compile Remove="Migrations\20200516173401_Map IArticle%27s relations.cs" />
+    <Compile Remove="Migrations\20200516173401_Map IArticle%27s relations.Designer.cs" />
+    <Compile Remove="Migrations\20200516175456_Add Objeccts keys.cs" />
+    <Compile Remove="Migrations\20200516175456_Add Objeccts keys.Designer.cs" />
+    <Compile Remove="Migrations\20200516210652_Category Editor Relation adjustment.cs" />
+    <Compile Remove="Migrations\20200516210652_Category Editor Relation adjustment.Designer.cs" />
+    <Compile Remove="Migrations\20200516211551_Comment Rates Remove.cs" />
+    <Compile Remove="Migrations\20200516211551_Comment Rates Remove.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="IdentityServer4" Version="3.1.2" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Nancy" Version="2.0.0" />
+    <PackageReference Include="Sendgrid" Version="9.14.1" />
+    <PackageReference Include="SendGrid.SmtpApi" Version="1.3.7" />
+    <PackageReference Include="ServiceStack.Interfaces" Version="5.8.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\docs\Articles\" />
+    <Folder Include="wwwroot\img\Articles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Outlook.Logger\Outlook.Logger.csproj" />
+  </ItemGroup>
+</Project>
