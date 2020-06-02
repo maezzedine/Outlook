@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
-using Outlook.Server.Data;
 using Outlook.Server.Hubs;
-using Outlook.Server.Models.Dtos;
-using Outlook.Server.Models.Interfaces;
-using Outlook.Server.Models.Relations;
-using Outlook.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +12,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Outlook.Models.Core.Dtos;
+using Outlook.Models.Core.Relations;
+using Outlook.Models.Services;
+using Outlook.Models.Data;
+using Outlook.Services;
 
 namespace Outlook.Server.APIs
 {
@@ -65,12 +65,12 @@ namespace Outlook.Server.APIs
         {
             // Get articles in an issue
             var articles = context.Article
-                .Where(a => a.IssueID == issueID)
                 .Include(a => a.Category)
                 .Include(a => a.Issue)
-                .Include(a => a.Member)
+                .Include(a => a.Writer)
                 .Include(a => a.Comments)
                 .ThenInclude(c => c.User)
+                .Where(a => a.Issue.Id == issueID)
                 .Select(a => mapper.Map<ArticleDto>(a));
 
             return await articles.ToListAsync();
@@ -95,7 +95,7 @@ namespace Outlook.Server.APIs
             var article = await context.Article
                 .Include(a => a.Category)
                 .Include(a => a.Issue)
-                .Include(a => a.Member)
+                .Include(a => a.Writer)
                 .Include(a => a.Comments)
                 .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
@@ -125,7 +125,7 @@ namespace Outlook.Server.APIs
             var topRatedArticles = await context.Article
                 .Include(a => a.Category)
                 .Include(a => a.Issue)
-                .Include(a => a.Member)
+                .Include(a => a.Writer)
                 .OrderByDescending(a => a.Rate)
                 .Select(a => mapper.Map<ArticleDto>(a))
                 .ToListAsync();
@@ -133,7 +133,7 @@ namespace Outlook.Server.APIs
             var topFavoritedArticles = await context.Article
                 .Include(a => a.Category)
                 .Include(a => a.Issue)
-                .Include(a => a.Member)
+                .Include(a => a.Writer)
                 .OrderByDescending(a => a.NumberOfFavorites)
                 .Select(a => mapper.Map<ArticleDto>(a))
                 .ToListAsync();
@@ -175,25 +175,25 @@ namespace Outlook.Server.APIs
 
             if (userRateArticle != null)
             {
-                if (userRateArticle.Rate == UserRateArticle.UserRate.Up)
+                if (userRateArticle.Rate == OutlookConstants.UserRate.Up)
                 {
                     return Accepted("You've already rated up this article.");
                 }
                 else
                 {
-                    if (userRateArticle.Rate == UserRateArticle.UserRate.Down)
+                    if (userRateArticle.Rate == OutlookConstants.UserRate.Down)
                     {
-                        article.UnRateDown();
+                        article.UndoDownVote();
                     }
-                    userRateArticle.Rate = UserRateArticle.UserRate.Up;
+                    userRateArticle.Rate = OutlookConstants.UserRate.Up;
                 }
             }
             else
             {
                 // Rate up the article
-                context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = UserRateArticle.UserRate.Up });
+                context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = OutlookConstants.UserRate.Up });
             }
-            article.RateUp();
+            article.UpVote();
             await context.SaveChangesAsync();
 
             // Notify all clients
@@ -229,25 +229,25 @@ namespace Outlook.Server.APIs
 
             if (userRateArticle != null)
             {
-                if (userRateArticle.Rate == UserRateArticle.UserRate.Down)
+                if (userRateArticle.Rate == OutlookConstants.UserRate.Down)
                 {
                     return Accepted("You've already rated down this article.");
                 }
                 else
                 {
-                    if (userRateArticle.Rate == UserRateArticle.UserRate.Up)
+                    if (userRateArticle.Rate == OutlookConstants.UserRate.Up)
                     {
-                        article.UnRateUp();
+                        article.UndoUpVote();
                     }
-                    userRateArticle.Rate = UserRateArticle.UserRate.Down;
+                    userRateArticle.Rate = OutlookConstants.UserRate.Down;
                 }
             }
             else
             {
                 // Rate down the article
-                context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = UserRateArticle.UserRate.Down });
+                context.UserRateArticle.Add(new UserRateArticle { User = user, Article = article, Rate = OutlookConstants.UserRate.Down });
             }
-            article.RateDown();
+            article.DownVote();
             await context.SaveChangesAsync();
 
             // Notify all clients
@@ -277,17 +277,17 @@ namespace Outlook.Server.APIs
         public async Task<ActionResult> FavoriteArticle(int articleID)
         {
             var user = await identityService.GetUserWithToken(HttpContext);
-            var userFavoritedArticle = await context.UserFavoritedArticleRelation.FirstOrDefaultAsync(u => (u.Article.Id == articleID) && (u.User.Id == user.Id));
+            var userFavoritedArticle = await context.UserFavoriteArticle.FirstOrDefaultAsync(u => (u.Article.Id == articleID) && (u.User.Id == user.Id));
             var article = await context.Article.FindAsync(articleID);
 
             if (userFavoritedArticle != null)
             {
-                context.UserFavoritedArticleRelation.Remove(userFavoritedArticle);
+                context.UserFavoriteArticle.Remove(userFavoritedArticle);
                 article.NumberOfFavorites--;
             }
             else
             {
-                context.UserFavoritedArticleRelation.Add(new UserFavoritedArticleRelation { User = user, Article = article });
+                context.UserFavoriteArticle.Add(new UserFavoriteArticle { User = user, Article = article });
                 article.NumberOfFavorites++;
             }
             await context.SaveChangesAsync();
@@ -320,10 +320,10 @@ namespace Outlook.Server.APIs
         {
             var user = await identityService.GetUserWithToken(HttpContext);
 
-            var userFavoriteArticles = await context.UserFavoritedArticleRelation
+            var userFavoriteArticles = await context.UserFavoriteArticle
                 .Include(a => a.Article.Category)
                 .Include(a => a.Article.Issue)
-                .Include(a => a.Article.Member)
+                .Include(a => a.Article.Writer)
                 .Where(a => a.User == user)
                 .Select(a => mapper.Map<ArticleDto>(a.Article))
                 .ToListAsync();
@@ -393,8 +393,8 @@ namespace Outlook.Server.APIs
 
         private IEnumerable<ArticleDto> GetShortlistedTopArticles(List<ArticleDto> articles)
         {
-            var englishShortlistedArticles = articles.Where(a => a.Language == Language.English.ToString()).AsEnumerable().Take(3);
-            var arabicShortlistedArticles = articles.Where(a => a.Language == Language.Arabic.ToString()).AsEnumerable().Take(3);
+            var englishShortlistedArticles = articles.Where(a => a.Language == OutlookConstants.Language.English).AsEnumerable().Take(3);
+            var arabicShortlistedArticles = articles.Where(a => a.Language == OutlookConstants.Language.Arabic).AsEnumerable().Take(3);
 
             return englishShortlistedArticles.Concat(arabicShortlistedArticles);
         }

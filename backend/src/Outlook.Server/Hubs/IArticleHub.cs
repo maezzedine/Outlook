@@ -1,4 +1,4 @@
-﻿using Outlook.Server.Models.Dtos;
+﻿using Outlook.Models.Core.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

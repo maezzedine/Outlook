@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using Outlook.Models.Data;
+using Outlook.Models.Core.Models;
 
 namespace Outlook.Server
 {

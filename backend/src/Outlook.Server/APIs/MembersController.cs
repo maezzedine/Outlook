@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using Outlook.Server.Data;
-using Outlook.Server.Models.Dtos;
-using Outlook.Server.Models.Interfaces;
-using Outlook.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Outlook.Models.Data;
+using Outlook.Models.Core.Dtos;
+using Outlook.Models.Services;
+using Outlook.Services;
 
 namespace Outlook.Server.APIs
 {
@@ -48,7 +48,7 @@ namespace Outlook.Server.APIs
                 .Include(m => m.Articles)
                 .ThenInclude(a => a.Category)
                 .Include(m => m.Category)
-                .FirstOrDefault(m => m.ID == id);
+                .FirstOrDefault(m => m.Id == id);
 
             if (member == null)
             {
@@ -73,7 +73,7 @@ namespace Outlook.Server.APIs
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetWriters()
         {
             var writers = context.Member
-                .Where(m => (m.Position == Position.Staff_Writer) || (m.Position == Position.كاتب_صحفي))
+                .Where(m => (m.Position == OutlookConstants.Position.Staff_Writer) || (m.Position == OutlookConstants.Position.كاتب_صحفي))
                 .Include(m => m.Articles)
                 .OrderBy(m => m.Name)
                 .Select(m => mapper.Map<MemberDto>(m));
@@ -95,9 +95,9 @@ namespace Outlook.Server.APIs
         [HttpGet("board")]
         public ActionResult GetBoardMembers()
         {
-            var englishPositons = from position in MemberService.EnglishPositions orderby position select position;
-            var arabicPositons = from position in MemberService.ArabicPositions orderby position select position;
-            var nonBoardMembers = new List<Position> { Position.Staff_Writer, Position.Former_Member, Position.كاتب_صحفي, Position.عضو_سابق };
+            var englishPositons = from position in OutlookConstants.EnglishPositions orderby position select position;
+            var arabicPositons = from position in OutlookConstants.ArabicPositions orderby position select position;
+            var nonBoardMembers = new List<OutlookConstants.Position> { OutlookConstants.Position.Staff_Writer, OutlookConstants.Position.Former_Member, OutlookConstants.Position.كاتب_صحفي, OutlookConstants.Position.عضو_سابق };
 
             //var boardMembers = context.Member
             //    .Include(m => m.Category)
@@ -146,8 +146,8 @@ namespace Outlook.Server.APIs
                 .OrderByDescending(m => m.Articles.Count)
                 .Select(m => mapper.Map<MemberDto>(m));
 
-            var shortListedTopWriters = members.AsEnumerable().Where(w => w.Language == Language.English.ToString()).Take(3)
-                .Concat(members.AsEnumerable().Where(w => w.Language == Language.Arabic.ToString()).Take(3));
+            var shortListedTopWriters = members.AsEnumerable().Where(w => w.Language == OutlookConstants.Language.English).Take(3)
+                .Concat(members.AsEnumerable().Where(w => w.Language == OutlookConstants.Language.Arabic).Take(3));
 
             return Ok(shortListedTopWriters);
         }

@@ -1,4 +1,4 @@
-﻿@model Outlook.Server.Models.Issue
+﻿@model Outlook.Models.Core.Models.Issue
 
 @{
     ViewData["Title"] = "Edit";
@@ -32,7 +32,7 @@
 </div>
 
 <div>
-    <a asp-action="Index" asp-route-id="@Model.VolumeID">Back to List</a>
+    <a asp-action="Index" asp-route-id="@Model.Volume.Id">Back to List</a>
 </div>
 
 

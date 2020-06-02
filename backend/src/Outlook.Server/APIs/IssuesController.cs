@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Outlook.Server.Data;
-using Outlook.Server.Models;
-using Outlook.Server.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Models.Core.Dtos;
+using Outlook.Models.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,7 +40,8 @@ namespace Outlook.Server.APIs
         public async Task<ActionResult<IEnumerable<IssueDto>>> GetIssues(int volumeID)
         {
             var issues = context.Issue
-                .Where(i => i.VolumeID == volumeID)
+                .Include(i => i.Volume)
+                .Where(i => i.Volume.Id == volumeID)
                 .Select(i => mapper.Map<IssueDto>(i));
 
             return await issues.ToListAsync();

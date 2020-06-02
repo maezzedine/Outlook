@@ -1,4 +1,4 @@
-﻿@inject SignInManager<Outlook.Server.Areas.Identity.OutlookUser> SignInManager
+﻿@inject SignInManager<Outlook.Models.Core.Models.OutlookUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

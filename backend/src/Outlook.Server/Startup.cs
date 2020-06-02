@@ -2,7 +2,6 @@
 using Outlook.Server.Areas.Identity;
 using Outlook.Server.Data;
 using Outlook.Server.Hubs;
-using Outlook.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +16,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using Outlook.Models.Data;
+using Outlook.Services;
+using Outlook.Models.Core.Models;
 
 namespace Outlook.Server
 {

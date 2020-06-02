@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Outlook.Models\Outlook.Models.csproj" />
+    <ProjectReference Include="..\..\..\Outlook.Services\Outlook.Services.csproj" />
     <ProjectReference Include="..\Outlook.Logger\Outlook.Logger.csproj" />
   </ItemGroup>
 </Project>

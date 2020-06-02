@@ -7,7 +7,11 @@ namespace Outlook.Models.Core.Models
     {
         public int Id { get; set; }
 
+        public string UserID { get; set; }
+
         public OutlookUser User { get; set; }
+        
+        public int ArticleID { get; set; }
 
         public Article Article { get; set; }
 

@@ -1,10 +1,10 @@
-﻿using Outlook.Server.Data;
-using Outlook.Server.Models;
-using Outlook.Server.Models.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
+using Outlook.Models.Services;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,7 +25,7 @@ namespace Outlook.Server.Controllers
         public async Task<ActionResult> Index()
         {
             var writers = from member in context.Member
-                          where (member.Position == Position.Staff_Writer) || (member.Position == Position.كاتب_صحفي)
+                          where (member.Position == OutlookConstants.Position.Staff_Writer) || (member.Position == OutlookConstants.Position.كاتب_صحفي)
                           select member;
 
             return View(await writers.ToListAsync());
@@ -42,7 +42,7 @@ namespace Outlook.Server.Controllers
             var member = await context.Member
                 .Include(w => w.Category)
                 .Include(w => w.Articles)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (member == null)
             {
@@ -96,7 +96,7 @@ namespace Outlook.Server.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Position")] Member member)
         {
-            if (id != member.ID)
+            if (id != member.Id)
             {
                 return NotFound();
             }
@@ -117,7 +117,7 @@ namespace Outlook.Server.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!WriterExists(member.ID))
+                    if (!WriterExists(member.Id))
                     {
                         return NotFound();
                     }
@@ -143,7 +143,7 @@ namespace Outlook.Server.Controllers
             var member = await context.Member
                 .Include(w => w.Category)
                 .Include(w => w.Articles)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (member == null)
             {
@@ -171,7 +171,7 @@ namespace Outlook.Server.Controllers
 
         private bool WriterExists(int id)
         {
-            return context.Member.Any(e => e.ID == id);
+            return context.Member.Any(e => e.Id == id);
         }
 
     }

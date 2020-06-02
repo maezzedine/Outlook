@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Outlook.Server.Models.Volume>
+﻿@model IEnumerable<Outlook.Models.Core.Models.Volume>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -14,7 +14,7 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.VolumeNumber)
+                    @Html.DisplayNameFor(model => model.Number)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.FallYear)
@@ -31,7 +31,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.VolumeNumber)
+                        @Html.DisplayFor(modelItem => item.Number)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FallYear)

@@ -1,12 +1,9 @@
-﻿using Outlook.Server.Data;
-using Outlook.Server.Models;
-using Outlook.Server.Models.Interfaces;
-using Outlook.Server.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Data.Common;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
+using Outlook.Models.Services;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -31,7 +28,7 @@ namespace Outlook.Server.Controllers
         public async Task<IActionResult> Index()
         {
             var categories = await context.Category
-                .Include(c => c.JuniorEditors)
+                .Include(c => c.Editors)
                 .ToListAsync();
 
             return View(await context.Category.ToListAsync());
@@ -46,7 +43,7 @@ namespace Outlook.Server.Controllers
             }
 
             var category = await context.Category
-                .Include(c => c.JuniorEditors)
+                .Include(c => c.Editors)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (category == null)
@@ -66,15 +63,15 @@ namespace Outlook.Server.Controllers
         // POST: Categories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CategoryName,Tag")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Name,Tag")] Category category)
         {
             if (ModelState.IsValid)
             {
                 context.Add(category);
-                category.SetLanguage(Regex.IsMatch(category.CategoryName, @"^[a-zA-Z.\-+\s]*$") ? Language.English : Language.Arabic);
+                category.SetLanguage(Regex.IsMatch(category.Name, @"^[a-zA-Z.\-+\s]*$") ? OutlookConstants.Language.English : OutlookConstants.Language.Arabic);
                 await context.SaveChangesAsync();
 
-                logger.Log($"{HttpContext.User.Identity.Name} created Category `{category.CategoryName}` and ID `{category.Id}`.");
+                logger.Log($"{HttpContext.User.Identity.Name} created Category `{category.Name}` and ID `{category.Id}`.");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -109,7 +106,7 @@ namespace Outlook.Server.Controllers
                 return NotFound();
             }
             
-            ModelState.Remove("CategoryName");
+            ModelState.Remove("Name");
             if (ModelState.IsValid)
             {
                 try
@@ -123,7 +120,7 @@ namespace Outlook.Server.Controllers
 
                     await context.SaveChangesAsync();
 
-                    logger.Log($"{HttpContext.User.Identity.Name} editted Category `{category.CategoryName}`");
+                    logger.Log($"{HttpContext.User.Identity.Name} editted Category `{category.Name}`");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -151,7 +148,7 @@ namespace Outlook.Server.Controllers
             }
 
             var category = await context.Category
-                .Include(c => c.JuniorEditors)
+                .Include(c => c.Editors)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (category == null)
@@ -172,7 +169,7 @@ namespace Outlook.Server.Controllers
             {
                 var category = await context.Category.FindAsync(id);
 
-                logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Category `{category.CategoryName}`");
+                logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Category `{category.Name}`");
 
                 context.Category.Remove(category);
                 await context.SaveChangesAsync();

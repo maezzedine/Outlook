@@ -1,4 +1,4 @@
-﻿@model Outlook.Server.Models.Issue
+﻿@model Outlook.Models.Core.Models.Issue
 
 @{
     ViewData["Title"] = "Delete";
@@ -13,16 +13,16 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Volume.VolumeNumber)
+            @Html.DisplayNameFor(model => model.Volume.Number)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Volume.VolumeNumber)
+            @Html.DisplayFor(model => model.Volume.Number)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IssueNumber)
+            @Html.DisplayNameFor(model => model.Number)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IssueNumber)
+            @Html.DisplayFor(model => model.Number)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ArabicTheme)
@@ -41,6 +41,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" asp-route-id="@Model.VolumeID">Back to List</a>
+        <a asp-action="Index" asp-route-id="@Model.Volume.Id">Back to List</a>
     </form>
 </div>

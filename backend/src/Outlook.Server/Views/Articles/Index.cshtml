@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Outlook.Server.Models.Article>
+﻿@model IEnumerable<Outlook.Models.Core.Models.Article>
 @using Outlook.Server.Controllers;
 
 @{
@@ -7,8 +7,8 @@
 
     var IssueID = Url.ActionContext.RouteData.Values["id"];
     var volume = ArticlesController.VolumeNumber;
-    var issue = ArticlesController.Issue.IssueNumber;
-    var volumeId = ArticlesController.Issue.VolumeID;
+    var issue = ArticlesController.Issue.Number;
+    var volumeId = ArticlesController.Issue.Volume.Id;
 }
 
     <h1>Articles | Volume @volume - Issue @issue </h1>
@@ -21,10 +21,10 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Category.CategoryName)
+                    @Html.DisplayNameFor(model => model.Category.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Member.Name)
+                    @Html.DisplayNameFor(model => model.Writer.Name)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Title)
@@ -43,10 +43,10 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                        @Html.DisplayFor(modelItem => item.Category.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Member.Name)
+                        @Html.DisplayFor(modelItem => item.Writer.Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)

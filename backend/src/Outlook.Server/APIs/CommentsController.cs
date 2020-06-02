@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
-using Outlook.Server.Data;
 using Outlook.Server.Hubs;
-using Outlook.Server.Models;
-using Outlook.Server.Models.Dtos;
-using Outlook.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -11,6 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Core.Dtos;
+using Outlook.Models.Data;
+using Outlook.Services;
 
 namespace Outlook.Server.APIs
 {

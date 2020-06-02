@@ -1,12 +1,13 @@
-﻿@model Outlook.Server.Models.Category
-@using Outlook.Server.Models.Interfaces;
+﻿@model Outlook.Models.Core.Models.Category
+@using static Outlook.Models.Services.OutlookConstants.Language;
+@using static Outlook.Models.Services.OutlookConstants.CategoryTag;
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var languages = new List<Language> { Language.Arabic, Language.English };
-    var tags = new List<Tag> { Tag.Art, Tag.Cover, Tag.Culture, Tag.Gender, Tag.Lifestyle, Tag.News, Tag.Opinion, Tag.Personality, Tag.Society, Tag.Other };
+    var languages = new List<string> { Arabic, English };
+    var tags = new List<string> { Art, Cover, Culture, Gender, Lifestyle, News, Opinion, Personality, Society, Other };
 }
 
 <h1>Edit</h1>
@@ -19,8 +20,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>:
-                @Html.DisplayFor(model => model.CategoryName)
+                <label asp-for="Name" class="control-label"></label>:
+                @Html.DisplayFor(model => model.Name)
             </div>
             <div class="form-group">
                 <label asp-for="Language" class="control-label"></label>

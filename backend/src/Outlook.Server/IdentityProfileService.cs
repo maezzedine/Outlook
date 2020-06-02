@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Outlook.Models.Core.Models;
 
 namespace Outlook.Server
 {

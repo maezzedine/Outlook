@@ -1,7 +1,4 @@
-﻿using Outlook.Server.Data;
-using Outlook.Server.Models;
-using Outlook.Server.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
+using Outlook.Services;
 
 namespace Outlook.Server.Controllers
 {
@@ -44,7 +44,7 @@ namespace Outlook.Server.Controllers
 
             // Save the List of categories names to be accessed
             Categories = context.Category
-                .Select(c => c.CategoryName)
+                .Select(c => c.Name)
                 .ToList();
         }
 
@@ -58,22 +58,24 @@ namespace Outlook.Server.Controllers
 
             // Save the Issue Number to be accessed
             var issue = await context.Issue
-                .FindAsync(id);
+                .Include(i => i.Volume)
+                .FirstOrDefaultAsync(i => i.Id == id);
 
             // Save the Volume Number to be accessed
             var volume = await context.Volume
-                .FindAsync(issue.VolumeID);
+                .FindAsync(issue.Volume.Id);
 
             if (issue != null && volume != null)
             {
                 Issue = issue;
-                VolumeNumber = volume.VolumeNumber;
+                VolumeNumber = volume.Number;
             }
 
             var articles = await context.Article
-                .Where(a => a.IssueID == id)
+                .Include(a => a.Issue)
                 .Include(a => a.Category)
-                .Include(a => a.Member)
+                .Include(a => a.Writer)
+                .Where(a => a.Issue.Id == id)
                 .ToListAsync();
 
             return View(articles);
@@ -89,7 +91,7 @@ namespace Outlook.Server.Controllers
 
             var article = await context.Article
                 .Include(a => a.Category)
-                .Include(a => a.Member)
+                .Include(a => a.Writer)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (article == null)
@@ -109,10 +111,10 @@ namespace Outlook.Server.Controllers
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromRoute]int? id, [Bind("Language,Category,Title,Subtitle,Member,NewWriter,Picture,Text")] Article article)
+        public async Task<IActionResult> Create([FromRoute]int? id, string NewWriter, [Bind("Language,Category,Title,Subtitle,Writer,Picture,Text")] Article article)
         {
-            ModelState.Remove("Category.CategoryName");
-            ModelState.Remove("Member.Name");
+            ModelState.Remove("Category.Name");
+            ModelState.Remove("Writer.Name");
 
             if (ModelState.IsValid)
             {
@@ -121,15 +123,15 @@ namespace Outlook.Server.Controllers
                     return ValidationProblem(detail: "Issue Id cannot be null");
                 }
 
-                article.IssueID = (int)id;
+                article.Issue = await context.Issue.FindAsync(id);
                 article.DateTime = DateTime.Now;
 
                 // Assign value to the MemberID that refers to the writer of the article
                 article.Category = context.Category
-                    .First(c => c.CategoryName == article.Category.CategoryName);
+                    .First(c => c.Name == article.Category.Name);
 
                 articleService.SetArticleWriter(article, 
-                    (article.Member.Name == "+ NEW WRITER") ? article.NewWriter : article.Member.Name);
+                    (article.Writer.Name == "+ NEW WRITER") ? NewWriter : article.Writer.Name);
 
                 if (article.Picture != null)
                 {
@@ -157,7 +159,7 @@ namespace Outlook.Server.Controllers
 
             var article = await context.Article
                .Include(a => a.Category)
-               .Include(a => a.Member)
+               .Include(a => a.Writer)
                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (article == null)
@@ -171,21 +173,22 @@ namespace Outlook.Server.Controllers
         // POST: Articles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Language,Category,Title,Subtitle,Member,NewWriter,Picture,DeletePicture,Text")] Article article)
+        public async Task<IActionResult> Edit(int id, string NewWriter, bool DeletePicture, [Bind("Id,Language,Category,Title,Subtitle,Writer,Picture,Text")] Article article)
         {
             if (id != article.Id)
             {
                 return NotFound();
             }
 
-            ModelState.Remove("Category.CategoryName");
-            ModelState.Remove("Member.Name");
+            ModelState.Remove("Category.Name");
+            ModelState.Remove("Writer.Name");
 
             if (ModelState.IsValid)
             {
                 var originalArticle = context.Article
+                    .Include(i => i.Issue)
                     .Include(a => a.Category)
-                    .Include(a => a.Member)
+                    .Include(a => a.Writer)
                     .First(a => a.Id == id);
 
                 try
@@ -194,13 +197,13 @@ namespace Outlook.Server.Controllers
 
                     articleService
                         .SetArticleWriter(originalArticle,
-                            (article.Member.Name == "+ NEW WRITER") ? article.NewWriter : article.Member.Name)
+                            (article.Writer.Name == "+ NEW WRITER") ? NewWriter : article.Writer.Name)
                         .SetLanguage(article.Language)
                         .SetText(article.Text)
                         .SetTitle(article.Title)
                         .SetSubtitle(article.Subtitle)
                         .SetCategory(context.Category
-                                        .First(c => c.CategoryName == article.Category.CategoryName));
+                                        .First(c => c.Name == article.Category.Name));
 
                     if (originalArticle.PicturePath == null)
                     {
@@ -217,7 +220,7 @@ namespace Outlook.Server.Controllers
 
                             await articleService.AddArticlePicture(originalArticle, article.Picture, env.WebRootPath);
                         }
-                        else if (article.DeletePicture)
+                        else if (DeletePicture)
                         {
                             articleService.DeleteArticlePicture(originalArticle, env.WebRootPath);
                         }
@@ -243,7 +246,7 @@ namespace Outlook.Server.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { id = originalArticle.IssueID });
+                return RedirectToAction(nameof(Index), new { id = originalArticle.Issue.Id });
             }
             return View(article);
         }
@@ -259,7 +262,7 @@ namespace Outlook.Server.Controllers
 
             var article = await context.Article
                .Include(a => a.Category)
-               .Include(a => a.Member)
+               .Include(a => a.Writer)
                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (article == null)
@@ -276,7 +279,9 @@ namespace Outlook.Server.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var article = await context.Article.FindAsync(id);
+            var article = await context.Article
+                .Include(a => a.Issue)
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             // Delete the article image form the file server if there is any
             if (article.PicturePath != null)
@@ -291,7 +296,7 @@ namespace Outlook.Server.Controllers
 
             logger.Log($"Delete Completed.");
 
-            return RedirectToAction(nameof(Index), new { id = article.IssueID });
+            return RedirectToAction(nameof(Index), new { id = article.Issue.Id });
         }
 
         private bool ArticleExists(int id)
@@ -303,8 +308,8 @@ namespace Outlook.Server.Controllers
         {
             return $@"Title: {article.Title}
                     Subtitle: {article.Subtitle}
-                    Category: {article.Category.CategoryName}
-                    Writer: {article.Member.Name}
+                    Category: {article.Category.Name}
+                    Writer: {article.Writer.Name}
                     Picture Name: {Path.GetFileName(article.PicturePath)}
                     Body: {article.Text}";
         }

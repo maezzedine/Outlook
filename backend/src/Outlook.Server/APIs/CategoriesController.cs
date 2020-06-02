@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Outlook.Server.Data;
-using Outlook.Server.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Outlook.Models.Core.Dtos;
+using Outlook.Models.Data;
 
 namespace Outlook.Server.APIs
 {
@@ -40,11 +41,11 @@ namespace Outlook.Server.APIs
         public ActionResult<List<CategoryDto>> GetCategories(int issueId)
         {
             var categories = context.Category
-                .Include(c => c.JuniorEditors)
+                .Include(c => c.Editors)
                 .Include(c => c.Articles)
                 .ThenInclude(a => a.Issue)
                 .Include(c => c.Articles)
-                .ThenInclude(a => a.Member)
+                .ThenInclude(a => a.Writer)
                 .Select(c => mapper.Map<CategoryDto>(c))
                 .ToList();
 
@@ -75,8 +76,10 @@ namespace Outlook.Server.APIs
         {
             var category = await context.Category
                 .Include(c => c.Articles)
-                .ThenInclude(a => a.Member)
-                .Include(c => c.JuniorEditors)
+                .ThenInclude(a => a.Writer)
+                .Include(c => c.Articles)
+                .ThenInclude(a => a.Issue)
+                .Include(c => c.Editors)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (category == null)
@@ -86,7 +89,7 @@ namespace Outlook.Server.APIs
 
             category.Articles = category.Articles
                 .AsEnumerable()
-                .Where(a => a.IssueID == issueId)
+                .Where(a => a.Issue.Id == issueId)
                 .ToList();
 
             return mapper.Map<CategoryDto>(category);

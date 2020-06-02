@@ -1,7 +1,6 @@
-﻿@model Outlook.Server.Models.Article
-@using Outlook.Server.Models.Interfaces;
+﻿@model Outlook.Models.Core.Models.Article
 @using Outlook.Server.Controllers;
-@using Outlook.Server.Models;
+@using Outlook.Models.Services;
 
 @{
     ViewData["Title"] = "Create";
@@ -10,7 +9,7 @@
     var writers = ArticlesController.Writers;
     writers.Add("+ NEW WRITER");
     var categories = ArticlesController.Categories;
-    var langauges = new List<Language> { Language.Arabic, Language.English };
+    var langauges = new List<string> { OutlookConstants.Language.Arabic, OutlookConstants.Language.English };
 
     var IssueID = Url.ActionContext.RouteData.Values["id"];
 }
@@ -27,19 +26,17 @@
         <span asp-validation-for="Language" class="text-danger"></span>
     </div>
     <div class="form-group col-md-4">
-        <label asp-for="Category.CategoryName" class="control-label"></label>
-        <select asp-for="Category.CategoryName" class="form-control" asp-items="new SelectList(categories)"></select>
-        <span asp-validation-for="Category.CategoryName" class="text-danger"></span>
+        <label asp-for="Category.Name" class="control-label"></label>
+        <select asp-for="Category.Name" class="form-control" asp-items="new SelectList(categories)"></select>
+        <span asp-validation-for="Category.Name" class="text-danger"></span>
     </div>
     <div class="form-group col-md-4">
-        <label asp-for="Member.Name" class="control-label"></label>
-        <select id="writers" asp-for="Member.Name" class="form-control" asp-items="new SelectList(writers)" onchange="toggleEnabledField()"></select>
-        <span asp-validation-for="Member.Name" class="text-danger"></span>
+        <label asp-for="Writer.Name" class="control-label"></label>
+        <select id="writers" asp-for="Writer.Name" class="form-control" asp-items="new SelectList(writers)" onchange="toggleEnabledField()"></select>
+        <span asp-validation-for="Writer.Name" class="text-danger"></span>
     </div>
     <div class="form-group col-md-4">
-        <label asp-for="NewWriter" class="control-label"></label>
-        <input id="newWriter" asp-for="NewWriter" class="form-control" disabled />
-        <span asp-validation-for="NewWriter" class="text-danger"></span>
+        <input id="newWriter" name="NewWriter" class="form-control" disabled />
     </div>
     <div class="form-group col-md-4">
         <label asp-for="Title" class="control-label"></label>

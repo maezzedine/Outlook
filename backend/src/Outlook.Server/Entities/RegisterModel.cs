@@ -1,4 +1,4 @@
-﻿using Outlook.Server.Validation_Attributes;
+﻿using Outlook.Models.Attributes.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Outlook.Server.Entities
@@ -6,7 +6,7 @@ namespace Outlook.Server.Entities
     public class RegisterModel
     {
         [Required]
-        [IdentityUniqueness]
+        [UsernameUniqueness]
         public string Username { get; set; }
 
         [Required]

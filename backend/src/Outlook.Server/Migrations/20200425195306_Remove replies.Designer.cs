@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Outlook.Server.Data;
+using Outlook.Models.Data;
 
 namespace Outlook.Server.Migrations
 {
@@ -156,7 +155,7 @@ namespace Outlook.Server.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Areas.Identity.OutlookUser", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.OutlookUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -236,7 +235,7 @@ namespace Outlook.Server.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Article", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -290,7 +289,7 @@ namespace Outlook.Server.Migrations
                     b.ToTable("Article");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Category", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -311,7 +310,7 @@ namespace Outlook.Server.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Comment", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -348,7 +347,7 @@ namespace Outlook.Server.Migrations
                     b.ToTable("Comment");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Issue", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Issue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -374,7 +373,7 @@ namespace Outlook.Server.Migrations
                     b.ToTable("Issue");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Member", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Member", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -395,7 +394,7 @@ namespace Outlook.Server.Migrations
                     b.ToTable("Member");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Relations.CategoryEditorRelation", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Relations.CategoryEditorRelation", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -417,7 +416,7 @@ namespace Outlook.Server.Migrations
                     b.ToTable("CategoryEditor");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Relations.UserFavoritedArticleRelation", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Relations.UserFavoritedArticleRelation", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -439,7 +438,7 @@ namespace Outlook.Server.Migrations
                     b.ToTable("UserFavoritedArticleRelation");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Relations.UserRateArticle", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Relations.UserRateArticle", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -464,7 +463,7 @@ namespace Outlook.Server.Migrations
                     b.ToTable("UserRateArticle");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Volume", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Volume", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -496,7 +495,7 @@ namespace Outlook.Server.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Outlook.Server.Areas.Identity.OutlookUser", null)
+                    b.HasOne("Outlook.Models.Core.Models.OutlookUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -505,7 +504,7 @@ namespace Outlook.Server.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Outlook.Server.Areas.Identity.OutlookUser", null)
+                    b.HasOne("Outlook.Models.Core.Models.OutlookUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -520,7 +519,7 @@ namespace Outlook.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Outlook.Server.Areas.Identity.OutlookUser", null)
+                    b.HasOne("Outlook.Models.Core.Models.OutlookUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -529,89 +528,89 @@ namespace Outlook.Server.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Outlook.Server.Areas.Identity.OutlookUser", null)
+                    b.HasOne("Outlook.Models.Core.Models.OutlookUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Article", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Article", b =>
                 {
-                    b.HasOne("Outlook.Server.Models.Category", "Category")
+                    b.HasOne("Outlook.Models.Core.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Outlook.Server.Models.Issue", "Issue")
+                    b.HasOne("Outlook.Models.Core.Models.Issue", "Issue")
                         .WithMany()
                         .HasForeignKey("IssueID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Outlook.Server.Models.Member", "Member")
+                    b.HasOne("Outlook.Models.Core.Models.Member", "Member")
                         .WithMany()
                         .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Comment", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Comment", b =>
                 {
-                    b.HasOne("Outlook.Server.Models.Article", null)
+                    b.HasOne("Outlook.Models.Core.Models.Article", null)
                         .WithMany("Comments")
                         .HasForeignKey("ArticleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Outlook.Server.Areas.Identity.OutlookUser", "User")
+                    b.HasOne("Outlook.Models.Core.Models.OutlookUser", "User")
                         .WithMany()
                         .HasForeignKey("UserID");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Issue", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Issue", b =>
                 {
-                    b.HasOne("Outlook.Server.Models.Volume", "Volume")
+                    b.HasOne("Outlook.Models.Core.Models.Volume", "Volume")
                         .WithMany()
                         .HasForeignKey("VolumeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Relations.CategoryEditorRelation", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Relations.CategoryEditorRelation", b =>
                 {
-                    b.HasOne("Outlook.Server.Models.Category", "Category")
+                    b.HasOne("Outlook.Models.Core.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Outlook.Server.Models.Member", "Member")
+                    b.HasOne("Outlook.Models.Core.Models.Member", "Member")
                         .WithMany()
                         .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Relations.UserFavoritedArticleRelation", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Relations.UserFavoritedArticleRelation", b =>
                 {
-                    b.HasOne("Outlook.Server.Models.Article", "Article")
+                    b.HasOne("Outlook.Models.Core.Models.Article", "Article")
                         .WithMany()
                         .HasForeignKey("ArticleId");
 
-                    b.HasOne("Outlook.Server.Areas.Identity.OutlookUser", "User")
+                    b.HasOne("Outlook.Models.Core.Models.OutlookUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("Outlook.Server.Models.Relations.UserRateArticle", b =>
+            modelBuilder.Entity("Outlook.Models.Core.Models.Relations.UserRateArticle", b =>
                 {
-                    b.HasOne("Outlook.Server.Models.Article", "Article")
+                    b.HasOne("Outlook.Models.Core.Models.Article", "Article")
                         .WithMany()
                         .HasForeignKey("ArticleId");
 
-                    b.HasOne("Outlook.Server.Areas.Identity.OutlookUser", "User")
+                    b.HasOne("Outlook.Models.Core.Models.OutlookUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });

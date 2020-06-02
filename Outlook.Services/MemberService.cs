@@ -1,11 +1,10 @@
 ﻿using Outlook.Models.Core.Dtos;
 using Outlook.Models.Core.Models;
-using Outlook.Models.Data;
 using Outlook.Models.Services;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Outlook.Server.Services
+namespace Outlook.Services
 {
     public class MemberService
     {
