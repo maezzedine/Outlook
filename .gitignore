@@ -357,3 +357,4 @@ backend/serverLog.txt
 backend/wwwroot/img
 backend/wwwroot/docs
 test/Config.cs
+backend/src/Outlook.Logger/Config.cs
