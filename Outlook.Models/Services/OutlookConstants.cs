@@ -1,10 +1,14 @@
-﻿namespace Outlook.Models.Services
+﻿using System.Reflection;
+
+namespace Outlook.Models.Services
 {
     public class OutlookConstants
     {
         public static Position[] ArabicPositions = { Position.المحرر, Position.رئيس_تحرير, Position.رئيس_قسم, Position.عضو_سابق, Position.كاتب_صحفي, Position.مدقق_الموقع, Position.مدقق_النسخة, Position.مدقق_لغوي, Position.نائب_المحرر };
         public static Position[] EnglishPositions = { Position.Editor_In_Chief, Position.Senior_Editor, Position.Associate_Editor, Position.Junior_Editor, Position.Proofreader, Position.Copy_Editor, Position.Web_Editor, Position.Former_Member, Position.Staff_Writer };
         public static Position[] NonBoardMembers = { Position.Staff_Writer, Position.Former_Member, Position.كاتب_صحفي, Position.عضو_سابق };
+
+        public const string MigrationAssembly = "Outlook.Models";
 
         public class Language
         {
@@ -26,7 +30,7 @@
             public const string Society = "Society";
         }
 
-        public enum Position
+        public enum Position    
         {
             Editor_In_Chief,
             رئيس_تحرير,
