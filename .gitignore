@@ -359,3 +359,4 @@ backend/wwwroot/docs
 test/Config.cs
 backend/src/Outlook.Logger/Config.cs
 backend/src/Outlook.Server/wwwroot/docs
+backend/src/Outlook.Models/Services/OutlookSecrets.cs

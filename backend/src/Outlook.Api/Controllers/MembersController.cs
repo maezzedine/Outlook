@@ -9,7 +9,7 @@ using Outlook.Models.Core.Dtos;
 using Outlook.Models.Services;
 using Outlook.Services;
 
-namespace Outlook.Server.APIs
+namespace Outlook.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

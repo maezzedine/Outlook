@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Outlook.Server.Hubs
+namespace Outlook.Api.Hubs
 {
     public interface IArticleHub
     {

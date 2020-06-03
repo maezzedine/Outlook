@@ -8,6 +8,7 @@ namespace Outlook.Models.Mappings.Profiles
     {
         public VolumeProfile()
         {
+            CreateMap<Volume, VolumeSummaryDto>();
             CreateMap<Volume, VolumeDto>();
         }
     }

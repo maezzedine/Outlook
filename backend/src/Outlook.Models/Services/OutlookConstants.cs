@@ -1,4 +1,6 @@
-﻿namespace Outlook.Models.Services
+﻿using System;
+
+namespace Outlook.Models.Services
 {
     public class OutlookConstants
     {
@@ -53,6 +55,17 @@
         public enum UserRate
         {
             None, Up, Down
+        }
+
+        public class ClientUrl
+        {
+            public const string Development = "http://192.168.50.104:8080;http://192.168.50.101:8080;http://192.168.50.102:8080;http://localhost:8080";
+        }
+
+        public class OpenSource
+        {
+            public const string Version = "1.0.0";
+            public const string LicenseUrl = "https://github.com/mezdn/Outlook/blob/master/LICENSE";
         }
     }
 }

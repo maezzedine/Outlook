@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace Outlook.Server.Hubs
+namespace Outlook.Api.Hubs
 {
     public class ArticleHub : Hub<IArticleHub>
     {

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Outlook.Server.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 using Outlook.Models.Core.Dtos;
 using Outlook.Models.Data;
 
-namespace Outlook.Server.APIs
+namespace Outlook.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

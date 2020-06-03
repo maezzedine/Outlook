@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
+using Outlook.Models.Services;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -17,9 +18,9 @@ namespace Outlook.Services
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            var server = Configuration["SMTP:Server"];
-            var sender = Configuration["EmailVerification:Sender"];
-            var password = Configuration["EmailVerification:Password"];
+            var server = OutlookSecrets.EmailSender.Development.Server;
+            var sender = OutlookSecrets.EmailSender.Development.Sender;
+            var password = OutlookSecrets.EmailSender.Development.Password;
 
             var client = new SmtpClient
             {

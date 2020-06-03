@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Outlook.Server.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -12,8 +11,9 @@ using System.Threading.Tasks;
 using Outlook.Models.Core.Models;
 using Outlook.Models.Core.Dtos;
 using Outlook.Services;
+using Outlook.Models.Core.Entities;
 
-namespace Outlook.Server.APIs
+namespace Outlook.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

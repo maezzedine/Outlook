@@ -1,5 +1,4 @@
-﻿using Outlook.Server.Entities;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -17,6 +16,7 @@ using Outlook.Models.Data;
 using Outlook.Services;
 using Outlook.Models.Core.Models;
 using Outlook.Models.Attributes.Validation;
+using Outlook.Models.Core.Entities;
 
 namespace Outlook.Server.Areas.Identity.Pages.Account
 {

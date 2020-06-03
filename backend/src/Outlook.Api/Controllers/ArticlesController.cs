@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Outlook.Server.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,8 +16,10 @@ using Outlook.Models.Core.Relations;
 using Outlook.Models.Services;
 using Outlook.Models.Data;
 using Outlook.Services;
+using Outlook.Api.Hubs;
+using Outlook.Logger;
 
-namespace Outlook.Server.APIs
+namespace Outlook.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

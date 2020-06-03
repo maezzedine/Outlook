@@ -1,7 +1,7 @@
 ﻿using Outlook.Models.Attributes.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace Outlook.Server.Entities
+namespace Outlook.Models.Core.Entities
 {
     public class RegisterModel
     {

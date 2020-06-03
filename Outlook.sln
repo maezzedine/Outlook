@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outlook.Models", "backend\s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outlook.Services", "backend\src\Outlook.Services\Outlook.Services.csproj", "{CBC8D618-74F4-4E32-8AAE-C6B544ACE3EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outlook.Api", "backend\src\Outlook.Api\Outlook.Api.csproj", "{A03F4F11-6801-4F2F-84D8-31DE2907803A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{CBC8D618-74F4-4E32-8AAE-C6B544ACE3EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBC8D618-74F4-4E32-8AAE-C6B544ACE3EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBC8D618-74F4-4E32-8AAE-C6B544ACE3EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A03F4F11-6801-4F2F-84D8-31DE2907803A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A03F4F11-6801-4F2F-84D8-31DE2907803A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A03F4F11-6801-4F2F-84D8-31DE2907803A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A03F4F11-6801-4F2F-84D8-31DE2907803A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{634F7337-2D77-410A-9FC6-6A3AFDC2B57B} = {C77CE86F-7122-46E9-8D81-778DE14EE502}
 		{5EA75F98-BD72-4808-9226-566FE42DB17E} = {C77CE86F-7122-46E9-8D81-778DE14EE502}
 		{CBC8D618-74F4-4E32-8AAE-C6B544ACE3EC} = {C77CE86F-7122-46E9-8D81-778DE14EE502}
+		{A03F4F11-6801-4F2F-84D8-31DE2907803A} = {C77CE86F-7122-46E9-8D81-778DE14EE502}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {426DBF40-7FE9-4F07-98FB-9CA2DC0B2190}

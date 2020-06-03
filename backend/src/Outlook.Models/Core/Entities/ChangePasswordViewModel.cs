@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Outlook.Server.Entities
+namespace Outlook.Models.Core.Entities
 {
     public class ChangePasswordViewModel
     {
