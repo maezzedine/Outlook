@@ -60,8 +60,8 @@ namespace Outlook.Models.Data
                 .HasMany(c => c.Editors)
                 .WithOne(e => e.Category);
 
-            builder.Entity<Issue>()
-                .HasAlternateKey(i => new { i.Volume.Id, i.Number });
+            //builder.Entity<Issue>()
+            //    .HasAlternateKey(i => new { i.Volume.Id, i.Number });
 
             builder.Entity<Volume>()
                 .HasAlternateKey(v => v.Number);

@@ -10,12 +10,6 @@ namespace Outlook.Models.Core.Models
 
         public string LastName { get; set; }
 
-        public int NumberOfComments { get; set; }
-
-        public int NumberOfReactions { get; set; }
-
-        public int NumberOfFavoritedArticles { get; set; }
-
         public List<UserFavoriteArticle> Favorites { get; set; }
 
         public List<UserRateArticle> Rates { get; set; }

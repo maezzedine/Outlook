@@ -6,6 +6,8 @@
         public static Position[] EnglishPositions = { Position.Editor_In_Chief, Position.Senior_Editor, Position.Associate_Editor, Position.Junior_Editor, Position.Proofreader, Position.Copy_Editor, Position.Web_Editor, Position.Former_Member, Position.Staff_Writer };
         public static Position[] NonBoardMembers = { Position.Staff_Writer, Position.Former_Member, Position.كاتب_صحفي, Position.عضو_سابق };
 
+        public const string MigrationsAssembly = "Outlook.Models";
+
         public class Language
         {
             public const string Arabic = "Arabic";
