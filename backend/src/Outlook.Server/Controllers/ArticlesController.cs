@@ -158,9 +158,10 @@ namespace Outlook.Server.Controllers
             }
 
             var article = await context.Article
-               .Include(a => a.Category)
-               .Include(a => a.Writer)
-               .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(i => i.Issue)
+                .Include(a => a.Category)
+                .Include(a => a.Writer)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (article == null)
             {
@@ -173,7 +174,7 @@ namespace Outlook.Server.Controllers
         // POST: Articles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string NewWriter, bool DeletePicture, [Bind("Id,Language,Category,Title,Subtitle,Writer,Picture,Text")] Article article)
+        public async Task<IActionResult> Edit(int id, string NewWriter, bool DeletePicture, Article article)
         {
             if (id != article.Id)
             {
@@ -182,6 +183,7 @@ namespace Outlook.Server.Controllers
 
             ModelState.Remove("Category.Name");
             ModelState.Remove("Writer.Name");
+            ModelState.Remove("DeletePicture");
 
             if (ModelState.IsValid)
             {
