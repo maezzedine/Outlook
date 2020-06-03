@@ -61,7 +61,7 @@ namespace Outlook.Server.Controllers
         // POST: Writers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("Name,Position")] Member member)
+        public async Task<ActionResult> Create(Member member)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +94,7 @@ namespace Outlook.Server.Controllers
         // POST: Writers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Position")] Member member)
+        public async Task<IActionResult> Edit(int id, Member member)
         {
             if (id != member.Id)
             {

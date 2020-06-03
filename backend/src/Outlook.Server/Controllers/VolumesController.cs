@@ -50,7 +50,7 @@ namespace Outlook.Server.Controllers
         // POST: Volumes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Number,FallYear,SpringYear")] Volume volume)
+        public async Task<IActionResult> Create(Volume volume)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Outlook.Server.Controllers
         // POST: Volumes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FallYear,SpringYear")] Volume volume)
+        public async Task<IActionResult> Edit(int id, Volume volume)
         {
             if (id != volume.Id)
             {
@@ -154,9 +154,9 @@ namespace Outlook.Server.Controllers
 
                 logger.Log($"{HttpContext.User.Identity.Name} admits to delete Volume {volume.Number}.");
                 context.Volume.Remove(volume);
+                await context.SaveChangesAsync();
                 logger.Log($"Delete Completed.");
 
-                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), "Home");
             }
             catch (DbUpdateException)

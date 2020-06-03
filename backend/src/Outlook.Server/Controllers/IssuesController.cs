@@ -79,7 +79,7 @@ namespace Outlook.Server.Controllers
         // POST: Issues/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("Number,ArabicTheme,EnglishTheme")] Issue issue)
+        public async Task<IActionResult> Create(int? id, Issue issue)
         {
             if (ModelState.IsValid)
             {
@@ -110,7 +110,8 @@ namespace Outlook.Server.Controllers
             }
 
             var issue = await context.Issue
-                .FindAsync(id);
+                .Include(i => i.Volume)
+                .FirstOrDefaultAsync(i => i.Id == id);
 
             if (issue == null)
             {
@@ -122,7 +123,7 @@ namespace Outlook.Server.Controllers
         // POST: Issues/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ArabicTheme,EnglishTheme")] Issue issue)
+        public async Task<IActionResult> Edit(int id, Issue issue)
         {
             if (id != issue.Id)
             {

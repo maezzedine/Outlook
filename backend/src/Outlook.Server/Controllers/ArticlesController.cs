@@ -90,6 +90,7 @@ namespace Outlook.Server.Controllers
             }
 
             var article = await context.Article
+                .Include(a => a.Issue)
                 .Include(a => a.Category)
                 .Include(a => a.Writer)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -111,7 +112,7 @@ namespace Outlook.Server.Controllers
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromRoute]int? id, string NewWriter, [Bind("Language,Category,Title,Subtitle,Writer,Picture,Text")] Article article)
+        public async Task<IActionResult> Create([FromRoute]int? id, string NewWriter, Article article)
         {
             ModelState.Remove("Category.Name");
             ModelState.Remove("Writer.Name");
@@ -263,6 +264,7 @@ namespace Outlook.Server.Controllers
             }
 
             var article = await context.Article
+               .Include(i => i.Issue)
                .Include(a => a.Category)
                .Include(a => a.Writer)
                .FirstOrDefaultAsync(m => m.Id == id);
