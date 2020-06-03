@@ -52,8 +52,8 @@ namespace Outlook.Server
             services.AddSignalR();
 
             services.AddDbContext<OutlookContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OutlookContext"), 
-                    sql => sql.MigrationsAssembly(OutlookConstants.MigrationAssembly)));
+                    options.UseSqlServer(Configuration.GetConnectionString("OutlookContext"),
+                    sqlServerOptions => sqlServerOptions.MigrationsAssembly(OutlookConstants.MigrationsAssembly)));
             // TODO: For production dataase connection: use SqlConnectionStringBuilder to add the database password from the secrets file
 
             services.AddDefaultIdentity<OutlookUser>(options => options.SignIn.RequireConfirmedAccount = true)
