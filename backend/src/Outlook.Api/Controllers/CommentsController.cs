@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Api.Hubs;
+using Outlook.Models.Core.Dtos;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
+using Outlook.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Outlook.Models.Core.Models;
-using Outlook.Models.Core.Dtos;
-using Outlook.Models.Data;
-using Outlook.Services;
-using Outlook.Api.Hubs;
 
 namespace Outlook.Api.Controllers
 {
@@ -25,7 +25,7 @@ namespace Outlook.Api.Controllers
         private readonly Logger.Logger logger;
 
         public CommentsController(
-            OutlookContext context, 
+            OutlookContext context,
             IdentityService identityService,
             IMapper mapper,
             IHubContext<ArticleHub, IArticleHub> articleHub)

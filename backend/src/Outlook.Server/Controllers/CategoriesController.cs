@@ -105,7 +105,7 @@ namespace Outlook.Server.Controllers
             {
                 return NotFound();
             }
-            
+
             ModelState.Remove("Name");
             if (ModelState.IsValid)
             {

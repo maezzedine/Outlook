@@ -11,10 +11,10 @@ namespace Outlook.Models.Core.Models
 
         [VolumeNumberUniqueness]
         public int Number { get; set; }
-        
+
         [DisplayName("Fall Year")]
         public int FallYear { get; set; }
-        
+
         [DisplayName("Spring Year")]
         public int SpringYear { get; set; }
 

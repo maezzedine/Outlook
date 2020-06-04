@@ -14,7 +14,7 @@ namespace Outlook.Models.Core.Models
 
         [DisplayName("Arabic Theme")]
         public string ArabicTheme { get; set; }
-        
+
         [DisplayName("English Theme")]
         public string EnglishTheme { get; set; }
 

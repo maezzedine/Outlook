@@ -7,7 +7,7 @@ namespace Outlook.Models.Core.Dtos
     public class CommentDto : IComment
     {
         public int Id { get; set; }
-        
+
         public OutlookUser User { get; set; }
 
         public DateTime DateTime { get; set; }

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Models.Core.Dtos;
+using Outlook.Models.Data;
+using Outlook.Models.Services;
+using Outlook.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Outlook.Models.Data;
-using Outlook.Models.Core.Dtos;
-using Outlook.Models.Services;
-using Outlook.Services;
 
 namespace Outlook.Api.Controllers
 {
@@ -19,7 +19,7 @@ namespace Outlook.Api.Controllers
         private readonly IMapper mapper;
 
         public MembersController(
-            OutlookContext context, 
+            OutlookContext context,
             IMapper mapper)
         {
             this.context = context;

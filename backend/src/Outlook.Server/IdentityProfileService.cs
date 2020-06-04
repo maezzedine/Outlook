@@ -1,13 +1,12 @@
-﻿using Outlook.Server.Areas.Identity;
-using IdentityModel;
+﻿using IdentityModel;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
+using Outlook.Models.Core.Models;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Outlook.Models.Core.Models;
 
 namespace Outlook.Server
 {

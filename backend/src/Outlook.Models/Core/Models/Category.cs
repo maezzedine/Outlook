@@ -9,10 +9,10 @@ namespace Outlook.Models.Core.Models
         public int Id { get; set; }
 
         public string Language { get; set; }
-        
+
         [CategoryNameUniqueness]
         public string Name { get; set; }
-        
+
         public string Tag { get; set; }
 
         public List<Member> Editors { get; set; }

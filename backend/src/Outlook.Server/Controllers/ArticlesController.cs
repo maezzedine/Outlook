@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
+using Outlook.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Outlook.Models.Core.Models;
-using Outlook.Models.Data;
-using Outlook.Services;
-using Microsoft.AspNetCore.Http;
 
 namespace Outlook.Server.Controllers
 {
@@ -28,7 +28,7 @@ namespace Outlook.Server.Controllers
         public static List<string> Categories;
 
         public ArticlesController(
-            OutlookContext context, 
+            OutlookContext context,
             IWebHostEnvironment env,
             ArticleService articleService)
         {
@@ -113,7 +113,7 @@ namespace Outlook.Server.Controllers
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromRoute]int? id, string NewWriter, IFormFile Picture, [Bind("Language,Category,Writer,Title,Subtitle,Text")] Article article)
+        public async Task<IActionResult> Create([FromRoute] int? id, string NewWriter, IFormFile Picture, [Bind("Language,Category,Writer,Title,Subtitle,Text")] Article article)
         {
             ModelState.Remove("Category.Name");
             ModelState.Remove("Writer.Name");
@@ -132,7 +132,7 @@ namespace Outlook.Server.Controllers
                 article.Category = context.Category
                     .First(c => c.Name == article.Category.Name);
 
-                articleService.SetArticleWriter(article, 
+                articleService.SetArticleWriter(article,
                     (article.Writer.Name == "+ NEW WRITER") ? NewWriter : article.Writer.Name);
 
                 if (Picture != null)

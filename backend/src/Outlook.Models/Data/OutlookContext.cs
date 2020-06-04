@@ -15,7 +15,7 @@ namespace Outlook.Models.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
+
             builder.Entity<Article>()
                 .HasOne(a => a.Category)
                 .WithMany(c => c.Articles)

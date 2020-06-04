@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using Outlook.Models.Core.Models;
 using Outlook.Models.Core.Dtos;
-using Outlook.Services;
 using Outlook.Models.Core.Entities;
+using Outlook.Models.Core.Models;
+using Outlook.Services;
+using System.Threading.Tasks;
 
 namespace Outlook.Api.Controllers
 {
@@ -21,7 +20,7 @@ namespace Outlook.Api.Controllers
         private readonly IMapper mapper;
 
         public IdentityController(
-            UserManager<OutlookUser> userManager, 
+            UserManager<OutlookUser> userManager,
             IdentityService identityService,
             IMapper mapper)
         {
@@ -51,7 +50,7 @@ namespace Outlook.Api.Controllers
         /// <response code="400">Returns Bad Request</response>
         [HttpPost("ChangePassword")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
             {

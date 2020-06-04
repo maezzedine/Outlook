@@ -66,10 +66,10 @@ namespace Outlook.Api
                     options.RequireHttpsMetadata = false;
                     options.Audience = "outlookApi";
                     options.RequireHttpsMetadata = false; // todo: uncomment when ssl is available
-                        options.TokenValidationParameters = new TokenValidationParameters()
-                        {
-                            ClockSkew = TimeSpan.FromMinutes(0)
-                        };
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ClockSkew = TimeSpan.FromMinutes(0)
+                    };
                 });
 
             services.Configure<IdentityOptions>(options =>

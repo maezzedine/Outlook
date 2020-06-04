@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Outlook.Models.Data;
-using Outlook.Models.Core.Models;
 
 namespace Outlook.Server.Controllers
 {

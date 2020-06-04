@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 using Outlook.Models.Core.Models;
+using System.Threading.Tasks;
 
 namespace Outlook.Services
 {

@@ -1,5 +1,4 @@
 ﻿using Outlook.Models.Core.Interfaces;
-using System.Collections.Generic;
 
 namespace Outlook.Models.Core.Dtos
 {

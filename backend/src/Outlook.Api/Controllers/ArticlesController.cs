@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Outlook.Api.Hubs;
+using Outlook.Models.Core.Dtos;
+using Outlook.Models.Core.Relations;
+using Outlook.Models.Data;
+using Outlook.Models.Services;
+using Outlook.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Outlook.Models.Core.Dtos;
-using Outlook.Models.Core.Relations;
-using Outlook.Models.Services;
-using Outlook.Models.Data;
-using Outlook.Services;
-using Outlook.Api.Hubs;
 
 namespace Outlook.Api.Controllers
 {

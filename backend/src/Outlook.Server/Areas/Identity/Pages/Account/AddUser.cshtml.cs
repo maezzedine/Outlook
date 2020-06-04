@@ -4,19 +4,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Outlook.Models.Attributes.Validation;
+using Outlook.Models.Core.Entities;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Outlook.Models.Data;
-using Outlook.Services;
-using Outlook.Models.Core.Models;
-using Outlook.Models.Attributes.Validation;
-using Outlook.Models.Core.Entities;
 using static Outlook.Models.Services.OutlookConstants;
 
 namespace Outlook.Server.Areas.Identity.Pages.Account

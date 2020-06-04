@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Outlook.Models.Services
+﻿namespace Outlook.Models.Services
 {
     public class OutlookConstants
     {
@@ -67,7 +65,7 @@ namespace Outlook.Models.Services
                 public const string Client = "http://192.168.50.104:8080;http://192.168.50.101:8080;http://192.168.50.102:8080;http://localhost:8080";
             }
         }
-        
+
 
         public class OpenSource
         {

@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
+using Outlook.Models.Services;
+using Outlook.Services;
 using System;
 using System.Security.Cryptography.X509Certificates;
-using Outlook.Models.Data;
-using Outlook.Services;
-using Outlook.Models.Core.Models;
-using Outlook.Models.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Outlook.Server
 {

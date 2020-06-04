@@ -29,7 +29,7 @@ namespace Outlook.Services
             Member writer;
             writer = context.Member
                    .FirstOrDefault(m => m.Name == writerName);
-            
+
             if (writer == null)
             {
                 writer = new Member { Name = writerName };

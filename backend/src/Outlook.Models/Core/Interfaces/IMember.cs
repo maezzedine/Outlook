@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using static Outlook.Models.Services.OutlookConstants;
 
 namespace Outlook.Models.Core.Interfaces
 {

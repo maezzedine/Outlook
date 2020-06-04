@@ -7,11 +7,11 @@ namespace Outlook.Models.Core.Dtos
     public class MemberSummaryDto : IMemberSummary
     {
         public int Id { get; set; }
-        
+
         public string Name { get; set; }
 
         public string Language { get; set; }
-        
+
         public string Position { get; set; }
 
         public int numberOfArticles { get; set; }

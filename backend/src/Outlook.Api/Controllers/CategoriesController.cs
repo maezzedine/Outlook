@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Models.Core.Dtos;
+using Outlook.Models.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Outlook.Models.Core.Dtos;
-using Outlook.Models.Data;
 
 namespace Outlook.Api.Controllers
 {
@@ -50,7 +50,7 @@ namespace Outlook.Api.Controllers
 
             foreach (var category in categories)
             {
-                var articles = (category.Articles != null)? category.Articles.Where(a => a.Issue.Id == issueId).ToList() : null;
+                var articles = (category.Articles != null) ? category.Articles.Where(a => a.Issue.Id == issueId).ToList() : null;
                 category.Articles = articles;
             }
 
@@ -71,7 +71,7 @@ namespace Outlook.Api.Controllers
         /// <response code="200">Returns the category with its properties</response>
         /// <response code="404">Returns NotFound result if no category with the given ID was found</response>
         [HttpGet("{id}/{issueId}")]
-        public async Task<ActionResult<CategoryDto>>GetCategory(int id, int issueId)
+        public async Task<ActionResult<CategoryDto>> GetCategory(int id, int issueId)
         {
             var category = await context.Category
                 .Include(c => c.Articles)

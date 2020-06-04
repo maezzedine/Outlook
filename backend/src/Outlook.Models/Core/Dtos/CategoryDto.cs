@@ -17,7 +17,7 @@ namespace Outlook.Models.Core.Dtos
     public class CategoryDto : CategorySummaryDto, ICategory<ArticleDto, MemberDto>
     {
         public List<ArticleDto> Articles { get; set; }
-        
+
         public List<MemberDto> Editors { get; set; }
     }
 }
