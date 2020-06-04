@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Outlook.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class VolumesController : ControllerBase
     {

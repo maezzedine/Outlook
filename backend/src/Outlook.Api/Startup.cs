@@ -61,16 +61,35 @@ namespace Outlook.Api
             services.AddAuthentication()
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = Configuration["ApplicationUrls:Server"];
+                    options.Authority = OutlookConstants.Urls.Development.Server;
                     options.IncludeErrorDetails = true;
                     options.RequireHttpsMetadata = false;
                     options.Audience = "outlookApi";
                     options.RequireHttpsMetadata = false; // todo: uncomment when ssl is available
                         options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ClockSkew = TimeSpan.FromMinutes(0)
-                    };
+                        {
+                            ClockSkew = TimeSpan.FromMinutes(0)
+                        };
                 });
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+                options.Lockout.MaxFailedAccessAttempts = 15;
+                options.Lockout.AllowedForNewUsers = false;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@";
+            });
 
             // Add app services
             services.AddTransient<ArticleService>();
@@ -108,6 +127,7 @@ namespace Outlook.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
@@ -123,7 +143,7 @@ namespace Outlook.Api
             app.UseRouting();
             app.UseCors(builder =>
                     builder
-                        .WithOrigins(OutlookConstants.ClientUrl.Development.Split(';'))
+                        .WithOrigins(OutlookConstants.Urls.Development.Client.Split(';'))
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()

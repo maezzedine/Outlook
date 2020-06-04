@@ -9,7 +9,7 @@ using Outlook.Models.Data;
 
 namespace Outlook.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {

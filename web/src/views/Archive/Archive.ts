@@ -44,6 +44,7 @@ export default class Archive extends Vue {
         }
         if (!(this.Issue instanceof ApiObject)) {
             // this condition won't be satisfied when reloading the page
+            
             var params = new Array<Number>();
             params.push(parseInt(this.Volume['id']))
             api.Get('issues', params).then(i => {

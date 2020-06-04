@@ -14,6 +14,7 @@ namespace Outlook.Api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseWebRoot("wwwrooot");
                     webBuilder.UseStartup<Startup>();
                 });
     }

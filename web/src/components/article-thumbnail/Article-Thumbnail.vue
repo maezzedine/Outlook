@@ -1,8 +1,8 @@
 <template>
     <router-link :to="{name: 'article', params: { id: article.id} }" class="article" v-if="showArticle(article)">
-        <div class="category" :style="[{background: getCategoryColor(article.category.tag)}]">{{article.category.categoryName}}</div>
+        <div class="category" :style="[{background: getCategoryColor(article.category.tag)}]">{{article.category.name}}</div>
         <div class="title">{{article.title}}</div>
-        <div class="subtitle">-<span>{{article.member.name}}:</span> {{article.subtitle}}</div>
+        <div class="subtitle">-<span>{{article.writer.name}}:</span> {{article.subtitle}}</div>
 
         <img v-if="article.picturePath != null" :src="APP_URL + article.picturePath" />
         <div class="footer">

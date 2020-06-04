@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "web", "web\web.njsproj", "{B5397962-44EA-4536-B299-536203D4E7AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", "{3E4E173F-A71E-4633-97D5-EFFC1979DABF}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{B64216AD-C305-46A0-A144-483C342BA95B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C77CE86F-7122-46E9-8D81-778DE14EE502}"
@@ -19,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outlook.Models", "backend\s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outlook.Services", "backend\src\Outlook.Services\Outlook.Services.csproj", "{CBC8D618-74F4-4E32-8AAE-C6B544ACE3EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outlook.Api", "backend\src\Outlook.Api\Outlook.Api.csproj", "{A03F4F11-6801-4F2F-84D8-31DE2907803A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outlook.Api", "backend\src\Outlook.Api\Outlook.Api.csproj", "{A03F4F11-6801-4F2F-84D8-31DE2907803A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +28,6 @@ Global
 		{B5397962-44EA-4536-B299-536203D4E7AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5397962-44EA-4536-B299-536203D4E7AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5397962-44EA-4536-B299-536203D4E7AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E4E173F-A71E-4633-97D5-EFFC1979DABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E4E173F-A71E-4633-97D5-EFFC1979DABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E4E173F-A71E-4633-97D5-EFFC1979DABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E4E173F-A71E-4633-97D5-EFFC1979DABF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6AEF33F-3BDF-418B-85F2-77296553F031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6AEF33F-3BDF-418B-85F2-77296553F031}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6AEF33F-3BDF-418B-85F2-77296553F031}.Release|Any CPU.ActiveCfg = Release|Any CPU

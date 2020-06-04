@@ -8,7 +8,7 @@ import router from '@/router';
 import ChangePasswordModel from '../models/changePasswordModel';
 
 const APP_URL = process.env.VUE_APP_OUTLOOK;
-const API_URL = `${APP_URL}/api`;
+const API_URL = process.env.VUE_APP_API_OUTLOOK;
 
 const client_id = process.env.VUE_APP_AUTH_CLIENT_ID;
 const scope = process.env.VUE_APP_AUTH_SCOPE;
@@ -66,9 +66,28 @@ export class AuthService {
     }
 
     async Register(model: RegisterModel) {
-        var response = await axios.post(`${API_URL}/identity/register`, model);
+        var response = await axios.post(`${APP_URL}/api/identity/register`, model);
         store.dispatch('setUsername', model.username);
         return response.data;
+    }
+
+    // Authorized
+    async ResendEmailVerification(username : string) {
+        var token = store.getters.User.token;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions: RequestInit = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+        };
+
+        return fetch(`${APP_URL}/api/identity/resendVerification/${username}`, requestOptions)
+            .then(response => response.json())
+            .catch(error => console.log('error', error));
     }
 
     // Authorized
@@ -99,7 +118,6 @@ export class AuthService {
         myHeaders.append("Authorization", `Bearer ${token}`);
 
         var raw = JSON.stringify({ "oldPassword": model.oldPassword, "newPassword": model.newPassword });
-
 
         var requestOptions: RequestInit = {
             method: 'POST',

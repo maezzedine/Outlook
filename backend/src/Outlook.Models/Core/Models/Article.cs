@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Outlook.Models.Core.Interfaces;
+﻿using Outlook.Models.Core.Interfaces;
 using Outlook.Models.Core.Relations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Outlook.Models.Core.Models
 {
@@ -44,9 +42,6 @@ namespace Outlook.Models.Core.Models
         public List<UserFavoriteArticle> Favorites { get; set; }
 
         public List<UserRateArticle> Rates { get; set; }
-
-        [NotMapped]
-        public IFormFile Picture { get; set; }
 
         public void UpVote() => Rate++;
 

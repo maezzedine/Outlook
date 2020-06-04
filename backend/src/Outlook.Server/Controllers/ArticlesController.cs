@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Outlook.Models.Core.Models;
 using Outlook.Models.Data;
 using Outlook.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Outlook.Server.Controllers
 {
@@ -112,7 +113,7 @@ namespace Outlook.Server.Controllers
         // POST: Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromRoute]int? id, string NewWriter, Article article)
+        public async Task<IActionResult> Create([FromRoute]int? id, string NewWriter, IFormFile Picture, [Bind("Language,Category,Writer,Title,Subtitle,Text")] Article article)
         {
             ModelState.Remove("Category.Name");
             ModelState.Remove("Writer.Name");
@@ -134,9 +135,9 @@ namespace Outlook.Server.Controllers
                 articleService.SetArticleWriter(article, 
                     (article.Writer.Name == "+ NEW WRITER") ? NewWriter : article.Writer.Name);
 
-                if (article.Picture != null)
+                if (Picture != null)
                 {
-                    await articleService.AddArticlePicture(article, article.Picture, env.WebRootPath);
+                    await articleService.AddArticlePicture(article, Picture, env.WebRootPath);
                 }
 
                 context.Add(article);
@@ -175,7 +176,7 @@ namespace Outlook.Server.Controllers
         // POST: Articles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string NewWriter, bool DeletePicture, Article article)
+        public async Task<IActionResult> Edit(int id, string NewWriter, bool DeletePicture, IFormFile Picture, Article article)
         {
             if (id != article.Id)
             {
@@ -210,18 +211,18 @@ namespace Outlook.Server.Controllers
 
                     if (originalArticle.PicturePath == null)
                     {
-                        if (article.Picture != null)
+                        if (Picture != null)
                         {
-                            await articleService.AddArticlePicture(originalArticle, article.Picture, env.WebRootPath);
+                            await articleService.AddArticlePicture(originalArticle, Picture, env.WebRootPath);
                         }
                     }
                     else
                     {
-                        if (article.Picture != null)
+                        if (Picture != null)
                         {
                             articleService.DeleteArticlePicture(originalArticle, env.WebRootPath);
 
-                            await articleService.AddArticlePicture(originalArticle, article.Picture, env.WebRootPath);
+                            await articleService.AddArticlePicture(originalArticle, Picture, env.WebRootPath);
                         }
                         else if (DeletePicture)
                         {

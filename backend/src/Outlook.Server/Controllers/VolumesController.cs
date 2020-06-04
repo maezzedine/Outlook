@@ -50,7 +50,7 @@ namespace Outlook.Server.Controllers
         // POST: Volumes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Volume volume)
+        public async Task<IActionResult> Create([Bind("Number,FallYear,SpringYear")] Volume volume)
         {
             if (ModelState.IsValid)
             {

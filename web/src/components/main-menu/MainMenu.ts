@@ -20,7 +20,7 @@ export default class MainMenu extends Vue {
     VolumeToString() {
         var volume = this.$data.Volume;
         if (volume != undefined) {
-            return this.$store.getters.Language.volume + ' ' + volume.volumeNumber + ' | ' + volume.fallYear + ' - ' + volume.springYear;
+            return this.$store.getters.Language.volume + ' ' + volume.number + ' | ' + volume.fallYear + ' - ' + volume.springYear;
         }
         return this.$store.getters.Language['no-volume-selected'];
     }
@@ -28,7 +28,7 @@ export default class MainMenu extends Vue {
     IssueToString() {
         var issue = this.$data.Issue;
         if (issue != undefined) {
-            return this.$store.getters.Language.issue + ' ' + issue.issueNumber;
+            return this.$store.getters.Language.issue + ' ' + issue.number;
         }
         return this.$store.getters.Language['no-issue-selected'];
     }

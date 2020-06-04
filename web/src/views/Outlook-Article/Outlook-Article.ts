@@ -7,6 +7,8 @@ import svgStarEmpty from '@/components/svgs/svg-star-empty.vue';
 import svgStarFill from '@/components/svgs/svg-star-fill.vue';
 import svgHeart from '@/components/svgs/svg-heart.vue';
 import svgClose from '@/components/svgs/svg-close.vue';
+import { start } from 'repl';
+import { setTimeout } from 'timers';
 
 @Component({
     components: { svgArrowUp, svgArrowDown, svgStarEmpty, svgStarFill, svgHeart, svgClose }
@@ -22,6 +24,7 @@ export default class OutlookArticle extends Vue {
     created() {
         this.getIdFromParams();
         this.getArticle();
+        this.fillBodyText();
     }
 
     getCategoryColor(cat: string) {
@@ -110,6 +113,10 @@ export default class OutlookArticle extends Vue {
         var body = document.getElementById('article-text-body');
         if (body != null && this.$store.getters.Article != null) {
             body.innerHTML = this.$store.getters.Article.text;
+        }
+        else {
+            // if page was not yet loaded, try again after 1 sec
+            new Promise(resolve => setTimeout(resolve, 1000)).then(_ => this.fillBodyText());
         }
     }
 

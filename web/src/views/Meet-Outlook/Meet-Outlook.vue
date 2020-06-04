@@ -11,7 +11,7 @@
                     <router-link :to="{ name: 'member', params: { id: member.id } }">
                         {{member.name}}
                         <span v-if="position == 'Junior Editor'">
-                            ({{member.category.categoryName}})
+                            ({{member.category.name}})
                         </span>
                     </router-link>
                 </li>
@@ -26,7 +26,7 @@
                         {{member.name}}
                         <span v-if="position == '\u0631\u0626\u064a\u0633 \u0642\u0633\u0645'">
                             <!-- junior editors -->
-                            ({{member.category.categoryName}})
+                            ({{member.category.name}})
                         </span>
                     </router-link>
                 </li>

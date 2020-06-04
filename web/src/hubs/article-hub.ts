@@ -1,7 +1,7 @@
 import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 import vue from 'vue';
 
-const APP_URL = process.env.VUE_APP_OUTLOOK;
+const API_URL = process.env.VUE_APP_API_OUTLOOK;
 
 export default {
     install(Vue: typeof vue) {
@@ -11,7 +11,7 @@ export default {
         Vue.prototype.$articleHub = articleHub;
 
         const connection = new HubConnectionBuilder()
-            .withUrl(`${APP_URL}/article-hub`)
+            .withUrl(`${API_URL}/article-hub`)
             .configureLogging(LogLevel.Information)
             .build();
 

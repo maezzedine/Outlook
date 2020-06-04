@@ -57,10 +57,17 @@ namespace Outlook.Models.Services
             None, Up, Down
         }
 
-        public class ClientUrl
+        public class Urls
         {
-            public const string Development = "http://192.168.50.104:8080;http://192.168.50.101:8080;http://192.168.50.102:8080;http://localhost:8080";
+            // Todo: Add Production Urls and Switch to them
+            public class Development
+            {
+                public const string Api = "https://localhost:5000";
+                public const string Server = "https://localhost:5001";
+                public const string Client = "http://192.168.50.104:8080;http://192.168.50.101:8080;http://192.168.50.102:8080;http://localhost:8080";
+            }
         }
+        
 
         public class OpenSource
         {

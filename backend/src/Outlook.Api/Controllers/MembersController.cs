@@ -11,7 +11,7 @@ using Outlook.Services;
 
 namespace Outlook.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class MembersController : ControllerBase
     {

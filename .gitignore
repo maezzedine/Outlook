@@ -360,3 +360,4 @@ test/Config.cs
 backend/src/Outlook.Logger/Config.cs
 backend/src/Outlook.Server/wwwroot/docs
 backend/src/Outlook.Models/Services/OutlookSecrets.cs
+backend/src/Outlook.Api/wwwrooot/docs/Articles/*.pdf

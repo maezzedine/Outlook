@@ -19,6 +19,10 @@ export default class ChangePassword extends Vue {
                         this.errors.push(error.description)
                     }
                 }
+                else {
+                    this.Model.newPassword = '';
+                    this.Model.oldPassword = '';
+                }
             })
     }
 }

@@ -17,11 +17,10 @@ using Outlook.Models.Services;
 using Outlook.Models.Data;
 using Outlook.Services;
 using Outlook.Api.Hubs;
-using Outlook.Logger;
 
 namespace Outlook.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ArticlesController : ControllerBase
     {
@@ -44,6 +43,7 @@ namespace Outlook.Api.Controllers
             this.mapper = mapper;
             this.identityService = identityService;
             this.env = env;
+            this.configuration = configuration;
             this.configuration = configuration;
             hubContext = articlehub;
             logger = Logger.Logger.Instance(Logger.Logger.LogField.userArticles);
@@ -364,9 +364,8 @@ namespace Outlook.Api.Controllers
             {
                 var document = file.Files.ElementAt(0);
                 var extension = document.FileName.Substring(document.FileName.LastIndexOf('.'));
-
                 // Add unique name to avoid possible name conflicts
-                var uniqueDocumentName = $"{user.UserName}_{DateTime.Now.Ticks}.{extension}";
+                var uniqueDocumentName = $"{user.UserName}_{DateTime.Now.Ticks}{extension}";
                 var articleDocumentsFolderPath = Path.Combine(new string[] { env.WebRootPath, "docs", "Articles\\" });
                 var articleDocumentFilePath = Path.Combine(articleDocumentsFolderPath, uniqueDocumentName);
 
@@ -384,7 +383,7 @@ namespace Outlook.Api.Controllers
                     }
                 }
 
-                var baseUrl = configuration["ApplicationUrls:Server"];
+                var baseUrl = OutlookConstants.Urls.Development.Api;
                 var ArticleDocumentFullPath = $"{baseUrl}/docs/Articles/{uniqueDocumentName}";
                 logger.Log(ArticleDocumentFullPath);
             }

@@ -14,7 +14,7 @@ using Outlook.Api.Hubs;
 
 namespace Outlook.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
     {

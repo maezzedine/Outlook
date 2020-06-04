@@ -8,7 +8,7 @@
             </tr>
             <tr v-if="member.category != null">
                 <th>{{$store.getters.Language['category']}}:</th>
-                <td>{{member.category.categoryName}}</td>
+                <td>{{member.category.name}}</td>
             </tr>
             <tr v-if="member.articles != undefined">
                 <th>{{$store.getters.Language['number-of-articles']}}:</th>

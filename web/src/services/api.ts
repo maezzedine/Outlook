@@ -1,12 +1,12 @@
 import axios from 'axios';
 import store from '../store';
 
-const API_URL = process.env.VUE_APP_OUTLOOK + '/api/';
+const API_URL = process.env.VUE_APP_API_OUTLOOK;
 const BASE_URL = process.env.VUE_APP_BASE_URL;
 
 export class Api {
     async Get(page: string, params?: Array<any>) {
-        var url = `${API_URL}${page}`;
+        var url = `${API_URL}/${page}`;
         if (params != undefined) {
             for (var param of params) {
                 url += `/${param}`;
@@ -28,7 +28,7 @@ export class Api {
             body: body
         };
 
-        var url = `${API_URL}${page}`;
+        var url = `${API_URL}/${page}`;
         if (params != undefined) {
             for (var param of params) {
                 url += `/${param}`;
@@ -45,12 +45,12 @@ export class Api {
             return;
         }
 
-        var response = await axios.get(`${BASE_URL}${file}.json`);
+        var response = await axios.get(`${BASE_URL}/${file}.json`);
         return response.data;
     }
 
     async postFile(page: string, file: FormData) {
-        var response = await axios.post(`${API_URL}${page}`, file, {
+        var response = await axios.post(`${API_URL}/${page}`, file, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 "Authorization": `Bearer ${store.getters.User.token}`

@@ -11,6 +11,7 @@ using Outlook.Models.Data;
 using Outlook.Services;
 using Outlook.Models.Core.Models;
 using Outlook.Models.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Outlook.Server
 {
@@ -72,6 +73,9 @@ namespace Outlook.Server
             services.AddTransient<ArticleService>();
             services.AddTransient<IdentityService>();
             services.AddTransient<MemberService>();
+
+            // Add email sending functionality
+            services.AddTransient<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,7 +97,7 @@ namespace Outlook.Server
             app.UseRouting();
             app.UseCors(builder =>
                     builder
-                        .WithOrigins(OutlookConstants.ClientUrl.Development.Split(';'))
+                        .WithOrigins(OutlookConstants.Urls.Development.Client.Split(';'))
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()

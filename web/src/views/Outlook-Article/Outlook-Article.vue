@@ -2,7 +2,7 @@
     <div class="article">
         <router-link v-if="!loading" class="category" :to="{ name: 'category', params: { id: $store.getters.Article.category.id } }"
                 :style="[{background: getCategoryColor($store.getters.Article.category.tag)}]">
-            {{$store.getters.Article.category.categoryName}} <span></span>
+            {{$store.getters.Article.category.name}} <span></span>
         </router-link>
 
         <div class="article-body">
@@ -18,7 +18,7 @@
             </template>
 
             <div class="writer">
-                <router-link :to="{ name: 'member', params: { id: $store.getters.Article.member.id } }" v-if="!loading">{{$store.getters.Article.member.name}} | {{$store.getters.Article.member.position}}</router-link>
+                <router-link :to="{ name: 'member', params: { id: $store.getters.Article.writer.id } }" v-if="!loading">{{$store.getters.Article.writer.name}} | {{$store.getters.Article.writer.position}}</router-link>
             </div>
 
             <div id="article-text-body"></div>

@@ -79,7 +79,7 @@ namespace Outlook.Server.Controllers
         // POST: Issues/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, Issue issue)
+        public async Task<IActionResult> Create(int? id, [Bind("Number,ArabicTheme,EnglishTheme")] Issue issue)
         {
             if (ModelState.IsValid)
             {

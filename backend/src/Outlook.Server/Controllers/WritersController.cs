@@ -61,7 +61,7 @@ namespace Outlook.Server.Controllers
         // POST: Writers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Member member)
+        public async Task<ActionResult> Create([Bind("Name,Position")] Member member)
         {
             if (ModelState.IsValid)
             {

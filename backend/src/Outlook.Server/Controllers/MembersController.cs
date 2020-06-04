@@ -71,7 +71,7 @@ namespace Outlook.Server.Controllers
         // POST: Members/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Member member)
+        public async Task<IActionResult> Create([Bind("Name,Position,Category")] Member member)
         {
             ModelState.Remove("Category.Name");
             if (ModelState.IsValid)
