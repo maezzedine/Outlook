@@ -1,10 +1,10 @@
-﻿using Outlook.Server.Data;
-using Outlook.Server.Models;
-using Outlook.Server.Models.Interfaces;
-using Outlook.Server.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
+using Outlook.Models.Services;
+using Outlook.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +28,7 @@ namespace Outlook.Server.Controllers
             logger = Logger.Logger.Instance(Logger.Logger.LogField.server);
 
             // Save the List of categories names to be accessed
-            Categories = context.Category.Select(c => c.CategoryName).ToList();
+            Categories = context.Category.Select(c => c.Name).ToList();
         }
 
         // GET: Members
@@ -36,7 +36,7 @@ namespace Outlook.Server.Controllers
         {
             var members = context.Member
                 .Include(m => m.Category)
-                .Where(m => (m.Position != Position.كاتب_صحفي) && (m.Position != Position.Staff_Writer));
+                .Where(m => (m.Position != OutlookConstants.Position.كاتب_صحفي) && (m.Position != OutlookConstants.Position.Staff_Writer));
 
             return View(await members.ToListAsync());
         }
@@ -52,7 +52,7 @@ namespace Outlook.Server.Controllers
             var member = await context.Member
                 .Include(m => m.Category)
                 .Include(m => m.Articles)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (member == null)
             {
@@ -73,7 +73,7 @@ namespace Outlook.Server.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Position,Category")] Member member)
         {
-            ModelState.Remove("Category.CategoryName");
+            ModelState.Remove("Category.Name");
             if (ModelState.IsValid)
             {
                 var memberExists = await context.Member.FirstOrDefaultAsync(m => m.Name == member.Name);
@@ -84,13 +84,13 @@ namespace Outlook.Server.Controllers
                 }
 
                 member.Category = (memberService.IsJuniorEditor(member)) ? context.Category
-                        .First(c => c.CategoryName == member.Category.CategoryName) : null;
+                        .First(c => c.Name == member.Category.Name) : null;
 
                 context.Add(member);
                 await context.SaveChangesAsync();
 
                 logger.Log($"{HttpContext.User.Identity.Name} created member `{member.Name}` with position {member.Position} " +
-                    $"(Category = {member.Category.CategoryName}) ");
+                    $"(Category = {member.Category.Name}) ");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -105,7 +105,7 @@ namespace Outlook.Server.Controllers
                 return NotFound();
             }
 
-            var member = await context.Member.Include(m => m.Category).FirstOrDefaultAsync(m => m.ID == id);
+            var member = await context.Member.Include(m => m.Category).FirstOrDefaultAsync(m => m.Id == id);
 
             if (member == null)
             {
@@ -117,35 +117,35 @@ namespace Outlook.Server.Controllers
         // POST: Members/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Position,Category")] Member member)
+        public async Task<IActionResult> Edit(int id, Member member)
         {
-            if (id != member.ID)
+            if (id != member.Id)
             {
                 return NotFound();
             }
 
-            ModelState.Remove("Category.CategoryName");
+            ModelState.Remove("Category.Name");
             if (ModelState.IsValid)
             {
                 try
                 {
                     var originalMember = await context.Member
                         .Include(m => m.Category)
-                        .FirstOrDefaultAsync(m => m.ID == member.ID);
+                        .FirstOrDefaultAsync(m => m.Id == member.Id);
 
 
                     if (memberService.IsJuniorEditor(originalMember))
                     {
                         logger.Log($"{HttpContext.User.Identity.Name} editted member {FormatLogEditMessage(originalMember)}");
 
-                        if ((member.Position != Position.Junior_Editor) && (member.Position != Position.رئيس_قسم))
+                        if ((member.Position != OutlookConstants.Position.Junior_Editor) && (member.Position != OutlookConstants.Position.رئيس_قسم))
                         {
                             originalMember.Category = null;
                         }
                         else
                         {
                             var newCategory = await context.Category
-                                .FirstOrDefaultAsync(c => c.CategoryName == member.Category.CategoryName);
+                                .FirstOrDefaultAsync(c => c.Name == member.Category.Name);
 
                             if (newCategory != null && newCategory != originalMember.Category)
                             {
@@ -158,7 +158,7 @@ namespace Outlook.Server.Controllers
                         if (memberService.IsJuniorEditor(member))
                         {
                             var newCategory = await context.Category
-                                .FirstOrDefaultAsync(c => c.CategoryName == member.Category.CategoryName);
+                                .FirstOrDefaultAsync(c => c.Name == member.Category.Name);
 
                             if (newCategory != null)
                             {
@@ -174,7 +174,7 @@ namespace Outlook.Server.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberExists(member.ID))
+                    if (!MemberExists(member.Id))
                     {
                         return NotFound();
                     }
@@ -199,7 +199,7 @@ namespace Outlook.Server.Controllers
             var member = await context.Member
                 .Include(m => m.Category)
                 .Include(m => m.Articles)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (member == null)
             {
@@ -226,14 +226,14 @@ namespace Outlook.Server.Controllers
 
         private bool MemberExists(int id)
         {
-            return context.Member.Any(e => e.ID == id);
+            return context.Member.Any(e => e.Id == id);
         }
 
         private string FormatLogEditMessage(Member member)
         {
             return $@"Name: { member.Name}
                       Position: {member.Position}
-                      Category: {member.Category?.CategoryName}";
+                      Category: {member.Category?.Name}";
         }
     }
 }

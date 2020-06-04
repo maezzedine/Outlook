@@ -2,7 +2,7 @@
     <div class="Category" v-if="showCategory()">
         <div class="about">
             <div class="title" :style="[{ color: getCategoryColor() }]">
-                {{Category.categoryName}}
+                {{Category.name}}
             </div>
             <div class="row m-0 p-0">
                 <b>{{$store.getters.Language.nbrOfArticles}}: </b>
@@ -11,7 +11,7 @@
             <b>{{$store.getters.Language.juniorEditors}}:</b>
             <p>
                 <ul>
-                    <li v-for="editor in Category.juniorEditors">{{editor.name}}</li>
+                    <li v-for="editor in Category.editors">{{editor.name}}</li>
                 </ul>
             </p>
         </div>

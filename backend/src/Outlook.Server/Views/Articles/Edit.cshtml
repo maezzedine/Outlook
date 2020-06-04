@@ -1,6 +1,6 @@
-﻿@model Outlook.Server.Models.Article
-@using Outlook.Server.Models.Interfaces;
+﻿@model Outlook.Models.Core.Models.Article
 @using Outlook.Server.Controllers;
+@using Outlook.Models.Services;
 
 @{
     ViewData["Title"] = "Edit";
@@ -20,23 +20,22 @@
     <input type="hidden" asp-for="Id" />
     <div class="form-group col-md-4">
         <label asp-for="Language" class="control-label"></label>
-        <select asp-for="Language" class="form-control" asp-items="new SelectList(new List<Language> { Language.Arabic, Language.English })"></select>
+        <select asp-for="Language" class="form-control" asp-items="new SelectList(new List<string> { OutlookConstants.Language.Arabic, OutlookConstants.Language.English })"></select>
         <span asp-validation-for="Language" class="text-danger"></span>
     </div>
     <div class="form-group col-md-4">
-        <label asp-for="Category.CategoryName" class="control-label"></label>
-        <select asp-for="Category.CategoryName" class="form-control" asp-items="new SelectList(categories)"></select>
-        <span asp-validation-for="Category.CategoryName" class="text-danger"></span>
+        <label asp-for="Category.Name" class="control-label"></label>
+        <select asp-for="Category.Name" class="form-control" asp-items="new SelectList(categories)"></select>
+        <span asp-validation-for="Category.Name" class="text-danger"></span>
     </div>
     <div class="form-group col-md-4">
-        <label asp-for="Member.Name" class="control-label"></label>
-        <select id="writers" asp-for="Member.Name" class="form-control" asp-items="new SelectList(writers)" onchange="toggleEnabledField()"></select>
-        <span asp-validation-for="Member.Name" class="text-danger"></span>
+        <label asp-for="Writer.Name" class="control-label"></label>
+        <select id="writers" asp-for="Writer.Name" class="form-control" asp-items="new SelectList(writers)" onchange="toggleEnabledField()"></select>
+        <span asp-validation-for="Writer.Name" class="text-danger"></span>
     </div>
     <div class="form-group col-md-4">
-        <label asp-for="NewWriter" class="control-label"></label>
-        <input id="newWriter" asp-for="NewWriter" class="form-control" disabled />
-        <span asp-validation-for="NewWriter" class="text-danger"></span>
+        <label class="control-label">New Writer</label>
+        <input id="newWriter" name="NewWriter" class="form-control" disabled />
     </div>
     <div class="form-group col-md-4">
         <label asp-for="Title" class="control-label"></label>
@@ -49,17 +48,16 @@
         <span asp-validation-for="Subtitle" class="text-danger"></span>
     </div>
     <div class="form-group col-md-4">
-        <label asp-for="Picture" class="control-label"></label>
-        <input asp-for="Picture" ref="file" type="file" class="form-control" />
+        <label class="control-label">Picture</label>
+        <input name="Picture" ref="file" type="file" class="form-control" accept="image/*" />
         @if (Model.PicturePath != null)
         {
             <img class="article-image-preview mt-2" src="@Model.PicturePath">
             <div class="row mt-2">
-                <input type="checkbox" asp-for="DeletePicture" />
+                <input type="checkbox" name="DeletePicture" value="true" />
                 <label>Check if you want to <i class="text-danger">DELETE</i> the Saved Image</label>
             </div>
         }
-        <span asp-validation-for="Picture" class="text-danger"></span>
     </div>
     <div class="form-group col-md-12">
         <label asp-for="Text" class="control-label"></label>
@@ -73,7 +71,7 @@
 
 
 <div>
-    <a asp-action="Index" asp-route-id="@Model.IssueID">Back to List</a>
+    <a asp-action="Index" asp-route-id="@Model.Issue.Id">Back to List</a>
 </div>
 
 

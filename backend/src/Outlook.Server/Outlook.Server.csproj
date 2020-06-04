@@ -47,10 +47,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\docs\Articles\" />
     <Folder Include="wwwroot\img\Articles\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Outlook.Logger\Outlook.Logger.csproj" />
+    <ProjectReference Include="..\Outlook.Models\Outlook.Models.csproj" />
+    <ProjectReference Include="..\Outlook.Services\Outlook.Services.csproj" />
   </ItemGroup>
 </Project>

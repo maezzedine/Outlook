@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using Outlook.Server.Areas.Identity;
-using Outlook.Server.Data;
-using Outlook.Server.Hubs;
-using Outlook.Server.Services;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -11,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
+using Outlook.Models.Services;
+using Outlook.Services;
 using System;
-using System.IO;
-using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Outlook.Server
@@ -33,23 +28,11 @@ namespace Outlook.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(p => p
-                    //.WithOrigins(Configuration.GetValue<string>("ClientUrl").Split(';'))
-                    .AllowAnyHeader() 
-                    .AllowAnyMethod()
-                    .AllowAnyOrigin());
-            });
-
-            services.AddAutoMapper(typeof(Startup));
-
             services.AddControllersWithViews();
 
-            services.AddSignalR();
-
             services.AddDbContext<OutlookContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OutlookContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("OutlookContext"),
+                    sqlServerOptions => sqlServerOptions.MigrationsAssembly(OutlookConstants.MigrationsAssembly)));
             // TODO: For production dataase connection: use SqlConnectionStringBuilder to add the database password from the secrets file
 
             services.AddDefaultIdentity<OutlookUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -86,20 +69,6 @@ namespace Outlook.Server
                 .AddJwtBearerClientAuthentication()
                 .AddProfileService<IdentityProfileService>();
 
-            services.AddAuthentication()
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.Authority = Configuration["ApplicationUrls:Server"];
-                    options.IncludeErrorDetails = true;
-                    options.RequireHttpsMetadata = false;
-                    options.Audience = "outlookApi";
-                    options.RequireHttpsMetadata = false; // todo: uncomment when ssl is available
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ClockSkew = TimeSpan.FromMinutes(0)
-                    };
-                });
-
             // Add app services
             services.AddTransient<ArticleService>();
             services.AddTransient<IdentityService>();
@@ -107,25 +76,6 @@ namespace Outlook.Server
 
             // Add email sending functionality
             services.AddTransient<IEmailSender, EmailSender>();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc(Configuration["Open-Source:Version"], new OpenApiInfo { 
-                    Title = "Outlook API", 
-                    Version = Configuration["Open-Source:Version"],
-                    Description = "Documentation of Outlook RESTful API and the schema of the Outlook Database.",
-                    License = new OpenApiLicense
-                    {
-                        Name = "Use under LICX",
-                        Url = new Uri(Configuration["Open-Source:License"])
-                    }
-                });
-
-                // Set the XML comments path for the Swagger JSON and UI
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -141,22 +91,13 @@ namespace Outlook.Server
                 app.UseHsts();
             }
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint($"/swagger/{Configuration["Open-Source:Version"]}/swagger.json", "Outlook API");
-            });
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
             app.UseCors(builder =>
                     builder
-                        .WithOrigins(Configuration["ApplicationUrls:Clients"].Split(';'))
+                        .WithOrigins(OutlookConstants.Urls.Development.Client.Split(';'))
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()
@@ -173,7 +114,6 @@ namespace Outlook.Server
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapHub<ArticleHub>("/article-hub");
             });
         }
     }

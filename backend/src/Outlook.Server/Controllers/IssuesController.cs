@@ -1,10 +1,10 @@
-﻿using Outlook.Server.Data;
-using Outlook.Server.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,16 +36,16 @@ namespace Outlook.Server.Controllers
 
             var volume = from _volume in context.Volume
                          where _volume.Id == id
-                         select _volume.VolumeNumber;
+                         select _volume.Number;
 
             if (volume != null)
             {
                 VolumeNumber = volume.FirstOrDefault();
             }
 
-            var issues = from issue in context.Issue
-                         where issue.VolumeID == id
-                         select issue;
+            var issues = context.Issue
+                .Include(i => i.Volume)
+                .Where(i => i.Volume.Id == id);
 
             return View(await issues.ToListAsync());
         }
@@ -79,7 +79,7 @@ namespace Outlook.Server.Controllers
         // POST: Issues/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("IssueNumber,ArabicTheme,EnglishTheme")] Issue issue)
+        public async Task<IActionResult> Create(int? id, [Bind("Number,ArabicTheme,EnglishTheme")] Issue issue)
         {
             if (ModelState.IsValid)
             {
@@ -87,14 +87,14 @@ namespace Outlook.Server.Controllers
                 {
                     return ValidationProblem(detail: "Volume Id cannot be null");
                 }
-                issue.VolumeID = (int)id;
+                issue.Volume = await context.Volume.FindAsync(id);
 
                 context.Add(issue);
                 await context.SaveChangesAsync();
 
                 var Volume = await context.Volume.FindAsync(id);
 
-                logger.Log($"{HttpContext.User.Identity.Name} created Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber} ");
+                logger.Log($"{HttpContext.User.Identity.Name} created Issue `{issue.Number}` in Volume {Volume.Number} ");
 
                 return RedirectToAction(nameof(Index), new { id = id });
             }
@@ -110,7 +110,8 @@ namespace Outlook.Server.Controllers
             }
 
             var issue = await context.Issue
-                .FindAsync(id);
+                .Include(i => i.Volume)
+                .FirstOrDefaultAsync(i => i.Id == id);
 
             if (issue == null)
             {
@@ -122,7 +123,7 @@ namespace Outlook.Server.Controllers
         // POST: Issues/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ArabicTheme,EnglishTheme")] Issue issue)
+        public async Task<IActionResult> Edit(int id, Issue issue)
         {
             if (id != issue.Id)
             {
@@ -142,9 +143,9 @@ namespace Outlook.Server.Controllers
                         .SetEnglishTheme(issue.EnglishTheme);
 
                     await context.SaveChangesAsync();
-                    logger.Log($"{HttpContext.User.Identity.Name} editted Issue `{issue.IssueNumber}` in Volume {originalIssue.Volume.VolumeNumber} ");
+                    logger.Log($"{HttpContext.User.Identity.Name} editted Issue `{issue.Number}` in Volume {originalIssue.Volume.Number} ");
 
-                    return RedirectToAction(nameof(Index), new { id = originalIssue.VolumeID });
+                    return RedirectToAction(nameof(Index), new { id = originalIssue.Volume.Id });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -194,21 +195,22 @@ namespace Outlook.Server.Controllers
                         .Include(i => i.Volume)
                         .FirstOrDefaultAsync(i => i.Id == id);
 
-                var Volume = await context.Volume.FindAsync(issue.VolumeID);
-                logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Issue `{issue.IssueNumber}` in Volume {Volume.VolumeNumber}.");
+                var Volume = await context.Volume.FindAsync(issue.Volume.Id);
+                logger.Log($"{HttpContext.User.Identity.Name} attempts to delete Issue `{issue.Number}` in Volume {Volume.Number}.");
 
                 context.Issue.Remove(issue);
                 await context.SaveChangesAsync();
                 logger.Log($"Delete Completed.");
 
-                return RedirectToAction(nameof(Index), new { id = issue.VolumeID });
+                return RedirectToAction(nameof(Index), new { id = issue.Volume.Id });
             }
             catch (DbUpdateException)
             {
                 logger.Log($"Delete Failed, because of DbUpdateException.");
 
                 var articles = context.Article
-                    .Where(a => a.IssueID == id)
+                    .Include(a => a.Issue)
+                    .Where(a => a.Issue.Id == id)
                     .Select(a => a.Title);
 
                 var errorMessage = "You cannot delete the following issue before deleting its articles: ";

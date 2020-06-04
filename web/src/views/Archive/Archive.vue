@@ -1,13 +1,20 @@
 <template>
     <div class="Archives">
-        <p>{{$store.getters.Language['volume']}} {{Volume['volumeNumber']}} | {{$store.getters.Language['issue']}} {{Issue['issueNumber']}}</p>
+        <p>
+            <template v-if="Volume != null">
+                {{$store.getters.Language['volume']}} {{Volume['number']}}
+            </template> 
+            <template v-if="Issue != null">
+                | {{$store.getters.Language['issue']}} {{Issue['number']}}
+            </template>
+        </p>
         <table>
             <tr>
                 <th>{{$store.getters.Language['selectVolume']}}</th>
                 <td>
                     <select v-model="Volume">
                         <option v-for="volume in Volumes" :value="volume">
-                            {{volume['volumeNumber']}} | {{volume['fallYear']}} - {{volume['springYear']}}
+                            {{volume.number}} | {{volume.fallYear}} - {{volume.springYear}}
                         </option>
                     </select>
                 </td>
@@ -17,7 +24,7 @@
                 <td>
                     <select v-model="Issue">
                         <option v-for="issue in Issues" :value="issue">
-                            {{issue['issueNumber']}}
+                            {{issue.number}}
                         </option>
                     </select>
                 </td>

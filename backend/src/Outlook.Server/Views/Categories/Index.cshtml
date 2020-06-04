@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Outlook.Server.Models.Category>
+﻿@model IEnumerable<Outlook.Models.Core.Models.Category>
 
 @{
     ViewData["Title"] = "Categories";
@@ -17,25 +17,25 @@
                 @Html.DisplayNameFor(model => model.Language)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.JuniorEditors)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr class="@item.JuniorEditors.Count()">
+        <tr class="@item.Editors.Count()">
             <td>
                 @Html.DisplayFor(modelItem => item.Language)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @foreach (var editor in item.JuniorEditors)
+                @foreach (var editor in item.Editors)
                 {
                    <i> | </i>
                    @Html.DisplayFor(modelItem => editor.Name)

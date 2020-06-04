@@ -1,21 +1,19 @@
-﻿using Outlook.Server.Data;
-using Outlook.Server.Entities;
-using Outlook.Server.Services;
-using Outlook.Server.Validation_Attributes;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Outlook.Models.Attributes.Validation;
+using Outlook.Models.Core.Entities;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using static Outlook.Models.Services.OutlookConstants;
 
 namespace Outlook.Server.Areas.Identity.Pages.Account
 {
@@ -89,7 +87,7 @@ namespace Outlook.Server.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(Position position, string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -103,23 +101,15 @@ namespace Outlook.Server.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
                     logger.Log($"{HttpContext.User.Identity.Name} created new user {user.UserName} called {user.FirstName} {user.LastName}.");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code },
-                        protocol: Request.Scheme);
+                    user.EmailConfirmed = true;
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email", EmailSender.EmailVerificationHtmlMessage(HtmlEncoder.Default.Encode(callbackUrl)));
-
-                    if (Input.Username.IndexOf("WebEditor") != -1)
+                    if (position == Position.Web_Editor)
                     {
                         await AssignUserRole(user, "Web-Editor");
                     }
-                    else if (Input.Username.IndexOf("EditorInChief") != -1)
+                    else if (position == Position.Editor_In_Chief)
                     {
-                        await AssignUserRole(user, "Editor-In-Chiefr");
+                        await AssignUserRole(user, "Editor-In-Chief");
                     }
 
                     return LocalRedirect(returnUrl);

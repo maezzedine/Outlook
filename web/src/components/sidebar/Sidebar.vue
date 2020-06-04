@@ -8,27 +8,27 @@
 
             <router-link :to="{ name: 'home' }">
                 <svg-home class="header" />
-                <div class="detail">{{$store.getters.Language.mainmenu}}</div>
+                <div class="detail">{{$store.getters.Language['mainmenu']}}</div>
             </router-link>
 
             <!--<Categories>-->
-            <label class="table-row"><span>{{$store.getters.Language.categories}}</span></label>
+            <label class="table-row"><span>{{$store.getters.Language['categories']}}</span></label>
             <router-link v-for="cat in Categories" v-if="showCategory(cat)"
                          :to="{ name: 'category', params: { id: cat.id } }">
                 <svg-category :icon="getCategoryIcon(cat)" class="header" :articlesCount="cat.articles.length" />
-                <div class="detail">{{cat.categoryName}}</div>
+                <div class="detail">{{cat.name}}</div>
             </router-link>
             <!--</Categories>-->
             <!--<About>-->
             <label class="table-row"><span>{{$store.getters.Language['about-outlook']}}</span></label>
             <router-link :to="{ name: 'writers' }">
                 <svg-quill class="header" />
-                <div class="detail">{{$store.getters.Language.writers}}</div>
+                <div class="detail">{{$store.getters.Language['writers']}}</div>
             </router-link>
 
             <router-link :to="{ name: 'meet-outlook' }">
                 <svg-meeting class="header" />
-                <div class="detail">{{$store.getters.Language.aboutUs}}</div>
+                <div class="detail">{{$store.getters.Language['aboutUs']}}</div>
             </router-link>
 
             <router-link :to="{ name: 'upload-article' }">
@@ -42,7 +42,7 @@
             </router-link>
             <!--</About>-->
             <!-- <toggle theme> -->
-            <label class="table-row"><span>{{$store.getters.Language.theme}}</span></label>
+            <label class="table-row"><span>{{$store.getters.Language['theme']}}</span></label>
             <div class="table-row theme" @click="$emit('theme-toggled')">
                 <div class="header icon-btn">
                     <svg-sun v-if="theme == 'default-dark'" />

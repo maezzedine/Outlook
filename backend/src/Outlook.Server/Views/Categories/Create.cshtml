@@ -1,12 +1,13 @@
-﻿@model Outlook.Server.Models.Category
-@using Outlook.Server.Models.Interfaces;
+﻿@model Outlook.Models.Core.Models.Category
+@using Outlook.Models.Services 
+@using static Outlook.Models.Services.OutlookConstants.CategoryTag 
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var languages = new List<Language> { Language.Arabic, Language.English };
-    var tags = new List<Tag> { Tag.Art, Tag.Cover, Tag.Culture, Tag.Gender, Tag.Lifestyle, Tag.News, Tag.Opinion, Tag.Personality, Tag.Society, Tag.Other };
+    var languages = new List<string> { OutlookConstants.Language.Arabic, OutlookConstants.Language.English };
+    var tags = new List<string> { Art, Cover, Culture, Gender, Lifestyle, News, Opinion, Personality, Society, Other };
 }
 
 <h1>Create</h1>
@@ -18,9 +19,9 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Tag" class="control-label"></label>

@@ -13,7 +13,7 @@ namespace Outlook.Logger
 
         private LogField logField;
 
-        private Logger(LogField logField) 
+        private Logger(LogField logField)
         {
             fileLogger = new FileLogger(Config.WebFileName, Config.ServerFileName);
             slackLogger = new SlackLogger(Config.WebSlackChannel, Config.ServerSlackChannel, Config.UserArticlesSlackChannel);

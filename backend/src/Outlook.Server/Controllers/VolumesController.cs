@@ -1,8 +1,8 @@
-﻿using Outlook.Server.Data;
-using Outlook.Server.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
 using System;
 using System.Linq;
 using System.Text;
@@ -50,13 +50,13 @@ namespace Outlook.Server.Controllers
         // POST: Volumes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,VolumeNumber,FallYear,SpringYear")] Volume volume)
+        public async Task<IActionResult> Create([Bind("Number,FallYear,SpringYear")] Volume volume)
         {
             if (ModelState.IsValid)
             {
                 context.Add(volume);
                 await context.SaveChangesAsync();
-                logger.Log($"{HttpContext.User.Identity.Name} created Volume {volume.VolumeNumber}.");
+                logger.Log($"{HttpContext.User.Identity.Name} created Volume {volume.Number}.");
 
                 return RedirectToAction(nameof(Index), "Home");
             }
@@ -84,7 +84,7 @@ namespace Outlook.Server.Controllers
         // POST: Volumes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FallYear,SpringYear")] Volume volume)
+        public async Task<IActionResult> Edit(int id, Volume volume)
         {
             if (id != volume.Id)
             {
@@ -103,7 +103,7 @@ namespace Outlook.Server.Controllers
                         .SetSpringYear(volume.SpringYear);
 
                     await context.SaveChangesAsync();
-                    logger.Log($"{HttpContext.User.Identity.Name} editted Volume {originalVolume.VolumeNumber}");
+                    logger.Log($"{HttpContext.User.Identity.Name} editted Volume {originalVolume.Number}");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -152,11 +152,11 @@ namespace Outlook.Server.Controllers
                 var volume = await context.Volume
                         .FindAsync(id);
 
-                logger.Log($"{HttpContext.User.Identity.Name} admits to delete Volume {volume.VolumeNumber}.");
+                logger.Log($"{HttpContext.User.Identity.Name} admits to delete Volume {volume.Number}.");
                 context.Volume.Remove(volume);
+                await context.SaveChangesAsync();
                 logger.Log($"Delete Completed.");
 
-                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), "Home");
             }
             catch (DbUpdateException)
@@ -164,8 +164,9 @@ namespace Outlook.Server.Controllers
                 logger.Log($"Delete Failed, because of DbUpdateException.");
 
                 var issues = context.Issue
-                    .Where(i => i.VolumeID == id)
-                    .Select(i => i.IssueNumber);
+                    .Include(i => i.Volume)
+                    .Where(i => i.Volume.Id == id)
+                    .Select(i => i.Number);
 
                 var errorMessage = "You cannot delete the following volume before deleting its issues: ";
                 var errorDetail = new StringBuilder();

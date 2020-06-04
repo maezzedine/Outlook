@@ -156,17 +156,19 @@ export default class App extends Vue {
 
     setIssue(issue: ApiObject) {
         this.$data.Issue = issue;
-        sessionStorage.setItem('Outlook-Issue', this.$data.Issue['id']);
+        sessionStorage.setItem('Outlook-Issue', this.$data.Issue != undefined? this.$data.Issue['id'] : null);
     }
 
     @Watch('$data.Issue')
     getArticles() {
-        var params = new Array<Number>();
-        params.push(this.$data.Issue['id'])
-        api.Get('articles', params).then(a => {
-            this.$data.Articles = a;
-            this.getCategories();
-        })
+        if (this.$data.Issue != null) {
+            var params = new Array<Number>();
+            params.push(this.$data.Issue['id'])
+            api.Get('articles', params).then(a => {
+                this.$data.Articles = a;
+                this.getCategories();
+            })
+        }
     }
 
     onArticleScoreChange(articleScoreChange: ArticleScoreChange) {

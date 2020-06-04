@@ -1,8 +1,8 @@
-﻿using Outlook.Server.Data;
-using Outlook.Server.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
 

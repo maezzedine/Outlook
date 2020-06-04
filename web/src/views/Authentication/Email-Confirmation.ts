@@ -1,11 +1,13 @@
 import { Component, Vue } from "vue-property-decorator";
-import { api } from '../../services/api';
+import { authService } from '../../services/auth-service';
 
 @Component
 export default class EmailConfirmation extends Vue {
     resendVerification() {
-        var params = new Array<string>();
-        params.push(this.$store.getters.Username);
-        api.AuthorizedAction('POST', 'Identity/ResendVerification', params);
+        console.log('fired');
+        //var params = new Array<string>();
+        //params.push(this.$store.getters.Username);
+        //api.AuthorizedAction('POST', 'Identity/ResendVerification', params);
+        authService.ResendEmailVerification(this.$store.getters.Username);
     }
 }

@@ -1,6 +1,7 @@
-﻿using Outlook.Server.Areas.Identity;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Outlook.Models.Core.Models;
+using Outlook.Models.Data;
 using System.Linq;
 using System.Threading.Tasks;
 

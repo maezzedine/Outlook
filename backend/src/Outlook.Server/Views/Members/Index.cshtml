@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Outlook.Server.Models.Member>
+﻿@model IEnumerable<Outlook.Models.Core.Models.Member>
 
 @{
     ViewData["Title"] = "Members";
@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.Position)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category.CategoryName)
+                @Html.DisplayNameFor(model => model.Category.Name)
             </th>
             <th></th>
         </tr>
@@ -35,12 +35,12 @@
                 @Html.DisplayFor(modelItem => item.Position)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

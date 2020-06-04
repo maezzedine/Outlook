@@ -30,10 +30,12 @@ export class Cacher {
                 }
             } catch (e) { }
         }
-        var issue = issues[issues.length - 1];
-        sessionStorage.setItem('Outlook-Issue', issue['id']);
-
-        return issue;
+        if (issues.length != 0) {
+            var issue = issues[issues.length - 1];
+            sessionStorage.setItem('Outlook-Issue', issue['id']);
+            return issue;
+        }
+        return null;
     }
 }
 
