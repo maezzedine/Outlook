@@ -4,7 +4,12 @@ Outlook is a weekly publication of the American University of Beirut (AUB) and r
 
 
 # Server:
-Serves as a RESTfull API for the frontend
+Is divided into 5 projects:
+1. <a href="https://github.com/mezdn/Outlook/tree/master/backend/src/Outlook.Models">Outlook.Models</a>: Class library that stores Outlook Models, DbContext, and constants
+2. <a href="https://github.com/mezdn/Outlook/tree/master/backend/src/Outlook.Services">Outlook.Services</a>: Class library that stores helper functions
+3. <a href="https://github.com/mezdn/Outlook/tree/master/backend/src/Outlook.Logger">Outlook.Logger</a>: Class library that implements Outlook's custom logger to text file and slack channel
+4. <a href="https://github.com/mezdn/Outlook/tree/master/backend/src/Outlook.Server">Outlook.Server</a>: Web project that serves as a Content Management System for Outlook website
+5. <a href="https://github.com/mezdn/Outlook/tree/master/backend/src/Outlook.Api">Outlook.Api</a>: Web project that serves as a RESTfull API for Outlook website
 
 ## Documentation:
 API function descriptions, input, expected results and sample calls are documented in using Swagger <a href="http://server.auboutlook/swagger/index.html">here</a>.
