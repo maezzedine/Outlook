@@ -3,3 +3,6 @@
 6/4/2020 11:51:06 AM | Admin posted a comment `Hi` on the article of title `Contraception: Beyond the physiology `
 6/4/2020 11:54:54 AM | User Admin changed their password.
 6/4/2020 11:55:14 AM | User Admin changed their password.
+6/8/2020 2:22:37 PM | mezdn posted a comment `Hii` on the article of title `Contraception: Beyond the physiology `
+6/8/2020 2:24:15 PM | mezdn attempts to delete his comment `Hii` on the article of title `Contraception: Beyond the physiology `
+6/8/2020 2:24:16 PM | Delete Completed

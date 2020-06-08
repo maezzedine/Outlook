@@ -13,12 +13,9 @@ export default class Login extends Vue {
 
         if (validInput) {
             authService.Login(this.Model)
-                .catch(e => {
+                .catch(e => async () => {
                     authService.Logout();
-
-                    e.then(f => {
-                        this.errors.push(f.error_description.replace(/_/g, ' '));
-                     })
+                    this.errors.push(await e().error_description.replace(/_/g, ' '));
                 });
         }
     }

@@ -1,31 +1,31 @@
+import Vue, { VueConstructor } from 'vue';
 import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
-import vue from 'vue';
 
 const API_URL = process.env.VUE_APP_API_OUTLOOK;
 
-export default {
-    install(Vue: typeof vue) {
-        // use new Vue instance as an event bus
-        const articleHub = new Vue();
-        // every component will use this.$articleHub to access the event bus
-        Vue.prototype.$articleHub = articleHub;
+export default class ArticleHub extends Vue {
+    public number = 0;
 
+    constructor(Vue: VueConstructor) {
+        super();
         const connection = new HubConnectionBuilder()
             .withUrl(`${API_URL}/article-hub`)
             .configureLogging(LogLevel.Information)
             .build();
 
+        //const component = new Vue();
+
         // Forward server side SignalR events through $articleHub, where components will listen to them
         connection.on('ArticleScoreChange', (articleId, rate, numberOfVotes) => {
-            articleHub.$emit('article-score-changed', { articleId, rate, numberOfVotes })
+            this.$emit('article-score-changed', { articleId, rate, numberOfVotes })
         })
 
         connection.on('ArticleCommentChange', (articleId, comments) => {
-            articleHub.$emit('article-comment-changed', { articleId, comments })
+            this.$emit('article-comment-changed', { articleId, comments })
         })
 
         connection.on('ArticleFavoriteChange', (articleId, numberOfFavorites) => {
-            articleHub.$emit('article-favorite-changed', { articleId, numberOfFavorites })
+            this.$emit('article-favorite-changed', { articleId, numberOfFavorites })
         })
 
         let startedPromise = null;

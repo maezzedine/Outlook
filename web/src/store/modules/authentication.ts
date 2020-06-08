@@ -19,9 +19,6 @@ const mutations = {
     },
     setUsername(state: state, username: string) {
         state.user.username = username;
-    },
-    setUserEmail(state: state, email: string) {
-        state.user.email = email;
     }
 }
 
@@ -34,9 +31,6 @@ const actions = {
     },
     setUsername(context: ActionContext<state, state>, username: string) {
         context.commit('setUsername', username);
-    },
-    setUserEmail(context: ActionContext<state, state>, email: string) {
-        context.commit('setUserEmail', email);
     }
 }
 
