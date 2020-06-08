@@ -1,7 +1,8 @@
 # Outlook
 Outlook is a weekly publication of the American University of Beirut (AUB) and represents the voice of the student body. It is an independent, non-affiliated publication that favors no ethic, religious or political group. All commons, articles and reports are the property of Outlook. And not neccesary represents the views of outlook or the AUB community. Outlook welcomes all contributions. No part of this publication may be reproduces in any way, shape or form without the written consent of Outlook and/or higher authorities. Outlook reserves the right to edit all material.
 
-
+# Website
+This platform is published in both Arabic and English Languages. It supports dark and light modes. It also provide the users with some social features like up and down voting an article, adding comments, storing favorites, and much more.
 
 # Server:
 Is divided into 5 projects:
