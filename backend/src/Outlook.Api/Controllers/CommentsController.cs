@@ -92,7 +92,7 @@ namespace Outlook.Api.Controllers
 
             logger.Log($"{user.UserName} posted a comment `{comment.Text}` on the article of title `{article.Title}`");
 
-            return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
+            return Ok();
         }
 
         /// <summary>

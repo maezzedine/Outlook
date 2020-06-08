@@ -37,7 +37,7 @@ export class Api {
 
         return fetch(url, requestOptions)
             .then(response => response.json())
-            .catch(error => console.log('error', error));
+            .catch(error => { if (process.env.NODE_ENV != 'production') console.log('error', error) });
     }
 
     async getLocalJsonFile(file: string | null) {

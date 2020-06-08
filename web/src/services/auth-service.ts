@@ -87,7 +87,7 @@ export class AuthService {
 
         return fetch(`${APP_URL}/api/identity/resendVerification/${username}`, requestOptions)
             .then(response => response.json())
-            .catch(error => console.log('error', error));
+            .catch(error => { if (process.env.NODE_ENV != 'production') console.log('error', error) });
     }
 
     // Authorized
@@ -106,7 +106,7 @@ export class AuthService {
 
         return fetch(`${API_URL}/identity/getuser`, requestOptions)
             .then(response => response.json())
-            .catch(error => console.log('error', error));
+            .catch(error => { if (process.env.NODE_ENV != 'production') console.log('error', error) });
     }
 
     // Authorized
@@ -128,7 +128,7 @@ export class AuthService {
 
         return fetch(`${API_URL}/identity/changepassword`, requestOptions)
             .then(response => response.json())
-            .catch(error => console.log('error', error));
+            .catch(error => { if (process.env.NODE_ENV != 'production') console.log('error', error) });
     }
 
     Logout() {
