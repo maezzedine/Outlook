@@ -126,6 +126,7 @@
   <ItemGroup>
     <Folder Include="dist\" />
     <Folder Include="src\hubs\" />
+    <Folder Include="src\hubs\Models\" />
     <Folder Include="src\store\" />
     <Folder Include="public\" />
     <Folder Include="src\" />
@@ -166,7 +167,9 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\hubs\article-hub.ts" />
+    <TypeScriptCompile Include="src\hubs\articleHub.d.ts" />
+    <TypeScriptCompile Include="src\hubs\Models\articleHub.ts" />
+    <TypeScriptCompile Include="src\hubs\plugin.ts" />
     <TypeScriptCompile Include="src\models\articleObject.ts" />
     <TypeScriptCompile Include="src\models\articleCommentChange.ts" />
     <TypeScriptCompile Include="src\models\articleFavoriteChange.ts" />

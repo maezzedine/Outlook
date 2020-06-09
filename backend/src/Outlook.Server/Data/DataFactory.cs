@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Outlook.Models.Core.Models;
 using Outlook.Models.Data;
+using Outlook.Models.Services;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -55,7 +56,7 @@ namespace Outlook.Server.Data
 
             if (oldAdmin.FirstOrDefault() == null)
             {
-                var adminPassword = Configuration["Users:Admin"];
+                var adminPassword = OutlookSecrets.UserPassword.Development.Admin;
                 var addAdmin = await userManager.CreateAsync(admin, adminPassword);
                 if (addAdmin.Succeeded)
                 {

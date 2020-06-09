@@ -31,7 +31,7 @@ namespace Outlook.Server
             services.AddControllersWithViews();
 
             services.AddDbContext<OutlookContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OutlookContext"),
+                    options.UseSqlServer(OutlookSecrets.DatabaseConnectionString.Development,
                     sqlServerOptions => sqlServerOptions.MigrationsAssembly(OutlookConstants.MigrationsAssembly)));
             // TODO: For production dataase connection: use SqlConnectionStringBuilder to add the database password from the secrets file
 

@@ -4,8 +4,6 @@ import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 const API_URL = process.env.VUE_APP_API_OUTLOOK;
 
 export default class ArticleHub extends Vue {
-    public number = 0;
-
     constructor(Vue: VueConstructor) {
         super();
         const connection = new HubConnectionBuilder()
