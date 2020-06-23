@@ -4,6 +4,8 @@ Outlook is a weekly publication of the American University of Beirut (AUB) and r
 # Website
 This platform is published in both Arabic and English Languages. It supports dark and light modes. It also provide the users with some social features like up and down voting an article, adding comments, storing favorites, and much more.
 
+<img src="https://github.com/mezdn/Outlook/blob/master/images/web.gif" />
+
 # Server:
 Is divided into 5 projects:
 1. <a href="https://github.com/mezdn/Outlook/tree/master/backend/src/Outlook.Models">Outlook.Models</a>: Class library that stores Outlook Models, DbContext, and constants
