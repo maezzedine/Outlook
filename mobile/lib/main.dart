@@ -51,7 +51,9 @@ class OutlookApp extends StatelessWidget {
                 ],
                 locale: model.appLocale,
                 theme: theme,
-                home: App()
+                home: SafeArea(
+                  child: App(),
+                ) 
               )
           )
         )

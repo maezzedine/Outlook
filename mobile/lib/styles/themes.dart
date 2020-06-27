@@ -10,6 +10,9 @@ final lightTheme = ThemeData(
   ),
   primaryColor: Color(0xFFFFFEFEFE),
   textTheme: TextTheme(
+    overline: TextStyle(
+      color: Colors.black
+    ),
     bodyText1: TextStyle(
       color: Color(0xFF262655)
     ),
@@ -21,13 +24,15 @@ final lightTheme = ThemeData(
 
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
-  backgroundColor: Color(0xFF1e2934),
-  canvasColor: Color(0xFF101921),
-  accentColor: Color(0xFF162024),
+  canvasColor: Color(0xFF293540),
+  accentColor: Color(0xFFa1acb0),
   appBarTheme: AppBarTheme(
-    color: Color(0xFF0c1115)
+    color: Color(0xFF0c1115),
   ),
   textTheme: TextTheme(
+    overline: TextStyle(
+      color: Colors.grey
+    ),
     bodyText1: TextStyle(
       color: Color(0xFFAAAAAA)
     ),

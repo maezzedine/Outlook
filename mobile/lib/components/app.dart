@@ -1,37 +1,140 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/components/app-bar.dart';
-import 'package:mobile/services/appLanguage.dart';
-import 'package:mobile/services/localizations.dart';
-import 'package:provider/provider.dart';
+import 'package:mobile/pages/home.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class App extends StatelessWidget {
   const App({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appLanguage = Provider.of<AppLanguage>(context);
+    final currentTheme = DynamicTheme.of(context).data.brightness;
+    final tabs = [
+      'assets/svgs/home.svg',
+      'assets/svgs/archive.svg',
+    ];
 
     return Scaffold(
-      appBar: outlookAppBar(context),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Drawer(
-            child: Text('Hello'),
-          ),
-          Text(OutlookAppLocalizations.of(context).translate('greetings')),
-          FlatButton(
-            child: Icon(Icons.language),
-            onPressed: () {
-              if (appLanguage.appLocale == Locale('ar'))
-                appLanguage.changeLanguage(Locale('en'));
-              else
-                appLanguage.changeLanguage(Locale('ar'));
-            },
+      drawer: Drawer(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(30),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: SvgPicture.asset(
+                    'assets/svgs/logo.svg',
+                    width: 50,
+                    color: Theme.of(context).textTheme.overline.color,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: FlatButton(
+                    child: SvgPicture.asset(
+                      currentTheme == Brightness.light? 'assets/svgs/moon.svg' : 'assets/svgs/sun.svg',
+                      width: 40,
+                      color: Theme.of(context).textTheme.overline.color
+                    ),
+                    onPressed: () {
+                      if (currentTheme == Brightness.light)
+                        DynamicTheme.of(context).setBrightness(Brightness.dark);
+                      else 
+                        DynamicTheme.of(context).setBrightness(Brightness.light);
+                    }
+                  ),
+                ) 
+              )
+            ],
           )
-        ],
+        ),
+      body: DefaultTabController(
+        length: tabs.length,
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return <Widget> [
+              outlookAppBar(context, tabs),
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _SliverAppBarDelegate(
+                  TabBar(
+                    indicator: _AppBarDecorator(backgroundColor: Theme.of(context).accentColor, count: tabs.length),
+                    tabs: <Widget>[
+                      for (final svg in tabs) 
+                        Tab(icon: SvgPicture.asset(svg, width: 20, color: Theme.of(context).textTheme.bodyText2.color))
+                    ],
+                  ),
+                ),
+              )
+            ];
+          },
+          body: TabBarView(
+            children: <Widget>[
+              Home(),
+              Home(),
+            ],
+          ),
+          reverse: false,
+        ),
       ),
     );
   }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final TabBar tabBar;
+
+  _SliverAppBarDelegate(this.tabBar);
+  
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Theme.of(context).appBarTheme.color,
+      child: tabBar
+    );
+  }
+
+  @override
+  double get maxExtent => tabBar.preferredSize.height;
+
+  @override
+  double get minExtent => tabBar.preferredSize.height;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;
+}
+
+class _AppBarDecorator extends Decoration {
+  final BoxPainter painter;
+  final int count;
+
+  _AppBarDecorator({@required Color backgroundColor, @required this.count})
+    : painter = _AppBarBoxPainter(backgroundColor, count);
+
+  @override
+  BoxPainter createBoxPainter([onChanged]) => painter;
+}
+
+class _AppBarBoxPainter extends BoxPainter {
+  final Paint _paint;
+  final int count;
+
+  _AppBarBoxPainter(Color backgroundColor, this.count)
+    : _paint = Paint()
+      ..color = backgroundColor
+      ..isAntiAlias = true;
+
+  @override
+  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
+    var rect = Rect.fromCenter(center: Offset(offset.dx + configuration.size.width / count, offset.dy + configuration.size.height), height: 3, width: 100);
+    canvas.drawRect(rect, _paint);
+  }
+
 }
