@@ -1,43 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mobile/components/app-bar.dart';
-import 'package:mobile/models/OutlookState.dart';
-
-class _ViewModel {
-  final String text;
-
-  _ViewModel({
-    @required this.text
-  });
-
-  @override
-  bool operator ==(Object other) =>
-    identical(this, other) || 
-      other is _ViewModel &&
-      runtimeType == other.runtimeType && 
-      text == other.text;
-
-  @override
-  int get hashCode => 0;
-}
+import 'package:mobile/services/appLanguage.dart';
+import 'package:mobile/services/localizations.dart';
+import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   const App({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final appLanguage = Provider.of<AppLanguage>(context);
+
     return Scaffold(
-      appBar: outlookAppBar,
+      appBar: outlookAppBar(context),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('hello', style: TextStyle(fontSize: 40)),
-          StoreConnector<OutlookState, _ViewModel>(
-            distinct: true,
-            converter: (store) => new _ViewModel(text: store.state.language['greetings']),
-            builder: (context, viewModel) => Text(viewModel.text),
+          Drawer(
+            child: Text('Hello'),
           ),
+          Text(OutlookAppLocalizations.of(context).translate('greetings')),
+          FlatButton(
+            child: Icon(Icons.language),
+            onPressed: () {
+              if (appLanguage.appLocale == Locale('ar'))
+                appLanguage.changeLanguage(Locale('en'));
+              else
+                appLanguage.changeLanguage(Locale('ar'));
+            },
+          )
         ],
       ),
     );

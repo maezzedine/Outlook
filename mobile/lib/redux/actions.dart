@@ -14,8 +14,3 @@ class SetLanguageAction extends OutlookAction {
   final String abbreviation;
   SetLanguageAction({@required this.abbreviation});
 }
-
-class SetThemeAction extends OutlookAction {
-  final ThemeData theme;
-  SetThemeAction({@required this.theme});
-}
