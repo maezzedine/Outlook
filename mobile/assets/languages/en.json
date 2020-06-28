@@ -1,5 +1,8 @@
 {
-    "dir": "ltr",
-    "greetings": "Hello",
-    "language": "en"
+    "one-article": "1 article",
+    "two-articles": "2 articles",
+    "articles": "articles",
+    "language": "English",
+    "volume": "Volume: ",
+    "issue": "Issue: "
 }

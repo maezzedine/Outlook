@@ -1,5 +1,8 @@
 {
-    "dir": "rtl",
-    "greetings": "مرحبا",
-    "language": "ar"
+    "one-article": "مقال واحد",
+    "two-articles": "مقالان اثنان",
+    "articles": "مقالات",
+    "language": "Arabic",
+    "volume": "مُجلد: ",
+    "issue": "عدد: "
 }
