@@ -4,7 +4,7 @@ final lightTheme = ThemeData(
   brightness: Brightness.light,
   backgroundColor: Color(0xFFf7f9fa), // Background
   canvasColor: Color(0xFFf2f2f5), // Side
-  accentColor: Color(0xFFfefefe),
+  accentColor: Color(0xFF404040),
   appBarTheme: AppBarTheme(
     color: Color(0xFFfefefe)
   ),

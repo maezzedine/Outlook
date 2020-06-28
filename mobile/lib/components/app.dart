@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/components/app-bar.dart';
 import 'package:mobile/pages/home.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,84 +20,94 @@ class App extends StatelessWidget {
       'assets/svgs/signup.svg',
     ];
 
-    return DefaultTabController(
-      length: tabs.length,
-      child: Scaffold(
-        drawer: Drawer(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(30),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: SvgPicture.asset(
-                    'assets/svgs/logo.svg',
-                    width: 50,
-                    color: Theme.of(context).textTheme.overline.color,
-                  ),
+    return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(30),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: SvgPicture.asset(
+                  'assets/svgs/logo.svg',
+                  width: 50,
+                  color: Theme.of(context).textTheme.overline.color,
                 ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: FlatButton(
-                    child: SvgPicture.asset(
-                      currentTheme == Brightness.light? 'assets/svgs/moon.svg' : 'assets/svgs/sun.svg',
-                      width: 40,
-                      color: Theme.of(context).textTheme.overline.color
-                    ),
-                    onPressed: () {
-                      if (currentTheme == Brightness.light)
-                        DynamicTheme.of(context).setBrightness(Brightness.dark);
-                      else 
-                        DynamicTheme.of(context).setBrightness(Brightness.light);
-                    }
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: FlatButton(
+                  child: SvgPicture.asset(
+                    currentTheme == Brightness.light? 'assets/svgs/moon.svg' : 'assets/svgs/sun.svg',
+                    width: 40,
+                    color: Theme.of(context).textTheme.overline.color
                   ),
-                ) 
-              )
-            ],
-          )
-        ),
-        appBar: AppBar(
-          bottom: TabBar(
-            indicator: _AppBarDecorator(backgroundColor: Theme.of(context).accentColor, count: tabs.length),
-            tabs: <Widget>[
-              for (final svg in tabs) 
-                Tab(icon: SvgPicture.asset(svg, width: 20, color: Theme.of(context).textTheme.bodyText2.color))
-            ],
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: SvgPicture.asset(
-                'assets/svgs/languages.svg',
-                width: 20,
-                color: Theme.of(context).textTheme.bodyText2.color,
-              ),
-              onPressed: () {
-                if (appLanguage.appLocale == Locale('ar'))
-                  appLanguage.changeLanguage(Locale('en'));
-                else
-                  appLanguage.changeLanguage(Locale('ar'));
-              },
+                  onPressed: () {
+                    if (currentTheme == Brightness.light)
+                      DynamicTheme.of(context).setBrightness(Brightness.dark);
+                    else 
+                      DynamicTheme.of(context).setBrightness(Brightness.light);
+                  }
+                ),
+              ) 
             )
-          ],
-        ),
-        body: TabBarView(
-          children: <Widget>[
-            Home(),
-            Home(),
-            Home(),
-            Home()
           ],
         )
       ),
+      body: DefaultTabController(
+        length: tabs.length,
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                actions: <Widget>[
+                  FlatButton(
+                    child: SvgPicture.asset(
+                      'assets/svgs/languages.svg',
+                      width: 20,
+                      color: Theme.of(context).textTheme.bodyText2.color,
+                    ),
+                    onPressed: () {
+                      if (appLanguage.appLocale == Locale('ar'))
+                        appLanguage.changeLanguage(Locale('en'));
+                      else
+                        appLanguage.changeLanguage(Locale('ar'));
+                    },
+                  )
+                ],
+              ),
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _SliverAppBarDelegate(
+                  TabBar(
+                    indicator: _AppBarDecorator(color: Theme.of(context).accentColor, count: tabs.length),
+                    tabs: <Widget>[
+                      for (final svg in tabs) 
+                        Tab(icon: SvgPicture.asset(svg, width: 20, color: Theme.of(context).textTheme.bodyText2.color))
+                    ],
+                  )
+                ),
+              )
+            ];
+          },
+          body: TabBarView(
+            children: <Widget>[
+              Home(),
+              Home(),
+              Home(),
+              Home(),
+            ],
+          ),
+        )
+      ) 
     );
   }
 }
-
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;
@@ -107,7 +116,10 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return tabBar;
+    return Container(
+      color: Theme.of(context).appBarTheme.color,
+      child: tabBar,
+    );
   }
 
   @override
@@ -117,15 +129,15 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get minExtent => tabBar.preferredSize.height;
 
   @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }
 
 class _AppBarDecorator extends Decoration {
   final BoxPainter painter;
   final int count;
 
-  _AppBarDecorator({@required Color backgroundColor, @required this.count})
-    : painter = _AppBarBoxPainter(backgroundColor, count);
+  _AppBarDecorator({@required Color color, @required this.count})
+    : painter = _AppBarBoxPainter(color, count);
 
   @override
   BoxPainter createBoxPainter([onChanged]) => painter;
@@ -135,9 +147,9 @@ class _AppBarBoxPainter extends BoxPainter {
   final Paint _paint;
   final int count;
 
-  _AppBarBoxPainter(Color backgroundColor, this.count)
+  _AppBarBoxPainter(Color color, this.count)
     : _paint = Paint()
-      ..color = backgroundColor
+      ..color = color
       ..isAntiAlias = true;
 
   @override
@@ -147,6 +159,3 @@ class _AppBarBoxPainter extends BoxPainter {
   }
 
 }
-
-
-      
