@@ -4,6 +4,8 @@ import 'package:mobile/components/app-bar.dart';
 import 'package:mobile/pages/home.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile/services/appLanguage.dart';
+import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   const App({Key key}) : super(key: key);
@@ -11,13 +13,18 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentTheme = DynamicTheme.of(context).data.brightness;
+    final appLanguage = Provider.of<AppLanguage>(context);
     final tabs = [
       'assets/svgs/home.svg',
       'assets/svgs/archive.svg',
+      'assets/svgs/signup.svg',
+      'assets/svgs/signup.svg',
     ];
 
-    return Scaffold(
-      drawer: Drawer(
+    return DefaultTabController(
+      length: tabs.length,
+      child: Scaffold(
+        drawer: Drawer(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
@@ -55,38 +62,43 @@ class App extends StatelessWidget {
             ],
           )
         ),
-      body: DefaultTabController(
-        length: tabs.length,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return <Widget> [
-              outlookAppBar(context, tabs),
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: _SliverAppBarDelegate(
-                  TabBar(
-                    indicator: _AppBarDecorator(backgroundColor: Theme.of(context).accentColor, count: tabs.length),
-                    tabs: <Widget>[
-                      for (final svg in tabs) 
-                        Tab(icon: SvgPicture.asset(svg, width: 20, color: Theme.of(context).textTheme.bodyText2.color))
-                    ],
-                  ),
-                ),
-              )
-            ];
-          },
-          body: TabBarView(
-            children: <Widget>[
-              Home(),
-              Home(),
+        appBar: AppBar(
+          bottom: TabBar(
+            indicator: _AppBarDecorator(backgroundColor: Theme.of(context).accentColor, count: tabs.length),
+            tabs: <Widget>[
+              for (final svg in tabs) 
+                Tab(icon: SvgPicture.asset(svg, width: 20, color: Theme.of(context).textTheme.bodyText2.color))
             ],
           ),
-          reverse: false,
+          actions: <Widget>[
+            FlatButton(
+              child: SvgPicture.asset(
+                'assets/svgs/languages.svg',
+                width: 20,
+                color: Theme.of(context).textTheme.bodyText2.color,
+              ),
+              onPressed: () {
+                if (appLanguage.appLocale == Locale('ar'))
+                  appLanguage.changeLanguage(Locale('en'));
+                else
+                  appLanguage.changeLanguage(Locale('ar'));
+              },
+            )
+          ],
         ),
+        body: TabBarView(
+          children: <Widget>[
+            Home(),
+            Home(),
+            Home(),
+            Home()
+          ],
+        )
       ),
     );
   }
 }
+
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;
@@ -95,10 +107,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: Theme.of(context).appBarTheme.color,
-      child: tabBar
-    );
+    return tabBar;
   }
 
   @override
@@ -133,8 +142,11 @@ class _AppBarBoxPainter extends BoxPainter {
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    var rect = Rect.fromCenter(center: Offset(offset.dx + configuration.size.width / count, offset.dy + configuration.size.height), height: 3, width: 100);
+    var rect = Rect.fromCenter(center: Offset(offset.dx + configuration.size.width / 2, offset.dy + configuration.size.height), height: 3, width: 100);
     canvas.drawRect(rect, _paint);
   }
 
 }
+
+
+      
