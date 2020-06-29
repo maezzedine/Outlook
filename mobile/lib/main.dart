@@ -31,36 +31,38 @@ class OutlookApp extends StatelessWidget {
     return DynamicTheme(
       defaultBrightness: Brightness.dark,
       data: (brightness) => brightness == Brightness.light
-        ? lightTheme
-        : darkTheme,
-      themedWidgetBuilder: (context, theme) => 
-        ChangeNotifierProvider<AppLanguage>(
-          create: (_) => appLanguage,
-          child: Consumer<AppLanguage>(
-            builder: (context, model, child) =>
-              StoreProvider<OutlookState>(
-                store: store,
-                child: MaterialApp(
-                  title: "AUB Outlook",
-                  localizationsDelegates: [
-                    OutlookAppLocalizations.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate
-                  ],
-                  supportedLocales: [
-                    const Locale('ar', 'LB'),
-                    const Locale('en', 'US'),
-                  ],
-                  locale: model.appLocale,
-                  theme: theme,
-                  home: SafeArea(
-                    child: App(store: store),
-                  ) 
+        ? lightTheme(context)
+        : darkTheme(context),
+      themedWidgetBuilder: (context, theme) 
+        {
+          return ChangeNotifierProvider<AppLanguage>(
+            create: (_) => appLanguage,
+            child: Consumer<AppLanguage>(
+              builder: (context, model, child) =>
+                StoreProvider<OutlookState>(
+                  store: store,
+                  child: MaterialApp(
+                    title: "AUB Outlook",
+                    localizationsDelegates: [
+                      OutlookAppLocalizations.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate
+                    ],
+                    supportedLocales: [
+                      const Locale('ar', 'LB'),
+                      const Locale('en', 'US'),
+                    ],
+                    locale: model.appLocale,
+                    theme: theme,
+                    home: SafeArea(
+                      child: App(store: store),
+                    ) 
+                  )
                 )
-              )
-          )
-        )
+            )
+          );
+        }
     );
   }
 }

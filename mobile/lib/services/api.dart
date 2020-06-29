@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
+import 'package:mobile/models/article.dart';
 import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
 import 'package:mobile/models/volume.dart';
-
-final String API = 'http://192.168.50.104:5000';
+import 'package:mobile/services/constants.dart';
 
 Future<Map<String, dynamic>> getLanguage(String abbreviation) async {
   String languageJsonString = await rootBundle.loadString('assets/languages/$abbreviation.json');
@@ -13,7 +13,7 @@ Future<Map<String, dynamic>> getLanguage(String abbreviation) async {
 }
 
 Future<List<Volume>> fetchVolumes() async {
-  var response = await http.get('$API/volumes');
+  var response = await http.get(_buildUrl(path: 'volumes'));
 
   if (response.statusCode == 200) {
     Iterable jsonList = json.decode(response.body);
@@ -24,7 +24,7 @@ Future<List<Volume>> fetchVolumes() async {
 }
 
 Future<List<Issue>> fetchIssues(int volumeId) async {
-  var response = await http.get('$API/issues/$volumeId');
+  var response = await http.get(_buildUrl(path: 'issues/$volumeId'));
 
   if (response.statusCode == 200) {
     Iterable jsonList = json.decode(response.body);
@@ -35,7 +35,7 @@ Future<List<Issue>> fetchIssues(int volumeId) async {
 }
 
 Future<List<Category>> fetchCategories(int issueId) async {
-  var response = await http.get('$API/categories/$issueId');
+  var response = await http.get(_buildUrl(path: 'categories/$issueId'));
 
   if (response.statusCode == 200) {
     Iterable jsonList = json.decode(response.body);
@@ -44,3 +44,17 @@ Future<List<Category>> fetchCategories(int issueId) async {
     throw Exception('Failed to load categories.');
   }
 }
+
+Future<List<Article>> fetchArticle(int issueId) async {
+  var response = await http.get(_buildUrl(path: 'articles/$issueId'));
+
+  if (response.statusCode == 200) {
+    Iterable jsonList = json.decode(response.body);
+    return jsonList.map((a) => Article.fromJson(a)).toList();
+  } else {
+    throw Exception('Failed to load articles.');
+  }
+}
+
+_buildUrl({String path, dynamic params}) =>
+  Uri.http(API_URL, path, params);

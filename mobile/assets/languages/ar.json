@@ -1,8 +1,10 @@
 {
+    "articles": "مقالات",
+    "issue": "عدد: ",
+    "junior-editors": "رؤساء القسم:",
+    "language": "Arabic",
+    "number-of-articles": "عدد المقالات:",
     "one-article": "مقال واحد",
     "two-articles": "مقالان اثنان",
-    "articles": "مقالات",
-    "language": "Arabic",
-    "volume": "مُجلد: ",
-    "issue": "عدد: "
+    "volume": "مُجلد: "
 }

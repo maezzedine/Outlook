@@ -1,8 +1,10 @@
 {
+    "articles": "articles",
+    "issue": "Issue: ",
+    "junior-editors": "Junior Editor(s):",
+    "language": "English",
+    "number-of-articles": "Number of articles:",
     "one-article": "1 article",
     "two-articles": "2 articles",
-    "articles": "articles",
-    "language": "English",
-    "volume": "Volume: ",
-    "issue": "Issue: "
+    "volume": "Volume: "
 }

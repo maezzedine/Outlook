@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/models/article.dart';
 import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
 import 'package:mobile/models/volume.dart';
@@ -24,4 +25,9 @@ class SetVolumeAction extends OutlookAction {
 class SetCategoriesAction extends OutlookAction {
   final List<Category> categories;
   SetCategoriesAction({@required this.categories});
+}
+
+class SetArticlesAction extends OutlookAction {
+  final List<Article> articles;
+  SetArticlesAction({@required this.articles});
 }
