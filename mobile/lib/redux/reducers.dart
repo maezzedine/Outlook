@@ -2,6 +2,7 @@ import 'package:mobile/models/OutlookState.dart';
 import 'package:mobile/models/article.dart';
 import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
+import 'package:mobile/models/topStats.dart';
 import 'package:mobile/models/volume.dart';
 import 'package:mobile/redux/actions.dart';
 
@@ -25,11 +26,17 @@ List<Article> articleReducer(List<Article> state, OutlookAction action) {
   return state;
 }
 
+TopStats topStatsReducer(TopStats stat, OutlookAction action) {
+  if (action is SetTopStatsAction) return action.topStats;
+  return stat;
+}
+
 OutlookState outlookAppReducer(state, action) {
   return new OutlookState(
     issue: issueReducer(state.issue, action),
     volume: volumeReducer(state.volume, action),
     categories: categoryReducer(state.categories, action),
-    articles: articleReducer(state.articles, action)
+    articles: articleReducer(state.articles, action),
+    topStats: topStatsReducer(state.topStats, action)
   );
 }

@@ -45,14 +45,25 @@ class _AppScaffoldState extends State<AppScaffold> {
     final tabs = [
       'assets/svgs/home.svg',
       'assets/svgs/folder.svg',
-      'assets/svgs/signup.svg',
+      'assets/svgs/bar-chart.svg',
       'assets/svgs/signup.svg',
     ];
 
     final appBar = SliverAppBar(
       actions: <Widget>[
-        FlatButton(
-          child: SvgPicture.asset(
+        if (!widget.isMainScreen)
+          IconButton(
+            icon: SvgPicture.asset(
+              'assets/svgs/home.svg',
+              width: 20,
+              color: Theme.of(context).textTheme.bodyText2.color,
+            ),
+            onPressed: () {
+              Navigator.popUntil(context, (route) => !Navigator.canPop(context));
+            },
+          ),
+        IconButton(
+          icon: SvgPicture.asset(
             'assets/svgs/languages.svg',
             width: 20,
             color: Theme.of(context).textTheme.bodyText2.color,
@@ -98,7 +109,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                         title: Text(c.name),
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => AppScaffold(body: CategoryPage(category: c))
+                            builder: (context) => AppScaffold(body: CategoryPage(categoryName: c.name))
                           ));
                         },
                         subtitle: Text(articleLanguageCount(context, c.articles.length)),
@@ -109,8 +120,8 @@ class _AppScaffoldState extends State<AppScaffold> {
             ),
             Padding(
               padding: EdgeInsets.all(10),
-              child: FlatButton(
-                child: SvgPicture.asset(
+              child: IconButton(
+                icon: SvgPicture.asset(
                   currentTheme == Brightness.light? 'assets/svgs/moon.svg' : 'assets/svgs/sun.svg',
                   width: 40,
                   color: Theme.of(context).textTheme.overline.color

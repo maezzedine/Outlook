@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/models/article.dart';
 import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
+import 'package:mobile/models/topStats.dart';
 import 'package:mobile/models/volume.dart';
 
 abstract class OutlookAction {
@@ -30,4 +31,9 @@ class SetCategoriesAction extends OutlookAction {
 class SetArticlesAction extends OutlookAction {
   final List<Article> articles;
   SetArticlesAction({@required this.articles});
+}
+
+class SetTopStatsAction extends OutlookAction {
+  final TopStats topStats;
+  SetTopStatsAction({@required this.topStats});
 }

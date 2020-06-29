@@ -18,11 +18,7 @@ class ArticleThumbnail extends StatelessWidget {
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => AppScaffold(body: ArticlePage(article: article))));
         },
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).appBarTheme.color,
-            borderRadius: BorderRadius.circular(2),
-          ),
+        child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

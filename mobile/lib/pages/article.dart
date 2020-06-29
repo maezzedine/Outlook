@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/components/app-scaffold.dart';
 import 'package:mobile/models/article.dart';
+import 'package:mobile/pages/category.dart';
 import 'package:mobile/services/constants.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -25,17 +27,23 @@ class _ArticlePageState extends State<ArticlePage> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 5),
                 color: CategoryColors[Theme.of(context).brightness][widget.article.category.tag],
-                child: Text(
-                  widget.article.category.name,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Theme.of(context).canvasColor,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => AppScaffold(body: CategoryPage(categoryName: widget.article.category.name))
+                    ));
+                  },
+                  child: Text(
+                    widget.article.category.name,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).canvasColor,
+                    )
                   ),
                 )
               )
             ],
-          )
-          ,
+          ),
           Padding(
             padding: EdgeInsets.all(10),
             child: Column(

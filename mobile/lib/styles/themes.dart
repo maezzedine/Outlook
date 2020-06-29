@@ -11,6 +11,7 @@ lightTheme(BuildContext context) => ThemeData(
   ),
   primaryColor: Color(0xFFFFFEFEFE),
   fontFamily: OutlookAppLocalizations.of(context)?.locale?.toLanguageTag() == "ar"? 'Scheherazade': 'Baloo2',
+  cardColor: Color(0xFFfefefe),
   textTheme: TextTheme(
     overline: TextStyle(
       color: Colors.black
@@ -34,6 +35,7 @@ darkTheme(BuildContext context) => ThemeData(
     color: Color(0xFF0c1115),
   ),
   fontFamily: OutlookAppLocalizations.of(context)?.locale?.toLanguageTag() == "ar"? 'Scheherazade': 'Baloo2',
+  cardColor: Color(0xFF0c1115),
   textTheme: TextTheme(
     overline: TextStyle(
       color: Colors.grey

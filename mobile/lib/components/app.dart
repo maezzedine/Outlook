@@ -4,8 +4,10 @@ import 'package:mobile/components/app-scaffold.dart';
 import 'package:mobile/models/article.dart';
 import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
+import 'package:mobile/models/topStats.dart';
 import 'package:mobile/models/volume.dart';
 import 'package:mobile/pages/home.dart';
+import 'package:mobile/pages/top-stats.dart';
 import 'package:mobile/redux/actions.dart';
 import 'package:mobile/services/api.dart';
 import 'package:redux/redux.dart';
@@ -43,6 +45,13 @@ class _AppState extends State<App> {
           widget.store.dispatch(SetArticlesAction(articles: a));
           setState(() { });
         });
+        fetchTopWriters().then((t1) {
+          fetchTopArticles().then((t2) {
+            var topStats = TopStats(topWriters: t1.topWriters, topFavoritedArticles: t2.topFavoritedArticles, topVotedArticles: t2.topVotedArticles);
+            widget.store.dispatch(SetTopStatsAction(topStats: topStats));
+            setState(() { });
+          });
+        });
       });
     });
   }
@@ -56,7 +65,7 @@ class _AppState extends State<App> {
           Home(),
           // Archives(),
           Home(),
-          Home(),
+          TopStatsPage(),
           Home(),
         ],
       ),
