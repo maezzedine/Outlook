@@ -4,6 +4,7 @@ import 'package:mobile/components/app-scaffold.dart';
 import 'package:mobile/models/OutlookState.dart';
 import 'package:mobile/models/topStats.dart';
 import 'package:mobile/pages/article.dart';
+import 'package:mobile/pages/member.dart';
 import 'package:mobile/services/api.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mobile/services/localizations.dart';
@@ -52,7 +53,10 @@ class TopStatsPage extends StatelessWidget {
                           title: Row(
                             children: <Widget>[
                               Expanded(
-                                child: Text('\u2022 ${a.title}')
+                                child: Text(
+                                  '\u2022 ${a.title}',
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                )
                               ), 
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 5),
@@ -90,7 +94,9 @@ class TopStatsPage extends StatelessWidget {
                           title: Row(
                             children: <Widget>[
                               Expanded(
-                                child: Text('\u2022 ${a.title}')
+                                child: Text(
+                                  '\u2022 ${a.title}',
+                                  style: Theme.of(context).textTheme.bodyText2)
                               ), 
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 5),
@@ -124,11 +130,15 @@ class TopStatsPage extends StatelessWidget {
                       children: topStats.topWriters
                         ?.where((a) => a.language == OutlookAppLocalizations.of(context).translate('language'))
                         ?.map<ListTile>((w) => ListTile(
-                          onTap: () => {/*Navigator.push(context, MaterialPageRoute(builder: (context) => AppScaffold(body: ArticlePage(article: a))))*/},
+                          onTap: () => Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => AppScaffold(body: MemberPage(member: w))
+                          )),
                           title: Row(
                             children: <Widget>[
                               Expanded(
-                                child: Text('\u2022 ${w.name}')
+                                child: Text(
+                                  '\u2022 ${w.name}',
+                                  style: Theme.of(context).textTheme.bodyText2)
                               ), 
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 5),

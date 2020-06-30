@@ -47,7 +47,7 @@ namespace Outlook.Server
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls("https://*:5001");
+                    webBuilder.UseUrls("http://*:5001");
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseSetting(WebHostDefaults.DetailedErrorsKey, "true");
                     webBuilder.CaptureStartupErrors(true);

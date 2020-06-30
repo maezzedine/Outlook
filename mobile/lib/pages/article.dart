@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/components/app-scaffold.dart';
 import 'package:mobile/models/article.dart';
 import 'package:mobile/pages/category.dart';
+import 'package:mobile/pages/member.dart';
 import 'package:mobile/services/constants.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -59,14 +60,17 @@ class _ArticlePageState extends State<ArticlePage> {
                     style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(fontSize: 20)),
                   ),
                 if (widget.article.picturePath != null) Image.network('http://$SERVER_URL${widget.article.picturePath}'),
-                Text(
-                  '${widget.article.writer.name} | ${widget.article.writer.position} ',
-                  style: Theme.of(context).textTheme.bodyText2.merge(
-                    TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).textTheme.headline4.color
-                    )
-                  ),
+                InkWell(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AppScaffold(body: MemberPage(member: widget.article.writer)))),
+                  child: Text(
+                    '${widget.article.writer.name} | ${widget.article.writer.position} ',
+                    style: Theme.of(context).textTheme.bodyText2.merge(
+                      TextStyle(
+                        fontSize: 18,
+                        color: Theme.of(context).textTheme.headline4.color
+                      )
+                    ),
+                  )
                 ),
                 Container(
                   height: 1,

@@ -84,5 +84,16 @@ Future<TopStats> fetchTopWriters() async {
   }
 }
 
+Future<List<Member>> fetchWriters() async {
+  var response = await http.get(_buildUrl(path: 'members'));
+
+  if (response.statusCode == 200) {
+    Iterable jsonList = json.decode(response.body);
+    return jsonList.map((w) => Member.fromJson(w)).toList();
+  } else {
+    throw Exception('Failed to load writers');
+  }
+}
+
 _buildUrl({String path, dynamic params}) =>
   Uri.http(API_URL, path, params);

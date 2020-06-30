@@ -1,13 +1,16 @@
 {
     "articles": "articles",
+    "category": "Category",
     "issue": "Issue: ",
     "junior-editors": "Junior Editor(s):",
     "language": "English",
     "number-of-articles": "Number of articles:",
     "one-article": "1 article",
+    "position": "Position",
     "top-rated-articles": "Top Rated Articles",
     "top-writers": "Top Wrtiters",
     "top-favorited-articles": "Most Favorited Articles",
     "two-articles": "2 articles",
-    "volume": "Volume: "
+    "volume": "Volume: ",
+    "writers": "Writers"
 }

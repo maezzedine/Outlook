@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/models/article.dart';
 import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
+import 'package:mobile/models/member.dart';
 import 'package:mobile/models/topStats.dart';
 import 'package:mobile/models/volume.dart';
 
@@ -36,4 +37,9 @@ class SetArticlesAction extends OutlookAction {
 class SetTopStatsAction extends OutlookAction {
   final TopStats topStats;
   SetTopStatsAction({@required this.topStats});
+}
+
+class SetWritersAction extends OutlookAction {
+  final List<Member> writers;
+  SetWritersAction({@required this.writers});
 }

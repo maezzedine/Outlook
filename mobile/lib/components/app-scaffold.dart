@@ -5,6 +5,7 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/models/category.dart';
 import 'package:mobile/pages/category.dart';
+import 'package:mobile/pages/writers.dart';
 import 'package:mobile/services/appLanguage.dart';
 import 'package:mobile/services/localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -93,30 +94,44 @@ class _AppScaffoldState extends State<AppScaffold> {
                 color: Theme.of(context).textTheme.overline.color,
               ),
             ),
-            StoreConnector<OutlookState, _ViewModel>(
-              distinct: true,
-              converter: (state) => _ViewModel(categories: state.state.categories),
-              builder: (context, viewModel) => Flexible(
-                  child: ListView(
-                    children: viewModel.categories
-                    ?.where((c) => c.language.toLowerCase() == currentLanguage.toLowerCase())
-                    ?.map<ListTile>((c) => ListTile(
-                        leading: SvgPicture.asset(
-                          'assets/svgs/${c.tag.toLowerCase()}.svg',
-                          width: 25,
-                          color: Theme.of(context).textTheme.bodyText1.color
+            Flexible(
+              child: ListView(
+                children: <Widget>[
+                  StoreConnector<OutlookState, _ViewModel>(
+                    distinct: true,
+                    converter: (state) => _ViewModel(categories: state.state.categories),
+                    builder: (context, viewModel) => Column(
+                          children: viewModel.categories
+                          ?.where((c) => c.language.toLowerCase() == currentLanguage.toLowerCase())
+                          ?.map<ListTile>((c) => ListTile(
+                              leading: SvgPicture.asset(
+                                'assets/svgs/${c.tag.toLowerCase()}.svg',
+                                width: 25,
+                                color: Theme.of(context).textTheme.bodyText1.color
+                              ),
+                              title: Text(c.name),
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => AppScaffold(body: CategoryPage(categoryName: c.name))
+                                ));
+                              },
+                              subtitle: Text(articleLanguageCount(context, c.articles.length)),
+                            ))
+                          ?.toList(),
                         ),
-                        title: Text(c.name),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => AppScaffold(body: CategoryPage(categoryName: c.name))
-                          ));
-                        },
-                        subtitle: Text(articleLanguageCount(context, c.articles.length)),
-                      ))
-                    ?.toList(),
                   ),
-                )
+                  Divider(thickness: 2),
+                  ListTile(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AppScaffold(body: Writers()))),
+                    title: Text(OutlookAppLocalizations.of(context).translate('writers')),
+                    leading: SvgPicture.asset(
+                      'assets/svgs/quill.svg',
+                      width: 25,
+                      color: Theme.of(context).textTheme.bodyText2.color
+                    ),
+                  )
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(10),

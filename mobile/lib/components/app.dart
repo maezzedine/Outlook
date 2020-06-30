@@ -52,6 +52,10 @@ class _AppState extends State<App> {
             setState(() { });
           });
         });
+        fetchWriters().then((w) {
+          widget.store.dispatch(SetWritersAction(writers: w));
+          setState(() { });
+        });
       });
     });
   }
