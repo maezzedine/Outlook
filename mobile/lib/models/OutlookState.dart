@@ -8,6 +8,8 @@ import 'package:mobile/models/topStats.dart';
 import 'package:mobile/models/volume.dart';
 
 class OutlookState {
+  final List<Volume> volumes;
+  final List<Issue> issues;
   final Volume volume;
   final Issue issue;
   final List<Category> categories;
@@ -16,6 +18,8 @@ class OutlookState {
   final List<Member> writers;
 
   OutlookState({
+    @required this.issues,
+    @required this.volumes,
     @required this.issue,
     @required this.volume,
     @required this.categories,
@@ -25,6 +29,8 @@ class OutlookState {
   });
 
   OutlookState.initialSatte() : 
+    issues = null, 
+    volumes = null, 
     issue = null, 
     volume = null, 
     categories = null,

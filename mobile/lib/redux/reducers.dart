@@ -12,8 +12,18 @@ Issue issueReducer(Issue state, OutlookAction action) {
   return state;
 }
 
+List<Issue> issuesReducer(List<Issue> state, OutlookAction action) {
+  if (action is SetIssuesAction) return action.issues;
+  return state;
+}
+
 Volume volumeReducer(Volume state, OutlookAction action) {
   if (action is SetVolumeAction) return action.volume;
+  return state;
+}
+
+List<Volume> volumesReducer(List<Volume> state, OutlookAction action) {
+  if (action is SetVolumesAction) return action.volumes;
   return state;
 }
 
@@ -39,6 +49,8 @@ List<Member> writersReducer(List<Member> state, OutlookAction action) {
 
 OutlookState outlookAppReducer(state, action) {
   return new OutlookState(
+    issues: issuesReducer(state.issues, action),
+    volumes: volumesReducer(state.volumes, action),
     issue: issueReducer(state.issue, action),
     volume: volumeReducer(state.volume, action),
     categories: categoryReducer(state.categories, action),

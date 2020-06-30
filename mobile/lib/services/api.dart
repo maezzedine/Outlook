@@ -1,13 +1,17 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
+import 'package:mobile/models/OutlookState.dart';
 import 'package:mobile/models/article.dart';
 import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
 import 'package:mobile/models/member.dart';
 import 'package:mobile/models/topStats.dart';
 import 'package:mobile/models/volume.dart';
+import 'package:mobile/redux/actions.dart';
 import 'package:mobile/services/constants.dart';
+import 'package:redux/redux.dart';
 
 Future<Map<String, dynamic>> getLanguage(String abbreviation) async {
   String languageJsonString = await rootBundle.loadString('assets/languages/$abbreviation.json');
@@ -93,6 +97,48 @@ Future<List<Member>> fetchWriters() async {
   } else {
     throw Exception('Failed to load writers');
   }
+}
+
+Future<Member> fetchMember(int memberId) async {
+  var response = await http.get(_buildUrl(path: 'members/$memberId'));
+
+  if (response.statusCode == 200) {
+    var jsonString = json.decode(response.body);
+    return Member.fromJson(jsonString);
+  } else {
+    throw Exception('Failed to load member');
+  }
+}
+
+void onIssueChange(Store<OutlookState> store, int issueId, VoidCallback onFinish) {
+  fetchCategories(issueId).then((c) {
+    store.dispatch(SetCategoriesAction(categories: c));
+      // setState(() { });
+    onFinish();
+  });
+  fetchArticle(issueId).then((a) {
+    store.dispatch(SetArticlesAction(articles: a));
+    onFinish();
+  });
+  fetchTopWriters().then((t1) {
+    fetchTopArticles().then((t2) {
+      var topStats = TopStats(topWriters: t1.topWriters, topFavoritedArticles: t2.topFavoritedArticles, topVotedArticles: t2.topVotedArticles);
+      store.dispatch(SetTopStatsAction(topStats: topStats));
+      onFinish();
+    });
+  });
+  fetchWriters().then((w) {
+    store.dispatch(SetWritersAction(writers: w));
+    onFinish();
+  });
+}
+
+void onVolumeChange(Store<OutlookState> store, int volumeId, VoidCallback onFinish) {
+  fetchIssues(volumeId).then((i) {
+    store.dispatch(SetIssuesAction(issues: i));
+    store.dispatch(SetIssueAction(issue: i.last));
+    onIssueChange(store, i.last.id, onFinish);
+  });
 }
 
 _buildUrl({String path, dynamic params}) =>

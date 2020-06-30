@@ -19,9 +19,19 @@ class SetIssueAction extends OutlookAction {
   SetIssueAction({@required this.issue});
 }
 
+class SetIssuesAction extends OutlookAction {
+  final List<Issue> issues;
+  SetIssuesAction({@required this.issues});
+}
+
 class SetVolumeAction extends OutlookAction {
   final Volume volume;
   SetVolumeAction({@required this.volume});
+}
+
+class SetVolumesAction extends OutlookAction {
+  final List<Volume> volumes;
+  SetVolumesAction({@required this.volumes});
 }
 
 class SetCategoriesAction extends OutlookAction {

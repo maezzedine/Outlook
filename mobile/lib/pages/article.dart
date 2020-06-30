@@ -61,7 +61,7 @@ class _ArticlePageState extends State<ArticlePage> {
                   ),
                 if (widget.article.picturePath != null) Image.network('http://$SERVER_URL${widget.article.picturePath}'),
                 InkWell(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AppScaffold(body: MemberPage(member: widget.article.writer)))),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AppScaffold(body: MemberPage(memberId: widget.article.writer.id)))),
                   child: Text(
                     '${widget.article.writer.name} | ${widget.article.writer.position} ',
                     style: Theme.of(context).textTheme.bodyText2.merge(
@@ -76,7 +76,8 @@ class _ArticlePageState extends State<ArticlePage> {
                   height: 1,
                   color: Theme.of(context).backgroundColor,
                 ),
-                Html(data: widget.article.text)
+                if (widget.article.text != null)
+                  Html(data: widget.article.text)
               ],
             ),
           ),

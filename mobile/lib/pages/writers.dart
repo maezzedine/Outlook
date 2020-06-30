@@ -66,22 +66,28 @@ class Writers extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: writers.getRange(0, midIndex)
                             .map((w) => InkWell(
-                              child: Text(
-                                '\u2022 ${w.name}',
-                                style: Theme.of(context).textTheme.bodyText1,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                                child: Text(
+                                  '\u2022 ${w.name}',
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
                               ),
-                              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AppScaffold(body: MemberPage(member: w)))),
+                              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AppScaffold(body: MemberPage(memberId: w.id)))),
                             )).toList(),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: writers.getRange(midIndex + 1, length)
+                          children: writers.getRange(midIndex, length)
                             .map((w) => InkWell(
-                              child: Text(
-                                '\u2022 ${w.name}',
-                                style: Theme.of(context).textTheme.bodyText1,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                                child: Text(
+                                  '\u2022 ${w.name}',
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
                               ),
-                              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AppScaffold(body: MemberPage(member: w)))),
+                              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AppScaffold(body: MemberPage(memberId: w.id)))),
                             )).toList(),
                         ),
                       ],

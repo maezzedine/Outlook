@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/components/app-scaffold.dart';
-import 'package:mobile/models/article.dart';
-import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
-import 'package:mobile/models/topStats.dart';
 import 'package:mobile/models/volume.dart';
+import 'package:mobile/pages/archives.dart';
 import 'package:mobile/pages/home.dart';
 import 'package:mobile/pages/top-stats.dart';
 import 'package:mobile/redux/actions.dart';
@@ -23,40 +21,15 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   Volume volume;
   Issue issue;
-  List<Category> categories;
-  List<Article> articles;
 
   @override
   void initState() {
     super.initState();
     fetchVolumes().then((v) {
-      volume = v[v.length - 1];
+      volume = v.last;
+      widget.store.dispatch(SetVolumesAction(volumes: v));
       widget.store.dispatch(SetVolumeAction(volume: volume));
-      fetchIssues(volume.id).then((i) {
-        issue = i[i.length - 1];
-        widget.store.dispatch(SetIssueAction(issue: issue));
-        fetchCategories(issue.id).then((c) {
-          categories = c;
-          widget.store.dispatch(SetCategoriesAction(categories: c));
-            setState(() { });
-        });
-        fetchArticle(issue.id).then((a) {
-          articles = a;
-          widget.store.dispatch(SetArticlesAction(articles: a));
-          setState(() { });
-        });
-        fetchTopWriters().then((t1) {
-          fetchTopArticles().then((t2) {
-            var topStats = TopStats(topWriters: t1.topWriters, topFavoritedArticles: t2.topFavoritedArticles, topVotedArticles: t2.topVotedArticles);
-            widget.store.dispatch(SetTopStatsAction(topStats: topStats));
-            setState(() { });
-          });
-        });
-        fetchWriters().then((w) {
-          widget.store.dispatch(SetWritersAction(writers: w));
-          setState(() { });
-        });
-      });
+      onVolumeChange(widget.store, volume.id, () => setState(() {}));
     });
   }
 
@@ -67,8 +40,7 @@ class _AppState extends State<App> {
       body: TabBarView(
         children: <Widget>[
           Home(),
-          // Archives(),
-          Home(),
+          Archives(),
           TopStatsPage(),
           Home(),
         ],

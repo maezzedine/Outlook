@@ -5,7 +5,6 @@ import 'package:mobile/models/OutlookState.dart';
 import 'package:mobile/models/topStats.dart';
 import 'package:mobile/pages/article.dart';
 import 'package:mobile/pages/member.dart';
-import 'package:mobile/services/api.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mobile/services/localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -131,7 +130,7 @@ class TopStatsPage extends StatelessWidget {
                         ?.where((a) => a.language == OutlookAppLocalizations.of(context).translate('language'))
                         ?.map<ListTile>((w) => ListTile(
                           onTap: () => Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => AppScaffold(body: MemberPage(member: w))
+                            builder: (context) => AppScaffold(body: MemberPage(memberId: w.id))
                           )),
                           title: Row(
                             children: <Widget>[

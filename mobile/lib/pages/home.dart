@@ -72,7 +72,7 @@ class Home extends StatelessWidget {
           ]..addAll(viewModel.articles
               ?.where((a) => a.category.language == currentLanguage)
               ?.map<ArticleThumbnail>((a) => ArticleThumbnail(article: a))),
-        ) : Container()
+        ) : Center(child: CircularProgressIndicator())
     );
   }
 }
