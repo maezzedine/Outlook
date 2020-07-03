@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/models/category.dart';
 
 const API_URL = '192.168.50.104:5000';
 const SERVER_URL = '192.168.50.104:5001';

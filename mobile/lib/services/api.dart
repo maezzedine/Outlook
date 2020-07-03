@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:mobile/models/OutlookState.dart';
@@ -8,9 +7,11 @@ import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
 import 'package:mobile/models/member.dart';
 import 'package:mobile/models/topStats.dart';
+import 'package:mobile/models/user.dart';
 import 'package:mobile/models/volume.dart';
 import 'package:mobile/redux/actions.dart';
 import 'package:mobile/services/constants.dart';
+import 'package:mobile/services/secrets.dart';
 import 'package:redux/redux.dart';
 
 Future<Map<String, dynamic>> getLanguage(String abbreviation) async {
@@ -110,7 +111,45 @@ Future<Member> fetchMember(int memberId) async {
   }
 }
 
-void onIssueChange(Store<OutlookState> store, int issueId, VoidCallback onFinish) {
+Future<Map<String, dynamic>> signIn(String username, String password) async {
+  var response = await http.post(
+    'http://$SERVER_URL/connect/token',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: {
+      "client_id": ClientId,
+      "grant_type": "password",
+      "username": username,
+      "password": password,
+      "scope": "outlookApi offline_access openid profile"
+    },
+  );
+
+  if (response.statusCode == 200) {
+    return json.decode(response.body);
+  } else {
+    return Future.error('Failed to login.');
+  }
+}
+
+Future<Map<String, dynamic>> signUp(User user) async {
+  var response = await http.post(
+    'http://$SERVER_URL/api/Identity/register',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: json.encode(user.toJson())
+  );
+
+  if (response.statusCode == 200) {
+    return json.decode(response.body);
+  } else {
+    return Future.error(json.encode(json.decode(response.body)['errors']));
+  }
+}
+
+void onIssueChange(Store<OutlookState> store, int issueId, SetStateCallback onFinish) {
   fetchCategories(issueId).then((c) {
     store.dispatch(SetCategoriesAction(categories: c));
       // setState(() { });
@@ -133,7 +172,7 @@ void onIssueChange(Store<OutlookState> store, int issueId, VoidCallback onFinish
   });
 }
 
-void onVolumeChange(Store<OutlookState> store, int volumeId, VoidCallback onFinish) {
+void onVolumeChange(Store<OutlookState> store, int volumeId, SetStateCallback onFinish) {
   fetchIssues(volumeId).then((i) {
     store.dispatch(SetIssuesAction(issues: i));
     store.dispatch(SetIssueAction(issue: i.last));

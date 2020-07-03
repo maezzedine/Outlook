@@ -5,6 +5,7 @@ import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
 import 'package:mobile/models/member.dart';
 import 'package:mobile/models/topStats.dart';
+import 'package:mobile/models/user.dart';
 import 'package:mobile/models/volume.dart';
 
 class OutlookState {
@@ -16,6 +17,7 @@ class OutlookState {
   final List<Article> articles;
   final TopStats topStats;
   final List<Member> writers;
+  final User user;
 
   OutlookState({
     @required this.issues,
@@ -25,7 +27,8 @@ class OutlookState {
     @required this.categories,
     @required this.articles,
     @required this.topStats,
-    @required this.writers
+    @required this.writers,
+    @required this.user
   });
 
   OutlookState.initialSatte() : 
@@ -36,5 +39,8 @@ class OutlookState {
     categories = null,
     articles = null,
     topStats = null,
-    writers = null;
+    writers = null,
+    user = null;
 }
+
+typedef void SetStateCallback();

@@ -4,6 +4,7 @@ import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
 import 'package:mobile/models/member.dart';
 import 'package:mobile/models/topStats.dart';
+import 'package:mobile/models/user.dart';
 import 'package:mobile/models/volume.dart';
 import 'package:mobile/redux/actions.dart';
 
@@ -47,6 +48,11 @@ List<Member> writersReducer(List<Member> state, OutlookAction action) {
   return state;
 }
 
+User userReducer(User state, OutlookAction action) {
+  if (action is SetUserAction) return action.user;
+  return state;
+}
+
 OutlookState outlookAppReducer(state, action) {
   return new OutlookState(
     issues: issuesReducer(state.issues, action),
@@ -56,6 +62,7 @@ OutlookState outlookAppReducer(state, action) {
     categories: categoryReducer(state.categories, action),
     articles: articleReducer(state.articles, action),
     topStats: topStatsReducer(state.topStats, action),
-    writers: writersReducer(state.writers, action)
+    writers: writersReducer(state.writers, action),
+    user: userReducer(state.user, action)
   );
 }

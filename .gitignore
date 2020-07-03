@@ -362,3 +362,4 @@ backend/src/Outlook.Server/wwwroot/docs
 backend/src/Outlook.Models/Services/OutlookSecrets.cs
 backend/src/Outlook.Api/wwwrooot/docs/Articles/*.pdf
 backend/src/Outlook.Api/webLog.txt
+mobile/lib/services/secrets.dart

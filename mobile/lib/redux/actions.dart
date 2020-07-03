@@ -5,6 +5,7 @@ import 'package:mobile/models/category.dart';
 import 'package:mobile/models/issue.dart';
 import 'package:mobile/models/member.dart';
 import 'package:mobile/models/topStats.dart';
+import 'package:mobile/models/user.dart';
 import 'package:mobile/models/volume.dart';
 
 abstract class OutlookAction {
@@ -52,4 +53,9 @@ class SetTopStatsAction extends OutlookAction {
 class SetWritersAction extends OutlookAction {
   final List<Member> writers;
   SetWritersAction({@required this.writers});
+}
+
+class SetUserAction extends OutlookAction {
+  final User user;
+  SetUserAction({@required this.user});
 }

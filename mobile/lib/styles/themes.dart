@@ -10,8 +10,12 @@ lightTheme(BuildContext context) => ThemeData(
     color: Color(0xFFfefefe)
   ),
   primaryColor: Color(0xFFFFFEFEFE),
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Color(0xFF566573)
+  ),
   fontFamily: OutlookAppLocalizations.of(context)?.locale?.toLanguageTag() == "ar"? 'Scheherazade': 'Baloo2',
   cardColor: Color(0xFFfefefe),
+  buttonColor: Color(0xFF566573),
   textTheme: TextTheme(
     overline: TextStyle(
       color: Colors.black
@@ -24,6 +28,9 @@ lightTheme(BuildContext context) => ThemeData(
       color: Color(0xFF404040),
       fontSize: 15
     ),
+    button: TextStyle(
+      color: Color(0xFF00b9ff)
+    )
   ),
 );
 
@@ -34,6 +41,10 @@ darkTheme(BuildContext context) => ThemeData(
   appBarTheme: AppBarTheme(
     color: Color(0xFF0c1115),
   ),
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Color(0xFFABB2B9)
+  ),
+  buttonColor: Color(0xFFABB2B9),
   fontFamily: OutlookAppLocalizations.of(context)?.locale?.toLanguageTag() == "ar"? 'Scheherazade': 'Baloo2',
   cardColor: Color(0xFF0c1115),
   textTheme: TextTheme(
@@ -48,5 +59,8 @@ darkTheme(BuildContext context) => ThemeData(
       color: Color(0xFF808080),
       fontSize: 15
     ),
+    button: TextStyle(
+      color: Color(0xFF33c7ff)
+    )
   )
 );
